@@ -22,6 +22,10 @@ namespace Test1.Controllers
         {
             return View();
         }
+        public IActionResult BrowseSide()
+        {
+            return View();
+        }
 
         public IActionResult Privacy()
         {
