@@ -1,50 +1,20 @@
 ﻿﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
+
 *@
+
+
 @{
+
+
 }
-
-<style>
-    .carousel-item {
-        height: 10em;
-        color: white;
-    }
-
-    .containere {
-        position: relative;
-        top: 60%;
-        height: 10em;
-        left: 0;
-        right: 0;
-    }
-
-    .overlay-image {
-        position: relative;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-position: center;
-        background-size: cover;
-        border: 2px solid white;
-    }
-
-    .yo {
-        position: absolute;
-        bottom: 8px;
-        left: 30px;
-        font-size: 18px;
-        color: white;
-    }
-</style>
+<link href="~/css/BrowseSide.css" rel="stylesheet" />
 
 
-<<<<<<< HEAD
 
-<h5 class="text-muted">Omtalte prosjekter </h5>
-=======
-<h5 class="text-muted">SONDRE ER EN WEEBSSSSS</h5>
->>>>>>> f081ca4c303c28dce9dff32fd8a1a66047ba636b
+<h5 class="text-muted">Omtalte prosjekter</h5>
+
 
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
 
@@ -149,28 +119,84 @@
     <div class="card-header">
         <ul class="nav nav-tabs card-header-tabs justify-content-center">
             <li class="nav-item">
-                <a class="nav-link active" aria-current="true" href="#"><i class="nav-item fas fa-globe"> Alt</i></a>
+                <a class="nav-link active" aria-current="true" href="#Alt" data-toggle="tab"><i class="nav-item fas fa-globe"> Alt</i></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#"> <i class="nav-item fas fa-image"> Kunst</i></a>
+                <a class="nav-link" href="#Kunst" role="tab" data-toggle="tab"> <i class="nav-item fas fa-image"> Kunst</i></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#"> <i class="nav-item fas fa-music"> Musikk</i></a>
+                <a class="nav-link" href="#Musikk" role="tab" data-toggle="tab"> <i class="nav-item fas fa-music"> Musikk</i></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#"> <i class="nav-item fas fa-camera"> Fotografi</i></a>
+                <a class="nav-link" href="#Fotografi" role="tab" data-toggle="tab"> <i class="nav-item fas fa-camera"> Fotografi</i></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#"> <i class="nav-item fas fa-pencil-alt"> Tekst</i></a>
+                <a class="nav-link" href="#Tekst" role="tab" data-toggle="tab"> <i class="nav-item fas fa-pencil-alt"> Tekst</i></a>
             </li>
         </ul>
     </div>
-    <div class="card-body">
-        <h5 class="card-title">Special title treatment</h5>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
 
-        <a href="#" class="btn btn-primary">Go somewhere</a>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="Alt">1</div>
+        <div role="tabpanel" class="tab-pane " id="Kunst">2</div>
+        <div role="tabpanel" class="tab-pane " id="Musikk">3</div>
+        <div role="tabpanel" class="tab-pane " id="Fotografi">
+
+            <section>
+                <div class="container-fluid">
+                    <h1 class="text-center text-primary">Bilder</h1>
+                    <div class="row">
+                        <div class="col">
+                            <a href="#" class="image">
+                                <img src="https://miro.medium.com/max/1000/0*5bjkLBf1VvAiMwhp" class="img-fluid" alt="" />
+                                <p>Tekst på hover1</p>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a href="#" class="image">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Guitarist_Gretchen_Menn_2017.jpg/1200px-Guitarist_Gretchen_Menn_2017.jpg" class="img-fluid" alt="" />
+                                <p>Tekst på hover2</p>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a href="#" class="image">
+                                <img src="https://miro.medium.com/max/1000/0*5bjkLBf1VvAiMwhp" class="img-fluid" alt="" />
+                                <p>Tekst på hover3</p>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a href="#" class="image">
+                                <img src="https://miro.medium.com/max/1000/0*5bjkLBf1VvAiMwhp" class="img-fluid" alt="" />
+                                <p>Tekst på hover4</p>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+        <div role="tabpanel" class="tab-pane " id="Tekst">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="card-link">Card link</a>
+                    <a href="#" class="card-link">Another link</a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
 
+<!--
+<div class="card-body">
+    <h5 class="card-title">Special title treatment</h5>
+    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+</div>
+
+    -->

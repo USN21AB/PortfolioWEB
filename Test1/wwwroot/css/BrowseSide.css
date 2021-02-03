@@ -1,0 +1,41 @@
+﻿body {
+}
+
+.carousel-item {
+    height: 10em;
+    color: white;
+}
+
+.containere {
+    position: relative;
+    top: 60%;
+    height: 10em;
+    left: 0;
+    right: 0;
+}
+
+.overlay-image {
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-position: center;
+    background-size: cover;
+    border: 2px solid white;
+}
+
+.yo {
+    position: absolute;
+    bottom: 8px;
+    left: 30px;
+    font-size: 18px;
+    color: white;
+}
+
+.col {
+    border: 2px solid;
+    border-style: solid;
+}
+
+
