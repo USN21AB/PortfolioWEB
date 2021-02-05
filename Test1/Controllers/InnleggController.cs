@@ -2,24 +2,26 @@
 using FireSharp.Interfaces;
 using FireSharp.Response;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Portefolio_webApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Test1.Models;
 
 namespace Portefolio_webApp.Controllers
 {
     public class InnleggController : Controller
     {
 
-        private readonly IFirebaseConfig firebase = new FirebaseConfig
-        {
-            AuthSecret = "HIEibEg1o7S9UXwEvMQ0KPLVd8JwZdxZppMLHMUe",
-            BasePath = "https://bachelor-it-97124-default-rtdb.europe-west1.firebasedatabase.app/"
-        };
+        private readonly FirebaseDB firebase; 
 
-        IFirebaseClient klient; 
+        public InnleggController()
+        {
+            firebase = new FirebaseDB(); 
+        }
 
         [BindProperty]
         public Innlegg Innlegg { get; set; } 
@@ -56,7 +58,7 @@ namespace Portefolio_webApp.Controllers
             {
                 try
                 {
-                    AddInnleggToFirebase(innlegg);
+                    firebase.RegistrerInnlegg(innlegg);
                     ModelState.AddModelError(string.Empty, "Registrering suksessfult!");
                 }
                 catch (Exception ex)
@@ -68,13 +70,6 @@ namespace Portefolio_webApp.Controllers
             return View(Innlegg);
         }
 
-        private void AddInnleggToFirebase(Innlegg innlegg)
-        {
-            klient = new FireSharp.FirebaseClient(firebase);
-            var data = innlegg;
-            PushResponse respons = klient.Push("Innlegg/", data);
-            data.Id = respons.Result.name;
-            SetResponse setResponse = klient.Set("Innlegg/" + data.Id, data);
-        }
+     
     }
 }
