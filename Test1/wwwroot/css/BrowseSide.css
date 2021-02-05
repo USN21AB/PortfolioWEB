@@ -33,9 +33,10 @@
     color: white;
 }
 
-.col {
-    border: 2px solid;
-    border-style: solid;
+.borderstuff {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 
