@@ -1,66 +1,201 @@
 ﻿﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
+
 *@
+
 
 @{
 
+
 }
-
-<style>
-    .carousel-item {
-        height: 10em;
-        color: white;
-    }
-
-    .containere {
-        position: relative;
-        top: 60%;
-        height: 10em;
-        left: 0;
-        right: 0;
-    }
-
-    .overlay-image {
-        position: relative;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-position: center;
-        background-size: cover;
-        border: 2px solid white;
-    }
-
-    .yo {
-        position: absolute;
-        bottom: 8px;
-        left: 30px;
-        font-size: 18px;
-        color: white;
-    }
-
-    .center {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-        width: 50%;
-    }
-</style>
+<link href="~/css/BrowseSide.css" rel="stylesheet" />
 
 
 
-<div class="center">
-    <h1  class="center" >Bilde Tittel</h1>
-    <img src="~/lib/bilder/yeetle_nen.png" alt="innlegg" height="600" width="600" />
+<h5 class="text-muted">Omtalte prosjekter</h5>
+
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
+
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <div class="row justify-content-around">
+                <div class="col-3 overlay-image" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Guitarist_Gretchen_Menn_2017.jpg/1200px-Guitarist_Gretchen_Menn_2017.jpg');">
+
+                    <div class="containere">
+                        <h6>Julianna Alonzo</h6>
+                        <p>The best musician in town...</p>
+                    </div>
+                </div>
+
+                <div class="col-3 overlay-image" style="background-image: url('https://wp-static.gofundme.com/2018/07/03160606/art-artist-canvas-374054.jpg');">
+                    <div class="containere">
+                        <h6>Alyssa karlson</h6>
+                        <p>Jeg vet hvordan man maler!</p>
+                    </div>
+
+                </div>
+
+                <div class="col-3 overlay-image" style="background-image: url('https://thumbs.dreamstime.com/b/female-photograper-shoot-photo-camera-femal-photographer-42591739.jpg');">
+                    <div class="containere">
+                        <h6>Maria skalia</h6>
+                        <p>Fotografi er mitt kall!</p>
+                    </div>
+
+
+                </div>
+
+                <div class="col-3 overlay-image" style="background-image: url('https://miro.medium.com/max/1000/0*5bjkLBf1VvAiMwhp');">
+                    <div class="containere">
+                        <h6>Peter finklan</h6>
+                        <p>Min hjertes sorg faller på papiret</p>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+        <div class="carousel-item">
+            <div class="row justify-content-around">
+                <div class="col-3 overlay-image" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Guitarist_Gretchen_Menn_2017.jpg/1200px-Guitarist_Gretchen_Menn_2017.jpg');">
+
+                    <div class="containere">
+                        <h6>Julianna Alonzo</h6>
+                        <p>The best musician in town...</p>
+                    </div>
+                </div>
+
+                <div class="col-3 overlay-image" style="background-image: url('https://wp-static.gofundme.com/2018/07/03160606/art-artist-canvas-374054.jpg');">
+                    <div class="containere">
+                        <h6>Alyssa karlson</h6>
+                        <p>Jeg vet hvordan man maler!</p>
+                    </div>
+
+                </div>
+
+                <div class="col-3 overlay-image" style="background-image: url('https://thumbs.dreamstime.com/b/female-photograper-shoot-photo-camera-femal-photographer-42591739.jpg');">
+                    <div class="containere">
+                        <h6>Maria skalia</h6>
+                        <p>Fotografi er mitt kall!</p>
+                    </div>
+
+
+                </div>
+
+                <div class="col-3 overlay-image" style="background-image: url('https://miro.medium.com/max/1000/0*5bjkLBf1VvAiMwhp');">
+                    <div class="containere">
+                        <h6>Peter finklan</h6>
+                        <p>Min hjertes sorg faller på papiret</p>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <a href="#myCarousel"
+       class="carousel-control-prev" role="button" data-slide="prev">
+        <span class="sr-only">Forrige</span>
+        <span class="carousel-control-prev-icon"
+              area-hidden="true"></span>
+    </a>
+    <a href="#myCarousel"
+       class="carousel-control-next" role="button" data-slide="next">
+        <span class="sr-only">Neste</span>
+        <span class="carousel-control-next-icon"
+              area-hidden="true"></span>
+    </a>
 </div>
 
-<div class="profil">
-    <p class="display-4"><img src="lib/bilder/yeetle_nen.png" alt="brukerIkon" height="60" width="60" />Bruker skriver inn informasjon her </p>
-    
+<br />
+<h5 class="text-muted">Innlegg</h5>
+
+
+
+<div class="card text-center">
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs justify-content-center">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="true" href="#Alt" data-toggle="tab"><i class="nav-item fas fa-globe"> Alt</i></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#Kunst" role="tab" data-toggle="tab"> <i class="nav-item fas fa-image"> Kunst</i></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#Musikk" role="tab" data-toggle="tab"> <i class="nav-item fas fa-music"> Musikk</i></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#Fotografi" role="tab" data-toggle="tab"> <i class="nav-item fas fa-camera"> Fotografi</i></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#Tekst" role="tab" data-toggle="tab"> <i class="nav-item fas fa-pencil-alt"> Tekst</i></a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="Alt">1</div>
+        <div role="tabpanel" class="tab-pane " id="Kunst">2</div>
+        <div role="tabpanel" class="tab-pane " id="Musikk">3</div>
+        <div role="tabpanel" class="tab-pane " id="Fotografi">
+
+            <section>
+                <div class="container-fluid">
+                    <h1 class="text-center text-primary">Bilder</h1>
+                    <div class="row">
+                        <div class="col">
+                            <a href="#" class="image">
+                                <img src="https://miro.medium.com/max/1000/0*5bjkLBf1VvAiMwhp" class="img-fluid" alt="" />
+                                <p>Tekst på hover1</p>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a href="#" class="image">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Guitarist_Gretchen_Menn_2017.jpg/1200px-Guitarist_Gretchen_Menn_2017.jpg" class="img-fluid" alt="" />
+                                <p>Tekst på hover2</p>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a href="#" class="image">
+                                <img src="https://miro.medium.com/max/1000/0*5bjkLBf1VvAiMwhp" class="img-fluid" alt="" />
+                                <p>Tekst på hover3</p>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a href="#" class="image">
+                                <img src="https://miro.medium.com/max/1000/0*5bjkLBf1VvAiMwhp" class="img-fluid" alt="" />
+                                <p>Tekst på hover4</p>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+        <div role="tabpanel" class="tab-pane " id="Tekst">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="card-link">Card link</a>
+                    <a href="#" class="card-link">Another link</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<div class="kommentar felt">
-    <p class="display-4" Skriv din kommentar her</p>
-    <p>Ikke prioritet for øyeblikket</a>.</p>
+
+<!--
+<div class="card-body">
+    <h5 class="card-title">Special title treatment</h5>
+    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+
+    <a href="#" class="btn btn-primary">Go somewhere</a>
 </div>
+
+    -->

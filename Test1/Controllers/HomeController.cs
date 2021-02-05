@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Test1.Models;
 
-namespace Test1.Controllers
+namespace Portefolio_webApp.Controllers
 {
     public class HomeController : Controller
     {
