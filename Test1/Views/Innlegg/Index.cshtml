@@ -1,19 +1,45 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-<div class="bilde">
-    <h1 class="display-4">Bilde Tittel</h1>
+<style>
+    .center {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+    }
+</style>
+
+
+
+<div class="center">
+    <h1 class="center">Bilde Tittel</h1>
     <img src="~/lib/bilder/yeetle_nen.png" alt="innlegg" height="600" width="600" />
 </div>
 
 <div class="profil">
-    <h1 class="display-4">Bruker skriver inn informasjon her</h1>
-    <img src="lib/bilder/yeetle_nen.png" alt="brukerIkon" height="60" width="60"/>
+    <p class="display-4"><img src="lib/bilder/yeetle_nen.png" alt="brukerIkon" height="60" width="60" />Bruker skriver inn informasjon her </p>
+
 </div>
 
 <div class="kommentar felt">
-    <h1 class="display-4"Skriv din kommentar her</h1>
+    <p class="display-4" Skriv din kommentar her</p>
     <p>Ikke prioritet for øyeblikket</a>.</p>
 </div>
 
-
+<script>
+      img = document.getElementById("img1"); 
+      // Function to increase image size 
+      function enlargeImg() { 
+        // Set image size to 1.5 times original 
+        img.style.transform = "scale(1.5)"; 
+        // Animation effect  
+        img.style.transition = "transform 0.25s ease"; 
+      } 
+      // Function to reset image size 
+      function resetImg() { 
+        // Set image size to original 
+        img.style.transform = "scale(1)"; 
+        img.style.transition = "transform 0.25s ease"; 
+      } 
+</script>
