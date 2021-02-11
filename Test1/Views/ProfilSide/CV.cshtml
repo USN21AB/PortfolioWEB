@@ -1,0 +1,354 @@
+﻿@{
+    var CvInnhold = (Portefolio_webApp.Models.CV)ViewData["Cv_Innhold"];
+    var BrukerInnhold = (Portefolio_webApp.Models.Bruker)ViewData["Bruker_Innhold"];
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css" integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
+<link href="~/css/CV.css" rel="stylesheet" />
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4 col-xl-4">
+            <div class="card-box text-center">
+                <img src="@BrukerInnhold.Profilbilde" class="rounded-circle img-thumbnail" alt="profile-image">
+
+                <h4 class="mb-0">@BrukerInnhold.Navn</h4>
+                <p class="text-muted">@BrukerInnhold.Stilling</p>
+
+            </div> <!-- end card-box -->
+
+            <div class="card-box">
+                <h4 class="header-title">Skills</h4>
+                <div class="pt-1">
+                    @{
+                        var antallFerdigheter = 0;
+                    }
+                    @while (antallFerdigheter < CvInnhold.Ferdigheter.Count)
+                    {
+                        var FerdighetNavn = CvInnhold.Ferdigheter.ElementAt(antallFerdigheter);
+                        var FerdighetProsent = CvInnhold.Ferdigheter.ElementAt(antallFerdigheter + 1);
+                        antallFerdigheter += 2;
+
+                        <h6 class="text-uppercase mt-2">
+                            @FerdighetNavn<span class="float-right">@FerdighetProsent</span>
+                        </h6>
+                        <div class="progress progress-sm m-0">
+                            <div class="progress-bar bg-purple" role="progressbar" aria-valuenow="@FerdighetProsent" aria-valuemin="0" aria-valuemax="100" style="width: @FerdighetProsent">
+                                <span class="sr-only">@FerdighetProsent% Complete</span>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div> <!-- end card-box-->
+
+            <div class="card-box">
+                <h4 class="header-title">Languages</h4>
+                <div class="pt-1">
+                    @{
+                        var antallSpråk = 0;
+                    }
+                    @while (antallSpråk < CvInnhold.Språk.Count)
+                    {
+                        var SpråkNavn = CvInnhold.Språk.ElementAt(antallSpråk);
+                        var SpråkProsent = CvInnhold.Språk.ElementAt(antallSpråk + 1);
+                        antallSpråk += 2;
+                        <h6 class="text-uppercase mt-2">
+                            @SpråkNavn
+                            <span class="float-right">
+                            @SpråkProsent
+                            </span></h6>
+                        <div class="progress progress-sm m-0">
+                            <div class="progress-bar bg-purple" role="progressbar" aria-valuenow="@SpråkProsent" aria-valuemin="0" aria-valuemax="100" style="width: @SpråkProsent">
+                            </div>
+                        </div>
+                    }
+                    </div>
+            </div> <!-- end card-box-->         
+        </div> <!-- end col-->
+
+        <div class="col-lg-8 col-xl-8">
+            <div class="card-box">
+                <ul class="nav nav-pills navtab-bg">
+                    <li class="nav-item">
+                        <a href="#about-me" data-toggle="tab" aria-expanded="true" class="nav-link ml-0 active">
+                            <i class="mdi mdi-face-profile mr-1"></i>About Me
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#settings" data-toggle="tab" aria-expanded="false" class="nav-link">
+                            <i class="mdi mdi-settings-outline mr-1"></i>Settings
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+
+                    <div class="tab-pane show active" id="about-me">
+
+                        <h5 class="mb-3 text-uppercase">
+                            <i class="mdi mdi-briefcase mr-1"></i>
+                            Experience
+                        </h5>
+
+                        @{
+                            var antallArbeidsErfaring = 0;
+                        }
+                        @while (antallArbeidsErfaring < CvInnhold.ArbeidsErfaring.Count)
+                        {
+                            var ArbeidsErfaringÅr = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring);
+                            var ArbeidsErfaringTittel = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring + 1);
+                            var ArbeidsErfaringBedrift = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring + 2);
+                            var ArbeidsErfaringBeskrivelse = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring + 3);
+                            antallArbeidsErfaring += 4;
+                            <ul class="list-unstyled timeline-sm">
+                                <li class="timeline-sm-item">
+                                    <span class="timeline-sm-date"><u>@ArbeidsErfaringÅr</u></span>
+                                    <h5 class="mt-0 mb-1">@ArbeidsErfaringTittel</h5>
+                                    <p>@ArbeidsErfaringBedrift</p>
+                                    <p class="text-muted mt-2">
+                                        @ArbeidsErfaringBeskrivelse
+                                    </p>
+                                </li>
+                            </ul>
+                        }
+                        <h5 class="mb-3 mt-4 text-uppercase">
+                            <i class="mdi mdi-school mr-1"></i>
+                            Education
+                        </h5>
+
+                        @{
+                            var antallUtdanning = 0;
+                        }
+                        @while (antallUtdanning < CvInnhold.Utdanning.Count)
+                        {
+                            var UtdanningÅr = CvInnhold.Utdanning.ElementAt(antallUtdanning);
+                            var UtdanningGrad = CvInnhold.Utdanning.ElementAt(antallUtdanning + 1);
+                            var UtdanningInstitusjon = CvInnhold.Utdanning.ElementAt(antallUtdanning + 2);
+                            antallUtdanning += 3;
+                            <ul class="list-unstyled timeline-sm">
+                                <li class="timeline-sm-item">
+                                    <span class="timeline-sm-date"><u>@UtdanningÅr</u></span>
+                                    <h5 class="mt-0 mb-1">@UtdanningGrad</h5>
+                                    <p>@UtdanningInstitusjon</p>
+                                </li>
+                            </ul>
+                        }
+                        </div>
+                    <!-- end timeline content-->
+
+                    <div class="tab-pane" id="settings">
+                        <form>
+                            <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-briefcase-plus mr-1"></i> Add Experience</h5>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="firstname">Start year</label>
+                                        <input type="text" class="form-control" id="startYear" placeholder="Enter year started">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="lastname">End year</label>
+                                        <input type="text" class="form-control" id="endYear" placeholder="Enter year ended">
+                                    </div>
+                                </div> <!-- end col -->
+                            </div> <!-- end row -->
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="firstname">Job title</label>
+                                        <input type="text" class="form-control" id="jobTitle" placeholder="Enter job title">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="lastname">Company name</label>
+                                        <input type="text" class="form-control" id="companyName" placeholder="Enter company name">
+                                    </div>
+                                </div> <!-- end col -->
+                            </div> <!-- end row -->
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="userbio">Description</label>
+                                        <textarea class="form-control" id="userbio" rows="4" placeholder="Write something..."></textarea>
+                                    </div>
+                                </div> <!-- end col -->
+                            </div> <!-- end row -->
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-success waves-effect waves-light mt-1 mb-3"><i class="mdi mdi-content-save"></i> Add</button>
+                            </div>
+                            <!--
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="useremail">Email Address</label>
+                                        <input type="email" class="form-control" id="useremail" placeholder="Enter email">
+                                        <span class="form-text text-muted"><small>If you want to change email please <a href="javascript: void(0);">click</a> here.</small></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="userpassword">Password</label>
+                                        <input type="password" class="form-control" id="userpassword" placeholder="Enter password">
+                                        <span class="form-text text-muted"><small>If you want to change password please <a href="javascript: void(0);">click</a> here.</small></span>
+                                    </div>
+
+                                </div> <!-- end col
+                            </div> <!-- end row
+                            -->
+
+
+
+                            <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-book-plus mr-1"></i>Add Education</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="firstname">Start year</label>
+                                        <input type="text" class="form-control" id="startYear" placeholder="Enter year started">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="lastname">End year</label>
+                                        <input type="text" class="form-control" id="endYear" placeholder="Enter year ended">
+                                    </div>
+                                </div> <!-- end col -->
+                            </div> <!-- end row -->
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="companyname">Education type</label>
+                                        <input type="text" class="form-control" id="companyname" placeholder="Enter title of education">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="cwebsite">Institute</label>
+                                        <input type="text" class="form-control" id="cwebsite" placeholder="Enter name of institute">
+                                    </div>
+                                </div> <!-- end col -->
+                            </div> <!-- end row -->
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-success waves-effect waves-light mt-1 mb-3"><i class="mdi mdi-content-save"></i> Add</button>
+                            </div>
+                            <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-format-list-checkbox mr-1"></i>Add / Edit Skills</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="social-fb">Skill 1</label>
+                                        <div class="input-group">
+                                            <input class="slider-general" id="ex1" data-slider-id='ex1Slider' type="range" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14" oninput="lol()" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="social-fb">Skill 2</label>
+                                        <div class="input-group">
+                                            <input class="slider-general" id="ex1" data-slider-id='ex1Slider' type="range" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14" oninput="lol()" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="social-fb">Skill 3</label>
+                                        <div class="input-group">
+                                            <input class="slider-general" id="ex1" data-slider-id='ex1Slider' type="range" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14" oninput="lol()" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="social-fb">Skill 4</label>
+                                        <div class="input-group">
+                                            <input class="slider-general" id="ex1" data-slider-id='ex1Slider' type="range" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14" oninput="lol()" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="social-fb">Skill 5</label>
+                                        <div class="input-group">
+                                            <input class="slider-general" id="ex1" data-slider-id='ex1Slider' type="range" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14" oninput="lol()" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="social-fb">Skill 6</label>
+                                        <div class="input-group">
+                                            <input class="slider-general" id="ex1" data-slider-id='ex1Slider' type="range" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14" oninput="lol()" />
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <button type="submit" class="btn btn-success waves-effect waves-light mt-2 mb-3"><i class="mdi mdi-content-save"></i> Save</button>
+                                    </div>
+                                </div> <!-- end col -->
+                            </div> <!-- end row -->
+
+                            <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-translate mr-1"></i>Add / Edit Languages</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="social-fb">Language 1</label>
+                                        <div class="input-group">
+                                            <input class="slider-general" id="ex1" data-slider-id='ex1Slider' type="range" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14" oninput="lol()" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="social-fb">Language 2</label>
+                                        <div class="input-group">
+                                            <input class="slider-general" id="ex1" data-slider-id='ex1Slider' type="range" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14" oninput="lol()" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="social-fb">Language 3</label>
+                                        <div class="input-group">
+                                            <input class="slider-general" id="ex1" data-slider-id='ex1Slider' type="range" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14" oninput="lol()" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="social-fb">Language 4</label>
+                                        <div class="input-group">
+                                            <input class="slider-general" id="ex1" data-slider-id='ex1Slider' type="range" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14" oninput="lol()" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> <!-- end row -->
+
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-success waves-effect waves-light mt-2"><i class="mdi mdi-content-save"></i> Save</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- end settings content-->
+
+                </div> <!-- end tab-content -->
+            </div> <!-- end card-box-->
+
+        </div> <!-- end col -->
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    function lol() {
+        var x1 = document.getElementById("ex1").value;
+        x2 = document.getElementById("ptest");
+        x2.innerHTML = x1;
+
+        x2.style.left = x1 + "%";
+    }
+</script>
