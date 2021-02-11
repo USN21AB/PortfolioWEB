@@ -71,6 +71,17 @@
         .shadow-none {
             box-shadow: none !important;
         }
+        .center {
+            margin: auto;
+            width: 50%;
+            padding: 10px;
+        }
+        .center2 {
+            margin: auto;
+            width: 50%;
+            padding: 10px;
+            text-align: center
+        }
 
     </style>
 </head>
@@ -89,7 +100,7 @@
                                     <p class="text-secondary mb-1">Full Stack Developer</p>
                                     <p class="text-muted font-size-sm">Bay Area, San Francisco, CA</p>
                                     <button class="btn btn-primary">Update</button>
-                                 
+
                                 </div>
                             </div>
                         </div>
@@ -138,6 +149,12 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="center">
+        <div class="center2">
+            <a asp-action="CV"><button class="btn btn-primary">CV</button></a>
+            <a asp-action="Portefølje"><button class="btn btn-primary">Portfolio</button></a>
         </div>
     </div>
     <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
