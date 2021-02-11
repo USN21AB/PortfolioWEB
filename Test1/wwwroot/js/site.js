@@ -2,3 +2,12 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+$(document).ready(function () {
+    var small = { width: "50%", height: "50%" };
+    var large = { width: "100%", height: "100%" };
+    var count = 1;
+    $("#imgtab").css(small).on('click', function () {
+        $(this).animate((count == 1) ? large : small);
+        count = 1 - count;
+    });
+});
