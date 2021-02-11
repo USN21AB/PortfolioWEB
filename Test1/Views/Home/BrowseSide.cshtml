@@ -1,45 +1,14 @@
-﻿﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model Portefolio_webApp.Models.Innlegg;
+
 @{
+    var liste = (List<Portefolio_webApp.Models.Innlegg>)ViewData["liste"];
 }
 
-<style>
-    .carousel-item {
-        height: 10em;
-        color: white;
-    }
+<link href="~/css/BrowseSide.css" rel="stylesheet" />
 
-    .containere {
-        position: relative;
-        top: 60%;
-        height: 10em;
-        left: 0;
-        right: 0;
-    }
 
-    .overlay-image {
-        position: relative;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-position: center;
-        background-size: cover;
-        border: 2px solid white;
-    }
 
-    .yo {
-        position: absolute;
-        bottom: 8px;
-        left: 30px;
-        font-size: 18px;
-        color: white;
-    }
-</style>
-
-<h5 class="text-muted">SONDRE ER EN Naroto-fan</h5>
-
+<h5 class="text-muted">Omtalte prosjekter</h5>
 
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
 
@@ -140,32 +109,82 @@
 
 
 
+
 <div class="card text-center">
     <div class="card-header">
         <ul class="nav nav-tabs card-header-tabs justify-content-center">
             <li class="nav-item">
-                <a class="nav-link active" aria-current="true" href="#"><i class="nav-item fas fa-globe"> Alt</i></a>
+                <a class="nav-link active" aria-current="true" href="#Alt" data-toggle="tab"><i class="nav-item fas fa-globe"> Alt</i></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#"> <i class="nav-item fas fa-image"> Kunst</i></a>
+                <a class="nav-link" role="tab" data-toggle="tab" asp-action="SorterListe" asp-route-Type="Kunst" asp-controller="Home" > <i class="nav-item fas fa-image"> Kunst</i></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#"> <i class="nav-item fas fa-music"> Musikk</i></a>
+                <a class="nav-link" href="#Musikk" role="tab" data-toggle="tab"> <i class="nav-item fas fa-music"> Musikk</i></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#"> <i class="nav-item fas fa-camera"> Fotografi</i></a>
+                <a class="nav-link" href="#Fotografi" role="tab" data-toggle="tab"> <i class="nav-item fas fa-camera"> Fotografi</i></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#"> <i class="nav-item fas fa-pencil-alt"> Tekst</i></a>
+                <a class="nav-link" href="#Tekst" role="tab" data-toggle="tab"> <i class="nav-item fas fa-pencil-alt"> Tekst</i></a>
             </li>
         </ul>
     </div>
-    <div class="card-body">
-        <h5 class="card-title">Special title treatment</h5>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
 
-        <a href="#" class="btn btn-primary">Go somewhere</a>
+    <div class="tab-content">
+        @{
+            var antall = 0;
+        }
+        <div class="row p-3">
+            @while (antall < liste.Count)
+            {
+                    var Innlegg = liste.ElementAt(antall);
+                    <div class="col p-2" align="center">
+                        <div class="card" style="width: 18rem; height:15rem; overflow: hidden;">
+                            <div class="card-body">
+                                <h5 class="card-title">@Innlegg.Tittel</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">@Innlegg.Kategori</h6>
+                                <p class="card-text">@Innlegg.Beskrivelse</p>
+                                <a href="#" class="card-link">Besøk</a>
+                                <a href="#" class="card-link">Lik</a>
+                            </div>
+                        </div>
+                    </div>
+                    antall++;
+            }
+        </div>
+            <!--
+        <div role="tabpanel" class="tab-pane active" id="Alt">1</div>
+        <div role="tabpanel" class="tab-pane " id="Kunst">2</div>
+        <div role="tabpanel" class="tab-pane " id="Musikk">3</div>
+        <div role="tabpanel" class="tab-pane " id="Fotografi">
+        </div>
+        <div role="tabpanel" class="tab-pane " id="Tekst">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="card-link">Card link</a>
+                    <a href="#" class="card-link">Another link</a>
+                </div>
+            </div>
+        </div>
+               -->
+        </div>
+         
     </div>
+
+
+
+
+
+<!--
+<div class="card-body">
+    <h5 class="card-title">Special title treatment</h5>
+    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+
+    <a href="#" class="btn btn-primary">Go somewhere</a>
 </div>
 
-
+    -->
