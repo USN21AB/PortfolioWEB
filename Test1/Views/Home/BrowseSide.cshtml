@@ -177,8 +177,21 @@
 
 
 
+    <p id="ptest" style="position: absolute; width:100%;">test</p>
+    <input id="ex1" data-slider-id='ex1Slider' type="range" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14" oninput="lol()" />
 
+    <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-briefcase-plus mr-1"></i> Add Experience</h5>
+    <i class="mdi mdi-account" aria-hidden="true"></i>
+<script type="text/javascript">
 
+    function lol() {
+        var x1 = document.getElementById("ex1").value; 
+        x2 = document.getElementById("ptest"); 
+        x2.innerHTML = x1;
+
+        x2.style.left = x1 + "%"; 
+    }
+</script>
 <!--
 <div class="card-body">
     <h5 class="card-title">Special title treatment</h5>
