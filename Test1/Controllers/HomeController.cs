@@ -40,6 +40,12 @@ namespace Portefolio_webApp.Controllers
             return View();
         }
 
+
+        public IActionResult ProfilSide()
+        {
+            return View();
+        }
+
      
         public IActionResult SorterListe(string type)
         {
@@ -47,7 +53,6 @@ namespace Portefolio_webApp.Controllers
 
             return View(); 
         }
-      
       
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
