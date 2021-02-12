@@ -117,6 +117,7 @@ public List<Innlegg> SorterAlleInnlegg(string Type)
 
         public void OppdaterBruker(Bruker bruker)
         {
+            Debug.WriteLine("Oppdaterer bruker");
             SetResponse setResponse = klient.Set("Bruker/" + bruker.Id, bruker);
         }
     }
