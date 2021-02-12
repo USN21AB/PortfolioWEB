@@ -205,6 +205,13 @@
 
 
     function spillAv(sang) {
+        var lyd = document.getElementsByClassName('lydspor'),
+            i = lyd.length;
+
+        while (i--) {
+            lyd[i].pause();
+        }
+
         var lyd = document.getElementById(sang);
         if (lyd.paused) lyd.play();
         else
