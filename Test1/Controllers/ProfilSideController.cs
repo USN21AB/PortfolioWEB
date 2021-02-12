@@ -1,9 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Portefolio_webApp.Models;
+using System.Web;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
+using Test1.Models;
 
 namespace Portefolio_webApp.Controllers
 {
@@ -11,8 +15,16 @@ namespace Portefolio_webApp.Controllers
     {
         public CV BrukerCV;
         public Bruker CVBruker;
+        FirebaseDB db = new FirebaseDB();
 
-        public IActionResult ProfilSide()
+        private IHostingEnvironment Environment;
+
+        public ProfilSideController(IHostingEnvironment _environment)
+        {
+            Environment = _environment;
+        }
+
+            public IActionResult ProfilSide()
         {
             return View();
         }
@@ -61,6 +73,17 @@ namespace Portefolio_webApp.Controllers
             ViewData["Cv_Innhold"] = BrukerCV;
             ViewData["Bruker_Innhold"] = CVBruker;
             return View();
+        }
+
+
+        [HttpPost]
+        public ActionResult UploadFile(IFormFile file)
+        {
+            db.UploadFile(file);
+       
+
+            // Do other stuff.
+            return View("ProfilSide");
         }
         public IActionResult Portefølje()
         {
