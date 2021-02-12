@@ -1,12 +1,15 @@
-﻿using FireSharp.Config;
+﻿using Firebase.Storage;
+using FireSharp.Config;
 using FireSharp.Interfaces;
 using FireSharp.Response;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Portefolio_webApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -55,8 +58,42 @@ namespace Test1.Models
             return AlleInnlegg; 
         }
 
-        
-        public List<Innlegg> SorterAlleInnlegg(string Type)
+        public async void UploadFile(IFormFile file)
+        {
+
+            var filePath = Path.GetTempFileName();
+
+              
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+
+                    // Get any Stream - it can be FileStream, MemoryStream or any other type of Stream
+                    var stream1 = File.Open(@filePath, FileMode.Open);
+
+
+            // Constructr FirebaseStorage, path to where you want to upload the file and Put it there
+            var task = new FirebaseStorage("bachelor-it-97124.appspot.com")
+            .Child("images")
+            .Child(file.FileName)
+            .PutAsync(stream1);
+
+            // Track progress of the upload
+            task.Progress.ProgressChanged += (s, e) => Console.WriteLine($"Progress: {e.Percentage} %");
+
+            // await the task to wait until upload completes and get the download url
+            var downloadUrl = await task;
+
+            Console.WriteLine("" + downloadUrl);}
+
+
+    
+
+
+
+
+public List<Innlegg> SorterAlleInnlegg(string Type)
         {
             var SortertListe = new List<Innlegg>(); 
             
@@ -80,6 +117,7 @@ namespace Test1.Models
 
         public void OppdaterBruker(Bruker bruker)
         {
+            Debug.WriteLine("Oppdaterer bruker");
             SetResponse setResponse = klient.Set("Bruker/" + bruker.Id, bruker);
         }
     }
