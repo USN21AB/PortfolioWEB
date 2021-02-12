@@ -10,7 +10,7 @@ namespace Portefolio_webApp.Models
     {
 
         [Key]
-        public int Id { get; set; }
+        public string Id { get; set; }
         [Required]
         public string Navn { get; set; }
 
