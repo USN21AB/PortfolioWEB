@@ -70,7 +70,7 @@ namespace Test1.Models
 
             return SortertListe; 
         }
-        public void RegistrerCV(Bruker bruker)
+        public void OppdaterCV(Bruker bruker)
         {
             PushResponse respons = klient.Push("Bruker/", bruker);
         }

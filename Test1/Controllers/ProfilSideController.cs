@@ -80,7 +80,7 @@ namespace Portefolio_webApp.Controllers
             {
                 try
                 {
-                    firebase.RegistrerCV(Bruker);
+                    firebase.OppdaterCV(Bruker);
                     ModelState.AddModelError(string.Empty, "Registrering suksessfult!");
                 }
                 catch (Exception ex)
