@@ -63,29 +63,33 @@ namespace Portefolio_webApp.Controllers
             Bruker.Navn = "Mary Jane";
             Bruker.Stilling = "Gardener";
             Bruker.Profilbilde = "https://images.unsplash.com/photo-1542103749-8ef59b94f47e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80";
+            Bruker.Epost = "Mary@hotmail.com";
+
+
+            //firebase.RegistrerBruker(Bruker); 
 
             ViewData["Cv_Innhold"] = CirVit;
             ViewData["Bruker_Innhold"] = Bruker;
             return View(CirVit);
 
         }
+
         [HttpPost]
         public IActionResult CV(CV cv)
         {
             Bruker.CV = cv;
 
-           
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    firebase.RegistrerCV(Bruker);
-                    ModelState.AddModelError(string.Empty, "Registrering suksessfult!");
+                    firebase.OppdaterBruker(Bruker);
+                    //ModelState.AddModelError(string.Empty, "Registrering suksessfult!");
                 }
                 catch (Exception ex)
                 {
-                    ModelState.AddModelError(string.Empty, ex.Message);
+                  //  ModelState.AddModelError(string.Empty, ex.Message);
                 }
             }
 
