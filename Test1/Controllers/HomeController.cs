@@ -28,6 +28,8 @@ namespace Portefolio_webApp.Controllers
         {
             return View();
         }
+
+
         public IActionResult BrowseSide()
         {
             ViewData["liste"] = firebase.HentAlleInnlegg();
@@ -46,12 +48,14 @@ namespace Portefolio_webApp.Controllers
             return View();
         }
 
-     
-        public IActionResult SorterListe(string type)
-        {
-            ViewData["liste"] = firebase.SorterAlleInnlegg(type);
 
-            return View(); 
+        [HttpGet]
+        public IActionResult SorterListe()
+        {
+            //asp-route-Type="Kunst" 
+            //ViewData["liste"] = firebase.SorterAlleInnlegg("Kunst");
+            Debug.WriteLine("Hellooooooooo-----------------------------------------------------------2");
+            return RedirectToPage("BrowseSide"); 
         }
       
 

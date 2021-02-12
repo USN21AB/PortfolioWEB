@@ -49,7 +49,7 @@ namespace Test1.Models
                 list.Add(JsonConvert.DeserializeObject<Innlegg>(((JProperty)item).Value.ToString()));
             };
 
-            Debug.WriteLine("Hellooooooooo");
+            Debug.WriteLine("Hellooooooooo-----------------------------------------------------------");
 
             AlleInnlegg = list; 
             return AlleInnlegg; 
