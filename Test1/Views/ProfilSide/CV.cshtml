@@ -93,11 +93,14 @@
                             Experience
                         </h5>
 
+                      
                         @{
                             var antallArbeidsErfaring = 0;
                         }
                         @while (antallArbeidsErfaring < CvInnhold.ArbeidsErfaring.Count)
                         {
+                            Console.WriteLine(CvInnhold.ArbeidsErfaring.Count + "---------------------------------count!"); 
+
                             var ArbeidsErfaringÅr = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring);
                             var ArbeidsErfaringTittel = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring + 1);
                             var ArbeidsErfaringBedrift = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring + 2);
@@ -141,7 +144,7 @@
 
                     <div class="text-danger" asp-validation-summary="ModelOnly"></div>
                     <div class="tab-pane" id="settings">
-                        <form>
+                        <form method="post">
                             <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-briefcase-plus mr-1"></i> Add Experience</h5>
 
                             <div class="row">

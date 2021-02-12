@@ -99,7 +99,22 @@
                                     <h4>Kakashi</h4>
                                     <p class="text-secondary mb-1">Full Stack Developer</p>
                                     <p class="text-muted font-size-sm">Bay Area, San Francisco, CA</p>
-                                    <button class="btn btn-primary">Update</button>
+
+                                    @using (Html.BeginForm("UploadFile", "ProfilSide", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                    {
+
+                                        <div>
+                                            @Html.TextBox("file", "", new { type = "file" }) <br />
+
+                                            <input type="submit" value="Upload" />                              
+
+                                        </div> 
+
+
+                                    }
+
+
+
 
                                 </div>
                             </div>

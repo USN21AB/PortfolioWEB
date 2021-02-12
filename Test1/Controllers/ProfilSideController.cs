@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Portefolio_webApp.Models;
+using System.Web;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
 using Test1.Models;
 
 namespace Portefolio_webApp.Controllers
@@ -12,17 +15,28 @@ namespace Portefolio_webApp.Controllers
     public class ProfilSideController : Controller
     {
         private readonly FirebaseDB firebase;
+
+        public ProfilSideController()
+        {
+            firebase = new FirebaseDB();
+        }
+
         [BindProperty]
         public CV CirVit { get; set; }
 
         [BindProperty]
         public Bruker Bruker { get; set; }
 
-        public ProfilSideController()
+        /*
+        private IHostingEnvironment Environment;
+
+        public ProfilSideController(IHostingEnvironment _environment)
         {
-            firebase = new FirebaseDB();
+            Environment = _environment;
         }
-        public IActionResult ProfilSide()
+        */
+
+            public IActionResult ProfilSide()
         {
             return View();
         }
@@ -63,9 +77,6 @@ namespace Portefolio_webApp.Controllers
             CirVit.Språk.Add("English");
             CirVit.Språk.Add("98%");
 
-            CirVit.Språk.Add("Russian");
-            CirVit.Språk.Add("28%");
-
             Bruker.Navn = "Mary Jane";
             Bruker.Stilling = "Gardener";
             Bruker.Profilbilde = "https://images.unsplash.com/photo-1542103749-8ef59b94f47e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80";
@@ -81,17 +92,28 @@ namespace Portefolio_webApp.Controllers
 
         }
 
+
         [HttpPost]
-        public IActionResult CV(CV cv)
+        public ActionResult UploadFile(IFormFile file)
         {
-            Bruker.CV = cv;
-            Debug.WriteLine("PROFIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIILLLLLLLLLLLLL222222222222");
+
+            firebase.UploadFile(file);
+
+            return View("ProfilSide");
+        }
+
+        [HttpPost]
+        public IActionResult CV(CV cv) { 
+        Bruker.CV = cv;
+            Debug.WriteLine("PROFIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIILLLLLLLLLLLLL222222222222"+cv.ArbeidsErfaring.ElementAt(1) + 
+                cv.ArbeidsErfaring.ElementAt(2) + cv.ArbeidsErfaring.ElementAt(3) + cv.ArbeidsErfaring.ElementAt(4));
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    firebase.OppdaterBruker(Bruker);
+                    Debug.WriteLine("Inni isValid");
+                   // firebase.OppdaterBruker(Bruker);
                     //ModelState.AddModelError(string.Empty, "Registrering suksessfult!");
                 }
                 catch (Exception ex)
@@ -100,15 +122,25 @@ namespace Portefolio_webApp.Controllers
                 }
             }
 
+            Debug.WriteLine("Fortsetter--------------------------------");
+
+            Bruker.Navn = "Mary Jane";
+            Bruker.Stilling = "Gardener";
+            Bruker.Profilbilde = "https://images.unsplash.com/photo-1542103749-8ef59b94f47e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80";
+            Bruker.Epost = "Mary@hotmail.com";
+            Bruker.Id = "-MTL4PwvI0ChIfEaZwEu";
+
+            firebase.OppdaterBruker(Bruker);
+            ViewData["Cv_Innhold"] = CirVit;
+            ViewData["Bruker_Innhold"] = Bruker;
             return View(cv);
         }
+
 
         public IActionResult Portefølje()
         {
             return View();
         }
-       
-        
     }
     
 }
