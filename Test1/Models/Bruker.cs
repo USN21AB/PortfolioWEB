@@ -26,6 +26,9 @@ namespace Portefolio_webApp.Models
         public string Bosted { get; set; }
 
         public string Tlf { get; set; }
+
+        public CV CV { get; set; }
     }
+
 }
    
