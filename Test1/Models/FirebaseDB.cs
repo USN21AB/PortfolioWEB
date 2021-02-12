@@ -49,7 +49,7 @@ namespace Test1.Models
                 list.Add(JsonConvert.DeserializeObject<Innlegg>(((JProperty)item).Value.ToString()));
             };
 
-            Debug.WriteLine("Hellooooooooo");
+            Debug.WriteLine("Hellooooooooo-----------------------------------------------------------");
 
             AlleInnlegg = list; 
             return AlleInnlegg; 
@@ -70,9 +70,17 @@ namespace Test1.Models
 
             return SortertListe; 
         }
-        public void OppdaterCV(Bruker bruker)
+        public void RegistrerCV(Bruker bruker)
         {
+
             PushResponse respons = klient.Push("Bruker/", bruker);
+            bruker.Id = respons.Result.name;
+            SetResponse setResponse = klient.Set("Bruker/" + bruker.Id, bruker);
+        }
+
+        public void OppdaterBruker(Bruker bruker)
+        {
+            SetResponse setResponse = klient.Set("Bruker/" + bruker.Id, bruker);
         }
     }
 }
