@@ -1,44 +1,79 @@
-﻿@model Portefolio_webApp.Models.Innlegg;
+﻿﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
+
+*@
+
 
 @{
-    var liste = (List<Portefolio_webApp.Models.Innlegg>)ViewData["liste"];
-}
 
+
+}
 <link href="~/css/BrowseSide.css" rel="stylesheet" />
 
+    .hovedInnlegg h1 {
+        color: white;
+    }
+
+    .hovedInnlegg p {
+        color: dimgray;
+    }
+
+    @* brukerikon og brukernavn sammen *@
+    .innleggProfil {
+        display: block;
+        margin-top: 20px;
+        margin-left: 300px;
+        margin-right: 300px;
+        margin-bottom: 20px;
+    }
+
+    .innleggProfil img {
+        float: left;
+        margin-right: 10px;
+    }
+
+    @*brukernavn ved siden av ikon*@ .innleggProfil p {
+        display: block;
+        padding-left: 20px;
+        margin-left: 20px;
+        color: white;
+    }
+
+    @* Beskrivelse tekst *@ p.solid {
+        display: block;
+        margin-top: 10px;
+        margin-left: 300px;
+        margin-right: 300px;
+        border-style: solid;
+        border-width: thin;
+        border-color: dimgray;
+        padding: 10px;
+        clear: left;
+        color: white;
+    }
+</style>
+
+<body style="background-color: rgb(46, 46, 46)">
+    <script src="~/js/site.js"></script>
+    <div class="hovedInnlegg">
+        <embed src="~/lib/pdfs/prosjektbeskrivelse.pdf" width="600" height="1000" />
+        <p>12.02.2021</p>
+    </div>
+
+    <div class="innleggProfil">
+        <img src="~/lib/bilder/Mageh.png" height="60" width="60" id="imgikon" />
+
+        <p class="ikontxt">flygonfan</p>
+    </div>
+    <p class="solid">
+        Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst
+        Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst
+        Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst
+    </p>
 
 
-<h5 class="text-muted">Omtalte prosjekter</h5>
-
-<div id="myCarousel" class="carousel slide" data-ride="carousel">
-
-    <div class="carousel-inner">
-        <div class="carousel-item active">
-            <div class="row justify-content-around">
-                <div class="col-3 overlay-image" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Guitarist_Gretchen_Menn_2017.jpg/1200px-Guitarist_Gretchen_Menn_2017.jpg');">
-
-                    <div class="containere">
-                        <h6>Julianna Alonzo</h6>
-                        <p>The best musician in town...</p>
-                    </div>
-                </div>
-
-                <div class="col-3 overlay-image" style="background-image: url('https://wp-static.gofundme.com/2018/07/03160606/art-artist-canvas-374054.jpg');">
-                    <div class="containere">
-                        <h6>Alyssa karlson</h6>
-                        <p>Jeg vet hvordan man maler!</p>
-                    </div>
-
-                </div>
-
-                <div class="col-3 overlay-image" style="background-image: url('https://thumbs.dreamstime.com/b/female-photograper-shoot-photo-camera-femal-photographer-42591739.jpg');">
-                    <div class="containere">
-                        <h6>Maria skalia</h6>
-                        <p>Fotografi er mitt kall!</p>
-                    </div>
-
-
-                </div>
+    <div class="kommentarFelt">
 
                 <div class="col-3 overlay-image" style="background-image: url('https://miro.medium.com/max/1000/0*5bjkLBf1VvAiMwhp');">
                     <div class="containere">
@@ -109,18 +144,17 @@
 
 
 
-
 <div class="card text-center">
     <div class="card-header">
         <ul class="nav nav-tabs card-header-tabs justify-content-center">
             <li class="nav-item">
                 <a class="nav-link active" aria-current="true" href="#Alt" data-toggle="tab"><i class="nav-item fas fa-globe"> Alt</i></a>
             </li>
-            <li class="nav-item" asp-action="SorterListe" asp-controller="Home">
-                <a class="nav-link" id="kunstKnapp" role="tab" data-toggle="tab"> <i class="nav-item fas fa-image"> Kunst</i></a>
+            <li class="nav-item">
+                <a class="nav-link" href="#Kunst" role="tab" data-toggle="tab"> <i class="nav-item fas fa-image"> Kunst</i></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#Musikk" id="musikkKnapp" role="tab" data-toggle="tab"> <i class="nav-item fas fa-music"> Musikk</i></a>
+                <a class="nav-link" href="#Musikk" role="tab" data-toggle="tab"> <i class="nav-item fas fa-music"> Musikk</i></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#Fotografi" role="tab" data-toggle="tab"> <i class="nav-item fas fa-camera"> Fotografi</i></a>
@@ -131,33 +165,45 @@
         </ul>
     </div>
 
-    <div class="tab-content" id="innleggDIV">
-        @{
-            var antall = 0;
-        }
-        <div class="row p-3" id="rowDIV">
-            @while (antall < liste.Count)
-            {
-                var Innlegg = liste.ElementAt(antall);
-                <div class="col p-2" align="center">
-                    <div class="card" style="width: 18rem; height:15rem; overflow: hidden;">
-                        <div class="card-body">
-                            <h5 class="card-title">@Innlegg.Tittel</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">@Innlegg.Kategori</h6>
-                            <p class="card-text">@Innlegg.Beskrivelse</p>
-                            <a href="#" class="card-link">Besøk</a>
-                            <a href="#" class="card-link">Lik</a>
-                        </div>
-                    </div>
-                </div>
-                antall++;
-            }
-        </div>
-        <!--
+    <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="Alt">1</div>
         <div role="tabpanel" class="tab-pane " id="Kunst">2</div>
         <div role="tabpanel" class="tab-pane " id="Musikk">3</div>
         <div role="tabpanel" class="tab-pane " id="Fotografi">
+
+            <section>
+                <div class="container-fluid">
+                    <h1 class="text-center text-primary">Bilder</h1>
+                    <div class="row">
+                        <div class="col">
+                            <a href="#" class="image">
+                                <img src="https://miro.medium.com/max/1000/0*5bjkLBf1VvAiMwhp" class="img-fluid" alt="" />
+                                <p>Tekst på hover1</p>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a href="#" class="image">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Guitarist_Gretchen_Menn_2017.jpg/1200px-Guitarist_Gretchen_Menn_2017.jpg" class="img-fluid" alt="" />
+                                <p>Tekst på hover2</p>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a href="#" class="image">
+                                <img src="https://miro.medium.com/max/1000/0*5bjkLBf1VvAiMwhp" class="img-fluid" alt="" />
+                                <p>Tekst på hover3</p>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a href="#" class="image">
+                                <img src="https://miro.medium.com/max/1000/0*5bjkLBf1VvAiMwhp" class="img-fluid" alt="" />
+                                <p>Tekst på hover4</p>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
         </div>
         <div role="tabpanel" class="tab-pane " id="Tekst">
             <div class="card" style="width: 18rem;">
@@ -170,91 +216,10 @@
                 </div>
             </div>
         </div>
-               -->
     </div>
-
 </div>
 
-<br />
 
-<h1 id="heading1">Heading one</h1>
-<p id="para1">
-    loremsssssssssssssssssssssssssssssssssssssssfkljsdflkjsd<span>Mamma mia</span>
-    lfksdflsdlfsldkflsdknfsldknflskdnflskdnflksdnflksdnfklsdnflksdflksndf
-</p>
-
-<h1 class="heading2">Heading two</h1>
-<p class="para2">
-    loremsssssssssssssssssssssssssssssssssssssssfkljsdflkjsd<span>Mamma mia</span>
-    lfksdflsdlfsldkflsdknfsldknflskdnflskdnflksdnflksdnfklsdnflksdflksndf
-</p>
-
-<div id="container">
-    <h3>Mouse events</h3>
-    <button id="btn1">button1 </button>
-    <button id="btn2">button2 </button>
-</div>
-<ul id="test"></ul>
-
-@section Scripts
-{
-    <script>
-
-
-
-        $(document).ready(function () { //Ikke kjør denne koden før dokumentet har lastet ferdig
-
-
-            $('#kunstKnapp').click(function () {
-                //$('#innleggDIV').html('');
-                /*
-                $.each(listei, function (index, value) {
-                    console.log(value.Tittel);
-                })
-                */
-               // $('#innleggDIV').append('<h1>' + liste[0] + '</h1 >');
-
-                console.log(arrayOfArrays);
-
-            })
-
-
-            $('#musikkKnapp').click(function () {
-                alert('Musikk');
-            })
-
-
-            $('#btn1').click(function (e) {
-                // $('.para2').hide();
-                alert(e.currentTarget.id); //Hent info om eventet
-            })
-
-            $('#btn1').click(function () {
-               // $('.para2').hide();
-                $('.para2').toggle();
-            })
-
-            $('#btn2').click(function () {
-                $('.para2').show();
-            })
-        })
-        //.hover  .dblclick .mouseenter focus blur osv.
-        //Button clicked event
-
-      //  $('#heading1').hide(); //id
-       // $('.heading1').hide(); //klasse
-       // $('p span').css('color', 'red'); //p sin span
-
-       // $('ul#liste li:first ').css('color', 'red'); //liste første element
-       // $('ul#liste li:last ').css('color', 'green'); //liste siste element
-      //  $('ul#liste li:even ').css('background-color', 'yellow'); //liste siste element
-      //  $('ul#liste li:nth-child(3n) ').css('background-color', 'grey'); //liste siste element
-      //  $(':button').hide(); //Velger type knapp. :submit :text osv
-      //  $('[href]').css('color', 'red'); //endre lenker eller noe med spesefike attributter.
-      //  $('a[href="google.com"]').css('color', 'red'); //endre lenker med spesefike verdier
-        //$('*') //alt. Kan også brukes som en del av wildcards
-    </script>
-}
 <!--
 <div class="card-body">
     <h5 class="card-title">Special title treatment</h5>
