@@ -205,15 +205,19 @@
 
 
     function spillAv(sang) {
-        var lyd = document.getElementsByClassName('lydspor'),
-            i = lyd.length;
+        var audio = document.getElementsByClassName('lydspor'),
+            i = audio.length;
 
-        while (i--) {
-            lyd[i].pause();
-        }
+        
 
         var lyd = document.getElementById(sang);
-        if (lyd.paused) lyd.play();
+        if (lyd.paused) {
+            while (i--) {
+                audio[i].pause();
+            };
+                
+            lyd.play();
+        }
         else
             lyd.pause();
     };
