@@ -52,7 +52,7 @@ namespace Test1.Models
                 list.Add(JsonConvert.DeserializeObject<Innlegg>(((JProperty)item).Value.ToString()));
             };
 
-            Debug.WriteLine("Hellooooooooo");
+            Debug.WriteLine("Hellooooooooo-----------------------------------------------------------");
 
             AlleInnlegg = list; 
             return AlleInnlegg; 
@@ -106,6 +106,18 @@ public List<Innlegg> SorterAlleInnlegg(string Type)
             }
 
             return SortertListe; 
+        }
+        public void RegistrerBruker(Bruker bruker)
+        {
+
+            PushResponse respons = klient.Push("Bruker/", bruker);
+            bruker.Id = respons.Result.name;
+            SetResponse setResponse = klient.Set("Bruker/" + bruker.Id, bruker);
+        }
+
+        public void OppdaterBruker(Bruker bruker)
+        {
+            SetResponse setResponse = klient.Set("Bruker/" + bruker.Id, bruker);
         }
     }
 }
