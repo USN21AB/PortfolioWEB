@@ -23,8 +23,7 @@ namespace Portefolio_webApp.Controllers
             _logger = logger;
             firebase = new FirebaseDB();
         }
-
-        public IActionResult Index()
+        public IActionResult LoggInnSide()
         {
             return View();
         }
@@ -36,6 +35,7 @@ namespace Portefolio_webApp.Controllers
 
             return View();
         }
+
 
         public IActionResult Privacy()
         {
