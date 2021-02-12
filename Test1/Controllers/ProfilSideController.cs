@@ -2,6 +2,7 @@
 using Portefolio_webApp.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Test1.Models;
@@ -11,8 +12,11 @@ namespace Portefolio_webApp.Controllers
     public class ProfilSideController : Controller
     {
         private readonly FirebaseDB firebase;
-        public CV CirVit;
-        public Bruker Bruker;
+        [BindProperty]
+        public CV CirVit { get; set; }
+
+        [BindProperty]
+        public Bruker Bruker { get; set; }
 
         public ProfilSideController()
         {
@@ -22,6 +26,8 @@ namespace Portefolio_webApp.Controllers
         {
             return View();
         }
+
+        [HttpGet]
         public IActionResult CV()
         {
             CirVit = new CV();
@@ -64,8 +70,9 @@ namespace Portefolio_webApp.Controllers
             Bruker.Stilling = "Gardener";
             Bruker.Profilbilde = "https://images.unsplash.com/photo-1542103749-8ef59b94f47e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80";
             Bruker.Epost = "Mary@hotmail.com";
-
-
+            Bruker.Id = "-MTL4PwvI0ChIfEaZwEu";
+          
+            Debug.WriteLine("PROFIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIILLLLLLLLLLLLL");
             //firebase.RegistrerBruker(Bruker); 
 
             ViewData["Cv_Innhold"] = CirVit;
@@ -78,7 +85,7 @@ namespace Portefolio_webApp.Controllers
         public IActionResult CV(CV cv)
         {
             Bruker.CV = cv;
-
+            Debug.WriteLine("PROFIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIILLLLLLLLLLLLL222222222222");
 
             if (ModelState.IsValid)
             {
