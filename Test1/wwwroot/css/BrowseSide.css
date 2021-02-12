@@ -1,6 +1,4 @@
-﻿body {
-}
-
+﻿
 .carousel-item {
     height: 10em;
     color: white;
@@ -33,9 +31,14 @@
     color: white;
 }
 
-.col {
-    border: 2px solid;
-    border-style: solid;
+.borderstuff {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#ex1Slider .slider-selection {
+    background: #BABABA;
 }
 
 
