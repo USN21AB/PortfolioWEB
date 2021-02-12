@@ -70,6 +70,5 @@ namespace Portefolio_webApp.Controllers
             return View(Innlegg);
         }
 
-     
     }
 }
