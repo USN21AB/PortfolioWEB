@@ -1,4 +1,4 @@
-﻿@*
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
@@ -7,8 +7,9 @@
 
 <style>
 
+
     .hovedInnlegg {
-        text-align: center;
+        text-align:center;
         margin-left: auto;
         margin-right: auto;
         width: 50%;
@@ -22,8 +23,7 @@
         color: dimgray;
     }
 
-    @* brukerikon og brukernavn sammen *@
-    .innleggProfil {
+    @* brukerikon og brukernavn sammen *@ .innleggProfil {
         display: block;
         margin-top: 20px;
         margin-left: 300px;
@@ -36,11 +36,13 @@
         margin-right: 10px;
     }
 
-    @*brukernavn ved siden av ikon*@ .innleggProfil p {
+    @*brukernavn ved siden av ikon*@
+    .innleggProfil p {
         display: block;
         padding-left: 20px;
         margin-left: 20px;
         color: white;
+
     }
 
     @* Beskrivelse tekst *@ p.solid {
@@ -55,26 +57,32 @@
         clear: left;
         color: white;
     }
+
 </style>
 
+
+<script src="~/js/site.js"></script>
+
 <body style="background-color: rgb(46, 46, 46)">
-    <script src="~/js/site.js"></script>
+
+    @*Klassen inneholder Tittel, opplastingsdato, og hovedinnlegget (bilde eller pdf)*@
     <div class="hovedInnlegg">
-        <embed src="~/lib/pdfs/prosjektbeskrivelse.pdf" width="600" height="1000" />
+        <h1>Tittel</h1>
         <p>12.02.2021</p>
+        <img src="~/lib/bilder/Maracoween_F.png" id="imgtab" />
     </div>
 
     <div class="innleggProfil">
-        <img src="~/lib/bilder/Mageh.png" height="60" width="60" id="imgikon" />
-
-        <p class="ikontxt">flygonfan</p>
+        <img src="~/lib/bilder/Mageh.png" height="60" width="60" onclick="enlargeImg()" id="imgikon" />
+        <p class="ikontxt"><u>flygonfan</u> <br> Freelancer </p>
     </div>
     <p class="solid">
         Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst
         Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst
-        Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst
+        Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst
+        Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst
+        Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst
     </p>
-
 
     <div class="kommentarFelt">
 

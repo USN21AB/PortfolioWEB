@@ -1,4 +1,4 @@
-﻿@*
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
@@ -8,7 +8,7 @@
 <style>
 
     .hovedInnlegg {
-        text-align: center;
+        display: block;
         margin-left: auto;
         margin-right: auto;
         width: 50%;
@@ -22,7 +22,7 @@
         color: dimgray;
     }
 
-    @* brukerikon og brukernavn sammen *@
+    @* brukerikon og brukernavn sammen *@ 
     .innleggProfil {
         display: block;
         margin-top: 20px;
@@ -57,26 +57,24 @@
     }
 </style>
 
-<body style="background-color: rgb(46, 46, 46)">
-    <script src="~/js/site.js"></script>
-    <div class="hovedInnlegg">
-        <embed src="~/lib/pdfs/prosjektbeskrivelse.pdf" width="600" height="1000" />
-        <p>12.02.2021</p>
-    </div>
 
-    <div class="innleggProfil">
-        <img src="~/lib/bilder/Mageh.png" height="60" width="60" id="imgikon" />
+<script src="~/js/site.js"></script>
+<div class="hovedInnlegg">
+    <embed src="~/lib/pdfs/prosjektbeskrivelse.pdf" width="600" height="1000" />
+</div>
 
-        <p class="ikontxt">flygonfan</p>
-    </div>
-    <p class="solid">
-        Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst
-        Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst
-        Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst
-    </p>
+<div class="innleggProfil">
+    <img src="~/lib/bilder/Mageh.png" height="60" width="60" id="imgikon" />
+
+    <p class="ikontxt">flygonfan</p>
+</div>
+<p class="solid">
+    Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst
+    Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst
+    Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst
+</p>
 
 
-    <div class="kommentarFelt">
+<div class="kommentarFelt">
 
-    </div>
-</body>
+</div>
