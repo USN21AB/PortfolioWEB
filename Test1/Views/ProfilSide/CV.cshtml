@@ -140,14 +140,15 @@
                     <!-- end timeline content-->
 
                     <div class="tab-pane" id="settings">
-                        <form>
+                        <form method="post">
                             <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-briefcase-plus mr-1"></i> Add Experience</h5>
 
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="firstname">Start year</label>
-                                        <input type="text" class="form-control" id="startYear" placeholder="Enter year started">
+                                        <input asp-for="ArbeidsErfaring" type="text" class="form-control" id="startYear" placeholder="Enter year started">
+                                        <span asp-validation-for="ArbeidsErfaring" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
