@@ -4,6 +4,15 @@
         background-color: rgb(46, 46, 46);
     }
 
+    .nav {
+        width: 120px;
+    }
+
+
+
+    /*                                          PORTFOLIO                                             */
+    /*////////////////////////////////////////////////////////////////////////////////////////////////*/
+
 
     .awesome-portfolio-area {
         overflow: hidden;
@@ -16,7 +25,7 @@
     }
 
     .single-awesome-portfolio {
-        padding: 2px;
+        margin: 2px;
         float: left;
         overflow: hidden;
         position: relative;
@@ -26,6 +35,11 @@
             position: relative;
             display: block;
         }
+
+
+
+    /*                                            BILDER                                               */
+    /*/////////////////////////////////////////////////////////////////////////////////////////////////*/
 
     .awesome-img {
         width: 400px;
@@ -51,10 +65,10 @@
         width: 100%;
         opacity: 0;
         display: block;
-        transition: opacity .5s ease-out;
-        -moz-transition: opacity .5s ease-out;
-        -webkit-transition: opacity .5s ease-out;
-        -o-transition: opacity .5s ease-out;
+        transition: opacity .3s ease-out;
+        -moz-transition: opacity .3s ease-out;
+        -webkit-transition: opacity .3s ease-out;
+        -o-transition: opacity .3s ease-out;
     }
 
         .awesome-info h3 {
@@ -69,6 +83,7 @@
         }
 
     /**/
+
 
     .single-awesome-portfolio a:hover .awesome-info {
         /*transform: translateY(100%);*/
@@ -93,14 +108,14 @@
 
     /**/
 
-
+    /*                                           MUSIKK                                            */
     /*777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777*/
 
     .music_player {
-        padding: 2px;
+        margin: 2px;
         float: left;
-        width: 304px;
-        height: 304px;
+        width: 300px;
+        height: 300px;
         overflow: hidden;
         position: relative;
         display: block;
@@ -197,6 +212,71 @@
         margin-left: 70px;
         margin-top: 17px;
     }
+
+
+    /*                                              LITTERATUR                                          */
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+
+
+
+    .litteratur {
+        margin: 2px;
+        float: left;
+        width: 300px;
+        height: 400px;
+        position: relative;
+        overflow: hidden;
+        display: block;
+        background: rgb(187, 201, 201);
+    }
+
+    .tittel {
+        margin: 15px;
+        font-size: 45px;
+        -webkit-hyphens: auto;
+        -moz-hyphens: auto;
+        -ms-hyphens: auto;
+        hyphens: auto;
+    }
+
+    .forfatter {
+        position: absolute;
+        bottom: 0;
+        margin-left: 15px;
+        font-size: 23px;
+
+    }
+
+    .book_cover {
+        position: absolute;
+        min-height: 100%;
+        min-width: 100%;
+        opacity: 1;
+        z-index: 2;
+        transition: opacity .2s ease-out;
+        -moz-transition: opacity .2s ease-out;
+        -webkit-transition: opacity .2s ease-out;
+        -o-transition: opacity .2s ease-out;
+    }
+
+        .book_cover:hover {
+            opacity: 0;
+        }
+    
+
+
+
+
+
+
+
+
+
+    
+
+
+
 </style>
 
 <script>
@@ -208,14 +288,14 @@
         var audio = document.getElementsByClassName('lydspor'),
             i = audio.length;
 
-        
+
 
         var lyd = document.getElementById(sang);
         if (lyd.paused) {
             while (i--) {
                 audio[i].pause();
             };
-                
+
             lyd.play();
         }
         else
@@ -278,6 +358,7 @@
         <a class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">A Few</a>
         <a class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Few mor</a>
         <a class="nav-link" id="v-pills-musikk-tab" data-bs-toggle="pill" href="#v-pills-musikk" role="tab" aria-controls="v-pills-musikk" aria-selected="false">Musikk</a>
+        <a class="nav-link" id="v-pills-tekst-tab" data-bs-toggle="pill" href="#v-pills-tekst" role="tab" aria-controls="v-pills-tekst" aria-selected="false">Tekst</a>
     </div>
 
     <div class="awesome-portfolio-area fix">
@@ -288,6 +369,8 @@
 
             <div class="tab-content" id="v-pills-tabContent">
                 <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+
+
 
                     <!-- single-awesome-portfolio start -->
                     <div class="single-awesome-portfolio mix all flat illustration" style="display: inline-block;">
@@ -746,7 +829,7 @@
                     <div class="music_player">
 
                         <div class="play_button_div"></div>
-                        <img class="play_button" src="https://cdn.frankerfacez.com/emoticon/457124/4" onclick='spillAv("sang")' onClick="togglePlay('sang')" />
+                        <img class="play_button" src="https://i.kym-cdn.com/photos/images/newsfeed/001/472/527/adc.gif" onclick='spillAv("sang")' onClick="togglePlay('sang')" />
                         <audio id="sang" class="lydspor" src="~/css/Poki_Poki.mp3"></audio>
                         <img class="fuck" src="https://gameriv.com/wp-content/uploads/2021/01/Untitled-1-23-696x392.jpg" />
 
@@ -754,7 +837,7 @@
 
                     <div class="music_player">
                         <div class="play_button_div"></div>
-                        <img class="play_button" src="https://cdn.frankerfacez.com/emoticon/457124/4" onclick='spillAv("sang1")' onClick="togglePlay('sang1')" />
+                        <img class="play_button" src="https://i.kym-cdn.com/photos/images/newsfeed/001/472/527/adc.gif" onclick='spillAv("sang1")' onClick="togglePlay('sang1')" />
                         <audio id="sang1" class="lydspor" src="~/css/Habibi.mp3"></audio>
 
                         <img class="fuck" src="https://yt3.ggpht.com/ytc/AAUvwnieYm5Wv_qN4yk6itKNU_-UuXxJSivEbEU6rnJ5fw=s900-c-k-c0x00ffffff-no-rj" />
@@ -763,7 +846,7 @@
 
                     <div class="music_player">
                         <div class="play_button_div"></div>
-                        <img class="play_button" src="https://cdn.frankerfacez.com/emoticon/457124/4" onclick='spillAv("sang2")' onClick="togglePlay('sang2')" />
+                        <img class="play_button" src="https://i.kym-cdn.com/photos/images/newsfeed/001/472/527/adc.gif" onclick='spillAv("sang2")' onClick="togglePlay('sang2')" />
                         <audio id="sang2" class="lydspor" src="https://www.bensound.com/bensound-music/bensound-epic.mp3"></audio>
 
                         <img class="fuck" src="https://i.pinimg.com/originals/2d/7d/df/2d7ddfac27bd7a918d587c223854bcb2.jpg" />
@@ -772,15 +855,67 @@
 
 
                 </div>
+                <div class="tab-pane fade" id="v-pills-tekst" role="tabpanel" aria-labelledby="v-pills-tekst-tab">
+
+                    <div class="litteratur">
+                        <img class="book_cover" src="https://m.media-amazon.com/images/I/514FIoHpsmL.jpg" />
+                        <h3 class="tittel">Den fantastiske Mikkel Rev er en veldig bra film og bok</h3><!--59 characters Kan ikke telle-->
+                        <h4 class="forfatter">Roal Dahl</h4>
+                    </div>
+
+                    <div class="litteratur">
+                        <img class="book_cover" src="" />
+                        <h3 class="tittel">Askeladden, er det deg? Ta å fortell om det trollet da</h3><!--54 characters ish-->
+                        <h4 class="forfatter">Arthur Conan Doyle</h4>
+                    </div>
+
+                    <div class="litteratur">
+                        <img class="book_cover" src="https://images-na.ssl-images-amazon.com/images/I/81gXqxyFrxL.jpg" />
+                        <h3 class="tittel">Anyways uhm... I bought a whole bunch of shungite</h3><!--54 characters-->
+                        <h4 class="forfatter">Dr Disrespect</h4>
+
+                    </div>
+
+                    <div class="litteratur">
+                        <img class="book_cover" src="https://images-na.ssl-images-amazon.com/images/I/91b8oNwaV1L.jpg" />
+                        <h3 class="tittel">Have you ever heard the tragedy of Dart Plagius the Wise. It's</h3><!--60 characters-->
+                        <h4 class="forfatter">William Shakespeare</h4>
+                    </div>
+                    <div class="litteratur">
+                        <img class="book_cover" src="" />
+                        <h3 class="tittel">Fanstastical humongous humourous sosoipaths prokrastinering stuff</h3><!--65 characters-->
+                        <h4 class="forfatter">Henry Wadsworth Longfellow</h4>
+                    </div>
+
+
+                    <div class="litteratur">
+                        <img class="book_cover" src="" />
+                        <h3 class="tittel">Harry Potter and the Sorcerer's Stone</h3><!--65 characters-->
+                        <h4 class="forfatter">J.K. Rowling</h4>
+                    </div>
+                    <div class="litteratur">
+                        <img class="book_cover" src="https://i.pinimg.com/236x/0c/ee/7e/0cee7e54fda8ac99ec11459448e89c7d.jpg" />
+                        <h3 class="tittel"> The Lion, the Witch and the Wardrobe</h3><!--65 characters-->
+                        <h4 class="forfatter">C.S. Lewis</h4>
+                    </div>
+                    <div class="litteratur">
+                        <img class="book_cover" src="http://www.designbookcover.pt/uploads/media/photos/cache/b1_only_words_72_media_huge_thumbnail.jpg" />
+                        <h3 class="tittel">Harry Potter and the Half-Blood Prince</h3><!--65 characters-->
+                        <h4 class="forfatter">J.K. Rowling</h4>
+                    </div>
+
+                </div>
             </div>
+
+
+
+            <!-- single-awesome-portfolio end -->
         </div>
-
-
-
-        <!-- single-awesome-portfolio end -->
     </div>
+    <!-- awesome-portfolio end -->
+
+
 </div>
-<!-- awesome-portfolio end -->
 
 <div class="musikk_kontroller" id="test">
 
@@ -793,17 +928,4 @@
 
     <img class="stopper" src="https://66.media.tumblr.com/1a1c3bcc08b5a048b90139a56fe7f415/tumblr_o9ku1rVS8z1vnqjx7o2_250.png" onclick="stopAll()" />
 </div>
-
-                    </div>
-                </div>
-            </div>
-
-
-
-<!-- single-awesome-portfolio end -->
-        </div>
-    </div>
-<!-- awesome-portfolio end -->
-
-
 <script src="https://cdn.jsdelivr.net/jquery.mixitup/latest/jquery.mixitup.min.js"></script>
