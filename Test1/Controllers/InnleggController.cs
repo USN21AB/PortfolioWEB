@@ -16,15 +16,15 @@ namespace Portefolio_webApp.Controllers
     public class InnleggController : Controller
     {
 
-        private readonly FirebaseDB firebase; 
+        private readonly FirebaseDB firebase;
 
         public InnleggController()
         {
-            firebase = new FirebaseDB(); 
+            firebase = new FirebaseDB();
         }
 
         [BindProperty]
-        public Innlegg Innlegg { get; set; } 
+        public Innlegg Innlegg { get; set; }
 
         public IActionResult Index()
         {
@@ -36,13 +36,13 @@ namespace Portefolio_webApp.Controllers
         {
             Innlegg = new Innlegg();
 
-             if (Innlegg.Id == null)
+            if (Innlegg.Id == null)
             {
                 //create
                 return View(Innlegg);
             }
 
-            return View(Innlegg); 
+            return View(Innlegg);
         }
 
         [HttpPost]
@@ -66,26 +66,16 @@ namespace Portefolio_webApp.Controllers
                     ModelState.AddModelError(string.Empty, ex.Message);
                 }
             }
-           
+
             return View(Innlegg);
         }
-        public IActionResult Nav_Innlegg(Innlegg innlegg) 
+        public IActionResult Nav_Innlegg(Innlegg innlegg)
         {
 
             return View();
         }
 
 
-        public ImgResizer() {
-            var small = { width: "25%", height: "25%" };
-            var large = { width: "50%", height: "50%" };
-            var count = 1;
-
-                $("#innlegg").css(small).on('click', function () {
-                    $(this).animate((count == 1) ? large : small);
-                    count = 1 - count;
-                });
-        }
-
-        }
+    }
+        
 }

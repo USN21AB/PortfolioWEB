@@ -1,19 +1,15 @@
 ﻿
 @{
     ViewData["Title"] = "Nav_Innlegg";
-
+    @*
     var txt = "";
-    if(this.innlegg = BildeInnlegg)
-      {txt = "Good Evening";}
-    elseif(this.innlegg = TekstInnlegg)
-      {txt = "Good Morning";}
-    elseif(this.innlegg = MusikkInnlegg)
-        {}
-    else{}
-}
-
-@{
-  ((InnleggController)this.ViewContext.Controller).ImgResizer();
+    if (this.innlegg = BildeInnlegg);
+    {txt = "Good Evening";}
+    elseif(this.innlegg = TekstInnlegg);
+    {txt = "Good Morning";}
+    elseif(this.innlegg = MusikkInnlegg);
+    {}
+    else{}*@
 }
 
 <style>
@@ -106,7 +102,7 @@
     <div class="kommentarFelt">
 
     </div>
-    @*
+    
         <script>
             window.onload = function () {
                 var small = { width: "25%", height: "25%" };
@@ -118,7 +114,7 @@
                     count = 1 - count;
                 });
             }
-        </script>*@
+        </script>
 </body>
 
 
