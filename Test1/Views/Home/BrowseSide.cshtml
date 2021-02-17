@@ -117,10 +117,10 @@
                 <a class="nav-link active" aria-current="true" href="#Alt" data-toggle="tab"><i class="nav-item fas fa-globe"> Alt</i></a>
             </li>
             <li class="nav-item" asp-action="SorterListe" asp-controller="Home">
-                <a class="nav-link" id="kunstKnapp" role="tab" data-toggle="tab"> <i class="nav-item fas fa-image"> Kunst</i></a>
+                <a class="nav-link" href="#Kunst" id="kunstKnapp" role="tab" data-toggle="tab"> <i class="nav-item fas fa-image"> Kunst</i></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#Musikk" id="musikkKnapp" role="tab" data-toggle="tab"> <i class="nav-item fas fa-music"> Musikk</i></a>
+                <a class="nav-link" href="#Musikk" id="#musikkKnapp" role="tab" data-toggle="tab"> <i class="nav-item fas fa-music"> Musikk</i></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#Fotografi" role="tab" data-toggle="tab"> <i class="nav-item fas fa-camera"> Fotografi</i></a>
@@ -139,17 +139,34 @@
             @while (antall < liste.Count)
             {
                 var Innlegg = liste.ElementAt(antall);
-                <div class="col p-2" align="center">
-                    <div class="card" style="width: 18rem; height:15rem; overflow: hidden;">
-                        <div class="card-body">
-                            <h5 class="card-title">@Innlegg.Tittel</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">@Innlegg.Kategori</h6>
-                            <p class="card-text">@Innlegg.Beskrivelse</p>
-                            <a asp-controller="Innlegg" asp-action="Nav_Innlegg" class="card-link">Besøk</a>
-                            <a href="#" class="card-link">Lik</a>
+                if (Innlegg.Kategori.Equals("Tekst"))
+                {
+                    <div class="col p-2" align="center">
+                        <div class="card" style="width: 18rem; height:15rem; overflow: hidden;">
+                            <div class="card-body">
+                                <h5 class="card-title">@Innlegg.Tittel</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">@Innlegg.Kategori</h6>
+                                <p class="card-text">@Innlegg.Beskrivelse</p>
+                                <a href="#" class="card-link">Besøk</a>
+                                <a href="#" class="card-link">Lik</a>
+                            </div>
                         </div>
                     </div>
-                </div>
+                }
+                else if (Innlegg.Kategori.Equals("Musikk"))
+                {
+                    <div class="col p-2" align="center">
+                        <div class="card" style="width: 18rem; height:15rem; overflow: hidden; background-color:black">
+                            <div class="card-body">
+                                <h5 class="card-title">@Innlegg.Tittel</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">@Innlegg.Kategori</h6>
+                                <p class="card-text">@Innlegg.Beskrivelse</p>
+                                <a href="#" class="card-link">Besøk</a>
+                                <a href="#" class="card-link">Lik</a>
+                            </div>
+                        </div>
+                    </div>
+                }
                 antall++;
             }
         </div>
@@ -199,7 +216,12 @@
 @section Scripts
 {
     <script>
+
+
+
         $(document).ready(function () { //Ikke kjør denne koden før dokumentet har lastet ferdig
+
+
             $('#kunstKnapp').click(function () {
                 //$('#innleggDIV').html('');
                 /*
@@ -207,43 +229,55 @@
                     console.log(value.Tittel);
                 })
                 */
-                // $('#innleggDIV').append('<h1>' + liste[0] + '</h1 >');
+               // $('#innleggDIV').append('<h1>' + liste[0] + '</h1 >');
+
                 console.log(arrayOfArrays);
+
             })
+
+
             $('#musikkKnapp').click(function () {
                 alert('Musikk');
             })
+
+
             $('#btn1').click(function (e) {
                 // $('.para2').hide();
                 alert(e.currentTarget.id); //Hent info om eventet
             })
+
             $('#btn1').click(function () {
-                // $('.para2').hide();
+               // $('.para2').hide();
                 $('.para2').toggle();
             })
+
             $('#btn2').click(function () {
                 $('.para2').show();
             })
         })
-                //.hover  .dblclick .mouseenter focus blur osv.
-                //Button clicked event
-              //  $('#heading1').hide(); //id
-               // $('.heading1').hide(); //klasse
-               // $('p span').css('color', 'red'); //p sin span
-               // $('ul#liste li:first ').css('color', 'red'); //liste første element
-               // $('ul#liste li:last ').css('color', 'green'); //liste siste element
-              //  $('ul#liste li:even ').css('background-color', 'yellow'); //liste siste element
-              //  $('ul#liste li:nth-child(3n) ').css('background-color', 'grey'); //liste siste element
-              //  $(':button').hide(); //Velger type knapp. :submit :text osv
-              //  $('[href]').css('color', 'red'); //endre lenker eller noe med spesefike attributter.
-              //  $('a[href="google.com"]').css('color', 'red'); //endre lenker med spesefike verdier
-                //$('*') //alt. Kan også brukes som en del av wildcards
+        //.hover  .dblclick .mouseenter focus blur osv.
+        //Button clicked event
+
+      //  $('#heading1').hide(); //id
+       // $('.heading1').hide(); //klasse
+       // $('p span').css('color', 'red'); //p sin span
+
+       // $('ul#liste li:first ').css('color', 'red'); //liste første element
+       // $('ul#liste li:last ').css('color', 'green'); //liste siste element
+      //  $('ul#liste li:even ').css('background-color', 'yellow'); //liste siste element
+      //  $('ul#liste li:nth-child(3n) ').css('background-color', 'grey'); //liste siste element
+      //  $(':button').hide(); //Velger type knapp. :submit :text osv
+      //  $('[href]').css('color', 'red'); //endre lenker eller noe med spesefike attributter.
+      //  $('a[href="google.com"]').css('color', 'red'); //endre lenker med spesefike verdier
+        //$('*') //alt. Kan også brukes som en del av wildcards
     </script>
 }
 <!--
 <div class="card-body">
     <h5 class="card-title">Special title treatment</h5>
     <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+
     <a href="#" class="btn btn-primary">Go somewhere</a>
 </div>
+
     -->

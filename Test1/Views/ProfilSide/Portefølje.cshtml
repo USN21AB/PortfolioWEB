@@ -4,6 +4,15 @@
         background-color: rgb(46, 46, 46);
     }
 
+    .nav {
+        width: 120px;
+    }
+
+
+
+    /*                                          PORTFOLIO                                             */
+    /*////////////////////////////////////////////////////////////////////////////////////////////////*/
+
 
     .awesome-portfolio-area {
         overflow: hidden;
@@ -16,17 +25,21 @@
     }
 
     .single-awesome-portfolio {
-        padding: 2px;
+        margin: 2px;
         float: left;
         overflow: hidden;
         position: relative;
-       
     }
 
         .single-awesome-portfolio a {
             position: relative;
             display: block;
         }
+
+
+
+    /*                                            BILDER                                               */
+    /*/////////////////////////////////////////////////////////////////////////////////////////////////*/
 
     .awesome-img {
         width: 400px;
@@ -41,8 +54,6 @@
         .awesome-img img {
             min-height: 100%;
             min-width: 100%;
-            
-
         }
 
     .awesome-info {
@@ -54,10 +65,10 @@
         width: 100%;
         opacity: 0;
         display: block;
-        transition: opacity .5s ease-out;
-        -moz-transition: opacity .5s ease-out;
-        -webkit-transition: opacity .5s ease-out;
-        -o-transition: opacity .5s ease-out;
+        transition: opacity .3s ease-out;
+        -moz-transition: opacity .3s ease-out;
+        -webkit-transition: opacity .3s ease-out;
+        -o-transition: opacity .3s ease-out;
     }
 
         .awesome-info h3 {
@@ -73,11 +84,10 @@
 
     /**/
 
+
     .single-awesome-portfolio a:hover .awesome-info {
         /*transform: translateY(100%);*/
         opacity: .8;
-       
-        
     }
 
     /**/
@@ -98,15 +108,20 @@
 
     /**/
 
-
+    /*                                           MUSIKK                                            */
     /*777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777*/
 
     .music_player {
+        margin: 2px;
+        float: left;
         width: 300px;
         height: 300px;
         overflow: hidden;
-        background: red;
+        position: relative;
+        display: block;
     }
+
+
 
 
 
@@ -115,17 +130,200 @@
         min-width: 100%;
     }
 
+    .play_button_div {
+        background-color: #282727;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        opacity: 0;
+        display: block;
+    }
+
+    .play_button {
+        position: absolute;
+        margin-top: 100px;
+        margin-bottom: 100px;
+        margin-left: 100px;
+        margin-right: 100px;
+        opacity: 0;
+        width: 100px;
+        height: 100px;
+    }
+
+        .play_button:active {
+            transform: scale(.95);
+            filter: brightness(50%);
+        }
+
+    .music_player:hover .play_button {
+        opacity: 1;
+    }
+
+
+    .music_player:hover .play_button_div {
+        opacity: .6;
+    }
+
+
+
+    .musikk_kontroller {
+        position: sticky;
+        z-index: 5;
+        width: 100%;
+        height: 50px;
+        bottom: 0px;
+        background: white;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .stopper {
+        position: relative;
+        margin: 5px 10px 5px;
+        height: 40px;
+        width: 40px;
+    }
+
+        .stopper:active {
+            transform: scale(0.9);
+        }
+
+    .tid_container {
+        width: 300px;
+        overflow: hidden;
+        height: 10px;
+        margin-top: 20px;
+        margin-left: 70px;
+        margin-right: 20px;
+        background: green;
+        position: absolute;
+    }
+
+    .tid {
+        width: 1px;
+        height: 10px;
+        background: red;
+        transition: width .1s linear;
+    }
+
+    #seekbar {
+        position: absolute;
+        margin-left: 70px;
+        margin-top: 17px;
+    }
+
+
+    /*                                              LITTERATUR                                          */
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+
+
+
+    .litteratur {
+        margin: 2px;
+        float: left;
+        width: 300px;
+        height: 400px;
+        position: relative;
+        overflow: hidden;
+        display: block;
+        background: rgb(187, 201, 201);
+    }
+
+    .tittel {
+        margin: 15px;
+        font-size: 45px;
+        -webkit-hyphens: auto;
+        -moz-hyphens: auto;
+        -ms-hyphens: auto;
+        hyphens: auto;
+    }
+
+    .forfatter {
+        position: absolute;
+        bottom: 0;
+        margin-left: 15px;
+        font-size: 23px;
+
+    }
+
+    .book_cover {
+        position: absolute;
+        min-height: 100%;
+        min-width: 100%;
+        opacity: 1;
+        z-index: 2;
+        transition: opacity .2s ease-out;
+        -moz-transition: opacity .2s ease-out;
+        -webkit-transition: opacity .2s ease-out;
+        -o-transition: opacity .2s ease-out;
+    }
+
+        .book_cover:hover {
+            opacity: 0;
+        }
+    
+
+
+
+
+
+
+
+
+
+    
+
 
 
 </style>
 
 <script>
 
+
+
+
+    function spillAv(sang) {
+        var audio = document.getElementsByClassName('lydspor'),
+            i = audio.length;
+
+
+
+        var lyd = document.getElementById(sang);
+        if (lyd.paused) {
+            while (i--) {
+                audio[i].pause();
+            };
+
+            lyd.play();
+        }
+        else
+            lyd.pause();
+    };
+
+    /*function spillAv() {
+        var lyd = document.getElementById("sang1");
+        if (lyd.paused) lyd.play();
+        else
+            lyd.pause();
+    };*/
+
+    function stopAll() {
+        var lyd = document.getElementsByClassName('lydspor'),
+            i = lyd.length;
+
+        while (i--) {
+            lyd[i].pause();
+        }
+    };
+
     var info = document.getElementsByClassName("awesome-info");
     var image = document.getElementsByClassName("single-awesome-portfolio");
 
-    image.addEventListener("mouseover", function() {
-       info.style.opacity = 0.8 });
+    image.addEventListener("mouseover", function () {
+        info.style.opacity = 0.8
+    });
 
 
     $(function () {
@@ -153,498 +351,559 @@
 
 </script>
 
-    <div class="d-flex align-items-start">
-        <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-            <a class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">All</a>
-            <a class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Some</a>
-            <a class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">A Few</a>
-            <a class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Few mor</a>
-            <a class="nav-link" id="v-pills-musikk-tab" data-bs-toggle="pill" href="#v-pills-musikk" role="tab" aria-controls="v-pills-musikk" aria-selected="false">Musikk</a>
-        </div>
+<div class="d-flex align-items-start">
+    <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+        <a class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">All</a>
+        <a class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Some</a>
+        <a class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">A Few</a>
+        <a class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Few mor</a>
+        <a class="nav-link" id="v-pills-musikk-tab" data-bs-toggle="pill" href="#v-pills-musikk" role="tab" aria-controls="v-pills-musikk" aria-selected="false">Musikk</a>
+        <a class="nav-link" id="v-pills-tekst-tab" data-bs-toggle="pill" href="#v-pills-tekst" role="tab" aria-controls="v-pills-tekst" aria-selected="false">Tekst</a>
+    </div>
 
-        <div class="awesome-portfolio-area fix">
+    <div class="awesome-portfolio-area fix">
 
-            <!-- awesome-portfolio start -->
+        <!-- awesome-portfolio start -->
 
-            <div class="awesome-portfolio-content" id="MixItUp68DC04">
+        <div class="awesome-portfolio-content" id="MixItUp68DC04">
 
-                <div class="tab-content" id="v-pills-tabContent">
-                    <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+            <div class="tab-content" id="v-pills-tabContent">
+                <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
 
-                        <!-- single-awesome-portfolio start -->
-                        <div class="single-awesome-portfolio mix all flat illustration" style="display: inline-block;">
-                            <a href="#">
-                                <div class="awesome-img">
-                                    <div class="awesome-info">
-                                        <h3>Portfolio Name</h3>
-                                        <p>Design</p>
-                                    </div>
-                                    <img src="https://image-cdn.essentiallysports.com/wp-content/uploads/20210107205249/flatten.png" alt="">
-                                </div>
 
-                            </a>
-                        </div>
-                        <!-- single-awesome-portfolio end -->
-                        <!-- single-awesome-portfolio start -->
-                        <div class="single-awesome-portfolio mix all design branding" style="display: inline-block;">
-                            <a href="#">
-                                <div class="awesome-img">
-                                    <div class="awesome-info">
-                                        <h3>Portfolio Name</h3>
-                                        <p>Design</p>
-                                    </div>
-                                    <img src="https://cdn.vox-cdn.com/thumbor/fYRuzbQ2EvRavUEwWB_o9UdwhTk=/1400x788/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/19157811/ply0947_fall_reviews_2019_tv_anime.jpg" alt="">
+
+                    <!-- single-awesome-portfolio start -->
+                    <div class="single-awesome-portfolio mix all flat illustration" style="display: inline-block;">
+                        <a href="#">
+                            <div class="awesome-img">
+                                <div class="awesome-info">
+                                    <h3>Portfolio Name</h3>
+                                    <p>Design</p>
                                 </div>
-                                
-                            </a>
-                        </div>
-                        <!-- single-awesome-portfolio end -->
-                        <!-- single-awesome-portfolio start -->
-                        <div class="single-awesome-portfolio mix all flat illustration" style="display: inline-block;">
-                            <a href="#">
-                                <div class="awesome-img">
-                                    <div class="awesome-info">
-                                        <h3>Portfolio Name</h3>
-                                        <p>Design</p>
-                                    </div>
-                                    <img src="https://jw-webmagazine.com/wp-content/uploads/2020/03/Kimetsu-no-YaibaDemon-Slayer.jpg" alt="">
+                                <img src="https://image-cdn.essentiallysports.com/wp-content/uploads/20210107205249/flatten.png" alt="">
+                            </div>
+
+                        </a>
+                    </div>
+                    <!-- single-awesome-portfolio end -->
+                    <!-- single-awesome-portfolio start -->
+                    <div class="single-awesome-portfolio mix all design branding" style="display: inline-block;">
+                        <a href="#">
+                            <div class="awesome-img">
+                                <div class="awesome-info">
+                                    <h3>Portfolio Name</h3>
+                                    <p>Design</p>
                                 </div>
-                                
-                            </a>
-                        </div>
-                        <!-- single-awesome-portfolio end -->
-                        <!-- single-awesome-portfolio start -->
-                        <div class="single-awesome-portfolio mix all design branding" style="display: inline-block;">
-                            <a href="#">
-                                <div class="awesome-img">
-                                    <div class="awesome-info">
-                                        <h3>Portfolio Name</h3>
-                                        <p>Design</p>
-                                    </div>
-                                    <img src="https://thediplomat.com/wp-content/uploads/2020/08/sizes/td-story-s-2/thediplomat-2020-08-31-2.png" alt="">
+                                <img src="https://cdn.vox-cdn.com/thumbor/fYRuzbQ2EvRavUEwWB_o9UdwhTk=/1400x788/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/19157811/ply0947_fall_reviews_2019_tv_anime.jpg" alt="">
+                            </div>
+
+                        </a>
+                    </div>
+                    <!-- single-awesome-portfolio end -->
+                    <!-- single-awesome-portfolio start -->
+                    <div class="single-awesome-portfolio mix all flat illustration" style="display: inline-block;">
+                        <a href="#">
+                            <div class="awesome-img">
+                                <div class="awesome-info">
+                                    <h3>Portfolio Name</h3>
+                                    <p>Design</p>
                                 </div>
-                                
-                            </a>
-                        </div>
-                        <!-- single-awesome-portfolio end -->
-                        <!-- single-awesome-portfolio start -->
-                        <div class="single-awesome-portfolio mix all flat design illustration" style="display: inline-block;">
-                            <a href="#">
-                                <div class="awesome-img">
-                                    <div class="awesome-info">
-                                        <h3>Portfolio Name</h3>
-                                        <p>Design</p>
-                                    </div>
-                                    <img src="https://ianwolfdotorg.files.wordpress.com/2016/02/mirai-nikki-1.jpg?w=584" alt="">
+                                <img src="https://jw-webmagazine.com/wp-content/uploads/2020/03/Kimetsu-no-YaibaDemon-Slayer.jpg" alt="">
+                            </div>
+
+                        </a>
+                    </div>
+                    <!-- single-awesome-portfolio end -->
+                    <!-- single-awesome-portfolio start -->
+                    <div class="single-awesome-portfolio mix all design branding" style="display: inline-block;">
+                        <a href="#">
+                            <div class="awesome-img">
+                                <div class="awesome-info">
+                                    <h3>Portfolio Name</h3>
+                                    <p>Design</p>
                                 </div>
-                               
-                            </a>
-                        </div>
-                        <!-- single-awesome-portfolio end -->
-                        <!-- single-awesome-portfolio start -->
-                        <div class="single-awesome-portfolio mix all design branding " style="display: inline-block;">
-                            <a href="#">
-                                <div class="awesome-img">
-                                    <div class="awesome-info">
-                                        <h3>Portfolio Name</h3>
-                                        <p>Design</p>
-                                    </div>
-                                    <img src="https://i.ytimg.com/vi/Ow7Amd4lt5s/maxresdefault.jpg" alt="">
+                                <img src="https://thediplomat.com/wp-content/uploads/2020/08/sizes/td-story-s-2/thediplomat-2020-08-31-2.png" alt="">
+                            </div>
+
+                        </a>
+                    </div>
+                    <!-- single-awesome-portfolio end -->
+                    <!-- single-awesome-portfolio start -->
+                    <div class="single-awesome-portfolio mix all flat design illustration" style="display: inline-block;">
+                        <a href="#">
+                            <div class="awesome-img">
+                                <div class="awesome-info">
+                                    <h3>Portfolio Name</h3>
+                                    <p>Design</p>
                                 </div>
-                                
-                            </a>
-                        </div>
-                        <!-- single-awesome-portfolio end -->
-                        <!-- single-awesome-portfolio start -->
-                        <div class="single-awesome-portfolio mix all design illustration" style="display: inline-block;">
-                            <a href="#">
-                                <div class="awesome-img">
-                                    <div class="awesome-info">
-                                        <h3>Portfolio Name</h3>
-                                        <p>Design</p>
-                                    </div>
-                                    <img src="https://images-na.ssl-images-amazon.com/images/I/91mb3k7S9XL._RI_.jpg" alt="">
+                                <img src="https://ianwolfdotorg.files.wordpress.com/2016/02/mirai-nikki-1.jpg?w=584" alt="">
+                            </div>
+
+                        </a>
+                    </div>
+                    <!-- single-awesome-portfolio end -->
+                    <!-- single-awesome-portfolio start -->
+                    <div class="single-awesome-portfolio mix all design branding " style="display: inline-block;">
+                        <a href="#">
+                            <div class="awesome-img">
+                                <div class="awesome-info">
+                                    <h3>Portfolio Name</h3>
+                                    <p>Design</p>
                                 </div>
-                                
-                            </a>
-                        </div>
-                        <!-- single-awesome-portfolio end -->
-                        <!-- single-awesome-portfolio start -->
-                        <div class="single-awesome-portfolio mix all flat illustration branding" style="display: inline-block;">
-                            <a href="#">
-                                <div class="awesome-img">
-                                    <div class="awesome-info">
-                                        <h3>Portfolio Name</h3>
-                                        <p>Design</p>
-                                    </div>
-                                    <img src="https://imgix.ranker.com/user_node_img/4268/85344866/original/85344866-photo-u10?fit=crop&fm=pjpg&q=60&w=375&dpr=2" alt="">
+                                <img src="https://i.ytimg.com/vi/Ow7Amd4lt5s/maxresdefault.jpg" alt="">
+                            </div>
+
+                        </a>
+                    </div>
+                    <!-- single-awesome-portfolio end -->
+                    <!-- single-awesome-portfolio start -->
+                    <div class="single-awesome-portfolio mix all design illustration" style="display: inline-block;">
+                        <a href="#">
+                            <div class="awesome-img">
+                                <div class="awesome-info">
+                                    <h3>Portfolio Name</h3>
+                                    <p>Design</p>
                                 </div>
-                                
-                            </a>
-                        </div>
-                        <!-- single-awesome-portfolio end -->
-                        <!-- single-awesome-portfolio start -->
-                        <div class="single-awesome-portfolio mix all design branding" style="display: inline-block;">
-                            <a href="#">
-                                <div class="awesome-img">
-                                    <div class="awesome-info">
-                                        <h3>Portfolio Name</h3>
-                                        <p>Design</p>
-                                    </div>
-                                    <img src="https://i.kinja-img.com/gawker-media/image/upload/t_original/jpxpwa8h48a6foo2tp8r.png" alt="">
+                                <img src="https://images-na.ssl-images-amazon.com/images/I/91mb3k7S9XL._RI_.jpg" alt="">
+                            </div>
+
+                        </a>
+                    </div>
+                    <!-- single-awesome-portfolio end -->
+                    <!-- single-awesome-portfolio start -->
+                    <div class="single-awesome-portfolio mix all flat illustration branding" style="display: inline-block;">
+                        <a href="#">
+                            <div class="awesome-img">
+                                <div class="awesome-info">
+                                    <h3>Portfolio Name</h3>
+                                    <p>Design</p>
                                 </div>
-                                
-                            </a>
-                        </div>
-                        <!-- single-awesome-portfolio end -->
-                        <!-- single-awesome-portfolio start -->
-                        <div class="single-awesome-portfolio mix all flat illustration" style="display: inline-block;">
-                            <a href="#">
-                                <div class="awesome-img">
-                                    <div class="awesome-info">
-                                        <h3>Portfolio Name</h3>
-                                        <p>Design</p>
-                                    </div>
-                                    <img src="https://img.memecdn.com/Hugh-Jackman_o_12745.jpg" alt="">
+                                <img src="https://imgix.ranker.com/user_node_img/4268/85344866/original/85344866-photo-u10?fit=crop&fm=pjpg&q=60&w=375&dpr=2" alt="">
+                            </div>
+
+                        </a>
+                    </div>
+                    <!-- single-awesome-portfolio end -->
+                    <!-- single-awesome-portfolio start -->
+                    <div class="single-awesome-portfolio mix all design branding" style="display: inline-block;">
+                        <a href="#">
+                            <div class="awesome-img">
+                                <div class="awesome-info">
+                                    <h3>Portfolio Name</h3>
+                                    <p>Design</p>
                                 </div>
-                                
-                            </a>
-                        </div>
-                        <!-- single-awesome-portfolio end -->
-                        <!-- single-awesome-portfolio start -->
-                        <div class="single-awesome-portfolio mix all flat illustration" style="display: inline-block;">
-                            <a href="#">
-                                <div class="awesome-img">
-                                    <div class="awesome-info">
-                                        <h3>Portfolio Name</h3>
-                                        <p>Design</p>
-                                    </div>
-                                    <img src="https://steamuserimages-a.akamaihd.net/ugc/1657846920459548684/CF96BAF85A495E44715104E7DC031356FAC0B75D/?imw=512&&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false" alt="">
+                                <img src="https://i.kinja-img.com/gawker-media/image/upload/t_original/jpxpwa8h48a6foo2tp8r.png" alt="">
+                            </div>
+
+                        </a>
+                    </div>
+                    <!-- single-awesome-portfolio end -->
+                    <!-- single-awesome-portfolio start -->
+                    <div class="single-awesome-portfolio mix all flat illustration" style="display: inline-block;">
+                        <a href="#">
+                            <div class="awesome-img">
+                                <div class="awesome-info">
+                                    <h3>Portfolio Name</h3>
+                                    <p>Design</p>
                                 </div>
-                                
-                            </a>
-                        </div>
-                        <!-- single-awesome-portfolio end -->
-                        <!-- single-awesome-portfolio start -->
-                        <div class="single-awesome-portfolio mix all flat illustration" style="display: inline-block;">
-                            <a href="#">
-                                <div class="awesome-img">
-                                    <div class="awesome-info">
-                                        <h3>Portfolio Name</h3>
-                                        <p>Design</p>
-                                    </div>
-                                    <img src="https://leaguefeed.net/wp-content/uploads/2020/09/most-appealing-league-of-legends-female-characters.jpg" alt="">
+                                <img src="https://img.memecdn.com/Hugh-Jackman_o_12745.jpg" alt="">
+                            </div>
+
+                        </a>
+                    </div>
+                    <!-- single-awesome-portfolio end -->
+                    <!-- single-awesome-portfolio start -->
+                    <div class="single-awesome-portfolio mix all flat illustration" style="display: inline-block;">
+                        <a href="#">
+                            <div class="awesome-img">
+                                <div class="awesome-info">
+                                    <h3>Portfolio Name</h3>
+                                    <p>Design</p>
                                 </div>
-                                
-                            </a>
-                        </div>
-                        <!-- single-awesome-portfolio end -->
-                        <!-- single-awesome-portfolio start -->
-                        <div class="single-awesome-portfolio mix all flat illustration" style="display: inline-block;">
-                            <a href="#">
-                                <div class="awesome-img">
-                                    <div class="awesome-info">
-                                        <h3>Portfolio Name</h3>
-                                        <p>Design</p>
-                                    </div>
-                                    <img src="https://i2.wp.com/sotaku.com/wp-content/uploads/2020/12/highschool-dxd-693x390-1.jpg?resize=693%2C390&ssl=1" alt="">
+                                <img src="https://steamuserimages-a.akamaihd.net/ugc/1657846920459548684/CF96BAF85A495E44715104E7DC031356FAC0B75D/?imw=512&&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false" alt="">
+                            </div>
+
+                        </a>
+                    </div>
+                    <!-- single-awesome-portfolio end -->
+                    <!-- single-awesome-portfolio start -->
+                    <div class="single-awesome-portfolio mix all flat illustration" style="display: inline-block;">
+                        <a href="#">
+                            <div class="awesome-img">
+                                <div class="awesome-info">
+                                    <h3>Portfolio Name</h3>
+                                    <p>Design</p>
                                 </div>
-                                
-                            </a>
-                        </div>
-                        <!-- single-awesome-portfolio end -->
-                        <!-- single-awesome-portfolio start -->
-                        <div class="single-awesome-portfolio mix all flat illustration" style="display: inline-block;">
-                            <a href="#">
-                                <div class="awesome-img">
-                                    <div class="awesome-info">
-                                        <h3>Portfolio Name</h3>
-                                        <p>Design</p>
-                                    </div>
-                                    <img src="https://i.pinimg.com/originals/47/ba/56/47ba56a78837f1b9125aa2b1b028279a.gif" alt="">
+                                <img src="https://leaguefeed.net/wp-content/uploads/2020/09/most-appealing-league-of-legends-female-characters.jpg" alt="">
+                            </div>
+
+                        </a>
+                    </div>
+                    <!-- single-awesome-portfolio end -->
+                    <!-- single-awesome-portfolio start -->
+                    <div class="single-awesome-portfolio mix all flat illustration" style="display: inline-block;">
+                        <a href="#">
+                            <div class="awesome-img">
+                                <div class="awesome-info">
+                                    <h3>Portfolio Name</h3>
+                                    <p>Design</p>
                                 </div>
-                                
-                            </a>
-                        </div>
-                        <!-- single-awesome-portfolio end -->
-                        <!-- single-awesome-portfolio start -->
-                        <div class="single-awesome-portfolio mix all flat illustration" style="display: inline-block;">
-                            <a href="#">
-                                <div class="awesome-img">
-                                    <div class="awesome-info">
-                                        <h3>Portfolio Name</h3>
-                                        <p>Design</p>
-                                    </div>
-                                    <img src="https://www.nme.com/wp-content/uploads/2019/10/at.jpg" alt="">
+                                <img src="https://i2.wp.com/sotaku.com/wp-content/uploads/2020/12/highschool-dxd-693x390-1.jpg?resize=693%2C390&ssl=1" alt="">
+                            </div>
+
+                        </a>
+                    </div>
+                    <!-- single-awesome-portfolio end -->
+                    <!-- single-awesome-portfolio start -->
+                    <div class="single-awesome-portfolio mix all flat illustration" style="display: inline-block;">
+                        <a href="#">
+                            <div class="awesome-img">
+                                <div class="awesome-info">
+                                    <h3>Portfolio Name</h3>
+                                    <p>Design</p>
                                 </div>
-                                
-                            </a>
-                        </div>
-                        <!-- single-awesome-portfolio start -->
-                        <div class="single-awesome-portfolio mix all flat illustration" style="display: inline-block;">
-                            <a href="#">
-                                <div class="awesome-img">
-                                    <div class="awesome-info">
-                                        <h3>Portfolio Name</h3>
-                                        <p>Design</p>
-                                    </div>
-                                    <img src="https://media3.s-nbcnews.com/j/newscms/2021_03/1663262/bernie-mittens-main-khu-210120_6e55940befc874a7e5c81980c06d0a4b.fit-760w.jpg" alt="">
+                                <img src="https://i.pinimg.com/originals/47/ba/56/47ba56a78837f1b9125aa2b1b028279a.gif" alt="">
+                            </div>
+
+                        </a>
+                    </div>
+                    <!-- single-awesome-portfolio end -->
+                    <!-- single-awesome-portfolio start -->
+                    <div class="single-awesome-portfolio mix all flat illustration" style="display: inline-block;">
+                        <a href="#">
+                            <div class="awesome-img">
+                                <div class="awesome-info">
+                                    <h3>Portfolio Name</h3>
+                                    <p>Design</p>
                                 </div>
-                                
-                            </a>
-                        </div>
-                        <!-- single-awesome-portfolio end -->
-                        <!-- single-awesome-portfolio start -->
-                        <div class="single-awesome-portfolio mix all flat illustration" style="display: inline-block;">
-                            <a href="#">
-                                <div class="awesome-img">
-                                    <div class="awesome-info">
-                                        <h3>Portfolio Name</h3>
-                                        <p>Design</p>
-                                    </div>
-                                    <img src="https://64.media.tumblr.com/2e0d4d13639624b21d12b403a36fdcfa/tumblr_p62f47jDDg1tsa5a8o1_1280.png" alt="">
+                                <img src="https://www.nme.com/wp-content/uploads/2019/10/at.jpg" alt="">
+                            </div>
+
+                        </a>
+                    </div>
+                    <!-- single-awesome-portfolio start -->
+                    <div class="single-awesome-portfolio mix all flat illustration" style="display: inline-block;">
+                        <a href="#">
+                            <div class="awesome-img">
+                                <div class="awesome-info">
+                                    <h3>Portfolio Name</h3>
+                                    <p>Design</p>
                                 </div>
-                                
-                            </a>
-                        </div>
-                        <!-- single-awesome-portfolio end -->
-                        <!-- single-awesome-portfolio start -->
-                        <div class="single-awesome-portfolio mix all flat illustration" style="display: inline-block;">
-                            <a href="#">
-                                <div class="awesome-img">
-                                    <div class="awesome-info">
-                                        <h3>Portfolio Name</h3>
-                                        <p>Design</p>
-                                    </div>
-                                    <img src="https://i.pinimg.com/236x/f6/16/d0/f616d044c7937dde2e8ec2b4f3e6f79c--france-travel-winding-road.jpg" alt="">
+                                <img src="https://media3.s-nbcnews.com/j/newscms/2021_03/1663262/bernie-mittens-main-khu-210120_6e55940befc874a7e5c81980c06d0a4b.fit-760w.jpg" alt="">
+                            </div>
+
+                        </a>
+                    </div>
+                    <!-- single-awesome-portfolio end -->
+                    <!-- single-awesome-portfolio start -->
+                    <div class="single-awesome-portfolio mix all flat illustration" style="display: inline-block;">
+                        <a href="#">
+                            <div class="awesome-img">
+                                <div class="awesome-info">
+                                    <h3>Portfolio Name</h3>
+                                    <p>Design</p>
                                 </div>
-                                
-                            </a>
-                        </div>
-                        <!-- single-awesome-portfolio end -->
+                                <img src="https://64.media.tumblr.com/2e0d4d13639624b21d12b403a36fdcfa/tumblr_p62f47jDDg1tsa5a8o1_1280.png" alt="">
+                            </div>
+
+                        </a>
+                    </div>
+                    <!-- single-awesome-portfolio end -->
+                    <!-- single-awesome-portfolio start -->
+                    <div class="single-awesome-portfolio mix all flat illustration" style="display: inline-block;">
+                        <a href="#">
+                            <div class="awesome-img">
+                                <div class="awesome-info">
+                                    <h3>Portfolio Name</h3>
+                                    <p>Design</p>
+                                </div>
+                                <img src="https://i.pinimg.com/236x/f6/16/d0/f616d044c7937dde2e8ec2b4f3e6f79c--france-travel-winding-road.jpg" alt="">
+                            </div>
+
+                        </a>
+                    </div>
+                    <!-- single-awesome-portfolio end -->
+
+                </div>
+                <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+
+
+                    <!-- single-awesome-portfolio start -->
+                    <div class="single-awesome-portfolio mix all flat design illustration" style="display: inline-block;">
+                        <a href="#">
+                            <div class="awesome-img">
+                                <div class="awesome-info">
+                                    <h3>Portfolio Name</h3>
+                                    <p>Design</p>
+                                </div>
+                                <img src="https://ianwolfdotorg.files.wordpress.com/2016/02/mirai-nikki-1.jpg?w=584" alt="">
+                            </div>
+
+                        </a>
+                    </div>
+                    <!-- single-awesome-portfolio end -->
+                    <!-- single-awesome-portfolio start -->
+                    <div class="single-awesome-portfolio mix all design branding " style="display: inline-block;">
+                        <a href="#">
+                            <div class="awesome-img">
+                                <div class="awesome-info">
+                                    <h3>Portfolio Name</h3>
+                                    <p>Design</p>
+                                </div>
+                                <img src="https://i.ytimg.com/vi/Ow7Amd4lt5s/maxresdefault.jpg" alt="">
+                            </div>
+
+                        </a>
+                    </div>
+                    <!-- single-awesome-portfolio end -->
+                    <!-- single-awesome-portfolio start -->
+                    <div class="single-awesome-portfolio mix all design illustration" style="display: inline-block;">
+                        <a href="#">
+                            <div class="awesome-img">
+                                <div class="awesome-info">
+                                    <h3>Portfolio Name</h3>
+                                    <p>Design</p>
+                                </div>
+                                <img src="https://images-na.ssl-images-amazon.com/images/I/91mb3k7S9XL._RI_.jpg" alt="">
+                            </div>
+
+                        </a>
+                    </div>
+                    <!-- single-awesome-portfolio end -->
+                    <!-- single-awesome-portfolio start -->
+                    <div class="single-awesome-portfolio mix all flat illustration branding" style="display: inline-block;">
+                        <a href="#">
+                            <div class="awesome-img">
+                                <div class="awesome-info">
+                                    <h3>Portfolio Name</h3>
+                                    <p>Design</p>
+                                </div>
+                                <img src="https://imgix.ranker.com/user_node_img/4268/85344866/original/85344866-photo-u10?fit=crop&fm=pjpg&q=60&w=375&dpr=2" alt="">
+                            </div>
+
+                        </a>
+                    </div>
+                    <!-- single-awesome-portfolio end -->
+                    <!-- single-awesome-portfolio start -->
+                    <div class="single-awesome-portfolio mix all design branding" style="display: inline-block;">
+                        <a href="#">
+                            <div class="awesome-img">
+                                <div class="awesome-info">
+                                    <h3>Portfolio Name</h3>
+                                    <p>Design</p>
+                                </div>
+                                <img src="https://i.kinja-img.com/gawker-media/image/upload/t_original/jpxpwa8h48a6foo2tp8r.png" alt="">
+                            </div>
+
+                        </a>
+                    </div>
+                    <!-- single-awesome-portfolio end -->
+                    <!-- single-awesome-portfolio start -->
+                    <div class="single-awesome-portfolio mix all flat illustration" style="display: inline-block;">
+                        <a href="#">
+                            <div class="awesome-img">
+                                <div class="awesome-info">
+                                    <h3>Portfolio Name</h3>
+                                    <p>Design</p>
+                                </div>
+                                <img src="https://img.memecdn.com/Hugh-Jackman_o_12745.jpg" alt="">
+                            </div>
+
+                        </a>
+                    </div>
+                    <!-- single-awesome-portfolio end -->
+                    <!-- single-awesome-portfolio start -->
+                    <div class="single-awesome-portfolio mix all flat illustration" style="display: inline-block;">
+                        <a href="#">
+                            <div class="awesome-img">
+                                <div class="awesome-info">
+                                    <h3>Portfolio Name</h3>
+                                    <p>Design</p>
+                                </div>
+                                <img src="https://steamuserimages-a.akamaihd.net/ugc/1657846920459548684/CF96BAF85A495E44715104E7DC031356FAC0B75D/?imw=512&&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false" alt="">
+                            </div>
+
+                        </a>
+                    </div>
+                    <!-- single-awesome-portfolio end -->
+
+
+
+                </div>
+                <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+
+
+                    <!-- single-awesome-portfolio start -->
+                    <div class="single-awesome-portfolio mix all flat illustration" style="display: inline-block;">
+                        <a href="#">
+                            <div class="awesome-img">
+                                <div class="awesome-info">
+                                    <h3>Portfolio Name</h3>
+                                    <p>Design</p>
+                                </div>
+                                <img src="https://leaguefeed.net/wp-content/uploads/2020/09/most-appealing-league-of-legends-female-characters.jpg" alt="">
+                            </div>
+
+                        </a>
+                    </div>
+                    <!-- single-awesome-portfolio end -->
+                    <!-- single-awesome-portfolio start -->
+                    <div class="single-awesome-portfolio mix all flat illustration" style="display: inline-block;">
+                        <a href="#">
+                            <div class="awesome-img">
+                                <div class="awesome-info">
+                                    <h3>Portfolio Name</h3>
+                                    <p>Design</p>
+                                </div>
+                                <img src="https://i2.wp.com/sotaku.com/wp-content/uploads/2020/12/highschool-dxd-693x390-1.jpg?resize=693%2C390&ssl=1" alt="">
+                            </div>
+
+                        </a>
+                    </div>
+                    <!-- single-awesome-portfolio end -->
+                    <!-- single-awesome-portfolio start -->
+                    <div class="single-awesome-portfolio mix all flat illustration" style="display: inline-block;">
+                        <a href="#">
+                            <div class="awesome-img">
+                                <div class="awesome-info">
+                                    <h3>Portfolio Name</h3>
+                                    <p>Design</p>
+                                </div>
+                                <img src="https://64.media.tumblr.com/2e0d4d13639624b21d12b403a36fdcfa/tumblr_p62f47jDDg1tsa5a8o1_1280.png" alt="">
+                            </div>
+
+                        </a>
+                    </div>
+                    <!-- single-awesome-portfolio end -->
+
+
+                </div>
+                <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
+
+                    <!-- single-awesome-portfolio start -->
+                    <div class="single-awesome-portfolio mix all flat illustration" style="display: inline-block;">
+                        <a href="#">
+                            <div class="awesome-img">
+                                <div class="awesome-info">
+                                    <h3>Portfolio Name</h3>
+                                    <p>Design</p>
+                                </div>
+                                <img src="https://i.pinimg.com/originals/47/ba/56/47ba56a78837f1b9125aa2b1b028279a.gif" alt="">
+                            </div>
+
+                        </a>
+                    </div>
+                    <!-- single-awesome-portfolio end -->
+                    <!-- single-awesome-portfolio start -->
+                    <div class="single-awesome-portfolio mix all flat illustration" style="display: inline-block;">
+                        <a href="#">
+                            <div class="awesome-img">
+                                <div class="awesome-info">
+                                    <h3>Portfolio Name</h3>
+                                    <p>Design</p>
+                                </div>
+                                <img src="https://www.nme.com/wp-content/uploads/2019/10/at.jpg" alt="">
+                            </div>
+
+                        </a>
+                    </div>
+                    <!-- single-awesome-portfolio start -->
+                    <div class="single-awesome-portfolio mix all flat illustration" style="display: inline-block;">
+                        <a href="#">
+                            <div class="awesome-img">
+                                <div class="awesome-info">
+                                    <h3>Portfolio Name</h3>
+                                    <p>Design</p>
+                                </div>
+                                <img src="https://media3.s-nbcnews.com/j/newscms/2021_03/1663262/bernie-mittens-main-khu-210120_6e55940befc874a7e5c81980c06d0a4b.fit-760w.jpg" alt="">
+                            </div>
+
+                        </a>
+                    </div>
+                    <!-- single-awesome-portfolio end -->
+
+
+                </div>
+                <div class="tab-pane fade" id="v-pills-musikk" role="tabpanel" aria-labelledby="v-pills-musikk-tab">
+
+                    <div class="music_player">
+
+                        <div class="play_button_div"></div>
+                        <img class="play_button" src="https://i.kym-cdn.com/photos/images/newsfeed/001/472/527/adc.gif" onclick='spillAv("sang")' onClick="togglePlay('sang')" />
+                        <audio id="sang" class="lydspor" src="~/css/Poki_Poki.mp3"></audio>
+                        <img class="fuck" src="https://gameriv.com/wp-content/uploads/2021/01/Untitled-1-23-696x392.jpg" />
 
                     </div>
-                    <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
 
+                    <div class="music_player">
+                        <div class="play_button_div"></div>
+                        <img class="play_button" src="https://i.kym-cdn.com/photos/images/newsfeed/001/472/527/adc.gif" onclick='spillAv("sang1")' onClick="togglePlay('sang1')" />
+                        <audio id="sang1" class="lydspor" src="~/css/Habibi.mp3"></audio>
 
-                        <!-- single-awesome-portfolio start -->
-                        <div class="single-awesome-portfolio mix all flat design illustration" style="display: inline-block;">
-                            <a href="#">
-                                <div class="awesome-img">
-                                    <div class="awesome-info">
-                                        <h3>Portfolio Name</h3>
-                                        <p>Design</p>
-                                    </div>
-                                    <img src="https://ianwolfdotorg.files.wordpress.com/2016/02/mirai-nikki-1.jpg?w=584" alt="">
-                                </div>
-                                
-                            </a>
-                        </div>
-                        <!-- single-awesome-portfolio end -->
-                        <!-- single-awesome-portfolio start -->
-                        <div class="single-awesome-portfolio mix all design branding " style="display: inline-block;">
-                            <a href="#">
-                                <div class="awesome-img">
-                                    <div class="awesome-info">
-                                        <h3>Portfolio Name</h3>
-                                        <p>Design</p>
-                                    </div>
-                                    <img src="https://i.ytimg.com/vi/Ow7Amd4lt5s/maxresdefault.jpg" alt="">
-                                </div>
-                                
-                            </a>
-                        </div>
-                        <!-- single-awesome-portfolio end -->
-                        <!-- single-awesome-portfolio start -->
-                        <div class="single-awesome-portfolio mix all design illustration" style="display: inline-block;">
-                            <a href="#">
-                                <div class="awesome-img">
-                                    <div class="awesome-info">
-                                        <h3>Portfolio Name</h3>
-                                        <p>Design</p>
-                                    </div>
-                                    <img src="https://images-na.ssl-images-amazon.com/images/I/91mb3k7S9XL._RI_.jpg" alt="">
-                                </div>
-                                
-                            </a>
-                        </div>
-                        <!-- single-awesome-portfolio end -->
-                        <!-- single-awesome-portfolio start -->
-                        <div class="single-awesome-portfolio mix all flat illustration branding" style="display: inline-block;">
-                            <a href="#">
-                                <div class="awesome-img">
-                                    <div class="awesome-info">
-                                        <h3>Portfolio Name</h3>
-                                        <p>Design</p>
-                                    </div>
-                                    <img src="https://imgix.ranker.com/user_node_img/4268/85344866/original/85344866-photo-u10?fit=crop&fm=pjpg&q=60&w=375&dpr=2" alt="">
-                                </div>
-                                
-                            </a>
-                        </div>
-                        <!-- single-awesome-portfolio end -->
-                        <!-- single-awesome-portfolio start -->
-                        <div class="single-awesome-portfolio mix all design branding" style="display: inline-block;">
-                            <a href="#">
-                                <div class="awesome-img">
-                                    <div class="awesome-info">
-                                        <h3>Portfolio Name</h3>
-                                        <p>Design</p>
-                                    </div>
-                                    <img src="https://i.kinja-img.com/gawker-media/image/upload/t_original/jpxpwa8h48a6foo2tp8r.png" alt="">
-                                </div>
-                                
-                            </a>
-                        </div>
-                        <!-- single-awesome-portfolio end -->
-                        <!-- single-awesome-portfolio start -->
-                        <div class="single-awesome-portfolio mix all flat illustration" style="display: inline-block;">
-                            <a href="#">
-                                <div class="awesome-img">
-                                    <div class="awesome-info">
-                                        <h3>Portfolio Name</h3>
-                                        <p>Design</p>
-                                    </div>
-                                    <img src="https://img.memecdn.com/Hugh-Jackman_o_12745.jpg" alt="">
-                                </div>
-                                
-                            </a>
-                        </div>
-                        <!-- single-awesome-portfolio end -->
-                        <!-- single-awesome-portfolio start -->
-                        <div class="single-awesome-portfolio mix all flat illustration" style="display: inline-block;">
-                            <a href="#">
-                                <div class="awesome-img">
-                                    <div class="awesome-info">
-                                        <h3>Portfolio Name</h3>
-                                        <p>Design</p>
-                                    </div>
-                                    <img src="https://steamuserimages-a.akamaihd.net/ugc/1657846920459548684/CF96BAF85A495E44715104E7DC031356FAC0B75D/?imw=512&&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false" alt="">
-                                </div>
-                                
-                            </a>
-                        </div>
-                        <!-- single-awesome-portfolio end -->
-
-
+                        <img class="fuck" src="https://yt3.ggpht.com/ytc/AAUvwnieYm5Wv_qN4yk6itKNU_-UuXxJSivEbEU6rnJ5fw=s900-c-k-c0x00ffffff-no-rj" />
 
                     </div>
-                    <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
 
+                    <div class="music_player">
+                        <div class="play_button_div"></div>
+                        <img class="play_button" src="https://i.kym-cdn.com/photos/images/newsfeed/001/472/527/adc.gif" onclick='spillAv("sang2")' onClick="togglePlay('sang2')" />
+                        <audio id="sang2" class="lydspor" src="https://www.bensound.com/bensound-music/bensound-epic.mp3"></audio>
 
-                        <!-- single-awesome-portfolio start -->
-                        <div class="single-awesome-portfolio mix all flat illustration" style="display: inline-block;">
-                            <a href="#">
-                                <div class="awesome-img">
-                                    <div class="awesome-info">
-                                        <h3>Portfolio Name</h3>
-                                        <p>Design</p>
-                                    </div>
-                                    <img src="https://leaguefeed.net/wp-content/uploads/2020/09/most-appealing-league-of-legends-female-characters.jpg" alt="">
-                                </div>
-                                
-                            </a>
-                        </div>
-                        <!-- single-awesome-portfolio end -->
-                        <!-- single-awesome-portfolio start -->
-                        <div class="single-awesome-portfolio mix all flat illustration" style="display: inline-block;">
-                            <a href="#">
-                                <div class="awesome-img">
-                                    <div class="awesome-info">
-                                        <h3>Portfolio Name</h3>
-                                        <p>Design</p>
-                                    </div>
-                                    <img src="https://i2.wp.com/sotaku.com/wp-content/uploads/2020/12/highschool-dxd-693x390-1.jpg?resize=693%2C390&ssl=1" alt="">
-                                </div>
-                                
-                            </a>
-                        </div>
-                        <!-- single-awesome-portfolio end -->
-                        <!-- single-awesome-portfolio start -->
-                        <div class="single-awesome-portfolio mix all flat illustration" style="display: inline-block;">
-                            <a href="#">
-                                <div class="awesome-img">
-                                    <div class="awesome-info">
-                                        <h3>Portfolio Name</h3>
-                                        <p>Design</p>
-                                    </div>
-                                    <img src="https://64.media.tumblr.com/2e0d4d13639624b21d12b403a36fdcfa/tumblr_p62f47jDDg1tsa5a8o1_1280.png" alt="">
-                                </div>
-                                
-                            </a>
-                        </div>
-                        <!-- single-awesome-portfolio end -->
-
+                        <img class="fuck" src="https://i.pinimg.com/originals/2d/7d/df/2d7ddfac27bd7a918d587c223854bcb2.jpg" />
 
                     </div>
-                    <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
 
-                        <!-- single-awesome-portfolio start -->
-                        <div class="single-awesome-portfolio mix all flat illustration" style="display: inline-block;">
-                            <a href="#">
-                                <div class="awesome-img">
-                                    <div class="awesome-info">
-                                        <h3>Portfolio Name</h3>
-                                        <p>Design</p>
-                                    </div>
-                                    <img src="https://i.pinimg.com/originals/47/ba/56/47ba56a78837f1b9125aa2b1b028279a.gif" alt="">
-                                </div>
-                                
-                            </a>
-                        </div>
-                        <!-- single-awesome-portfolio end -->
-                        <!-- single-awesome-portfolio start -->
-                        <div class="single-awesome-portfolio mix all flat illustration" style="display: inline-block;">
-                            <a href="#">
-                                <div class="awesome-img">
-                                    <div class="awesome-info">
-                                        <h3>Portfolio Name</h3>
-                                        <p>Design</p>
-                                    </div>
-                                    <img src="https://www.nme.com/wp-content/uploads/2019/10/at.jpg" alt="">
-                                </div>
-                                
-                            </a>
-                        </div>
-                        <!-- single-awesome-portfolio start -->
-                        <div class="single-awesome-portfolio mix all flat illustration" style="display: inline-block;">
-                            <a href="#">
-                                <div class="awesome-img">
-                                    <div class="awesome-info">
-                                        <h3>Portfolio Name</h3>
-                                        <p>Design</p>
-                                    </div>
-                                    <img src="https://media3.s-nbcnews.com/j/newscms/2021_03/1663262/bernie-mittens-main-khu-210120_6e55940befc874a7e5c81980c06d0a4b.fit-760w.jpg" alt="">
-                                </div>
-                                
-                            </a>
-                        </div>
-                        <!-- single-awesome-portfolio end -->
 
+                </div>
+                <div class="tab-pane fade" id="v-pills-tekst" role="tabpanel" aria-labelledby="v-pills-tekst-tab">
+
+                    <div class="litteratur">
+                        <img class="book_cover" src="https://m.media-amazon.com/images/I/514FIoHpsmL.jpg" />
+                        <h3 class="tittel">Den fantastiske Mikkel Rev er en veldig bra film og bok</h3><!--59 characters Kan ikke telle-->
+                        <h4 class="forfatter">Roal Dahl</h4>
+                    </div>
+
+                    <div class="litteratur">
+                        <img class="book_cover" src="" />
+                        <h3 class="tittel">Askeladden, er det deg? Ta å fortell om det trollet da</h3><!--54 characters ish-->
+                        <h4 class="forfatter">Arthur Conan Doyle</h4>
+                    </div>
+
+                    <div class="litteratur">
+                        <img class="book_cover" src="https://images-na.ssl-images-amazon.com/images/I/81gXqxyFrxL.jpg" />
+                        <h3 class="tittel">Anyways uhm... I bought a whole bunch of shungite</h3><!--54 characters-->
+                        <h4 class="forfatter">Dr Disrespect</h4>
 
                     </div>
-                    <div class="tab-pane fade" id="v-pills-musikk" role="tabpanel" aria-labelledby="v-pills-musikk-tab">
 
-                        <!--<iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/845871181&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true">
-                            </iframe><div style="font-size: 10px; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;"><a href="https://soundcloud.com/demetrius-steverson" title="demetrius Steverson" target="_blank" style="color: #cccccc; text-decoration: none;">demetrius Steverson</a> · <a href="https://soundcloud.com/demetrius-steverson/johnoftheforest-poki-poki" title="JohnOfTheForest - Poki Poki (Official).mp3" target="_blank" style="color: #cccccc; text-decoration: none;">JohnOfTheForest - Poki Poki (Official).mp3</a></div>
-
-
-                        <audio src="~/css/Poki_Poki.mp3" controls>
-                            <embed src="/music/good_enough.mp3"
-                                   width="300"
-                                   height="90"
-                                   loop="false"
-                                   autostart="false">
-                        </audio>-->
-
-                        <div class="music_player">
-                            
-                                <img class="fuck" src="https://gameriv.com/wp-content/uploads/2021/01/Untitled-1-23-696x392.jpg" />
-                    
-                        </div>
-
-
+                    <div class="litteratur">
+                        <img class="book_cover" src="https://images-na.ssl-images-amazon.com/images/I/91b8oNwaV1L.jpg" />
+                        <h3 class="tittel">Have you ever heard the tragedy of Dart Plagius the Wise. It's</h3><!--60 characters-->
+                        <h4 class="forfatter">William Shakespeare</h4>
                     </div>
+                    <div class="litteratur">
+                        <img class="book_cover" src="" />
+                        <h3 class="tittel">Fanstastical humongous humourous sosoipaths prokrastinering stuff</h3><!--65 characters-->
+                        <h4 class="forfatter">Henry Wadsworth Longfellow</h4>
+                    </div>
+
+
+                    <div class="litteratur">
+                        <img class="book_cover" src="" />
+                        <h3 class="tittel">Harry Potter and the Sorcerer's Stone</h3><!--65 characters-->
+                        <h4 class="forfatter">J.K. Rowling</h4>
+                    </div>
+                    <div class="litteratur">
+                        <img class="book_cover" src="https://i.pinimg.com/236x/0c/ee/7e/0cee7e54fda8ac99ec11459448e89c7d.jpg" />
+                        <h3 class="tittel"> The Lion, the Witch and the Wardrobe</h3><!--65 characters-->
+                        <h4 class="forfatter">C.S. Lewis</h4>
+                    </div>
+                    <div class="litteratur">
+                        <img class="book_cover" src="http://www.designbookcover.pt/uploads/media/photos/cache/b1_only_words_72_media_huge_thumbnail.jpg" />
+                        <h3 class="tittel">Harry Potter and the Half-Blood Prince</h3><!--65 characters-->
+                        <h4 class="forfatter">J.K. Rowling</h4>
+                    </div>
+
                 </div>
             </div>
 
@@ -656,4 +915,17 @@
     <!-- awesome-portfolio end -->
 
 
+</div>
+
+<div class="musikk_kontroller" id="test">
+
+    <!--<div class="tid_container">
+        <div class="tid" id="tid"></div>
+
+    </div>-->
+    <progress id="seekbar" value="0" max="100" style="width:400px;"></progress>
+
+
+    <img class="stopper" src="https://66.media.tumblr.com/1a1c3bcc08b5a048b90139a56fe7f415/tumblr_o9ku1rVS8z1vnqjx7o2_250.png" onclick="stopAll()" />
+</div>
 <script src="https://cdn.jsdelivr.net/jquery.mixitup/latest/jquery.mixitup.min.js"></script>

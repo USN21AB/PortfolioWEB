@@ -93,11 +93,14 @@
                             Experience
                         </h5>
 
+                      
                         @{
                             var antallArbeidsErfaring = 0;
                         }
                         @while (antallArbeidsErfaring < CvInnhold.ArbeidsErfaring.Count)
                         {
+                            Console.WriteLine(CvInnhold.ArbeidsErfaring.Count + "---------------------------------count!"); 
+
                             var ArbeidsErfaringÅr = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring);
                             var ArbeidsErfaringTittel = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring + 1);
                             var ArbeidsErfaringBedrift = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring + 2);
@@ -136,24 +139,25 @@
                                 </li>
                             </ul>
                         }
-                        </div>
+                    </div>
                     <!-- end timeline content-->
 
+                    <div class="text-danger" asp-validation-summary="ModelOnly"></div>
                     <div class="tab-pane" id="settings">
-                        <form>
+                        <form method="post">
                             <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-briefcase-plus mr-1"></i> Add Experience</h5>
 
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="firstname">Start year</label>
-                                        <input type="text" class="form-control" id="startYear" placeholder="Enter year started">
+                                        <input asp-for="ArbeidsErfaring" type="text" class="form-control" id="startYear" placeholder="Enter year started">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="lastname">End year</label>
-                                        <input type="text" class="form-control" id="endYear" placeholder="Enter year ended">
+                                        <input asp-for="ArbeidsErfaring" type="text" class="form-control" id="endYear" placeholder="Enter year ended">
                                     </div>
                                 </div> <!-- end col -->
                             </div> <!-- end row -->
@@ -161,23 +165,24 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="firstname">Job title</label>
-                                        <input type="text" class="form-control" id="jobTitle" placeholder="Enter job title">
+                                        <label  for="firstname">Job title</label>
+                                        <input asp-for="ArbeidsErfaring" type="text" class="form-control" id="jobTitle" placeholder="Enter job title">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="lastname">Company name</label>
-                                        <input type="text" class="form-control" id="companyName" placeholder="Enter company name">
+                                        <input asp-for="ArbeidsErfaring" type="text" class="form-control" id="companyName" placeholder="Enter company name">
                                     </div>
-                                </div> <!-- end col -->
+                                </div>
+                                <span asp-validation-for="ArbeidsErfaring" class="text-danger"></span><!-- end col -->
                             </div> <!-- end row -->
 
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">
                                         <label for="userbio">Description</label>
-                                        <textarea class="form-control" id="userbio" rows="4" placeholder="Write something..."></textarea>
+                                        <textarea asp-for="ArbeidsErfaring" class="form-control" id="userbio" rows="4" placeholder="Write something..."></textarea>
                                     </div>
                                 </div> <!-- end col -->
                             </div> <!-- end row -->
@@ -185,24 +190,24 @@
                                 <button type="submit" class="btn btn-success waves-effect waves-light mt-1 mb-3"><i class="mdi mdi-content-save"></i> Add</button>
                             </div>
                             <!--
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="useremail">Email Address</label>
-                                        <input type="email" class="form-control" id="useremail" placeholder="Enter email">
-                                        <span class="form-text text-muted"><small>If you want to change email please <a href="javascript: void(0);">click</a> here.</small></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="userpassword">Password</label>
-                                        <input type="password" class="form-control" id="userpassword" placeholder="Enter password">
-                                        <span class="form-text text-muted"><small>If you want to change password please <a href="javascript: void(0);">click</a> here.</small></span>
-                                    </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="useremail">Email Address</label>
+                        <input type="email" class="form-control" id="useremail" placeholder="Enter email">
+                        <span class="form-text text-muted"><small>If you want to change email please <a href="javascript: void(0);">click</a> here.</small></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="userpassword">Password</label>
+                        <input type="password" class="form-control" id="userpassword" placeholder="Enter password">
+                        <span class="form-text text-muted"><small>If you want to change password please <a href="javascript: void(0);">click</a> here.</small></span>
+                    </div>
 
-                                </div> <!-- end col
-                            </div> <!-- end row
-                            -->
+                </div> <!-- end col
+            </div> <!-- end row
+            -->
 
 
 
