@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Test1.Models;
 
 namespace Portefolio_webApp.Models
 {
@@ -28,6 +29,14 @@ namespace Portefolio_webApp.Models
         public string Tlf { get; set; }
 
         public CV CV { get; set; }
+
+        public List<Portfolio> Mapper { get; set; }
+
+        public Bruker()
+        {
+
+            Mapper = new List<Portfolio>();
+        }
     }
 
 }
