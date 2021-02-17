@@ -145,7 +145,7 @@
                             <h5 class="card-title">@Innlegg.Tittel</h5>
                             <h6 class="card-subtitle mb-2 text-muted">@Innlegg.Kategori</h6>
                             <p class="card-text">@Innlegg.Beskrivelse</p>
-                            <a href="#" class="card-link">Besøk</a>
+                            <a asp-controller="Innlegg" asp-action="Nav_Innlegg" class="card-link">Besøk</a>
                             <a href="#" class="card-link">Lik</a>
                         </div>
                     </div>
@@ -225,19 +225,19 @@
                 $('.para2').show();
             })
         })
-            //.hover  .dblclick .mouseenter focus blur osv.
-            //Button clicked event
-          //  $('#heading1').hide(); //id
-           // $('.heading1').hide(); //klasse
-           // $('p span').css('color', 'red'); //p sin span
-           // $('ul#liste li:first ').css('color', 'red'); //liste første element
-           // $('ul#liste li:last ').css('color', 'green'); //liste siste element
-          //  $('ul#liste li:even ').css('background-color', 'yellow'); //liste siste element
-          //  $('ul#liste li:nth-child(3n) ').css('background-color', 'grey'); //liste siste element
-          //  $(':button').hide(); //Velger type knapp. :submit :text osv
-          //  $('[href]').css('color', 'red'); //endre lenker eller noe med spesefike attributter.
-          //  $('a[href="google.com"]').css('color', 'red'); //endre lenker med spesefike verdier
-            //$('*') //alt. Kan også brukes som en del av wildcards
+                //.hover  .dblclick .mouseenter focus blur osv.
+                //Button clicked event
+              //  $('#heading1').hide(); //id
+               // $('.heading1').hide(); //klasse
+               // $('p span').css('color', 'red'); //p sin span
+               // $('ul#liste li:first ').css('color', 'red'); //liste første element
+               // $('ul#liste li:last ').css('color', 'green'); //liste siste element
+              //  $('ul#liste li:even ').css('background-color', 'yellow'); //liste siste element
+              //  $('ul#liste li:nth-child(3n) ').css('background-color', 'grey'); //liste siste element
+              //  $(':button').hide(); //Velger type knapp. :submit :text osv
+              //  $('[href]').css('color', 'red'); //endre lenker eller noe med spesefike attributter.
+              //  $('a[href="google.com"]').css('color', 'red'); //endre lenker med spesefike verdier
+                //$('*') //alt. Kan også brukes som en del av wildcards
     </script>
 }
 <!--

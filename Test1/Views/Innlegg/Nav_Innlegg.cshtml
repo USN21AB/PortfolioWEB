@@ -1,18 +1,37 @@
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Nav_Innlegg";
+
+    var txt = "";
+    if(this.innlegg = BildeInnlegg)
+      {txt = "Good Evening";}
+    elseif(this.innlegg = TekstInnlegg)
+      {txt = "Good Morning";}
+    elseif(this.innlegg = MusikkInnlegg)
+        {}
+    else{}
+}
+
+@{
+  ((InnleggController)this.ViewContext.Controller).ImgResizer();
 }
 
 <style>
-
+    .small {
+        width: 50%;
+        height: 50%;
+    }
 
     .hovedInnlegg {
         text-align:center;
         margin-left: auto;
         margin-right: auto;
-        width: 50%;
+
+    }
+
+    .bildeInnlegg{
+        height: 600px;
+        width: 600px;
     }
 
     .hovedInnlegg h1 {
@@ -61,19 +80,19 @@
 </style>
 
 
-<script src="~/js/site.js"></script>
+
 
 <body style="background-color: rgb(46, 46, 46)">
 
     @*Klassen inneholder Tittel, opplastingsdato, og hovedinnlegget (bilde eller pdf)*@
     <div class="hovedInnlegg">
         <h1>Tittel</h1>
-        <p>12.02.2021</p>
-        <img src="~/lib/bilder/Maracoween_F.png" id="imgtab" />
+        <p>13.02.2021</p>
+        <img src="~/lib/bilder/yeetle_nen.png" class="small" alt="error" id="innlegg" onclick="enlargeImg()" />
     </div>
 
     <div class="innleggProfil">
-        <img src="~/lib/bilder/Mageh.png" height="60" width="60" onclick="enlargeImg()" id="imgikon" />
+        <img src="~/lib/bilder/Mageh.png" height="60" width="60" id="imgikon" />
         <p class="ikontxt"><u>flygonfan</u> <br> Freelancer </p>
     </div>
     <p class="solid">
@@ -87,22 +106,19 @@
     <div class="kommentarFelt">
 
     </div>
+    @*
+        <script>
+            window.onload = function () {
+                var small = { width: "25%", height: "25%" };
+                var large = { width: "50%", height: "50%" };
+                var count = 1;
 
-    <script>
-        // Get the img object using its Id 
-        img = document.getElementById("img1");
-        // Function to increase image size 
-        function enlargeImg() {
-            // Set image size to 1.5 times original 
-            img.style.transform = "scale(1.5)";
-            // Animation effect  
-            img.style.transition = "transform 0.25s ease";
-        }
-        // Function to reset image size 
-        function resetImg() {
-            // Set image size to original 
-            img.style.transform = "scale(1)";
-            img.style.transition = "transform 0.25s ease"; 
-
-    </script>
+                $("#innlegg").css(small).on('click', function () {
+                    $(this).animate((count == 1) ? large : small);
+                    count = 1 - count;
+                });
+            }
+        </script>*@
 </body>
+
+

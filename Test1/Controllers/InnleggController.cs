@@ -69,6 +69,23 @@ namespace Portefolio_webApp.Controllers
            
             return View(Innlegg);
         }
+        public IActionResult Nav_Innlegg(Innlegg innlegg) 
+        {
 
-    }
+            return View();
+        }
+
+
+        public ImgResizer() {
+            var small = { width: "25%", height: "25%" };
+            var large = { width: "50%", height: "50%" };
+            var count = 1;
+
+                $("#innlegg").css(small).on('click', function () {
+                    $(this).animate((count == 1) ? large : small);
+                    count = 1 - count;
+                });
+        }
+
+        }
 }
