@@ -28,6 +28,7 @@ namespace Portefolio_webApp.Models
         public string Tlf { get; set; }
 
         public CV CV { get; set; }
+
     }
 
 }

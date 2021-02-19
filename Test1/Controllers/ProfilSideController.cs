@@ -139,6 +139,8 @@ namespace Portefolio_webApp.Controllers
 
         public IActionResult Portefølje()
         {
+           
+
             return View();
         }
     }

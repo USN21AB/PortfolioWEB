@@ -2,11 +2,10 @@
 
 @{
     var liste = (List<Portefolio_webApp.Models.Innlegg>)ViewData["liste"];
+
 }
 
 <link href="~/css/BrowseSide.css" rel="stylesheet" />
-
-
 
 <h5 class="text-muted">Omtalte prosjekter</h5>
 
@@ -107,177 +106,64 @@
 <br />
 <h5 class="text-muted">Innlegg</h5>
 
-
-
-
 <div class="card text-center">
     <div class="card-header">
-        <ul class="nav nav-tabs card-header-tabs justify-content-center">
+        <ul class="nav nav-tabs card-header-tabs justify-content-center" id="valgtab">
             <li class="nav-item">
-                <a class="nav-link active" aria-current="true" href="#Alt" data-toggle="tab"><i class="nav-item fas fa-globe"> Alt</i></a>
-            </li>
-            <li class="nav-item" asp-action="SorterListe" asp-controller="Home">
-                <a class="nav-link" id="kunstKnapp" role="tab" data-toggle="tab"> <i class="nav-item fas fa-image"> Kunst</i></a>
+                <a class="nav-link active" aria-current="true" href="@Url.Action("BrowseSide", "Home", new { kategori = "alt" })" id="altKnapp"><i class="nav-item fas fa-globe"> Alt</i></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#Musikk" id="musikkKnapp" role="tab" data-toggle="tab"> <i class="nav-item fas fa-music"> Musikk</i></a>
+                <a class="nav-link"  role="tab" href="@Url.Action("BrowseSide", "Home", new { kategori = "Kunst" })" id="KunstKnapp"> <i class="nav-item fas fa-image"> Kunst</i></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#Fotografi" role="tab" data-toggle="tab"> <i class="nav-item fas fa-camera"> Fotografi</i></a>
+                <a class="nav-link" href="@Url.Action("BrowseSide", "Home", new { kategori = "Musikk" })" id="MusikkKnapp" role="tab" > <i class="nav-item fas fa-music"> Musikk</i></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#Tekst" role="tab" data-toggle="tab"> <i class="nav-item fas fa-pencil-alt"> Tekst</i></a>
+                <a class="nav-link" role="tab" href="@Url.Action("BrowseSide", "Home", new { kategori = "Fotografi" })" id="FotografiKnapp"> <i class="nav-item fas fa-camera"> Fotografi</i></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" role="tab" href="@Url.Action("BrowseSide", "Home", new { kategori = "Tekst" })" id="TekstKnapp"> <i class="nav-item fas fa-pencil-alt"> Tekst</i></a>
             </li>
         </ul>
     </div>
 
     <div class="tab-content" id="innleggDIV">
-        @{
-            var antall = 0;
-        }
-        <div class="row p-3" id="rowDIV">
-            @while (antall < liste.Count)
-            {
-                var Innlegg = liste.ElementAt(antall);
-                if (Innlegg.Kategori.Equals("Tekst"))
-                {
-                    <div class="col p-2" align="center">
-                        <div class="card" style="width: 18rem; height:15rem; overflow: hidden;">
-                            <div class="card-body">
-                                <h5 class="card-title">@Innlegg.Tittel</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">@Innlegg.Kategori</h6>
-                                <p class="card-text">@Innlegg.Beskrivelse</p>
-                                <a href="#" class="card-link">Besøk</a>
-                                <a href="#" class="card-link">Lik</a>
-                            </div>
-                        </div>
-                    </div>
-                }
-                else if (Innlegg.Kategori.Equals("Musikk"))
-                {
-                    <div class="col p-2" align="center">
-                        <div class="card" style="width: 18rem; height:15rem; overflow: hidden; background-color:black">
-                            <div class="card-body">
-                                <h5 class="card-title">@Innlegg.Tittel</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">@Innlegg.Kategori</h6>
-                                <p class="card-text">@Innlegg.Beskrivelse</p>
-                                <a href="#" class="card-link">Besøk</a>
-                                <a href="#" class="card-link">Lik</a>
-                            </div>
-                        </div>
-                    </div>
-                }
-                antall++;
-            }
-        </div>
-        <!--
-        <div role="tabpanel" class="tab-pane active" id="Alt">1</div>
-        <div role="tabpanel" class="tab-pane " id="Kunst">2</div>
-        <div role="tabpanel" class="tab-pane " id="Musikk">3</div>
-        <div role="tabpanel" class="tab-pane " id="Fotografi">
-        </div>
-        <div role="tabpanel" class="tab-pane " id="Tekst">
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="card-link">Card link</a>
-                    <a href="#" class="card-link">Another link</a>
-                </div>
-            </div>
-        </div>
-               -->
+      @Html.Partial("_browse", @ViewData) 
+       
     </div>
 
 </div>
 
 <br />
 
-<h1 id="heading1">Heading one</h1>
-<p id="para1">
-    loremsssssssssssssssssssssssssssssssssssssssfkljsdflkjsd<span>Mamma mia</span>
-    lfksdflsdlfsldkflsdknfsldknflskdnflskdnflksdnflksdnfklsdnflksdflksndf
-</p>
-
-<h1 class="heading2">Heading two</h1>
-<p class="para2">
-    loremsssssssssssssssssssssssssssssssssssssssfkljsdflkjsd<span>Mamma mia</span>
-    lfksdflsdlfsldkflsdknfsldknflskdnflskdnflksdnflksdnfklsdnflksdflksndf
-</p>
-
-<div id="container">
-    <h3>Mouse events</h3>
-    <button id="btn1">button1 </button>
-    <button id="btn2">button2 </button>
-</div>
-<ul id="test"></ul>
+<a asp-action="BrowseSide" asp-route-kategori="Tekst">Trykk meg</a>
+<a href="@Url.Action("BrowseSide", "Home", new { kategori = "Musikk" })">Musikk</a>
 
 @section Scripts
 {
     <script>
 
-
-
         $(document).ready(function () { //Ikke kjør denne koden før dokumentet har lastet ferdig
 
+            $(function () {
+                var _valgtKnapp = "#" + '@TempData["valgtKnapp"]' +"Knapp";
+            
+                $("#altKnapp").removeClass("active");
+                $(_valgtKnapp).addClass("active");
+            });
 
-            $('#kunstKnapp').click(function () {
-                //$('#innleggDIV').html('');
-                /*
-                $.each(listei, function (index, value) {
-                    console.log(value.Tittel);
-                })
-                */
-               // $('#innleggDIV').append('<h1>' + liste[0] + '</h1 >');
-
-                console.log(arrayOfArrays);
-
-            })
-
-
-            $('#musikkKnapp').click(function () {
-                alert('Musikk');
-            })
-
-
-            $('#btn1').click(function (e) {
-                // $('.para2').hide();
-                alert(e.currentTarget.id); //Hent info om eventet
-            })
-
-            $('#btn1').click(function () {
-               // $('.para2').hide();
-                $('.para2').toggle();
-            })
-
-            $('#btn2').click(function () {
-                $('.para2').show();
-            })
         })
-        //.hover  .dblclick .mouseenter focus blur osv.
-        //Button clicked event
-
-      //  $('#heading1').hide(); //id
-       // $('.heading1').hide(); //klasse
-       // $('p span').css('color', 'red'); //p sin span
-
-       // $('ul#liste li:first ').css('color', 'red'); //liste første element
-       // $('ul#liste li:last ').css('color', 'green'); //liste siste element
-      //  $('ul#liste li:even ').css('background-color', 'yellow'); //liste siste element
-      //  $('ul#liste li:nth-child(3n) ').css('background-color', 'grey'); //liste siste element
-      //  $(':button').hide(); //Velger type knapp. :submit :text osv
-      //  $('[href]').css('color', 'red'); //endre lenker eller noe med spesefike attributter.
-      //  $('a[href="google.com"]').css('color', 'red'); //endre lenker med spesefike verdier
-        //$('*') //alt. Kan også brukes som en del av wildcards
+        /*
+        $.ajax({
+            url: "/",
+            type: "GET",
+            data: { year: ((val * 1) + 1) }
+        })
+            .done(function (partialViewResult) {
+                $("#refTable").html(partialViewResult);
+            });
+            */
+                   
     </script>
 }
-<!--
-<div class="card-body">
-    <h5 class="card-title">Special title treatment</h5>
-    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
 
-    <a href="#" class="btn btn-primary">Go somewhere</a>
-</div>
-
-    -->

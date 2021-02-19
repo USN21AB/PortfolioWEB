@@ -1,4 +1,5 @@
 ﻿using FireSharp.Response;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -17,11 +18,17 @@ namespace Portefolio_webApp.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly FirebaseDB firebase;
+        //private ISession session;
+
+        [BindProperty]
+        public List<Innlegg> AlleInnlegg { get; set; }
+     
 
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
             firebase = new FirebaseDB();
+        //   this.session = httpContextAccessor.HttpContext.Session;
         }
         public IActionResult LoggInnSide()
         {
@@ -29,12 +36,40 @@ namespace Portefolio_webApp.Controllers
         }
 
 
-        public IActionResult BrowseSide()
+        [HttpGet]
+        public IActionResult BrowseSide(string kategori)
         {
-            ViewData["liste"] = firebase.HentAlleInnlegg();
+            if (string.IsNullOrEmpty(kategori))
+            {
+          
+                AlleInnlegg = firebase.HentAlleInnlegg();
+                TempData["valgtKnapp"] = "alt";
+               // session.SetString("AlleInnlegg", "Hello my name is");
+
+                ViewData["liste"] = AlleInnlegg;
+            }
+            else {
+
+                var listen = firebase.HentAlleInnlegg(); 
+                
+                ViewData["liste"] = firebase.SorterAlleInnlegg(kategori, listen);
+                TempData["valgtKnapp"] = kategori;
+            
+            }
 
             return View();
         }
+
+
+
+        /*
+         public IActionResult BrowseSide(string kategori)
+        {
+            ViewData["liste"] = firebase.SorterAlleInnlegg(kategori);
+
+            return View();
+        }
+        */
 
 
         public IActionResult Privacy()
@@ -54,8 +89,7 @@ namespace Portefolio_webApp.Controllers
         {
             //asp-route-Type="Kunst" 
             //ViewData["liste"] = firebase.SorterAlleInnlegg("Kunst");
-            Debug.WriteLine("Hellooooooooo-----------------------------------------------------------2");
-            return RedirectToPage("BrowseSide"); 
+                   return RedirectToPage("BrowseSide"); 
         }
       
 
