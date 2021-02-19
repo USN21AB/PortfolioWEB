@@ -23,20 +23,16 @@
     border: 2px solid white;
 }
 
-.yo {
-    position: absolute;
-    bottom: 8px;
-    left: 30px;
-    font-size: 18px;
-    color: white;
-}
-
 .borderstuff {
     display: block;
     margin-left: auto;
     margin-right: auto;
 }
-
+.nav-item {
+    margin: 20px;
+}
+.card-header {
+}
 #ex1Slider .slider-selection {
     background: #BABABA;
 }
