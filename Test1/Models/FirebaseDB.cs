@@ -59,19 +59,18 @@ namespace Test1.Models
             return AlleInnlegg; 
         }
 
-        public async void UploadFile(IFormFile file)
+        public async 
+        Task
+UploadFile(string filename, IFormFile file)
         {
 
-            var filePath = Path.GetTempFileName();
+        
+            using (var stream = new FileStream(filename, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
 
-              
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await file.CopyToAsync(stream);
-                    }
-
-                    // Get any Stream - it can be FileStream, MemoryStream or any other type of Stream
-                    var stream1 = File.Open(@filePath, FileMode.Open);
+            var stream1 = File.Open(@filename, FileMode.Open);
 
 
             // Constructr FirebaseStorage, path to where you want to upload the file and Put it there
@@ -86,7 +85,7 @@ namespace Test1.Models
             // await the task to wait until upload completes and get the download url
             var downloadUrl = await task;
 
-            Console.WriteLine("Link" + downloadUrl);}
+            Console.WriteLine("Link " + downloadUrl);}
 
 
     
