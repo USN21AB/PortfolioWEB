@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
 using Test1.Models;
+using System.IO;
 
 namespace Portefolio_webApp.Controllers
 {
@@ -19,6 +20,7 @@ namespace Portefolio_webApp.Controllers
         public ProfilSideController()
         {
             firebase = new FirebaseDB();
+      
         }
 
         [BindProperty]
@@ -27,16 +29,10 @@ namespace Portefolio_webApp.Controllers
         [BindProperty]
         public Bruker Bruker { get; set; }
 
-        /*
-        private IHostingEnvironment Environment;
+       
 
-        public ProfilSideController(IHostingEnvironment _environment)
-        {
-            Environment = _environment;
-        }
-        */
 
-            public IActionResult ProfilSide()
+        public IActionResult ProfilSide()
         {
             return View();
         }
@@ -94,10 +90,24 @@ namespace Portefolio_webApp.Controllers
 
 
         [HttpPost]
-        public ActionResult UploadFile(IFormFile file)
+        [RequestSizeLimit(4294967295)]
+        public async Task<ActionResult> UploadFileAsync(IFormFile file, [FromServices] IHostingEnvironment oHostingEnvironment)
         {
 
-            firebase.UploadFile(file);
+            string filename = $"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{file.FileName}";
+
+            using(FileStream fileStream = System.IO.File.Create(filename))
+            {
+
+
+                file.CopyTo(fileStream);
+                fileStream.Flush();
+                fileStream.Close();
+               
+
+            }
+
+            await firebase.UploadFile(filename, file);
 
             return View("ProfilSide");
         }
