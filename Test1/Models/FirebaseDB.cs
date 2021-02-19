@@ -3,6 +3,7 @@ using FireSharp.Config;
 using FireSharp.Interfaces;
 using FireSharp.Response;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Portefolio_webApp.Models;
@@ -21,7 +22,9 @@ namespace Test1.Models
         public readonly IFirebaseConfig db;
         public IFirebaseClient klient;
 
-        List<Innlegg> AlleInnlegg { get; set; }
+     
+        [BindProperty]
+        public List<Innlegg> AlleInnlegg { get; set; }
 
         public FirebaseDB()
         {
@@ -51,8 +54,6 @@ namespace Test1.Models
             {
                 list.Add(JsonConvert.DeserializeObject<Innlegg>(((JProperty)item).Value.ToString()));
             };
-
-            Debug.WriteLine("Hellooooooooo-----------------------------------------------------------");
 
             AlleInnlegg = list; 
             return AlleInnlegg; 
@@ -85,7 +86,7 @@ namespace Test1.Models
             // await the task to wait until upload completes and get the download url
             var downloadUrl = await task;
 
-            Console.WriteLine("" + downloadUrl);}
+            Console.WriteLine("Link" + downloadUrl);}
 
 
     
@@ -93,23 +94,24 @@ namespace Test1.Models
 
 
 
-public List<Innlegg> SorterAlleInnlegg(string Type)
+public List<Innlegg> SorterAlleInnlegg(string Type, List<Innlegg> liste)
         {
-            var SortertListe = new List<Innlegg>(); 
-            
-            foreach(var item in AlleInnlegg)
+            if (Type.Equals("alt"))
+                return liste; 
+
+            var SortertListe = new List<Innlegg>();
+            if(liste != null)
+            foreach (var item in liste)
             {
                 if (item.Kategori.Equals(Type))
                 {
                     SortertListe.Add(item); 
                 }
             }
-
             return SortertListe; 
         }
         public void RegistrerBruker(Bruker bruker)
         {
-
             PushResponse respons = klient.Push("Bruker/", bruker);
             bruker.Id = respons.Result.name;
             SetResponse setResponse = klient.Set("Bruker/" + bruker.Id, bruker);
@@ -118,6 +120,13 @@ public List<Innlegg> SorterAlleInnlegg(string Type)
         public void OppdaterBruker(Bruker bruker)
         {
             Debug.WriteLine("Oppdaterer bruker");
+            FirebaseResponse respons = klient.Get("Bruker/"+bruker.Id);
+            dynamic data = JsonConvert.DeserializeObject<dynamic>(respons.Body);
+            Bruker mellomBruker = JsonConvert.DeserializeObject<Bruker>(((JProperty)data).Value.ToString()); 
+
+           // foreach(item in bruker.CV.ArbeidsErfaring)
+            //mellomBruker.CV.ArbeidsErfaring.Add()
+
             SetResponse setResponse = klient.Set("Bruker/" + bruker.Id, bruker);
         }
     }

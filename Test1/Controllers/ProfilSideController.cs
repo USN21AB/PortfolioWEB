@@ -203,6 +203,7 @@ namespace Portefolio_webApp.Controllers
             Bruker.Id = "-MTL4PwvI0ChIfEaZwEu";
             ViewData["Bruker_Innhold"] = Bruker;
             return View(Bruker);
+
         }
     }
     

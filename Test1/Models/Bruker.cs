@@ -29,7 +29,6 @@ namespace Portefolio_webApp.Models
         public string Tlf { get; set; }
 
         public CV CV { get; set; }
-
         public List<Portfolio> Mapper { get; set; }
 
         public Bruker()
@@ -37,6 +36,7 @@ namespace Portefolio_webApp.Models
 
             Mapper = new List<Portfolio>();
         }
+
     }
 
 }
