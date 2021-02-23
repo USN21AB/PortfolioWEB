@@ -100,7 +100,7 @@
                                     <p class="text-secondary mb-1">Full Stack Developer</p>
                                     <p class="text-muted font-size-sm">Bay Area, San Francisco, CA</p>
 
-                                    @using (Html.BeginForm("UploadFile", "ProfilSide", FormMethod.Post, new { enctype = "audio/mpeg" }))
+                                    @using (Html.BeginForm("UploadFile", "ProfilSide", FormMethod.Post, new { enctype = "multipart/form-data" }))
                                     {
 
                                         <div>
