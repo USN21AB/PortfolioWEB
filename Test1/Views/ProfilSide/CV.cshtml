@@ -1,8 +1,9 @@
-﻿@model Portefolio_webApp.Models.CV;
+﻿@model Portefolio_webApp.Models.Bruker;
 
 @{
-    var CvInnhold = (Portefolio_webApp.Models.CV)ViewData["Cv_Innhold"];
-    var BrukerInnhold = (Portefolio_webApp.Models.Bruker)ViewData["Bruker_Innhold"];
+
+    var BrukerInnhold = (Portefolio_webApp.Models.Bruker)ViewData["Bruker"];
+    var CvInnhold = BrukerInnhold.CV; 
 }
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css" integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc=" crossorigin="anonymous" />
@@ -26,6 +27,7 @@
                     @{
                         var antallFerdigheter = 0;
                     }
+                    @if(CvInnhold.Ferdigheter.Count != 0)
                     @while (antallFerdigheter < CvInnhold.Ferdigheter.Count)
                     {
                         var FerdighetNavn = CvInnhold.Ferdigheter.ElementAt(antallFerdigheter);
@@ -50,22 +52,24 @@
                     @{
                         var antallSpråk = 0;
                     }
-                    @while (antallSpråk < CvInnhold.Språk.Count)
-                    {
-                        var SpråkNavn = CvInnhold.Språk.ElementAt(antallSpråk);
-                        var SpråkProsent = CvInnhold.Språk.ElementAt(antallSpråk + 1);
-                        antallSpråk += 2;
-                        <h6 class="text-uppercase mt-2">
-                            @SpråkNavn
-                            <span class="float-right">
-                            @SpråkProsent
-                            </span></h6>
-                        <div class="progress progress-sm m-0">
-                            <div class="progress-bar bg-purple" role="progressbar" aria-valuenow="@SpråkProsent" aria-valuemin="0" aria-valuemax="100" style="width: @SpråkProsent">
+                    @if (CvInnhold.Språk.Count != 0)
+                        @while (antallSpråk < CvInnhold.Språk.Count)
+                        {
+                            var SpråkNavn = CvInnhold.Språk.ElementAt(antallSpråk);
+                            var SpråkProsent = CvInnhold.Språk.ElementAt(antallSpråk + 1);
+                            antallSpråk += 2;
+                            <h6 class="text-uppercase mt-2">
+                                @SpråkNavn
+                                <span class="float-right">
+                                    @SpråkProsent
+                                </span>
+                            </h6>
+                            <div class="progress progress-sm m-0">
+                                <div class="progress-bar bg-purple" role="progressbar" aria-valuenow="@SpråkProsent" aria-valuemin="0" aria-valuemax="100" style="width: @SpråkProsent">
+                                </div>
                             </div>
-                        </div>
-                    }
-                    </div>
+                        }
+                </div>
             </div> <!-- end card-box-->         
         </div> <!-- end col-->
 
@@ -93,30 +97,31 @@
                             Experience
                         </h5>
 
-                      
                         @{
                             var antallArbeidsErfaring = 0;
                         }
-                        @while (antallArbeidsErfaring < CvInnhold.ArbeidsErfaring.Count)
-                        {
-                            Console.WriteLine(CvInnhold.ArbeidsErfaring.Count + "---------------------------------count!"); 
+                        @if (CvInnhold.ArbeidsErfaring.Count != 0)
+                            @while (antallArbeidsErfaring < CvInnhold.ArbeidsErfaring.Count)
+                            {
+                                var ArbeidsErfaringÅrStart = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring);
+                                var ArbeidsErfaringÅrSlutt = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring + 1);
+                                var ArbeidsErfaringTittel = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring + 2);
+                                var ArbeidsErfaringBedrift = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring + 3);
+                                var ArbeidsErfaringBeskrivelse = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring + 4);
+                                antallArbeidsErfaring += 5;
+                                <ul class="list-unstyled timeline-sm">
+                                    <li class="timeline-sm-item">
+                                        <span class="timeline-sm-date"><u>@ArbeidsErfaringÅrStart - @ArbeidsErfaringÅrSlutt </u></span>
+                                        <h5 class="mt-0 mb-1">@ArbeidsErfaringTittel</h5>
+                                        <p>@ArbeidsErfaringBedrift</p>
+                                        <p class="text-muted mt-2">
+                                            @ArbeidsErfaringBeskrivelse
+                                        </p>
+                                    </li>
+                                </ul>
+                            }
 
-                            var ArbeidsErfaringÅr = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring);
-                            var ArbeidsErfaringTittel = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring + 1);
-                            var ArbeidsErfaringBedrift = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring + 2);
-                            var ArbeidsErfaringBeskrivelse = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring + 3);
-                            antallArbeidsErfaring += 4;
-                            <ul class="list-unstyled timeline-sm">
-                                <li class="timeline-sm-item">
-                                    <span class="timeline-sm-date"><u>@ArbeidsErfaringÅr</u></span>
-                                    <h5 class="mt-0 mb-1">@ArbeidsErfaringTittel</h5>
-                                    <p>@ArbeidsErfaringBedrift</p>
-                                    <p class="text-muted mt-2">
-                                        @ArbeidsErfaringBeskrivelse
-                                    </p>
-                                </li>
-                            </ul>
-                        }
+
                         <h5 class="mb-3 mt-4 text-uppercase">
                             <i class="mdi mdi-school mr-1"></i>
                             Education
@@ -125,39 +130,41 @@
                         @{
                             var antallUtdanning = 0;
                         }
-                        @while (antallUtdanning < CvInnhold.Utdanning.Count)
-                        {
-                            var UtdanningÅr = CvInnhold.Utdanning.ElementAt(antallUtdanning);
-                            var UtdanningGrad = CvInnhold.Utdanning.ElementAt(antallUtdanning + 1);
-                            var UtdanningInstitusjon = CvInnhold.Utdanning.ElementAt(antallUtdanning + 2);
-                            antallUtdanning += 3;
-                            <ul class="list-unstyled timeline-sm">
-                                <li class="timeline-sm-item">
-                                    <span class="timeline-sm-date"><u>@UtdanningÅr</u></span>
-                                    <h5 class="mt-0 mb-1">@UtdanningGrad</h5>
-                                    <p>@UtdanningInstitusjon</p>
-                                </li>
-                            </ul>
-                        }
+                        @if (CvInnhold.Utdanning.Count != 0)
+                            @while (antallUtdanning < CvInnhold.Utdanning.Count)
+                            {
+                                var UtdanningÅr = CvInnhold.Utdanning.ElementAt(antallUtdanning);
+                                var UtdanningGrad = CvInnhold.Utdanning.ElementAt(antallUtdanning + 1);
+                                var UtdanningInstitusjon = CvInnhold.Utdanning.ElementAt(antallUtdanning + 2);
+                                antallUtdanning += 3;
+                                <ul class="list-unstyled timeline-sm">
+                                    <li class="timeline-sm-item">
+                                        <span class="timeline-sm-date"><u>@UtdanningÅr</u></span>
+                                        <h5 class="mt-0 mb-1">@UtdanningGrad</h5>
+                                        <p>@UtdanningInstitusjon</p>
+                                    </li>
+                                </ul>
+                            }
                     </div>
                     <!-- end timeline content-->
 
-                    <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+                  
                     <div class="tab-pane" id="settings">
-                        <form method="post">
+                        <form method="post" asp-controller="ProfilSide" asp-action="CV">
+                            <input type="hidden"
                             <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-briefcase-plus mr-1"></i> Add Experience</h5>
 
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="firstname">Start year</label>
-                                        <input asp-for="ArbeidsErfaring" type="text" class="form-control" id="startYear" placeholder="Enter year started">
+                                        <input  type="text" class="form-control" id="startYear" placeholder="Enter year started">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="lastname">End year</label>
-                                        <input asp-for="ArbeidsErfaring" type="text" class="form-control" id="endYear" placeholder="Enter year ended">
+                                        <input type="text" class="form-control" id="endYear" placeholder="Enter year ended">
                                     </div>
                                 </div> <!-- end col -->
                             </div> <!-- end row -->
@@ -165,24 +172,24 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label  for="firstname">Job title</label>
-                                        <input asp-for="ArbeidsErfaring" type="text" class="form-control" id="jobTitle" placeholder="Enter job title">
+                                        <label for="firstname">Job title</label>
+                                        <input  type="text" class="form-control" id="jobTitle" placeholder="Enter job title">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="lastname">Company name</label>
-                                        <input asp-for="ArbeidsErfaring" type="text" class="form-control" id="companyName" placeholder="Enter company name">
+                                        <input  type="text" class="form-control" id="companyName" placeholder="Enter company name">
                                     </div>
                                 </div>
-                                <span asp-validation-for="ArbeidsErfaring" class="text-danger"></span><!-- end col -->
+                                <span class="text-danger"></span><!-- end col -->
                             </div> <!-- end row -->
 
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">
                                         <label for="userbio">Description</label>
-                                        <textarea asp-for="ArbeidsErfaring" class="form-control" id="userbio" rows="4" placeholder="Write something..."></textarea>
+                                        <textarea class="form-control" id="userbio" rows="4" placeholder="Write something..."></textarea>
                                     </div>
                                 </div> <!-- end col -->
                             </div> <!-- end row -->
@@ -190,24 +197,24 @@
                                 <button type="submit" class="btn btn-success waves-effect waves-light mt-1 mb-3"><i class="mdi mdi-content-save"></i> Add</button>
                             </div>
                             <!--
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="useremail">Email Address</label>
-                        <input type="email" class="form-control" id="useremail" placeholder="Enter email">
-                        <span class="form-text text-muted"><small>If you want to change email please <a href="javascript: void(0);">click</a> here.</small></span>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="userpassword">Password</label>
-                        <input type="password" class="form-control" id="userpassword" placeholder="Enter password">
-                        <span class="form-text text-muted"><small>If you want to change password please <a href="javascript: void(0);">click</a> here.</small></span>
-                    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="useremail">Email Address</label>
+                <input type="email" class="form-control" id="useremail" placeholder="Enter email">
+                <span class="form-text text-muted"><small>If you want to change email please <a href="javascript: void(0);">click</a> here.</small></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="userpassword">Password</label>
+                <input type="password" class="form-control" id="userpassword" placeholder="Enter password">
+                <span class="form-text text-muted"><small>If you want to change password please <a href="javascript: void(0);">click</a> here.</small></span>
+            </div>
 
-                </div> <!-- end col
-            </div> <!-- end row
-            -->
+        </div> <!-- end col
+    </div> <!-- end row
+    -->
 
 
 

@@ -88,12 +88,6 @@ namespace Test1.Models
 
             Console.WriteLine("Link" + downloadUrl);}
 
-
-    
-
-
-
-
 public List<Innlegg> SorterAlleInnlegg(string Type, List<Innlegg> liste)
         {
             if (Type.Equals("alt"))
@@ -110,6 +104,49 @@ public List<Innlegg> SorterAlleInnlegg(string Type, List<Innlegg> liste)
             }
             return SortertListe; 
         }
+
+        public Bruker HentEnkeltBruker(string bruker_id)
+        {
+
+            try { 
+            FirebaseResponse respons = klient.Get("Bruker/"+bruker_id);
+            Bruker returnBruker = JsonConvert.DeserializeObject<Bruker>(respons.Body);
+           
+             return returnBruker;
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return null; 
+            }
+
+        }
+
+        public Portfolio HentAlleMapper(string bruker_id)
+        {
+
+            try
+            {
+                FirebaseResponse respons = klient.Get("Portefolio/" + "-MTuw28LJjRnN0ncHHx9");
+                Portfolio returnBruker = JsonConvert.DeserializeObject<Portfolio>(respons.Body);
+
+                return returnBruker;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return null;
+            }
+
+        }
+
+        public void RegistrerMappe(Portfolio port)
+        {
+            PushResponse respons = klient.Push("Portefolio/", port);
+            port.BrukerID = respons.Result.name;
+            SetResponse setResponse = klient.Set("Portefolio/" + port.BrukerID, port);
+        }
+
         public void RegistrerBruker(Bruker bruker)
         {
             PushResponse respons = klient.Push("Bruker/", bruker);
@@ -120,14 +157,10 @@ public List<Innlegg> SorterAlleInnlegg(string Type, List<Innlegg> liste)
         public void OppdaterBruker(Bruker bruker)
         {
             Debug.WriteLine("Oppdaterer bruker");
-            FirebaseResponse respons = klient.Get("Bruker/"+bruker.Id);
-            dynamic data = JsonConvert.DeserializeObject<dynamic>(respons.Body);
-            Bruker mellomBruker = JsonConvert.DeserializeObject<Bruker>(((JProperty)data).Value.ToString()); 
+            SetResponse respons = klient.Set("Bruker/"+bruker.Id,bruker);
+           // dynamic data = JsonConvert.DeserializeObject<Bruker>(respons.Body);
+            //Bruker mellomBruker = JsonConvert.DeserializeObject<Bruker>(((JProperty)data).Value.ToString()); 
 
-           // foreach(item in bruker.CV.ArbeidsErfaring)
-            //mellomBruker.CV.ArbeidsErfaring.Add()
-
-            SetResponse setResponse = klient.Set("Bruker/" + bruker.Id, bruker);
         }
     }
 }
