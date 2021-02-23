@@ -85,7 +85,11 @@ UploadFile(string filename, IFormFile file)
             // await the task to wait until upload completes and get the download url
             var downloadUrl = await task;
 
-            Console.WriteLine("Link " + downloadUrl);}
+            Console.WriteLine("Link " + downloadUrl);
+
+
+           
+        }
 
 
     
