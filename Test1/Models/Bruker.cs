@@ -17,6 +17,7 @@ namespace Portefolio_webApp.Models
 
         [Required]
         public string Epost { get; set; }
+        public string Bio { get; set; }
 
         public string Profilbilde { get; set; }
 
@@ -33,7 +34,7 @@ namespace Portefolio_webApp.Models
 
         public Bruker()
         {
-
+            CV = new CV(); 
             Mapper = new List<Portfolio>();
         }
 

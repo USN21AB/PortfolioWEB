@@ -387,7 +387,8 @@
 
                     @while (antall < Mappe.MappeInnhold.Count)
                     {
-                        var Innlegg = (BildeInnlegg)Mappe.MappeInnhold.ElementAt(antall);
+                        
+                        Innlegg Innlegg = Mappe.MappeInnhold.ElementAt(antall); 
 
                         <!-- single-awesome-portfolio start -->
                         <div class="single-awesome-portfolio">
@@ -397,7 +398,7 @@
                                         <h3>@Innlegg.Beskrivelse</h3>
                                         <p>@Innlegg.Tittel</p>
                                     </div>
-                                    <img src="@Innlegg.StorageURL" alt="">
+                                    <img src="@Innlegg.IkonURL" alt="">
                                 </div>
 
                             </a>
