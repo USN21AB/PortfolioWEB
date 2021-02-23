@@ -3,6 +3,7 @@ using FireSharp.Config;
 using FireSharp.Interfaces;
 using FireSharp.Response;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Portefolio_webApp.Models;
@@ -21,7 +22,9 @@ namespace Test1.Models
         public readonly IFirebaseConfig db;
         public IFirebaseClient klient;
 
-        List<Innlegg> AlleInnlegg { get; set; }
+     
+        [BindProperty]
+        public List<Innlegg> AlleInnlegg { get; set; }
 
         public FirebaseDB()
         {
@@ -52,25 +55,20 @@ namespace Test1.Models
                 list.Add(JsonConvert.DeserializeObject<Innlegg>(((JProperty)item).Value.ToString()));
             };
 
-            Debug.WriteLine("Hellooooooooo-----------------------------------------------------------");
-
             AlleInnlegg = list; 
             return AlleInnlegg; 
         }
 
-        public async void UploadFile(IFormFile file)
+        public async Task UploadFile(string filename, IFormFile file)
         {
 
-            var filePath = Path.GetTempFileName();
+        
+            using (var stream = new FileStream(filename, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
 
-              
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await file.CopyToAsync(stream);
-                    }
-
-                    // Get any Stream - it can be FileStream, MemoryStream or any other type of Stream
-                    var stream1 = File.Open(@filePath, FileMode.Open);
+            var stream1 = File.Open(@filename, FileMode.Open);
 
 
             // Constructr FirebaseStorage, path to where you want to upload the file and Put it there
@@ -85,31 +83,69 @@ namespace Test1.Models
             // await the task to wait until upload completes and get the download url
             var downloadUrl = await task;
 
-            Console.WriteLine("" + downloadUrl);}
+            Console.WriteLine("Link " + downloadUrl);}
 
-
-    
-
-
-
-
-public List<Innlegg> SorterAlleInnlegg(string Type)
+public List<Innlegg> SorterAlleInnlegg(string Type, List<Innlegg> liste)
         {
-            var SortertListe = new List<Innlegg>(); 
-            
-            foreach(var item in AlleInnlegg)
+            if (Type.Equals("alt"))
+                return liste; 
+
+            var SortertListe = new List<Innlegg>();
+            if(liste != null)
+            foreach (var item in liste)
             {
                 if (item.Kategori.Equals(Type))
                 {
                     SortertListe.Add(item); 
                 }
             }
-
             return SortertListe; 
         }
-        public void RegistrerBruker(Bruker bruker)
+
+        public Bruker HentEnkeltBruker(string bruker_id)
         {
 
+            try { 
+            FirebaseResponse respons = klient.Get("Bruker/"+bruker_id);
+            Bruker returnBruker = JsonConvert.DeserializeObject<Bruker>(respons.Body);
+           
+             return returnBruker;
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return null; 
+            }
+
+        }
+
+        public Portfolio HentAlleMapper(string bruker_id)
+        {
+
+            try
+            {
+                FirebaseResponse respons = klient.Get("Portefolio/" + "-MTuw28LJjRnN0ncHHx9");
+                Portfolio returnBruker = JsonConvert.DeserializeObject<Portfolio>(respons.Body);
+
+                return returnBruker;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return null;
+            }
+
+        }
+
+        public void RegistrerMappe(Portfolio port)
+        {
+            PushResponse respons = klient.Push("Portefolio/", port);
+            port.BrukerID = respons.Result.name;
+            SetResponse setResponse = klient.Set("Portefolio/" + port.BrukerID, port);
+        }
+
+        public void RegistrerBruker(Bruker bruker)
+        {
             PushResponse respons = klient.Push("Bruker/", bruker);
             bruker.Id = respons.Result.name;
             SetResponse setResponse = klient.Set("Bruker/" + bruker.Id, bruker);
@@ -118,7 +154,10 @@ public List<Innlegg> SorterAlleInnlegg(string Type)
         public void OppdaterBruker(Bruker bruker)
         {
             Debug.WriteLine("Oppdaterer bruker");
-            SetResponse setResponse = klient.Set("Bruker/" + bruker.Id, bruker);
+            SetResponse respons = klient.Set("Bruker/"+bruker.Id,bruker);
+           // dynamic data = JsonConvert.DeserializeObject<Bruker>(respons.Body);
+            //Bruker mellomBruker = JsonConvert.DeserializeObject<Bruker>(((JProperty)data).Value.ToString()); 
+
         }
     }
 }

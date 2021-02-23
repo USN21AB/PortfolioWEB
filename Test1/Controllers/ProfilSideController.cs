@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
 using Test1.Models;
+using System.IO;
 
 namespace Portefolio_webApp.Controllers
 {
@@ -19,6 +20,7 @@ namespace Portefolio_webApp.Controllers
         public ProfilSideController()
         {
             firebase = new FirebaseDB();
+      
         }
 
         [BindProperty]
@@ -27,16 +29,10 @@ namespace Portefolio_webApp.Controllers
         [BindProperty]
         public Bruker Bruker { get; set; }
 
-        /*
-        private IHostingEnvironment Environment;
+       
 
-        public ProfilSideController(IHostingEnvironment _environment)
-        {
-            Environment = _environment;
-        }
-        */
 
-            public IActionResult ProfilSide()
+        public IActionResult ProfilSide()
         {
             return View();
         }
@@ -44,102 +40,118 @@ namespace Portefolio_webApp.Controllers
         [HttpGet]
         public IActionResult CV()
         {
-            CirVit = new CV();
-            Bruker = new Bruker();
-
-            CirVit.Utdanning.Add("2010 - 2020");
-            CirVit.Utdanning.Add("Videregående Skole");
-            CirVit.Utdanning.Add("Håvåsen Skole");
-
-            CirVit.Utdanning.Add("2010 - 2020");
-            CirVit.Utdanning.Add("Videregående Skole");
-            CirVit.Utdanning.Add("Håvåsen Skole");
-
-            CirVit.ArbeidsErfaring.Add("2019 - 2021");
-            CirVit.ArbeidsErfaring.Add("Developer");
-            CirVit.ArbeidsErfaring.Add("Tesla Inc.");
-            CirVit.ArbeidsErfaring.Add("Working on developing better batteries for the Tesla X edtions");
-
-            CirVit.ArbeidsErfaring.Add("2015 - 2019");
-            CirVit.ArbeidsErfaring.Add("Headhunter");
-            CirVit.ArbeidsErfaring.Add("Mekonomen");
-            CirVit.ArbeidsErfaring.Add("I denne stillingen lette jeg etter kandidater for Mekonomen til div. stillinger som: Mekaniker, Dekkskifter, Dørmenn, Sekretærer o.l.");
-
-            CirVit.Ferdigheter.Add("HTML5");
-            CirVit.Ferdigheter.Add("90%");
-
-            CirVit.Ferdigheter.Add("PHP");
-            CirVit.Ferdigheter.Add("20%");
-
-            CirVit.Ferdigheter.Add("C#");
-            CirVit.Ferdigheter.Add("44%");
-
-            CirVit.Språk.Add("English");
-            CirVit.Språk.Add("98%");
-
-            Bruker.Navn = "Mary Jane";
-            Bruker.Stilling = "Gardener";
-            Bruker.Profilbilde = "https://images.unsplash.com/photo-1542103749-8ef59b94f47e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80";
-            Bruker.Epost = "Mary@hotmail.com";
-            Bruker.Id = "-MTL4PwvI0ChIfEaZwEu";
           
-            Debug.WriteLine("PROFIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIILLLLLLLLLLLLL");
-            //firebase.RegistrerBruker(Bruker); 
+            //Dummy bruker med id. 
+            Bruker = firebase.HentEnkeltBruker("-MTuNdX2ldnO73BCZwFp"); 
 
-            ViewData["Cv_Innhold"] = CirVit;
-            ViewData["Bruker_Innhold"] = Bruker;
-            return View(CirVit);
-
+            ViewData["Bruker"] = Bruker;
+       
+            return View(Bruker);
         }
 
-
         [HttpPost]
-        public ActionResult UploadFile(IFormFile file)
+        public IActionResult CV(Bruker cvbruker)
         {
-
-            firebase.UploadFile(file);
-
-            return View("ProfilSide");
-        }
-
-        [HttpPost]
-        public IActionResult CV(CV cv) { 
-        Bruker.CV = cv;
-            Debug.WriteLine("PROFIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIILLLLLLLLLLLLL222222222222"+cv.ArbeidsErfaring.ElementAt(1) + 
+            /*
+            Debug.WriteLine("PROFIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIILLLLLLLLLLLLL222222222222" + cv.ArbeidsErfaring.ElementAt(1) +
                 cv.ArbeidsErfaring.ElementAt(2) + cv.ArbeidsErfaring.ElementAt(3) + cv.ArbeidsErfaring.ElementAt(4));
-
+            */
             if (ModelState.IsValid)
             {
                 try
                 {
                     Debug.WriteLine("Inni isValid");
-                   // firebase.OppdaterBruker(Bruker);
+                    firebase.OppdaterBruker(cvbruker);
                     //ModelState.AddModelError(string.Empty, "Registrering suksessfult!");
                 }
                 catch (Exception ex)
                 {
-                  //  ModelState.AddModelError(string.Empty, ex.Message);
+                    //  ModelState.AddModelError(string.Empty, ex.Message);
                 }
+            }else
+            {
+                Debug.WriteLine("------------------------------------------------------- inni else til CV " + cvbruker.CV.ArbeidsErfaring.Count);
+            }
+            Bruker hentBruker = firebase.HentEnkeltBruker(cvbruker.Id);
+            ViewData["Bruker"] = hentBruker; 
+            return View(hentBruker);
+        }
+
+        [RequestSizeLimit(4294967295)]
+        public async Task<ActionResult> UploadFileAsync(IFormFile file, [FromServices] IHostingEnvironment oHostingEnvironment)
+        {
+
+            string filename = $"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{file.FileName}";
+
+            using (FileStream fileStream = System.IO.File.Create(filename))
+            {
+
+
+                file.CopyTo(fileStream);
+                fileStream.Flush();
+                fileStream.Close();
+
+
             }
 
-            Debug.WriteLine("Fortsetter--------------------------------");
+            await firebase.UploadFile(filename, file);
 
-            Bruker.Navn = "Mary Jane";
-            Bruker.Stilling = "Gardener";
-            Bruker.Profilbilde = "https://images.unsplash.com/photo-1542103749-8ef59b94f47e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80";
-            Bruker.Epost = "Mary@hotmail.com";
-            Bruker.Id = "-MTL4PwvI0ChIfEaZwEu";
+            return View("ProfilSide");
+        }
 
-            firebase.OppdaterBruker(Bruker);
-            ViewData["Cv_Innhold"] = CirVit;
-            ViewData["Bruker_Innhold"] = Bruker;
-            return View(cv);
+        [HttpGet]
+        public IActionResult UpsertBruker()
+        {
+            Bruker nybruker = new Bruker();
+            nybruker = firebase.HentEnkeltBruker("-MTuAm8t_eBlv5KMiuWX"); 
+
+            if(nybruker == null)
+                return NotFound();
+
+            return View(nybruker); 
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult UpsertBruker(Bruker oppBruker)
+        {
+            
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    if (string.IsNullOrEmpty(oppBruker.Id)) {
+                        firebase.RegistrerBruker(oppBruker);
+                        ModelState.AddModelError(string.Empty, "Registrering suksessfult!");
+                    } else
+                    {
+                        firebase.OppdaterBruker(oppBruker);
+                        ModelState.AddModelError(string.Empty, "Oppdatert suksessfult!");
+                    }
+                }
+                
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError(string.Empty, ex.Message);
+                }
+            }
+            return View(oppBruker);
         }
 
 
         public IActionResult Portefølje()
         {
-            return View();
+            //Dummy bruker. Hent via session eller onclick senere...
+            Bruker = firebase.HentEnkeltBruker("-MTuNdX2ldnO73BCZwFp");
+            //  Portfolio po = firebase.HentAlleMapper("");
+
+            // Debug.WriteLine("url til bilde: " + (((Innlegg)po.MappeInnhold.ElementAt(0)).IkonURL)); 
+
+
+            ViewData["Bruker_Innhold"] = Bruker;
+           // ViewData["Port"] = firebase.HentAlleMapper("");
+            return View(Bruker);
+
         }
     }
     

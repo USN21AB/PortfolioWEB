@@ -24,8 +24,27 @@ namespace Test1
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(1000000000);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
+            services.Configure<Microsoft.AspNetCore.Http.Features.FormOptions>(options =>
+            {
+                options.ValueLengthLimit = 524288000;
+                options.MultipartBodyLengthLimit = 524288000; // <-- ! long.MaxValue
+                options.MultipartBoundaryLengthLimit = 524288000;
+                options.MultipartHeadersCountLimit = 524288000;
+                options.MultipartHeadersLengthLimit = 524288000;
+            });
+
+          
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,10 +62,12 @@ namespace Test1
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+         
 
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

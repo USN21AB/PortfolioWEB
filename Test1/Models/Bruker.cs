@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Test1.Models;
 
 namespace Portefolio_webApp.Models
 {
@@ -16,6 +17,7 @@ namespace Portefolio_webApp.Models
 
         [Required]
         public string Epost { get; set; }
+        public string Bio { get; set; }
 
         public string Profilbilde { get; set; }
 
@@ -28,6 +30,14 @@ namespace Portefolio_webApp.Models
         public string Tlf { get; set; }
 
         public CV CV { get; set; }
+        public List<Portfolio> Mapper { get; set; }
+
+        public Bruker()
+        {
+            CV = new CV(); 
+            Mapper = new List<Portfolio>();
+        }
+
     }
 
 }
