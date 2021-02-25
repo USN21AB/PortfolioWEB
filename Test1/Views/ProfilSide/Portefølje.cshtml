@@ -150,7 +150,7 @@
     }
 
     .play_button_div {
-        background-color: #282727;
+        background-color: #dbdbdb;
         height: 100%;
         position: absolute;
         top: 0;
@@ -281,53 +281,119 @@
         .book_cover:hover {
             opacity: 0;
         }
+
+
+
+
+    .clickable {
+        border: 1px solid #333;
+        background: #eee;
+        height: 40px;
+        width: 200px;
+        margin: 15px;
+        position: relative;
+    }
+
+    .display {
+        height: 16px;
+        position: absolute;
+        width: 100%;
+    }
+
+    .progress {
+        position: absolute;
+        left: 0;
+        top: 0;
+        background: green;
+        height: 40px;
+        width: 10px;
+    }
 </style>
 
 <script>
 
 
-
-
-    function spillAv(sang) {
+    function spillAv(sang, toggle) {
         var audio = document.getElementsByClassName('lydspor'),
             i = audio.length;
-
-
-
+        var playpause = document.getElementsByClassName("play_button");
         var lyd = document.getElementById(sang);
+        var loggle = document.getElementById(toggle);
+
+
+
+        lyd.volume = 0.1;
+
         if (lyd.paused) {
             while (i--) {
                 audio[i].pause();
+                playpause[i].src = "https://i.kym-cdn.com/photos/images/newsfeed/001/472/527/adc.gif"
             };
 
+            loggle.src = "https://i.kym-cdn.com/photos/images/masonry/001/860/209/a8a.jpg"
             lyd.play();
         }
-        else
+        else {
+            loggle.src = "https://i.kym-cdn.com/photos/images/newsfeed/001/472/527/adc.gif"
             lyd.pause();
+        }
+
+
+
+
+
     };
 
-    /*function spillAv() {
-        var lyd = document.getElementById("sang1");
-        if (lyd.paused) lyd.play();
-        else
-            lyd.pause();
-    };*/
+    function visSang(sang, artist) {
+        var sang = document.getElementById(sang).textContent;
+        var artist = document.getElementById(artist).textContent;
+        var sangfelt = document.getElementById("sangfelt");
+        var artistfelt = document.getElementById("artistfelt");
+
+        sangfelt.innerHTML = sang + " - ";
+        artistfelt.innerHTML = artist;
+    }
+
+
+
+    function timer(lydId) {
+        var lyd = document.getElementById(lydId);
+        lyd = document.getElementById("seekbar").value = (lyd.currentTime * 100) / lyd.duration;
+
+        /*var time = lyd.currentTime;
+        var minutes = Math.floor(time / 60);
+        var seconds = Math.floor(time);
+
+        minutes = parseFloat(minutes);
+        seconds = parseFloat(seconds);*/
+
+        var tid = lyd.currentTime;
+        var lengde = lyd.duration;
+
+
+
+        //document.getElementById('tracktime').innerHTML = Math.floor(lyd.currentTime) + ' / ' + Math.floor(lyd.duration);
+        // + " / " +
+
+    }
+
 
     function stopAll() {
-        var lyd = document.getElementsByClassName('lydspor'),
-            i = lyd.length;
+        var lyd = document.getElementsByClassName('lydspor');
+        var playpause = document.getElementsByClassName("play_button");
+        i = lyd.length;
 
         while (i--) {
+
             lyd[i].pause();
+            playpause[i].src = "https://i.kym-cdn.com/photos/images/newsfeed/001/472/527/adc.gif"
         }
     };
 
     var info = document.getElementsByClassName("awesome-info");
     var image = document.getElementsByClassName("single-awesome-portfolio");
 
-    image.addEventListener("mouseover", function () {
-        info.style.opacity = 0.8
-    });
+
 
 
     $(function () {
@@ -353,7 +419,22 @@
         });
     });
 
+    /*$(function timer2(sanger) {
+        var lol = "#" + sanger;
+        $(lol).on('timeupdate', function () {
+            $('#seekbar').attr("value", (this.currentTime * 100) / this.duration);
+        });
+    })*/
+
+
 </script>
+
+
+
+
+
+
+
 
 @{
     var antall = 0;
@@ -376,7 +457,7 @@
 
 
             @{
-                
+
                 var mappeNr = 0;
             }
             @while (mappeNr < BrukerInnhold.Mapper.Count)
@@ -387,7 +468,8 @@
 
                     @while (antall < Mappe.MappeInnhold.Count)
                     {
-                        var Innlegg = (BildeInnlegg)Mappe.MappeInnhold.ElementAt(antall);
+
+                        Innlegg Innlegg = Mappe.MappeInnhold.ElementAt(antall);
 
                         <!-- single-awesome-portfolio start -->
                         <div class="single-awesome-portfolio">
@@ -397,7 +479,7 @@
                                         <h3>@Innlegg.Beskrivelse</h3>
                                         <p>@Innlegg.Tittel</p>
                                     </div>
-                                    <img src="@Innlegg.StorageURL" alt="">
+                                    <img src="@Innlegg.IkonURL" alt="">
                                 </div>
 
                             </a>
@@ -422,25 +504,46 @@
 
 
 
-<!--<div class="music_player">
+<div class="music_player">
 
     <div class="play_button_div"></div>
-    <img class="play_button" src="https://i.kym-cdn.com/photos/images/newsfeed/001/472/527/adc.gif" onclick='spillAv("sang")' onClick="togglePlay('sang')" />
-    <audio id="sang" class="lydspor" src="~/css/Poki_Poki.mp3"></audio>
+    <img id="sangi" class="play_button" src="https://i.kym-cdn.com/photos/images/newsfeed/001/472/527/adc.gif" onclick='spillAv("sang", this.id); visSang("sangnavn", "artist")' />
+    <audio id="sang" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60);var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter +':' + ('0' + sekunder).slice(-2) + ' / ' + minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2FPok%C3%A9mon%20Theme%20Song.mp3?alt=media&token=bccacd1c-ed6a-4050-8745-b1ee3bb50f96"></audio>
     <img class="fuck" src="https://gameriv.com/wp-content/uploads/2021/01/Untitled-1-23-696x392.jpg" />
+    <p id="sangnavn">Pokémon Theme</p>
+    <p id="artist">IDFK</p>
 
-</div>-->
+</div>
+
+
+<div class="music_player">
+
+    <div class="play_button_div"></div>
+    <img id="sang1i" class="play_button" src="https://i.kym-cdn.com/photos/images/newsfeed/001/472/527/adc.gif" onclick='spillAv("sang1", this.id); visSang("sangnavn1", "artist1")' />
+    <audio id="sang1" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60);var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter +':' + ('0' + sekunder).slice(-2) + ' / ' + minutter1 + ':' + ('0' + sekunder1).slice(-2); " src="~/css/Habibi.mp3"></audio>
+    <img class="fuck" src="https://preview.redd.it/f5fin913ari31.jpg?auto=webp&s=399cff2568b4b1fc8d61ebc8d3f531569e13ad93" />
+    <p id="sangnavn1">Habibi</p>
+    <p id="artist1">Pokelawls</p>
+
+</div>
+
+
 <!--<div class="litteratur">
         <img class="book_cover" src="https://m.media-amazon.com/images/I/514FIoHpsmL.jpg" />
         <h3 class="tittel">Den fantastiske Mikkel Rev er en veldig bra film og bok</h3>-59 characters Kan ikke telle
     <h4 class="forfatter">Roal Dahl</h4>
 </div>-->
-<!--<div class="musikk_kontroller" id="test">
 
+
+
+<div class="musikk_kontroller" id="test">
+    <span id="tracktime">0 / 0</span>
+    <span id="sangfelt"></span>
+    <span id="artistfelt"></span>
 
     <progress id="seekbar" value="0" max="100" style="width:400px;"></progress>
 
 
     <img class="stopper" src="https://66.media.tumblr.com/1a1c3bcc08b5a048b90139a56fe7f415/tumblr_o9ku1rVS8z1vnqjx7o2_250.png" onclick="stopAll()" />
-</div>-->
+</div>
 <script src="https://cdn.jsdelivr.net/jquery.mixitup/latest/jquery.mixitup.min.js"></script>

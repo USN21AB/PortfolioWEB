@@ -1,0 +1,104 @@
+﻿@model Portefolio_webApp.Models.Bruker;
+
+<br />
+<h2 class="text-info">@(Model.Id == null ? "Registrer" : "Rediger") Innlegg</h2>
+<br />
+
+
+<div class="border container" style="padding:30px;">
+ 
+    <form method="post" , new enctype="multipart/form-data">
+        @if (Model.Id != null)
+        {
+            <input type="hidden" asp-for="Id" />
+        }
+        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+        <div class="form-group row">
+            <div class="col-3">
+                <label asp-for="Profilbilde"></label>
+            </div>
+            <div class="col-6">
+                @Html.TextBox("file", "", new { type = "file" }) <br />
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-3">
+                <label asp-for="Navn"></label>
+            </div>
+            <div class="col-6">
+                <input asp-for="Navn" class="form-control" />
+                <span asp-validation-for="Navn" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-3">
+                <label asp-for="Epost"></label>
+            </div>
+            <div class="col-6">
+                <input asp-for="Epost" class="form-control" />
+                <span asp-validation-for="Epost" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-3">
+                <label asp-for="Alder"></label>
+            </div>
+            <div class="col-6">
+                <input asp-for="Alder" class="form-control" />
+                <span asp-validation-for="Alder" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-3">
+                <label asp-for="Stilling"></label>
+            </div>
+            <div class="col-6">
+                <input asp-for="Stilling" class="form-control" />
+                <span asp-validation-for="Stilling" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-3">
+                <label asp-for="Bosted"></label>
+            </div>
+            <div class="col-6">
+                <input asp-for="Bosted" class="form-control" />
+                <span asp-validation-for="Bosted" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-3">
+                <label asp-for="Tlf"></label>
+            </div>
+            <div class="col-6">
+                <input asp-for="Tlf" class="form-control" />
+                <span asp-validation-for="Tlf" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-3">
+                <label asp-for="Bio"></label>
+            </div>
+            <div class="col-6">
+                <input asp-for="Bio" class="form-control" />
+                <span asp-validation-for="Bio" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-3 offset-3">
+                <div>
+                    <button type="submit" value="Upload" class="btn btn-primary form-control">
+                        @(Model.Id == null ? "Registrer" : "Oppdater")
+                    </button>
+                </div>
+            </div>
+            <div class="col-3">
+                <a asp-controller="Home" asp-action="BrowseSide" class="btn btn-success form-control">Back to List</a>
+            </div>
+        </div>
+    </form>
+    </div>
+
+    @section Scripts{
+        <partial name="_ValidationScriptsPartial" />
+    }
