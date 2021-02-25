@@ -16,13 +16,13 @@ using System.Threading.Tasks;
 
 namespace Test1.Models
 {
-  
+
     public class FirebaseDB
     {
         public readonly IFirebaseConfig db;
         public IFirebaseClient klient;
 
-     
+
         [BindProperty]
         public List<Innlegg> AlleInnlegg { get; set; }
 
@@ -55,14 +55,42 @@ namespace Test1.Models
                 list.Add(JsonConvert.DeserializeObject<Innlegg>(((JProperty)item).Value.ToString()));
             };
 
-            AlleInnlegg = list; 
-            return AlleInnlegg; 
+            AlleInnlegg = list;
+            return AlleInnlegg;
         }
 
         public async Task UploadFile(string filename, IFormFile file)
         {
 
-        
+
+            using (var stream = new FileStream(filename, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            var stream1 = File.Open(@filename, FileMode.Open);
+
+
+            // Constructr FirebaseStorage, path to where you want to upload the file and Put it there
+            var task = new FirebaseStorage("bachelor-it-97124.appspot.com")
+            .Child("images")
+            .Child(file.FileName)
+            .PutAsync(stream1);
+
+            // Track progress of the upload
+            task.Progress.ProgressChanged += (s, e) => Console.WriteLine($"Progress: {e.Percentage} %");
+
+            // await the task to wait until upload completes and get the download url
+            var downloadUrl = await task;
+          
+
+            Console.WriteLine("Link " + downloadUrl); }
+
+
+        public async Task UploadProfilBilde(string filename, IFormFile file, string brukerId)
+        {
+
+
             using (var stream = new FileStream(filename, FileMode.Create))
             {
                 await file.CopyToAsync(stream);
@@ -83,24 +111,43 @@ namespace Test1.Models
             // await the task to wait until upload completes and get the download url
             var downloadUrl = await task;
 
-            Console.WriteLine("Link " + downloadUrl);}
+            //Putter bilde urlen i ProfilBilde
+            UpdateSingleUserValue(brukerId, "Profilbilde", downloadUrl);
 
-public List<Innlegg> SorterAlleInnlegg(string Type, List<Innlegg> liste)
+
+            Console.WriteLine("Link " + downloadUrl);
+        }
+
+        public List<Innlegg> SorterAlleInnlegg(string Type, List<Innlegg> liste)
         {
             if (Type.Equals("alt"))
-                return liste; 
+                return liste;
 
             var SortertListe = new List<Innlegg>();
-            if(liste != null)
-            foreach (var item in liste)
-            {
-                if (item.Kategori.Equals(Type))
+            if (liste != null)
+                foreach (var item in liste)
                 {
-                    SortertListe.Add(item); 
+                    if (item.Kategori.Equals(Type))
+                    {
+                        SortertListe.Add(item);
+                    }
                 }
-            }
-            return SortertListe; 
+            return SortertListe;
         }
+
+
+        public Innlegg HentSpesifiktInnlegg(string Innlegg_id)
+        {
+
+            FirebaseResponse respons = klient.Get("Innlegg/" + Innlegg_id);
+            Innlegg returnInnlegg = JsonConvert.DeserializeObject<Innlegg>(respons.Body);
+
+
+            return returnInnlegg;
+        }
+
+        public void UpdateSingleUserValue(string brukerid, string rad,string value)
+        {klient.Set("Bruker/" + brukerid + "/"+rad, value);} 
 
         public Bruker HentEnkeltBruker(string bruker_id)
         {
@@ -108,8 +155,8 @@ public List<Innlegg> SorterAlleInnlegg(string Type, List<Innlegg> liste)
             try { 
             FirebaseResponse respons = klient.Get("Bruker/"+bruker_id);
             Bruker returnBruker = JsonConvert.DeserializeObject<Bruker>(respons.Body);
-           
-             return returnBruker;
+
+                return returnBruker;
             }
             catch(Exception ex)
             {
@@ -146,9 +193,11 @@ public List<Innlegg> SorterAlleInnlegg(string Type, List<Innlegg> liste)
 
         public void RegistrerBruker(Bruker bruker)
         {
+       
             PushResponse respons = klient.Push("Bruker/", bruker);
             bruker.Id = respons.Result.name;
             SetResponse setResponse = klient.Set("Bruker/" + bruker.Id, bruker);
+               
         }
 
         public void OppdaterBruker(Bruker bruker)

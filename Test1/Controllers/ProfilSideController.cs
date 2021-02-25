@@ -77,15 +77,16 @@ namespace Portefolio_webApp.Controllers
             return View(hentBruker);
         }
 
+        [HttpPost]
         [RequestSizeLimit(4294967295)]
-        public async Task<ActionResult> UploadFileAsync(IFormFile file, [FromServices] IHostingEnvironment oHostingEnvironment)
+        public async Task<ActionResult> UploadFile(IFormFile file, [FromServices] IHostingEnvironment oHostingEnvironment, string brukerId)
         {
 
+            Console.WriteLine("ACTIVATED;;;;;;;");
             string filename = $"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{file.FileName}";
 
             using (FileStream fileStream = System.IO.File.Create(filename))
             {
-
 
                 file.CopyTo(fileStream);
                 fileStream.Flush();
@@ -94,7 +95,7 @@ namespace Portefolio_webApp.Controllers
 
             }
 
-            await firebase.UploadFile(filename, file);
+            await firebase.UploadProfilBilde(filename, file,brukerId);
 
             return View("ProfilSide");
         }
@@ -113,7 +114,7 @@ namespace Portefolio_webApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult UpsertBruker(Bruker oppBruker)
+        public IActionResult UpsertBruker(Bruker oppBruker, string filename, IFormFile file, [FromServices] IHostingEnvironment oHostingEnvironment)
         {
             
             if (ModelState.IsValid)
@@ -126,6 +127,8 @@ namespace Portefolio_webApp.Controllers
                     } else
                     {
                         firebase.OppdaterBruker(oppBruker);
+                        Console.WriteLine("" + file.FileName);
+                        UploadFile(file,oHostingEnvironment,oppBruker.Id);
                         ModelState.AddModelError(string.Empty, "Oppdatert suksessfult!");
                     }
                 }
