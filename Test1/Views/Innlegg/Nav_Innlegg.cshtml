@@ -1,15 +1,7 @@
 ﻿
 @{
     ViewData["Title"] = "Nav_Innlegg";
-    @*
-    var txt = "";
-    if (this.innlegg = BildeInnlegg);
-    {txt = "Good Evening";}
-    elseif(this.innlegg = TekstInnlegg);
-    {txt = "Good Morning";}
-    elseif(this.innlegg = MusikkInnlegg);
-    {}
-    else{}*@
+
 }
 
 <style>
@@ -76,17 +68,33 @@
 </style>
 
 
-
+FirebaseDB db = new FirebaseDB
 
 <body style="background-color: rgb(46, 46, 46)">
 
     @*Klassen inneholder Tittel, opplastingsdato, og hovedinnlegget (bilde eller pdf)*@
+    
     <div class="hovedInnlegg">
-        <h1>Tittel</h1>
-        <p>13.02.2021</p>
-        <img src="~/lib/bilder/yeetle_nen.png" class="small" alt="error" id="innlegg" onclick="enlargeImg()" />
-    </div>
+        @{
+            var kategori = "Tekst";
+            if (kategori.Equals("Kunst"))
+            {
 
+                <h1 onclick="">Tittel</h1>
+                <p>13.02.2021</p>
+                <img src="~/lib/bilder/yeetle_nen.png" class="small" alt="error" id="innlegg" />
+
+            }
+            else if (kategori.Equals("Tekst"))
+            {
+                <embed src="~/lib/pdfs/prosjektbeskrivelse.pdf" width="600" height="1000" />
+            }
+            else if (kategori.Equals("Musikk"))
+            {
+
+            }
+        }
+    </div>
     <div class="innleggProfil">
         <img src="~/lib/bilder/Mageh.png" height="60" width="60" id="imgikon" />
         <p class="ikontxt"><u>flygonfan</u> <br> Freelancer </p>
@@ -102,19 +110,9 @@
     <div class="kommentarFelt">
 
     </div>
-    
-        <script>
-            window.onload = function () {
-                var small = { width: "25%", height: "25%" };
-                var large = { width: "50%", height: "50%" };
-                var count = 1;
 
-                $("#innlegg").css(small).on('click', function () {
-                    $(this).animate((count == 1) ? large : small);
-                    count = 1 - count;
-                });
-            }
-        </script>
+    <script src="~/js/bildeInnlegg.js">
+    </script>
 </body>
 
 
