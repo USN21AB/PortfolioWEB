@@ -9,6 +9,7 @@ namespace Portefolio_webApp.Models
     {
         public string Id { get; set; }
 
+       
         public string Tittel { get; set; }
         public string Dato { get; set; }
         public string Klokkeslett { get; set; }
