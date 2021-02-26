@@ -153,6 +153,45 @@ namespace Portefolio_webApp.Controllers
             return View(Bruker);
 
         }
+
+        [HttpPost]
+        public JsonResult LeggTilCV(string felt, string par1, string par2, string par3, string par4, string par5)
+        {
+            Debug.WriteLine("---------------------------------yo " + par3 + " og " + par4);
+            Bruker = firebase.HentEnkeltBruker("-MTuNdX2ldnO73BCZwFp");
+
+            if (felt == "Arbeidserfaring") { 
+            //ViewData["liste"] = firebase.SorterAlleInnlegg(kategori);
+          
+            Bruker.CV.ArbeidsErfaring.Add(par1);
+            Bruker.CV.ArbeidsErfaring.Add(par2);
+            Bruker.CV.ArbeidsErfaring.Add(par3);
+            Bruker.CV.ArbeidsErfaring.Add(par4);
+            Bruker.CV.ArbeidsErfaring.Add(par5);
+            } else if(felt == "Utdanning")
+            {
+                Bruker.CV.Utdanning.Add(par1);
+                Bruker.CV.Utdanning.Add(par2);
+                Bruker.CV.Utdanning.Add(par3);
+                Bruker.CV.Utdanning.Add(par4);
+            }
+            else if(felt == "Ferdigheter")
+            {
+                Bruker.CV.Ferdigheter.Add(par1);
+                Bruker.CV.Ferdigheter.Add(par2);
+            }
+            else
+            {
+                Bruker.CV.Språk.Add(par1);
+                Bruker.CV.Språk.Add(par2);
+            }
+
+            firebase.OppdaterBruker(Bruker); 
+            var resultat = "Jobberfaring oppdatert: " + par1 + " " + par2;
+            var data = new { status = "ok", result = resultat };
+
+            return Json(data);
+        }
     }
     
 }

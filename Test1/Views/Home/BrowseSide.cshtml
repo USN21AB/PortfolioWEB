@@ -5,6 +5,12 @@
 
 }
 
+<style>
+    .editClass {
+        background-color:black; 
+    }
+</style>
+
 <link href="~/css/BrowseSide.css" rel="stylesheet" />
 
 <h5 class="text-muted">Omtalte prosjekter</h5>
@@ -108,16 +114,16 @@
 
 <div class="card text-center">
     <div class="card-header">
-        <ul class="nav nav-tabs card-header-tabs justify-content-center" id="valgtab">
+        <ul class="nav nav-pills card-header-tabs justify-content-center" id="valgtab">
             <li class="nav-item">
                 <a class="nav-link active" aria-current="true" href="@Url.Action("BrowseSide", "Home", new { kategori = "alt" })" id="altKnapp"><i class="nav-item fas fa-globe"> Alt</i></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link"  role="tab" href="@Url.Action("BrowseSide", "Home", new { kategori = "Kunst" })" id="KunstKnapp"> <i class="nav-item fas fa-image"> Kunst</i></a>
+                <a class="nav-link" role="tab" href="@Url.Action("BrowseSide", "Home", new { kategori = "Kunst" })" id="KunstKnapp"> <i class="nav-item fas fa-image"> Kunst</i></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="@Url.Action("BrowseSide", "Home", new { kategori = "Musikk" })" id="MusikkKnapp" role="tab" > <i class="nav-item fas fa-music"> Musikk</i></a>
+                <a class="nav-link" href="@Url.Action("BrowseSide", "Home", new { kategori = "Musikk" })" id="MusikkKnapp" role="tab"> <i class="nav-item fas fa-music"> Musikk</i></a>
 
             </li>
             <li class="nav-item">
@@ -130,9 +136,11 @@
     </div>
 
     <div class="tab-content" id="innleggDIV">
-      @Html.Partial("_browse", @ViewData) 
-       
+        @Html.Partial("_browse", @ViewData)
+
     </div>
+
+
 
 </div>
 
@@ -141,20 +149,44 @@
 <a asp-action="BrowseSide" asp-route-kategori="Tekst">Trykk meg</a>
 <a href="@Url.Action("BrowseSide", "Home", new { kategori = "Musikk" })">Musikk</a>
 
+<div id="testing">kjasdfsndfjibsdf</div>
+<button id="test2">trykk me!</button>
+<input id="meg"/>
+<input id="meg2" />
+
+
 @section Scripts
 {
     <script>
 
         $(document).ready(function () { //Ikke kjør denne koden før dokumentet har lastet ferdig
 
+            document.getElementById("test2").addEventListener('mouseover', function (event) {
+               // alert("hey fra hover");
+                //document.getElementById("testing").style.backgroundColor = "black";
+                document.getElementById("testing").classList.add("editClass");
+            });
+
+            document.getElementById("test2").addEventListener('mouseleave', function (event) {
+                // alert("hey fra hover");
+                //document.getElementById("testing").style.backgroundColor = "white";
+                document.getElementById("testing").classList.remove("editClass");
+            });
+
+           
+
             $(function () {
                 var _valgtKnapp = "#" + '@TempData["valgtKnapp"]' +"Knapp";
-            
+
                 $("#altKnapp").removeClass("active");
                 $(_valgtKnapp).addClass("active");
             });
 
+
+
         })
+
+
         /*
         $.ajax({
             url: "/",
@@ -165,7 +197,7 @@
                 $("#refTable").html(partialViewResult);
             });
             */
-                   
+
     </script>
 }
 
