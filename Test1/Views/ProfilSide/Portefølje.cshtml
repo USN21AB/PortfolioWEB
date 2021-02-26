@@ -7,6 +7,8 @@
 
 
 <style>
+
+
     body {
         background-color: #e2e8f0;
     }
@@ -38,6 +40,8 @@
         overflow: hidden;
         padding: 10px;
     }
+
+
 
 
     .awesome-portfolio {
@@ -150,7 +154,7 @@
     }
 
     .play_button_div {
-        background-color: #282727;
+        background-color: #fff;
         height: 100%;
         position: absolute;
         top: 0;
@@ -170,10 +174,17 @@
         height: 100px;
     }
 
-        .play_button:active {
-            transform: scale(.95);
-            filter: brightness(50%);
-        }
+    .shadowed {
+        -webkit-filter: drop-shadow(4px 4px 4px rgba(0,0,0,0.8));
+        filter: url(#drop-shadow);
+        -ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=4, OffY=4, Color='#444')";
+        filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=4, OffY=4, Color='#444')";
+    }
+
+    .play_button:active {
+        transform: scale(.95);
+        filter: brightness(50%);
+    }
 
     .music_player:hover .play_button {
         opacity: 1;
@@ -187,49 +198,70 @@
 
 
     .musikk_kontroller {
-        position: sticky;
+        position: fixed;
         z-index: 5;
-        width: 100%;
-        height: 50px;
-        bottom: 0px;
+        width: 560px;
+        height: 70px;
+        bottom: -70px;
         background: white;
-        margin-left: auto;
-        margin-right: auto;
+        left: 50%;
+        transform: translateX(-50%);
+        transition: none;
+        border-radius: .25rem;
     }
 
+
+
     .stopper {
-        position: relative;
-        margin: 5px 10px 5px;
+        position: absolute;
+        margin-top: 5px;
         height: 40px;
         width: 40px;
+        left: calc(50% - 20px);
     }
 
         .stopper:active {
             transform: scale(0.9);
         }
 
-    .tid_container {
-        width: 300px;
-        overflow: hidden;
-        height: 10px;
-        margin-top: 20px;
-        margin-left: 70px;
-        margin-right: 20px;
-        background: green;
+    #tracktime {
         position: absolute;
+        bottom: 7px;
+        margin-left: 19px;
     }
 
-    .tid {
-        width: 1px;
-        height: 10px;
-        background: red;
-        transition: width .1s linear;
+    #trackduration {
+        position: absolute;
+        bottom: 7px;
+        right: 19px;
+    }
+
+    #sangfelt {
+        position: absolute;
+        margin-left: 19px;
+        width: 170px
+    }
+
+    #artistfelt {
+        position: absolute;
+        margin-left: 19px;
+        margin-top: 18px;
+        width: 170px;
+    }
+
+    #volume-control {
+        position: absolute;
+        right: 19px;
+        top: 18px;
     }
 
     #seekbar {
         position: absolute;
-        margin-left: 70px;
-        margin-top: 17px;
+        width: 400px;
+        margin: auto;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
     }
 
 
@@ -281,53 +313,148 @@
         .book_cover:hover {
             opacity: 0;
         }
+
+
+
+
+    .clickable {
+        border: 1px solid #333;
+        background: #eee;
+        height: 40px;
+        width: 200px;
+        margin: 15px;
+        position: relative;
+    }
+
+    .display {
+        height: 16px;
+        position: absolute;
+        width: 100%;
+    }
+
+    .progress {
+        position: absolute;
+        left: 0;
+        top: 0;
+        background: green;
+        height: 40px;
+        width: 10px;
+    }
 </style>
 
 <script>
+    /*window.onload = initial();
+
+    function initial() {
+        var audio = document.getElementsByClassName('lydspor'),
+            i = audio.length;
+        while (i--) {
+            var lyd = audio[i].id;
+            var luld = document.getElementById(lyd);
+            luld.volume = 0.5;
+        }
+    };
+    */
+
+    function spillAv(sang, toggle) {
+        var audio = document.getElementsByClassName('lydspor'),
+            i = audio.length;
+        var playpause = document.getElementsByClassName("play_button");
+        var lyd = document.getElementById(sang);
+        var loggle = document.getElementById(toggle);
+        var spiller = document.getElementById("test").style;
 
 
 
+        if (lyd.paused) {
+            while (i--) {
+                audio[i].pause();
+                playpause[i].src = "../css/icons8-play-96.png"
+            };
+            spiller.transition = "all .5s ease";
+            spiller.bottom = "0";
+            loggle.src = "../css/icons8-pause-96.png"
+            lyd.play();
+        }
+        else {
+            spiller.transition = "all .5s ease";
+            spiller.bottom = "-70px";
+            loggle.src = "../css/icons8-play-96.png"
+            lyd.pause();
+        }
 
-    function spillAv(sang) {
+
+    };
+
+    function volum(verdi) {
+
+
         var audio = document.getElementsByClassName('lydspor'),
             i = audio.length;
 
 
+        while (i--) {
+            var lyd = audio[i].id;
+            var luld = document.getElementById(lyd);
+            luld.volume = verdi / 10;
+        };
 
-        var lyd = document.getElementById(sang);
-        if (lyd.paused) {
-            while (i--) {
-                audio[i].pause();
-            };
+    }
 
-            lyd.play();
-        }
-        else
-            lyd.pause();
-    };
+    function visSang(sang, artist) {
+        var sang = document.getElementById(sang).textContent;
+        var artist = document.getElementById(artist).textContent;
+        var sangfelt = document.getElementById("sangfelt");
+        var artistfelt = document.getElementById("artistfelt");
 
-    /*function spillAv() {
-        var lyd = document.getElementById("sang1");
-        if (lyd.paused) lyd.play();
-        else
-            lyd.pause();
-    };*/
+        sangfelt.innerHTML = sang + " - ";
+        artistfelt.innerHTML = artist;
+    }
+
+
+
+    function timer(lydId) {
+        var lyd = document.getElementById(lydId);
+        lyd = document.getElementById("seekbar").value = (lyd.currentTime * 100) / lyd.duration;
+
+        /*var time = lyd.currentTime;
+        var minutes = Math.floor(time / 60);
+        var seconds = Math.floor(time);
+
+        minutes = parseFloat(minutes);
+        seconds = parseFloat(seconds);*/
+
+        var tid = lyd.currentTime;
+        var lengde = lyd.duration;
+
+
+
+        //document.getElementById('tracktime').innerHTML = Math.floor(lyd.currentTime) + ' / ' + Math.floor(lyd.duration);
+        // + " / " +
+
+    }
+
 
     function stopAll() {
-        var lyd = document.getElementsByClassName('lydspor'),
-            i = lyd.length;
+        var lyd = document.getElementsByClassName('lydspor');
+        var spiller = document.getElementById("test").style;
+        var playpause = document.getElementsByClassName("play_button");
+        i = lyd.length;
 
         while (i--) {
+
             lyd[i].pause();
+            playpause[i].src = "../css/icons8-play-96.png"
         }
+
+        spiller.transition = "all .5s ease";
+        spiller.bottom = "-70px";
     };
 
     var info = document.getElementsByClassName("awesome-info");
     var image = document.getElementsByClassName("single-awesome-portfolio");
 
-    image.addEventListener("mouseover", function () {
-        info.style.opacity = 0.8
-    });
+
 
 
     $(function () {
@@ -353,7 +480,22 @@
         });
     });
 
+    /*$(function timer2(sanger) {
+        var lol = "#" + sanger;
+        $(lol).on('timeupdate', function () {
+            $('#seekbar').attr("value", (this.currentTime * 100) / this.duration);
+        });
+    })*/
+
+
 </script>
+
+
+
+
+
+
+
 
 @{
     var antall = 0;
@@ -376,7 +518,7 @@
 
 
             @{
-                
+
                 var mappeNr = 0;
             }
             @while (mappeNr < BrukerInnhold.Mapper.Count)
@@ -387,8 +529,8 @@
 
                     @while (antall < Mappe.MappeInnhold.Count)
                     {
-                        
-                        Innlegg Innlegg = Mappe.MappeInnhold.ElementAt(antall); 
+
+                        Innlegg Innlegg = Mappe.MappeInnhold.ElementAt(antall);
 
                         <!-- single-awesome-portfolio start -->
                         <div class="single-awesome-portfolio">
@@ -423,25 +565,64 @@
 
 
 
-<!--<div class="music_player">
+<div class="music_player">
 
     <div class="play_button_div"></div>
-    <img class="play_button" src="https://i.kym-cdn.com/photos/images/newsfeed/001/472/527/adc.gif" onclick='spillAv("sang")' onClick="togglePlay('sang')" />
-    <audio id="sang" class="lydspor" src="~/css/Poki_Poki.mp3"></audio>
+    <img id="sangi" class="play_button shadowed" src="../css/icons8-play-96.png" onclick='spillAv("sang", this.id); visSang("sangnavn", "artist")' />
+    <audio id="sang" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2FPok%C3%A9mon%20Theme%20Song.mp3?alt=media&token=bccacd1c-ed6a-4050-8745-b1ee3bb50f96"></audio>
     <img class="fuck" src="https://gameriv.com/wp-content/uploads/2021/01/Untitled-1-23-696x392.jpg" />
+    <p id="sangnavn">Pokémon Theme</p>
+    <p id="artist">IDFK</p>
 
-</div>-->
+</div>
+
+
+<div class="music_player">
+
+    <div class="play_button_div"></div>
+    <img id="sang1i" class="play_button shadowed" src="../css/icons8-play-96.png" onclick='spillAv("sang1", this.id); visSang("sangnavn1", "artist1")' />
+    <audio id="sang1" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60);var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2); " src="~/css/Habibi.mp3"></audio>
+    <img class="fuck" src="https://preview.redd.it/f5fin913ari31.jpg?auto=webp&s=399cff2568b4b1fc8d61ebc8d3f531569e13ad93" />
+    <p id="sangnavn1">Habibi</p>
+    <p id="artist1">Pokelawls</p>
+
+</div>
+
+
 <!--<div class="litteratur">
         <img class="book_cover" src="https://m.media-amazon.com/images/I/514FIoHpsmL.jpg" />
         <h3 class="tittel">Den fantastiske Mikkel Rev er en veldig bra film og bok</h3>-59 characters Kan ikke telle
     <h4 class="forfatter">Roal Dahl</h4>
 </div>-->
-<!--<div class="musikk_kontroller" id="test">
 
 
-    <progress id="seekbar" value="0" max="100" style="width:400px;"></progress>
 
+<div class="musikk_kontroller" id="test">
+    <span id="sangfelt"></span>
+    <span id="artistfelt"></span>
+
+    <span id="tracktime">00:00</span>
+    <progress id="seekbar" value="0" max="100"></progress>
+    <span id="trackduration">00:00</span>
 
     <img class="stopper" src="https://66.media.tumblr.com/1a1c3bcc08b5a048b90139a56fe7f415/tumblr_o9ku1rVS8z1vnqjx7o2_250.png" onclick="stopAll()" />
-</div>-->
+
+    <input type="range" id="volume-control" value="5" min="0" max="10" onload="volum(this.value)" onchange="volum(this.value)">
+</div>
+
+<svg height="0" xmlns="http://www.w3.org/2000/svg">
+    <filter id="drop-shadow">
+        <feGaussianBlur in="SourceAlpha" stdDeviation="4" />
+        <feOffset dx="4" dy="4" result="offsetblur" />
+        <feFlood flood-color="rgba(0,0,0,0.8)" />
+        <feComposite in2="offsetblur" operator="in" />
+        <feMerge>
+            <feMergeNode />
+            <feMergeNode in="SourceGraphic" />
+        </feMerge>
+    </filter>
+</svg>
+
+
+
 <script src="https://cdn.jsdelivr.net/jquery.mixitup/latest/jquery.mixitup.min.js"></script>
