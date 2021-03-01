@@ -16,4 +16,8 @@
     <Folder Include="wwwroot\UploadedFiles\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\resources\Portfollowers.png" />
+  </ItemGroup>
+
 </Project>
