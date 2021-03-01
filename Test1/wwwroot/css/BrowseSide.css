@@ -1,4 +1,6 @@
-﻿
+﻿body {
+    margin-top: 80px;
+}
 .carousel-item {
     height: 11em;
     color: white;
@@ -20,7 +22,6 @@
     bottom: 0;
     background-position: center;
     background-size: cover;
-    border: 2px solid red;
 }
 
 .borderstuff {
@@ -39,9 +40,11 @@
 }
 .headings {
     color: white;
+    margin-bottom: 15px;
 }
-.testing {
-    background-color: black;
+.headings2 {
+    color: white;
+    margin-bottom: 15px;
 }
 .wrapmain {
     width: 100%;
@@ -49,8 +52,6 @@
 }
 .maininnhold {
     display: inline-block;
-}
-.kategorier {
 }
 .kategoriitem {
     display: inline;
@@ -61,6 +62,8 @@
     margin: auto;
     margin-left: 30px;
     margin-right: 30px;
+    background-color: #384352;
+    color: white;
 }
 a.button {
     -webkit-appearance: button;
@@ -68,4 +71,3 @@ a.button {
     text-decoration: none;
     color: initial;
 }
-

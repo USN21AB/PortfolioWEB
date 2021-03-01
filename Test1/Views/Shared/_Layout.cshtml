@@ -16,31 +16,33 @@
 </head>
 <body>
     <header>
-        <div class="navcontainer">
-            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="navcontainer" id="navcontainer">
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light borderbot box-shadow mb-3">
                 <div class="container-fluid">
                     <div class="headerlogocontainer">
                         <a class="navbar-brand headerting" asp-area="" asp-controller="Home" asp-action="BrowseSide">
-                            <img class="topimg" src="../resources/Portfollowers.png" alt="logo" width="30px" height="30px" />CreationHub
+                            <img class="topimg" src="../resources/Portfollowers.png" alt="logo" width="25px" height="25px" />CreationHub
                         </a>
                     </div>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
+
                     <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+
                         <ul class="navbar-nav flex-grow-1">
                             <li class="nav-item1">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Innlegg" asp-action="Upsert_Innlegg">FirebaseTest</a>
+                                <a class="nav-link" asp-area="" asp-controller="Innlegg" asp-action="Upsert_Innlegg">FirebaseTest</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="ProfilSide" asp-action="UpsertBruker">Lag/oppdater bruker</a>
+                            <li class="nav-item2">
+                                <a class="nav-link" asp-area="" asp-controller="ProfilSide" asp-action="UpsertBruker">Lag/oppdater bruker</a>
                             </li>
-                            <li class="topnav-right">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="ProfilSide" asp-action="ProfilSide">Min Profil</a>
+                            <li class="topnav-right vl">
+                                <a class="nav-link" asp-area="" asp-controller="ProfilSide" asp-action="ProfilSide">Min Profil</a>
                             </li>
                             <li class="topnav-right2">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="LogginnSide">Logg inn</a>
+                                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="LogginnSide">Logg inn</a>
                             </li>
                         </ul>
                     </div>
@@ -54,7 +56,7 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="borderfooter footer">
         <div class="container">
             &copy; 2021 - Test1 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
@@ -63,3 +65,17 @@
     @RenderSection("Scripts", required: false)
 </body>
 </html>
+
+
+<script>
+    var prevScrollpos = window.pageYOffset;
+    window.onscroll = function () {
+        var currentScrollPos = window.pageYOffset;
+        if (prevScrollpos > currentScrollPos) {
+            document.getElementById("navcontainer").style.top = "0";
+        } else {
+            document.getElementById("navcontainer").style.top = "-60px";
+        }
+        prevScrollpos = currentScrollPos;
+    }
+</script>
