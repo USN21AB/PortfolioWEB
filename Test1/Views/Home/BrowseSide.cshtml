@@ -5,6 +5,12 @@
 
 }
 
+<style>
+    .editClass {
+        background-color:black; 
+    }
+</style>
+
 <link href="~/css/BrowseSide.css" rel="stylesheet" />
 
 <h5 class="headings">Featured projects</h5>
@@ -170,11 +176,31 @@
 <a asp-action="BrowseSide" asp-route-kategori="Tekst">Trykk meg</a>
 <a href="@Url.Action("BrowseSide", "Home", new { kategori = "Musikk" })">Musikk</a>
 
+<div id="testing">kjasdfsndfjibsdf</div>
+<button id="test2">trykk me!</button>
+<input id="meg"/>
+<input id="meg2" />
+
+
 @section Scripts
 {
     <script>
 
         $(document).ready(function () { //Ikke kjør denne koden før dokumentet har lastet ferdig
+
+            document.getElementById("test2").addEventListener('mouseover', function (event) {
+               // alert("hey fra hover");
+                //document.getElementById("testing").style.backgroundColor = "black";
+                document.getElementById("testing").classList.add("editClass");
+            });
+
+            document.getElementById("test2").addEventListener('mouseleave', function (event) {
+                // alert("hey fra hover");
+                //document.getElementById("testing").style.backgroundColor = "white";
+                document.getElementById("testing").classList.remove("editClass");
+            });
+
+           
 
             $(function () {
                 var _valgtKnapp = "#" + '@TempData["valgtKnapp"]' +"Knapp";
@@ -183,7 +209,11 @@
                 $(_valgtKnapp).addClass("active");
             });
 
+
+
         })
+
+
         /*
         $.ajax({
             url: "/",
