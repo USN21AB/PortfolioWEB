@@ -113,16 +113,32 @@
     <div class="maininnhold">
         <ul class="kategorier nav nav-pills" id="pills-tab" role="tablist">
             <li class="kategoriitem nav-item" role="presentation">
-                <a href="@Url.Action("BrowseSide", "Home", new { kategori = "alt" })"><button class="balls">Alt</button></a>
+                <a href="@Url.Action("BrowseSide", "Home", new { kategori = "alt" })">
+                    <img src="https://images.unsplash.com/photo-1434725039720-aaad6dd32dfe?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2098&q=80" height="60" width="250" />
+                    <br />
+                    <img src="https://images.unsplash.com/photo-1506704888326-3b8834edb40a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" height="60" width="125" />
+                    <img src="https://images.unsplash.com/photo-1457369804613-52c61a468e7d?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1350&q=80" height="60" width="125" />
+
+                    <div class="centered">All categories</div>
+                </a>
             </li>
             <li class="kategoriitem nav-item" role="presentation">
-                <a href="@Url.Action("BrowseSide", "Home", new { kategori = "Kunst" })"><button class="balls">Kunst</button></a>
+                <a href="@Url.Action("BrowseSide", "Home", new { kategori = "Kunst" })">
+                    <img src="https://images.unsplash.com/photo-1434725039720-aaad6dd32dfe?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2098&q=80" height="120" width="250" />
+                    <div class="centered">Images</div>
+                </a>
             </li>
             <li class="kategoriitem nav-item" role="presentation">
-                <a href="@Url.Action("BrowseSide", "Home", new { kategori = "Musikk" })"><button class="balls">Musikk</button></a>
+                <a href="@Url.Action("BrowseSide", "Home", new { kategori = "Musikk" })">
+                    <img src="https://images.unsplash.com/photo-1506704888326-3b8834edb40a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" height="120" width="250" />
+                    <div class="centered">Sound</div>
+                </a>
             </li>
             <li class="kategoriitem nav-item" role="presentation">
-                <a href="@Url.Action("BrowseSide", "Home", new { kategori = "Tekst" })"><button class="balls">Tekst</button></a>
+                <a href="@Url.Action("BrowseSide", "Home", new { kategori = "Tekst" })">
+                    <img src="https://images.unsplash.com/photo-1457369804613-52c61a468e7d?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1350&q=80" height="120" width="250" />
+                    <div class="centered">Text</div>
+                </a>
             </li>
         </ul>
     </div>
