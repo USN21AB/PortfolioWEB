@@ -52,18 +52,6 @@ namespace Test1.Models
             return returnInnlegg;
         }
 
-        public Innlegg HentSpesifikkInnlegg(String id)
-        {
-            FirebaseResponse respons = klient.Get("Innlegg/" + id);
-            dynamic data = JsonConvert.DeserializeObject<dynamic>(respons.Body);
-            Debug.WriteLine("Heyo-------------------------------------------");
-            var detteInnlegg = new Innlegg();
-            detteInnlegg = (JsonConvert.DeserializeObject<Innlegg>(((JProperty)data).Value.ToString()));
-            return detteInnlegg;
-
-            Console.WriteLine(detteInnlegg.Tittel);
-        }
-
         public List<Innlegg> HentAlleInnlegg()
         {
             FirebaseResponse respons = klient.Get("Innlegg");
