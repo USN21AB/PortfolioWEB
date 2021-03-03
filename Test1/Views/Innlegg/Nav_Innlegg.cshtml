@@ -1,0 +1,250 @@
+﻿@model Portefolio_webApp.Models.Innlegg;
+@{
+    var id = Model.EierId;
+    var tittel = Model.Tittel;
+    var kategori = Model.Kategori;
+    var klokkeslett = Model.Klokkeslett;
+    var dato = Model.Dato;
+    var url = Model.IkonURL;
+    var tagger = Model.Tagger;
+}
+
+<style>
+    .play_button {
+        width: 50%;
+        height: 50%;
+    }
+
+    .small {
+        width: 50%;
+        height: 50%;
+    }
+
+    .hovedInnlegg {
+        text-align:center;
+        margin-left: auto;
+        margin-right: auto;
+
+    }
+
+    .bildeInnlegg{
+        height: 600px;
+        width: 600px;
+    }
+
+    .hovedInnlegg h1 {
+        color: white;
+    }
+
+    .hovedInnlegg p {
+        color: dimgray;
+    }
+
+    @* brukerikon og brukernavn sammen *@ .innleggProfil {
+        display: block;
+        margin-top: 20px;
+        margin-left: 300px;
+        margin-right: 300px;
+        margin-bottom: 20px;
+    }
+
+    .innleggProfil img {
+        float: left;
+        margin-right: 10px;
+    }
+
+    @*brukernavn ved siden av ikon*@
+    .innleggProfil p {
+        display: block;
+        padding-left: 20px;
+        margin-left: 20px;
+        color: white;
+
+    }
+
+    @* Beskrivelse tekst *@ p.solid {
+        display: block;
+        margin-top: 10px;
+        margin-left: 300px;
+        margin-right: 300px;
+        border-style: solid;
+        border-width: thin;
+        border-color: dimgray;
+        padding: 10px;
+        clear: left;
+        color: white;
+    }
+
+</style>
+
+
+
+<body style="background-color: rgb(46, 46, 46)">
+
+    @*Klassen inneholder Tittel, opplastingsdato, og hovedinnlegget (bilde eller pdf)*@
+
+    <div class="hovedInnlegg">
+        @{
+
+            if (kategori.Equals("Bilde"))
+            {
+
+                <h1 onclick="">@tittel</h1>
+                <p>@dato</p>
+                <img src="~/lib/bilder/yeetle_nen.png" class="small" alt="error" id="innlegg" />
+
+            }
+            else if (kategori.Equals("Tekst"))
+            {
+                <h1 onclick="">@tittel</h1>
+                <p>@dato</p>
+                <embed src="~/lib/pdfs/prosjektbeskrivelse.pdf" width="600" height="1000" />
+            }
+            else if (kategori.Equals("Lyd"))
+            {
+                <h1 onclick="">Tittel</h1>
+                <p>@dato</p>
+                <div class="play_button_div"></div>
+                <img id="sangi" class="play_button" src="~/lib/bilder/Mini.png" onclick='spillAv("sang", this.id); visSang("sangnavn", "artist")' />
+                <audio id="sang" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60);var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter +':' + ('0' + sekunder).slice(-2) + ' / ' + minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2FPok%C3%A9mon%20Theme%20Song.mp3?alt=media&token=bccacd1c-ed6a-4050-8745-b1ee3bb50f96"></audio>
+            }
+        }
+    </div>
+    <div class="innleggProfil">
+        <img src="~/lib/bilder/Mageh.png" height="60" width="60" id="imgikon" />
+        <p class="ikontxt"><u>flygonfan</u> <br> Freelancer </p>
+    </div>
+    <p class="solid">
+        Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst
+        Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst
+        Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst
+        Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst
+        Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst Tekst
+    </p>
+
+    <div class="kommentarFelt">
+
+    </div>
+
+    <script src="~/js/bildeInnlegg.js">
+    </script>
+
+    <script>
+
+
+        function spillAv(sang, toggle) {
+            var audio = document.getElementsByClassName('lydspor'),
+                i = audio.length;
+            var playpause = document.getElementsByClassName("play_button");
+            var lyd = document.getElementById(sang);
+            var loggle = document.getElementById(toggle);
+
+
+
+            lyd.volume = 0.1;
+
+            if (lyd.paused) {
+                while (i--) {
+                    audio[i].pause();
+                    @*playpause[i].src = "https://i.kym-cdn.com/photos/images/newsfeed/001/472/527/adc.gif"*@
+                };
+
+                @*loggle.src = "https://i.kym-cdn.com/photos/images/masonry/001/860/209/a8a.jpg"*@
+                lyd.play();
+            }
+            else {
+               @* loggle.src = "https://i.kym-cdn.com/photos/images/newsfeed/001/472/527/adc.gif"*@
+                lyd.pause();
+            }
+
+
+
+
+
+        };
+
+        function visSang(sang, artist) {
+            var sang = document.getElementById(sang).textContent;
+            var artist = document.getElementById(artist).textContent;
+            var sangfelt = document.getElementById("sangfelt");
+            var artistfelt = document.getElementById("artistfelt");
+
+            sangfelt.innerHTML = sang + " - ";
+            artistfelt.innerHTML = artist;
+        }
+
+
+
+        function timer(lydId) {
+            var lyd = document.getElementById(lydId);
+            lyd = document.getElementById("seekbar").value = (lyd.currentTime * 100) / lyd.duration;
+
+            /*var time = lyd.currentTime;
+            var minutes = Math.floor(time / 60);
+            var seconds = Math.floor(time);
+
+            minutes = parseFloat(minutes);
+            seconds = parseFloat(seconds);*/
+
+            var tid = lyd.currentTime;
+            var lengde = lyd.duration;
+
+
+
+            //document.getElementById('tracktime').innerHTML = Math.floor(lyd.currentTime) + ' / ' + Math.floor(lyd.duration);
+            // + " / " +
+
+        }
+
+
+        function stopAll() {
+            var lyd = document.getElementsByClassName('lydspor');
+            var playpause = document.getElementsByClassName("play_button");
+            i = lyd.length;
+
+            while (i--) {
+
+                lyd[i].pause();
+                playpause[i].src = "https://i.kym-cdn.com/photos/images/newsfeed/001/472/527/adc.gif"
+            }
+        };
+
+        var info = document.getElementsByClassName("awesome-info");
+        var image = document.getElementsByClassName("single-awesome-portfolio");
+
+
+
+
+        $(function () {
+            $('.awesome-portfolio-content').mixItUp({
+                animation: {
+                    effects: 'rotateZ',
+                    duration: 1000,
+                }
+            });
+
+            $('.blog-column-content').mixItUp({
+                animation: {
+                    effects: 'scale',
+                    duration: 1000,
+                }
+            });
+
+            $('.portfolio-column-content').mixItUp({
+                animation: {
+                    effects: 'fade rotateY(-180deg)',
+                    duration: 1000,
+                }
+            });
+        });
+
+        /*$(function timer2(sanger) {
+            var lol = "#" + sanger;
+            $(lol).on('timeupdate', function () {
+                $('#seekbar').attr("value", (this.currentTime * 100) / this.duration);
+            });
+        })*/
+    </script>
+</body>
+
+

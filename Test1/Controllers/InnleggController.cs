@@ -1,30 +1,26 @@
-﻿using FireSharp.Config;
-using FireSharp.Interfaces;
-using FireSharp.Response;
+﻿using FireSharp.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Portefolio_webApp.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Diagnostics;
 using Test1.Models;
 
 namespace Portefolio_webApp.Controllers
 {
     public class InnleggController : Controller
     {
+        public readonly IFirebaseConfig db;
+        public IFirebaseClient klient;
 
-        private readonly FirebaseDB firebase; 
+        private readonly FirebaseDB firebase;
 
         public InnleggController()
         {
-            firebase = new FirebaseDB(); 
+            firebase = new FirebaseDB();
         }
 
         [BindProperty]
-        public Innlegg Innlegg { get; set; } 
+        public Innlegg Innlegg { get; set; }
 
         public IActionResult Index()
         {
@@ -36,13 +32,13 @@ namespace Portefolio_webApp.Controllers
         {
             Innlegg = new Innlegg();
 
-             if (Innlegg.Id == null)
+            if (Innlegg.Id == null)
             {
                 //create
                 return View(Innlegg);
             }
 
-            return View(Innlegg); 
+            return View(Innlegg);
         }
 
         [HttpPost]
@@ -67,10 +63,19 @@ namespace Portefolio_webApp.Controllers
                     ModelState.AddModelError(string.Empty, ex.Message);
                 }
             }
-           
+
             return View(Innlegg);
         }
 
-     
+        public IActionResult Nav_Innlegg(string id)
+        {
+            Debug.WriteLine("id er:  " + id);
+            var innlegg = new Innlegg();
+            innlegg = firebase.HentSpesifiktInnlegg(id);
+            return View(innlegg);
+            
+        }
+
     }
+
 }

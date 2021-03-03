@@ -45,6 +45,13 @@ namespace Test1.Models
             SetResponse setResponse = klient.Set("Innlegg/" + data.Id, data);
         }
 
+        public Innlegg HentSpesifiktInnlegg(string Innlegg_id)
+        {         
+            FirebaseResponse respons = klient.Get("Innlegg/" + Innlegg_id);
+            Innlegg returnInnlegg = JsonConvert.DeserializeObject<Innlegg>(respons.Body);
+            return returnInnlegg;
+        }
+
         public List<Innlegg> HentAlleInnlegg()
         {
             FirebaseResponse respons = klient.Get("Innlegg");
@@ -133,17 +140,6 @@ namespace Test1.Models
                     }
                 }
             return SortertListe;
-        }
-
-
-        public Innlegg HentSpesifiktInnlegg(string Innlegg_id)
-        {
-
-            FirebaseResponse respons = klient.Get("Innlegg/" + Innlegg_id);
-            Innlegg returnInnlegg = JsonConvert.DeserializeObject<Innlegg>(respons.Body);
-
-
-            return returnInnlegg;
         }
 
         public void UpdateSingleUserValue(string brukerid, string rad,string value)
