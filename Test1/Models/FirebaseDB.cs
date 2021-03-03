@@ -142,17 +142,6 @@ namespace Test1.Models
             return SortertListe;
         }
 
-
-        public Innlegg HentSpesifiktInnlegg(string Innlegg_id)
-        {
-
-            FirebaseResponse respons = klient.Get("Innlegg/" + Innlegg_id);
-            Innlegg returnInnlegg = JsonConvert.DeserializeObject<Innlegg>(respons.Body);
-
-
-            return returnInnlegg;
-        }
-
         public void UpdateSingleUserValue(string brukerid, string rad,string value)
         {klient.Set("Bruker/" + brukerid + "/"+rad, value);} 
 
