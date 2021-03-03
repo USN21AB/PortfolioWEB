@@ -5,9 +5,15 @@
 
 }
 
+<style>
+    .editClass {
+        background-color: black;
+    }
+</style>
+
 <link href="~/css/BrowseSide.css" rel="stylesheet" />
 
-<h5 class="text-muted">Omtalte prosjekter</h5>
+<h5 class="headings">Featured projects</h5>
 
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
 
@@ -102,22 +108,64 @@
               area-hidden="true"></span>
     </a>
 </div>
+<h5 class="headings2">Browse content</h5>
+<div class="wrapmain">
+    <div class="maininnhold">
+        <ul class="kategorier nav nav-pills" id="pills-tab" role="tablist">
+            <li class="kategoriitem nav-item" role="presentation">
+                <a href="@Url.Action("BrowseSide", "Home", new { kategori = "alt" })">
+                    <img src="https://images.unsplash.com/photo-1434725039720-aaad6dd32dfe?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2098&q=80" height="60" width="250" />
+                    <br />
+                    <img src="https://images.unsplash.com/photo-1506704888326-3b8834edb40a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" height="60" width="125" />
+                    <img src="https://images.unsplash.com/photo-1457369804613-52c61a468e7d?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1350&q=80" height="60" width="125" />
 
-<br />
-<h5 class="text-muted">Innlegg</h5>
+                    <div class="centered">All categories</div>
+                </a>
+            </li>
+            <li class="kategoriitem nav-item" role="presentation">
+                <a href="@Url.Action("BrowseSide", "Home", new { kategori = "Kunst" })">
+                    <img src="https://images.unsplash.com/photo-1434725039720-aaad6dd32dfe?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2098&q=80" height="120" width="250" />
+                    <div class="centered">Images</div>
+                </a>
+            </li>
+            <li class="kategoriitem nav-item" role="presentation">
+                <a href="@Url.Action("BrowseSide", "Home", new { kategori = "Musikk" })">
+                    <img src="https://images.unsplash.com/photo-1506704888326-3b8834edb40a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" height="120" width="250" />
+                    <div class="centered">Sound</div>
+                </a>
+            </li>
+            <li class="kategoriitem nav-item" role="presentation">
+                <a href="@Url.Action("BrowseSide", "Home", new { kategori = "Tekst" })">
+                    <img src="https://images.unsplash.com/photo-1457369804613-52c61a468e7d?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1350&q=80" height="120" width="250" />
+                    <div class="centered">Text</div>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="tab-content" id="pills-tabContent">
+    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">...1</div>
+    <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">...2</div>
+    <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">...3</div>
+</div>
 
+
+
+<script src="https://cdn.jsdelivr.net/jquery.mixitup/latest/jquery.mixitup.min.js"></script>
+
+<!--
 <div class="card text-center">
-    <div class="card-header">
-        <ul class="nav nav-tabs card-header-tabs justify-content-center" id="valgtab">
+    <div class="testing card-header">
+        <ul class="nav nav-pills card-header-tabs justify-content-center" id="valgtab">
             <li class="nav-item">
                 <a class="nav-link active" aria-current="true" href="@Url.Action("BrowseSide", "Home", new { kategori = "alt" })" id="altKnapp"><i class="nav-item fas fa-globe"> Alt</i></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link"  role="tab" href="@Url.Action("BrowseSide", "Home", new { kategori = "Kunst" })" id="KunstKnapp"> <i class="nav-item fas fa-image"> Kunst</i></a>
+                <a class="nav-link" role="tab" href="@Url.Action("BrowseSide", "Home", new { kategori = "Kunst" })" id="KunstKnapp"> <i class="nav-item fas fa-image"> Kunst</i></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="@Url.Action("BrowseSide", "Home", new { kategori = "Musikk" })" id="MusikkKnapp" role="tab" > <i class="nav-item fas fa-music"> Musikk</i></a>
+                <a class="nav-link" href="@Url.Action("BrowseSide", "Home", new { kategori = "Musikk" })" id="MusikkKnapp" role="tab"> <i class="nav-item fas fa-music"> Musikk</i></a>
 
             </li>
             <li class="nav-item">
@@ -128,18 +176,43 @@
             </li>
         </ul>
     </div>
-
-    <div class="tab-content" id="innleggDIV">
-      @Html.Partial("_browse", @ViewData) 
-       
     </div>
+-->
+<div class="tab-content" id="innleggDIV">
+    @Html.Partial("_browse", @ViewData)
 
 </div>
+<h6>Peter finklan</h6>
+<p>Min hjertes sorg faller på papiret</p>
+<h6>Peter finklan</h6>
+<p>Min hjertes sorg faller på papiret</p>
+<h6>Peter finklan</h6>
+<p>Min hjertes sorg faller på papiret</p>
+<h6>Peter finklan</h6>
+<p>Min hjertes sorg faller på papiret</p>
+<h6>Peter finklan</h6>
+<p>Min hjertes sorg faller på papiret</p>
+<h6>Peter finklan</h6>
+<p>Min hjertes sorg faller på papiret</p>
+<h6>Peter finklan</h6>
+<p>Min hjertes sorg faller på papiret</p>
+<h6>Peter finklan</h6>
+<p>Min hjertes sorg faller på papiret</p>
+<h6>Peter finklan</h6>
+<p>Min hjertes sorg faller på papiret</p>
+
+
 
 <br />
 
 <a asp-action="BrowseSide" asp-route-kategori="Tekst">Trykk meg</a>
 <a href="@Url.Action("BrowseSide", "Home", new { kategori = "Musikk" })">Musikk</a>
+
+<div id="testing">kjasdfsndfjibsdf</div>
+<button id="test2">trykk me!</button>
+<input id="meg" />
+<input id="meg2" />
+
 
 @section Scripts
 {
@@ -147,14 +220,32 @@
 
         $(document).ready(function () { //Ikke kjør denne koden før dokumentet har lastet ferdig
 
+            document.getElementById("test2").addEventListener('mouseover', function (event) {
+               // alert("hey fra hover");
+                //document.getElementById("testing").style.backgroundColor = "black";
+                document.getElementById("testing").classList.add("editClass");
+            });
+
+            document.getElementById("test2").addEventListener('mouseleave', function (event) {
+                // alert("hey fra hover");
+                //document.getElementById("testing").style.backgroundColor = "white";
+                document.getElementById("testing").classList.remove("editClass");
+            });
+
+
+
             $(function () {
                 var _valgtKnapp = "#" + '@TempData["valgtKnapp"]' +"Knapp";
-            
+
                 $("#altKnapp").removeClass("active");
                 $(_valgtKnapp).addClass("active");
             });
 
+
+
         })
+
+
         /*
         $.ajax({
             url: "/",
@@ -165,7 +256,7 @@
                 $("#refTable").html(partialViewResult);
             });
             */
-                   
+
     </script>
 }
 

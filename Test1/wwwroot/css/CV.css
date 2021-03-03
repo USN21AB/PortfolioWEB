@@ -1,6 +1,6 @@
 ﻿body {
     color: #6c757d;
-    background-color: #f5f6f8;
+    margin-top: 80px;
 }
 
 .card-box {
@@ -127,4 +127,8 @@
 
 .slider-general {
     width: 200px;
+}
+
+.editClass {
+    border:solid; 
 }

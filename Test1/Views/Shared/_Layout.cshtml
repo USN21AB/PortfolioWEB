@@ -4,40 +4,51 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Test1</title>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
-
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/Ajax/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
+        <div class="navcontainer" id="navcontainer">
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light borderbot box-shadow mb-3">
+                <div class="container-fluid">
+                    <div class="headerlogocontainer">
+                        <a class="navbar-brand headerting" asp-area="" asp-controller="Home" asp-action="BrowseSide">
+                            <img class="topimg" src="../resources/Portfollowers.png" alt="logo" width="25px" height="25px" />CreationHub
+                        </a>
+                    </div>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
 
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="BrowseSide">CreationHub</a>
+                    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
 
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Innlegg" asp-action="Upsert_Innlegg">FirebaseTest</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="ProfilSide" asp-action="UpsertBruker">Lag/oppdater bruker</a>
-                        </li>
-                        <li class="topnav-right">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="ProfilSide" asp-action="ProfilSide">Min Profil</a>
-                        </li>
-                        <li class="topnav-right2">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="LogginnSide">Logg inn</a>
-                        </li>
-                    </ul>
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item1">
+                                <a class="nav-link" asp-area="" asp-controller="Innlegg" asp-action="Upsert_Innlegg">FirebaseTest</a>
+                            </li>
+                            <li class="nav-item2">
+                                <a class="nav-link" asp-area="" asp-controller="ProfilSide" asp-action="UpsertBruker">Lag/oppdater bruker</a>
+                            </li>
+                            <li class="topnav-right vl">
+                                <a class="nav-link" asp-area="" asp-controller="ProfilSide" asp-action="ProfilSide">Min Profil</a>
+                            </li>
+                            <li class="topnav-right2">
+                                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="LogginnSide">Logg inn</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        </nav>
+            </nav>
+        </div>
     </header>
     <div class="container-fluid">
         <main role="main" class="pb-3">
@@ -45,15 +56,26 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="borderfooter footer">
         <div class="container">
             &copy; 2021 - Test1 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+  
     @RenderSection("Scripts", required: false)
 </body>
 </html>
+
+
+<script>
+    var prevScrollpos = window.pageYOffset;
+    window.onscroll = function () {
+        var currentScrollPos = window.pageYOffset;
+        if (prevScrollpos > currentScrollPos) {
+            document.getElementById("navcontainer").style.top = "0";
+        } else {
+            document.getElementById("navcontainer").style.top = "-60px";
+        }
+        prevScrollpos = currentScrollPos;
+    }
+</script>

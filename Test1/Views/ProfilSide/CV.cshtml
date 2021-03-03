@@ -6,6 +6,12 @@
     var CvInnhold = BrukerInnhold.CV;
 }
 
+<style>
+    .editClass {
+        border: solid;
+    }
+</style>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css" integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc=" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
 <link href="~/css/CV.css" rel="stylesheet" />
@@ -77,7 +83,7 @@
             <div class="card-box">
                 <ul class="nav nav-pills navtab-bg">
                     <li class="nav-item">
-                        <a href="#about-me" data-toggle="tab" aria-expanded="true" class="nav-link ml-0 active">
+                        <a class="nav-link ml-0 active" asp-controller="ProfilSide" asp-action="CV">
                             <i class="mdi mdi-face-profile mr-1"></i>About Me
                         </a>
                     </li>
@@ -90,7 +96,7 @@
 
                 <div class="tab-content">
 
-                    <div class="tab-pane show active" id="about-me">
+                    <div class="tab-pane show active" id="aboutme">
 
                         <h5 class="mb-3 text-uppercase">
                             <i class="mdi mdi-briefcase mr-1"></i>
@@ -109,16 +115,18 @@
                                 var ArbeidsErfaringBedrift = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring + 3);
                                 var ArbeidsErfaringBeskrivelse = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring + 4);
                                 antallArbeidsErfaring += 5;
-                                <ul class="list-unstyled timeline-sm">
-                                    <li class="timeline-sm-item">
-                                        <span class="timeline-sm-date"><u>@ArbeidsErfaringÅrStart - @ArbeidsErfaringÅrSlutt </u></span>
-                                        <h5 class="mt-0 mb-1">@ArbeidsErfaringTittel</h5>
-                                        <p>@ArbeidsErfaringBedrift</p>
-                                        <p class="text-muted mt-2">
-                                            @ArbeidsErfaringBeskrivelse
-                                        </p>
-                                    </li>
-                                </ul>
+                    <div id="arEdit @antallArbeidsErfaring">
+                        <ul class="list-unstyled timeline-sm">
+                            <li class="timeline-sm-item">
+                                <span class="timeline-sm-date"><u>@ArbeidsErfaringÅrStart - @ArbeidsErfaringÅrSlutt </u></span>
+                                <h5 class="mt-0 mb-1">@ArbeidsErfaringTittel</h5>
+                                <p>@ArbeidsErfaringBedrift</p>
+                                <p class="text-muted mt-2">
+                                    @ArbeidsErfaringBeskrivelse
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
                             }
 
 
@@ -133,10 +141,10 @@
                         @if (CvInnhold.Utdanning.Count != 0)
                             @while (antallUtdanning < CvInnhold.Utdanning.Count)
                             {
-                                var UtdanningÅr = CvInnhold.Utdanning.ElementAt(antallUtdanning);
-                                var UtdanningGrad = CvInnhold.Utdanning.ElementAt(antallUtdanning + 1);
-                                var UtdanningInstitusjon = CvInnhold.Utdanning.ElementAt(antallUtdanning + 2);
-                                antallUtdanning += 3;
+                                var UtdanningÅr = CvInnhold.Utdanning.ElementAt(antallUtdanning) +" - "+ CvInnhold.Utdanning.ElementAt(antallUtdanning +1);
+                                var UtdanningGrad = CvInnhold.Utdanning.ElementAt(antallUtdanning + 2);
+                                var UtdanningInstitusjon = CvInnhold.Utdanning.ElementAt(antallUtdanning + 3);
+                                antallUtdanning += 4;
                                 <ul class="list-unstyled timeline-sm">
                                     <li class="timeline-sm-item">
                                         <span class="timeline-sm-date"><u>@UtdanningÅr</u></span>
@@ -158,13 +166,13 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="firstname">Start year</label>
-                                        <input type="text" class="form-control" id="startYear" placeholder="Enter year started">
+                                        <input type="text" class="form-control" id="startYearA" placeholder="Enter year started">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="lastname">End year</label>
-                                        <input type="text" class="form-control" id="endYear" placeholder="Enter year ended">
+                                        <input type="text" class="form-control" id="endYearA" placeholder="Enter year ended">
                                     </div>
                                 </div> <!-- end col -->
                             </div> <!-- end row -->
@@ -173,13 +181,13 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="firstname">Job title</label>
-                                        <input type="text" class="form-control" id="jobTitle" placeholder="Enter job title">
+                                        <input type="text" class="form-control" id="jobTitleA" placeholder="Enter job title">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="lastname">Company name</label>
-                                        <input type="text" class="form-control" id="companyName" placeholder="Enter company name">
+                                        <input type="text" class="form-control" id="companyNameA" placeholder="Enter company name">
                                     </div>
                                 </div>
                                 <span class="text-danger"></span><!-- end col -->
@@ -194,27 +202,27 @@
                                 </div> <!-- end col -->
                             </div> <!-- end row -->
                             <div class="text-right">
-                                <button type="submit" id="submitArbeid" class="btn btn-success waves-effect waves-light mt-1 mb-3"><i class="mdi mdi-content-save"></i> Add</button>
+                                <button id="submitArbeid" class="btn btn-success waves-effect waves-light mt-1 mb-3"><i class="mdi mdi-content-save"></i> Add</button>
                             </div>
                             <!--
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="useremail">Email Address</label>
-                                        <input type="email" class="form-control" id="useremail" placeholder="Enter email">
-                                        <span class="form-text text-muted"><small>If you want to change email please <a href="javascript: void(0);">click</a> here.</small></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="userpassword">Password</label>
-                                        <input type="password" class="form-control" id="userpassword" placeholder="Enter password">
-                                        <span class="form-text text-muted"><small>If you want to change password please <a href="javascript: void(0);">click</a> here.</small></span>
-                                    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="useremail">Email Address</label>
+                <input type="email" class="form-control" id="useremail" placeholder="Enter email">
+                <span class="form-text text-muted"><small>If you want to change email please <a href="javascript: void(0);">click</a> here.</small></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="userpassword">Password</label>
+                <input type="password" class="form-control" id="userpassword" placeholder="Enter password">
+                <span class="form-text text-muted"><small>If you want to change password please <a href="javascript: void(0);">click</a> here.</small></span>
+            </div>
 
-                                </div> <!-- end col
-                            </div> <!-- end row
-                            -->
+        </div> <!-- end col
+    </div> <!-- end row
+    -->
 
 
 
@@ -223,13 +231,13 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="firstname">Start year</label>
-                                        <input type="text" class="form-control" id="startYear" placeholder="Enter year started">
+                                        <input type="text" class="form-control" id="startYearU" placeholder="Enter year started">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="lastname">End year</label>
-                                        <input type="text" class="form-control" id="endYear" placeholder="Enter year ended">
+                                        <input type="text" class="form-control" id="endYearU" placeholder="Enter year ended">
                                     </div>
                                 </div> <!-- end col -->
                             </div> <!-- end row -->
@@ -238,115 +246,54 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="companyname">Education type</label>
-                                        <input type="text" class="form-control" id="companyname" placeholder="Enter title of education">
+                                        <input type="text" class="form-control" id="linje" placeholder="Enter title of education">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="cwebsite">Institute</label>
-                                        <input type="text" class="form-control" id="cwebsite" placeholder="Enter name of institute">
+                                        <input type="text" class="form-control" id="skolename" placeholder="Enter name of institute">
                                     </div>
                                 </div> <!-- end col -->
                             </div> <!-- end row -->
                             <div class="text-right">
-                                <button type="submit" class="btn btn-success waves-effect waves-light mt-1 mb-3"><i class="mdi mdi-content-save"></i> Add</button>
+                                <button type="submit" id="submitSkole" class="btn btn-success waves-effect waves-light mt-1 mb-3"><i class="mdi mdi-content-save"></i> Add</button>
                             </div>
                             <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-format-list-checkbox mr-1"></i>Add / Edit Skills</h5>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="social-fb">Skill 1</label>
+                                        <input placeholder="Skill" id="skillbar" />
                                         <div class="input-group">
-                                            <input class="slider-general" id="ex1" data-slider-id='ex1Slider' type="range" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14" oninput="lol()" />
+                                            <input class="slider-general" id="skillSlider" data-slider-id='ex1Slider' type="range" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14" oninput="lol('ptest','skillSlider')" />
+                                            <p id="ptest">50%</p>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="social-fb">Skill 2</label>
-                                        <div class="input-group">
-                                            <input class="slider-general" id="ex1" data-slider-id='ex1Slider' type="range" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14" oninput="lol()" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="social-fb">Skill 3</label>
-                                        <div class="input-group">
-                                            <input class="slider-general" id="ex1" data-slider-id='ex1Slider' type="range" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14" oninput="lol()" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="social-fb">Skill 4</label>
-                                        <div class="input-group">
-                                            <input class="slider-general" id="ex1" data-slider-id='ex1Slider' type="range" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14" oninput="lol()" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="social-fb">Skill 5</label>
-                                        <div class="input-group">
-                                            <input class="slider-general" id="ex1" data-slider-id='ex1Slider' type="range" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14" oninput="lol()" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="social-fb">Skill 6</label>
-                                        <div class="input-group">
-                                            <input class="slider-general" id="ex1" data-slider-id='ex1Slider' type="range" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14" oninput="lol()" />
-                                        </div>
-                                    </div>
-                                    <div class="text-right">
-                                        <button type="submit" class="btn btn-success waves-effect waves-light mt-2 mb-3"><i class="mdi mdi-content-save"></i> Save</button>
                                     </div>
                                 </div> <!-- end col -->
                             </div> <!-- end row -->
+                            <div class="text-right">
+                                <button type="submit" id="submitSkill" class="btn btn-success waves-effect waves-light mt-2"><i class="mdi mdi-content-save"></i> Save</button>
+                            </div>
 
                             <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-translate mr-1"></i>Add / Edit Languages</h5>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="social-fb">Language 1</label>
+                                        <input placeholder="Language" id="språkbar" />
                                         <div class="input-group">
-                                            <input class="slider-general" id="ex1" data-slider-id='ex1Slider' type="range" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14" oninput="lol()" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="social-fb">Language 2</label>
-                                        <div class="input-group">
-                                            <input class="slider-general" id="ex1" data-slider-id='ex1Slider' type="range" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14" oninput="lol()" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="social-fb">Language 3</label>
-                                        <div class="input-group">
-                                            <input class="slider-general" id="ex1" data-slider-id='ex1Slider' type="range" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14" oninput="lol()" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="social-fb">Language 4</label>
-                                        <div class="input-group">
-                                            <input class="slider-general" id="ex1" data-slider-id='ex1Slider' type="range" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14" oninput="lol()" />
+                                            <input class="slider-general" id="språkSlider" data-slider-id='ex1Slider' type="range" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14" oninput="lol('ptest2','språkSlider')" />
+                                            <p id="ptest2">50%</p>
                                         </div>
                                     </div>
                                 </div>
                             </div> <!-- end row -->
 
                             <div class="text-right">
-                                <button type="submit" class="btn btn-success waves-effect waves-light mt-2"><i class="mdi mdi-content-save"></i> Save</button>
+                                <button type="submit" id="submitSpråk" class="btn btn-success waves-effect waves-light mt-2"><i class="mdi mdi-content-save"></i> Save</button>
                             </div>
                         </form>
                     </div>
+
                     <!-- end settings content-->
 
                 </div> <!-- end tab-content -->
@@ -358,12 +305,11 @@
 
 <script type="text/javascript">
 
-    function lol() {
-        var x1 = document.getElementById("ex1").value;
-        x2 = document.getElementById("ptest");
-        x2.innerHTML = x1;
+    function lol(id, slider) {
+        var x1 = document.getElementById(slider).value;
+        x2 = document.getElementById(id);
+        x2.innerHTML = x1 + '%';
 
-        x2.style.left = x1 + "%";
     }
 
 
@@ -373,11 +319,126 @@
 
     <script>
         $(document).ready(function () {
-            $("#submitArbeid").submit(function (event) {
-                alert("Handler for .submit() called.");
+
+            document.getElementById("submitArbeid").addEventListener('click', function (event) {
                 event.preventDefault();
+
+                var felt = "Arbeidserfaring";
+                var startÅr = $('#startYearA').val();
+                var sluttÅr = $('#endYearA').val();
+                var jobbTittel = $('#jobTitleA').val();
+                var bedriftNavn = $('#companyNameA').val();
+                var jobbBeskrivelse = $('#userbio').val();
+
+                var jsonJobb = {
+                     "felt": felt,
+                    "par1": startÅr,
+                    "par2": sluttÅr,
+                    "par3": jobbTittel,
+                    "par4": bedriftNavn,
+                    "par5": jobbBeskrivelse
+                  };
+
+
+                ajaxUpload(jsonJobb); 
+
             });
 
-        }
+            document.getElementById("submitSkole").addEventListener('click', function (event) {
+                event.preventDefault();
+
+                var felt = "Utdanning";
+                var startÅr = $('#startYearU').val();
+                var sluttÅr = $('#endYearU').val();
+                var jobbTittel = $('#linje').val();
+                var bedriftNavn = $('#skolename').val();
+          
+
+                var jsonJobb = {
+                    "felt": felt,
+                    "par1": startÅr,
+                    "par2": sluttÅr,
+                    "par3": jobbTittel,
+                    "par4": bedriftNavn,
+                    "par5": ""
+                };
+
+
+                ajaxUpload(jsonJobb);
+
+            });
+
+            document.getElementById("submitSkill").addEventListener('click', function (event) {
+                event.preventDefault();
+
+                var felt = "Ferdigheter";
+                var startÅr = $('#skillSlider').val() + "%";
+                var sluttÅr = $('#skillbar').val();
+               
+
+
+                var jsonJobb = {
+                    "felt": felt,
+                    "par1": sluttÅr,
+                    "par2": startÅr,
+                    "par3": "",
+                    "par4": "",
+                    "par5": ""
+                };
+
+
+                ajaxUpload(jsonJobb);
+
+            });
+
+            document.getElementById("submitSpråk").addEventListener('click', function (event) {
+                event.preventDefault();
+
+                var felt = "Språk";
+                var startÅr = $('#språkbar').val();
+                var sluttÅr = $('#språkSlider').val() + "%";
+
+                var jsonJobb = {
+                    "felt": felt,
+                    "par1": startÅr,
+                    "par2": sluttÅr,
+                    "par3": "",
+                    "par4": "",
+                    "par5": ""
+                };
+
+
+                ajaxUpload(jsonJobb);
+
+            });
+
+            function ajaxUpload(json) {
+             $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("LeggTilCV", "ProfilSide")',
+                    data: json,
+                    dataType: "json",
+
+                    success: function (result) {
+
+                        alert("Dette er resultatet " + result.result);
+                    }
+                });
+            }
+
+            document.getElementById("arEdit 0").addEventListener('mouseover', function (event) {
+                // alert("hey fra hover");
+                document.getElementById("arEdit 0").classList.add("editClass");
+            });
+
+            document.getElementById("arEdit 0").addEventListener('mouseleave', function (event) {
+                // alert("hey fra hover");
+                document.getElementById("arEdit 0").classList.remove("editClass");
+            });
+
+           
+
+        })
+
     </script>
 }

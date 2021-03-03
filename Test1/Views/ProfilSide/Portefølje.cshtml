@@ -1,317 +1,25 @@
 ﻿@using Portefolio_webApp.Models
 @model Portefolio_webApp.Models.Bruker;
-
+    <link href="~/css/Portefølje.css" rel="stylesheet" />
 @{
     var BrukerInnhold = (Portefolio_webApp.Models.Bruker)ViewData["Bruker_Innhold"];
 }
 
 
-<style>
-    body {
-        background-color: #e2e8f0;
-    }
-
-    .nav {
-        width: 120px;
-    }
-
-    .nav-pills .nav-link .active {
-        background-color: rgb(2, 117, 216)
-    }
-
-    .mapper {
-        width: 200px;
-        margin-right: 10px;
-    }
-
-
-    /*                                          PORTFOLIO                                             */
-    /*////////////////////////////////////////////////////////////////////////////////////////////////*/
-
-
-    .awesome-portfolio-area {
-        box-shadow: 0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.06);
-        background-color: #fff;
-        background-clip: border-box;
-        border: 0 solid rgba(0,0,0,.125);
-        border-radius: .25rem;
-        overflow: hidden;
-        padding: 10px;
-    }
-
-
-    .awesome-portfolio {
-    }
-
-    .single-awesome-portfolio {
-        margin: 2px;
-        float: left;
-        overflow: hidden;
-        position: relative;
-    }
-
-        .single-awesome-portfolio a {
-            position: relative;
-            display: block;
-        }
-
-
-
-    /*                                            BILDER                                               */
-    /*/////////////////////////////////////////////////////////////////////////////////////////////////*/
-
-    .awesome-img {
-        width: 310px;
-        height: 310px;
-        overflow: hidden;
-        position: relative;
-        transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1) 0s;
-        z-index: 2;
-        display: block
-    }
-
-        .awesome-img img {
-            min-height: 100%;
-            min-width: 100%;
-        }
-
-    .awesome-info {
-        background-color: #282727;
-        height: 25%;
-        padding: 20px 30px 12px;
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        opacity: 0;
-        display: block;
-        transition: opacity .3s ease-out;
-        -moz-transition: opacity .3s ease-out;
-        -webkit-transition: opacity .3s ease-out;
-        -o-transition: opacity .3s ease-out;
-    }
-
-        .awesome-info h3 {
-            color: #fff;
-            font-size: 16px;
-            margin-bottom: 3px;
-        }
-
-        .awesome-info p {
-            color: #aaa;
-            font-size: 12px;
-        }
-
-    /**/
-
-
-    .single-awesome-portfolio a:hover .awesome-info {
-        /*transform: translateY(100%);*/
-        opacity: .8;
-    }
-
-    /**/
-
-
-
-    .awesome-portfolio-content .mix {
-        display: none;
-    }
-    /**/
-
-
-    img {
-        max-width: 100%;
-        height: auto;
-        object-fit: cover;
-    }
-
-    /**/
-
-    /*                                           MUSIKK                                            */
-    /*777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777*/
-
-    .music_player {
-        margin: 2px;
-        float: left;
-        width: 300px;
-        height: 300px;
-        overflow: hidden;
-        position: relative;
-        display: block;
-    }
-
-
-
-
-
-    .fuck {
-        min-height: 100%;
-        min-width: 100%;
-    }
-
-    .play_button_div {
-        background-color: #dbdbdb;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        width: 100%;
-        opacity: 0;
-        display: block;
-    }
-
-    .play_button {
-        position: absolute;
-        margin-top: 100px;
-        margin-bottom: 100px;
-        margin-left: 100px;
-        margin-right: 100px;
-        opacity: 0;
-        width: 100px;
-        height: 100px;
-    }
-
-        .play_button:active {
-            transform: scale(.95);
-            filter: brightness(50%);
-        }
-
-    .music_player:hover .play_button {
-        opacity: 1;
-    }
-
-
-    .music_player:hover .play_button_div {
-        opacity: .6;
-    }
-
-
-
-    .musikk_kontroller {
-        position: sticky;
-        z-index: 5;
-        width: 100%;
-        height: 50px;
-        bottom: 0px;
-        background: white;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .stopper {
-        position: relative;
-        margin: 5px 10px 5px;
-        height: 40px;
-        width: 40px;
-    }
-
-        .stopper:active {
-            transform: scale(0.9);
-        }
-
-    .tid_container {
-        width: 300px;
-        overflow: hidden;
-        height: 10px;
-        margin-top: 20px;
-        margin-left: 70px;
-        margin-right: 20px;
-        background: green;
-        position: absolute;
-    }
-
-    .tid {
-        width: 1px;
-        height: 10px;
-        background: red;
-        transition: width .1s linear;
-    }
-
-    #seekbar {
-        position: absolute;
-        margin-left: 70px;
-        margin-top: 17px;
-    }
-
-
-    /*                                              LITTERATUR                                          */
-    /*//////////////////////////////////////////////////////////////////////////////////////////////////*/
-
-
-
-
-    .litteratur {
-        margin: 2px;
-        float: left;
-        width: 300px;
-        height: 400px;
-        position: relative;
-        overflow: hidden;
-        display: block;
-        background: rgb(187, 201, 201);
-    }
-
-    .tittel {
-        margin: 15px;
-        font-size: 45px;
-        -webkit-hyphens: auto;
-        -moz-hyphens: auto;
-        -ms-hyphens: auto;
-        hyphens: auto;
-    }
-
-    .forfatter {
-        position: absolute;
-        bottom: 0;
-        margin-left: 15px;
-        font-size: 23px;
-    }
-
-    .book_cover {
-        position: absolute;
-        min-height: 100%;
-        min-width: 100%;
-        opacity: 1;
-        z-index: 2;
-        transition: opacity .2s ease-out;
-        -moz-transition: opacity .2s ease-out;
-        -webkit-transition: opacity .2s ease-out;
-        -o-transition: opacity .2s ease-out;
-    }
-
-        .book_cover:hover {
-            opacity: 0;
-        }
-
-
-
-
-    .clickable {
-        border: 1px solid #333;
-        background: #eee;
-        height: 40px;
-        width: 200px;
-        margin: 15px;
-        position: relative;
-    }
-
-    .display {
-        height: 16px;
-        position: absolute;
-        width: 100%;
-    }
-
-    .progress {
-        position: absolute;
-        left: 0;
-        top: 0;
-        background: green;
-        height: 40px;
-        width: 10px;
-    }
-</style>
 
 <script>
+    /*window.onload = initial();
 
+    function initial() {
+        var audio = document.getElementsByClassName('lydspor'),
+            i = audio.length;
+        while (i--) {
+            var lyd = audio[i].id;
+            var luld = document.getElementById(lyd);
+            luld.volume = 0.5;
+        }
+    };
+    */
 
     function spillAv(sang, toggle) {
         var audio = document.getElementsByClassName('lydspor'),
@@ -319,30 +27,44 @@
         var playpause = document.getElementsByClassName("play_button");
         var lyd = document.getElementById(sang);
         var loggle = document.getElementById(toggle);
+        var spiller = document.getElementById("test").style;
 
 
-
-        lyd.volume = 0.1;
 
         if (lyd.paused) {
             while (i--) {
                 audio[i].pause();
-                playpause[i].src = "https://i.kym-cdn.com/photos/images/newsfeed/001/472/527/adc.gif"
+                playpause[i].src = "../resources/icons8-play-96.png"
             };
-
-            loggle.src = "https://i.kym-cdn.com/photos/images/masonry/001/860/209/a8a.jpg"
+            spiller.transition = "all .5s ease";
+            spiller.bottom = "0";
+            loggle.src = "../resources/icons8-pause-96.png"
             lyd.play();
         }
         else {
-            loggle.src = "https://i.kym-cdn.com/photos/images/newsfeed/001/472/527/adc.gif"
+            spiller.transition = "all .5s ease";
+            spiller.bottom = "-70px";
+            loggle.src = "../resources/icons8-play-96.png"
             lyd.pause();
         }
 
 
-
-
-
     };
+
+    function volum(verdi) {
+
+
+        var audio = document.getElementsByClassName('lydspor'),
+            i = audio.length;
+
+
+        while (i--) {
+            var lyd = audio[i].id;
+            var luld = document.getElementById(lyd);
+            luld.volume = verdi / 10;
+        };
+
+    }
 
     function visSang(sang, artist) {
         var sang = document.getElementById(sang).textContent;
@@ -380,14 +102,18 @@
 
     function stopAll() {
         var lyd = document.getElementsByClassName('lydspor');
+        var spiller = document.getElementById("test").style;
         var playpause = document.getElementsByClassName("play_button");
         i = lyd.length;
 
         while (i--) {
 
             lyd[i].pause();
-            playpause[i].src = "https://i.kym-cdn.com/photos/images/newsfeed/001/472/527/adc.gif"
+            playpause[i].src = "../resources/icons8-play-96.png"
         }
+
+        spiller.transition = "all .5s ease";
+        spiller.bottom = "-70px";
     };
 
     var info = document.getElementsByClassName("awesome-info");
@@ -507,8 +233,8 @@
 <div class="music_player">
 
     <div class="play_button_div"></div>
-    <img id="sangi" class="play_button" src="https://i.kym-cdn.com/photos/images/newsfeed/001/472/527/adc.gif" onclick='spillAv("sang", this.id); visSang("sangnavn", "artist")' />
-    <audio id="sang" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60);var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter +':' + ('0' + sekunder).slice(-2) + ' / ' + minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2FPok%C3%A9mon%20Theme%20Song.mp3?alt=media&token=bccacd1c-ed6a-4050-8745-b1ee3bb50f96"></audio>
+    <img id="sangi" class="play_button shadowed" src="../resources/icons8-play-96.png" onclick='spillAv("sang", this.id); visSang("sangnavn", "artist")' />
+    <audio id="sang" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2FPok%C3%A9mon%20Theme%20Song.mp3?alt=media&token=bccacd1c-ed6a-4050-8745-b1ee3bb50f96"></audio>
     <img class="fuck" src="https://gameriv.com/wp-content/uploads/2021/01/Untitled-1-23-696x392.jpg" />
     <p id="sangnavn">Pokémon Theme</p>
     <p id="artist">IDFK</p>
@@ -519,8 +245,8 @@
 <div class="music_player">
 
     <div class="play_button_div"></div>
-    <img id="sang1i" class="play_button" src="https://i.kym-cdn.com/photos/images/newsfeed/001/472/527/adc.gif" onclick='spillAv("sang1", this.id); visSang("sangnavn1", "artist1")' />
-    <audio id="sang1" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60);var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter +':' + ('0' + sekunder).slice(-2) + ' / ' + minutter1 + ':' + ('0' + sekunder1).slice(-2); " src="~/css/Habibi.mp3"></audio>
+    <img id="sang1i" class="play_button shadowed" src="../resources/icons8-play-96.png" onclick='spillAv("sang1", this.id); visSang("sangnavn1", "artist1")' />
+    <audio id="sang1" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60);var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2); " src="~/resources/Habibi.mp3"></audio>
     <img class="fuck" src="https://preview.redd.it/f5fin913ari31.jpg?auto=webp&s=399cff2568b4b1fc8d61ebc8d3f531569e13ad93" />
     <p id="sangnavn1">Habibi</p>
     <p id="artist1">Pokelawls</p>
@@ -537,13 +263,31 @@
 
 
 <div class="musikk_kontroller" id="test">
-    <span id="tracktime">0 / 0</span>
     <span id="sangfelt"></span>
     <span id="artistfelt"></span>
 
-    <progress id="seekbar" value="0" max="100" style="width:400px;"></progress>
-
+    <span id="tracktime">00:00</span>
+    <progress id="seekbar" value="0" max="100"></progress>
+    <span id="trackduration">00:00</span>
 
     <img class="stopper" src="https://66.media.tumblr.com/1a1c3bcc08b5a048b90139a56fe7f415/tumblr_o9ku1rVS8z1vnqjx7o2_250.png" onclick="stopAll()" />
+
+    <input type="range" id="volume-control" value="5" min="0" max="10" onload="volum(this.value)" onchange="volum(this.value)">
 </div>
+
+<svg height="0" xmlns="http://www.w3.org/2000/svg">
+    <filter id="drop-shadow">
+        <feGaussianBlur in="SourceAlpha" stdDeviation="4" />
+        <feOffset dx="4" dy="4" result="offsetblur" />
+        <feFlood flood-color="rgba(0,0,0,0.8)" />
+        <feComposite in2="offsetblur" operator="in" />
+        <feMerge>
+            <feMergeNode />
+            <feMergeNode in="SourceGraphic" />
+        </feMerge>
+    </filter>
+</svg>
+
+
+
 <script src="https://cdn.jsdelivr.net/jquery.mixitup/latest/jquery.mixitup.min.js"></script>

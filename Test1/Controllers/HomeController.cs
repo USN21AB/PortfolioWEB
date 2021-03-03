@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+
 using Test1.Models;
 
 namespace Portefolio_webApp.Controllers
@@ -59,18 +60,6 @@ namespace Portefolio_webApp.Controllers
 
             return View();
         }
-
-
-
-        /*
-         public IActionResult BrowseSide(string kategori)
-        {
-            ViewData["liste"] = firebase.SorterAlleInnlegg(kategori);
-
-            return View();
-        }
-        */
-
 
         public IActionResult Privacy()
         {
