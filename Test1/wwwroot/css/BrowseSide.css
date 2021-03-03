@@ -55,6 +55,14 @@
 }
 .kategoriitem {
     display: inline;
+    position: relative;
+    text-align: center;
+    color: black;
+    font-weight: bold;
+    margin-left: 50px;
+}
+.kategoriitem a {
+    color: black;
 }
 .balls {
     height: 65px;
@@ -70,4 +78,10 @@ a.button {
     -moz-appearance: button;
     text-decoration: none;
     color: initial;
+}
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
