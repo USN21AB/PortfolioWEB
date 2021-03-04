@@ -32,4 +32,9 @@
 .cvbtn {
     margin-top: 20px;
 }
+.profilimg {
+}
+.profilimg:hover {
+    display: inline;
+}
 

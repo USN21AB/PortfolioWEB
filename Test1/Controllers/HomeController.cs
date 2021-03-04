@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Firebase.Database;
+using Firebase.Database.Query;
 
 using Test1.Models;
 
@@ -36,7 +38,6 @@ namespace Portefolio_webApp.Controllers
             return View();
         }
 
-
         [HttpGet]
         public IActionResult BrowseSide(string kategori)
         {
@@ -55,9 +56,7 @@ namespace Portefolio_webApp.Controllers
                 
                 ViewData["liste"] = firebase.SorterAlleInnlegg(kategori, listen);
                 TempData["valgtKnapp"] = kategori;
-            
             }
-
             return View();
         }
 
@@ -71,7 +70,6 @@ namespace Portefolio_webApp.Controllers
         {
             return View();
         }
-
 
         [HttpGet]
         public IActionResult SorterListe()

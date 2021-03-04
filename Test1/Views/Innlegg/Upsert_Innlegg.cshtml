@@ -5,7 +5,7 @@
 <br />
 
 <div class="border container" style="padding:30px;">
-    <form method="post">
+    <form class="whitetext" method="post">
         @if (Model.Id == null)
         {
             <input type="hidden" asp-for="Id" />
@@ -50,7 +50,7 @@
                 </button>
             </div>
             <div class="col-3">
-                <a  asp-controller="Home" asp-action="BrowseSide" class="btn btn-success form-control">Back to List</a>
+                <a asp-controller="Home" asp-action="BrowseSide" class="btn btn-success form-control">Back to List</a>
             </div>
         </div>
     </form>
