@@ -10,7 +10,6 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace Test1
-
 {
     public class Startup
     {
@@ -26,6 +25,9 @@ namespace Test1
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc().AddSessionStateTempDataProvider();
+            services.AddSession();
+
             services.AddDistributedMemoryCache();
 
             services.AddSession(options =>
