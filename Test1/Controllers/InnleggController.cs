@@ -1,4 +1,5 @@
 ﻿using FireSharp.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Portefolio_webApp.Models;
 using System;
@@ -69,13 +70,23 @@ namespace Portefolio_webApp.Controllers
 
         public IActionResult Nav_Innlegg(string id)
         {
-            Debug.WriteLine("id er:  " + id);
+            //Skjekker om bruker er logget inn
+            var token = HttpContext.Session.GetString("_UserToken");
+            var isLoggedOn = false;
+            if (token != null) isLoggedOn = true;
+            ViewBag.Status = isLoggedOn;
+
+            //Henter innlegget bruker klikket på
             var innlegg = new Innlegg();
             innlegg = firebase.HentSpesifiktInnlegg(id);
             return View(innlegg);
-            
+
+        }
+
+        public IActionResult Register()
+        {
+            return View();
         }
 
     }
-
 }

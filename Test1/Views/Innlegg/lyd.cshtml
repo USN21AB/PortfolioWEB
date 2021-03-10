@@ -1,27 +1,12 @@
-﻿@model Portefolio_webApp.Models.Innlegg;
-@{
-    var id = Model.EierId;
-    var tittel = Model.Tittel;
-    var kategori = Model.Kategori;
-    var klokkeslett = Model.Klokkeslett;
-    var dato = Model.Dato;
-    var url = Model.IkonURL;
-    var tagger = Model.Tagger;
-
-    
-}
-
-<style>
+﻿<style>
     .music_player {
         margin: 2px;
+        float: left;
         width: 300px;
         height: 300px;
         overflow: hidden;
         position: relative;
         display: block;
-        text-align: center;
-        margin-left: auto;
-        margin-right: auto;
     }
 
 
@@ -144,49 +129,24 @@
 
 
 
-<body style="background-color: rgb(46, 46, 46)">
+<body style="background-color: rgb(45, 45, 45)">
 
     @*Klassen inneholder Tittel, opplastingsdato, og hovedinnlegget (bilde eller pdf)*@
 
     <div class="hovedInnlegg">
-        @{
-            if (@ViewBag.Status.Equals(true))
-            {
-                <p>hei</p>
-            }
 
-            if (kategori.Equals("Bilde"))
-            {
-
-                <h1 onclick="">@tittel</h1>
-                <p>@dato</p>
-                <img src="~/lib/bilder/yeetle_nen.png" class="small" alt="error" id="innlegg" />
-
-            }
-            else if (kategori.Equals("Tekst"))
-            {
-                <embed src="~/lib/pdfs/prosjektbeskrivelse.pdf" class="tekstInnlegg" />
-                <p>@dato</p>
-            }
-            else if (kategori.Equals("Musikk"))
-            {
                 <h1 onclick="">Tittel</h1>
-                <p>@dato</p>
                 <div class="music_player">
                     <div class="play_button_div"></div>
                     <img id="sangi" class="play_button shadowed" src="https://www.clipartmax.com/png/middle/134-1347519_youtube-png-play-pictures-png-images-play-button-png.png" onclick='spillAv("sang", this.id); visSang("sangnavn", "artist")' />
-                    <audio id="sang" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2FPok%C3%A9mon%20Theme%20Song.mp3?alt=media&token=bccacd1c-ed6a-4050-8745-b1ee3bb50f96"></audio>
+                    <audio id="sang" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2FPok%C3%A9mon%20Theme%20Song.mp3?alt=media&token=bccacd1c-ed6a-4050-8745-b1ee3bb50f96%22%3E</audio>
                     <img class="fuck" src="https://gameriv.com/wp-content/uploads/2021/01/Untitled-1-23-696x392.jpg" />
                     <p id="sangnavn">Pokémon Theme</p>
                     <p id="artist">IDFK</p>
-                </div> }
-            else if (kategori == null)
-            {
-                <h1 onclick="">@tittel</h1>
-                <p>@dato</p>
-                <img src="~/lib/bilder/yeetle_nen.png" class="small" alt="error" id="innlegg" /> }
-        
-        }
+                </div> 
+
+
+       
     </div>
     <div class="innleggProfil">
         <img src="~/lib/bilder/Mageh.png" height="60" width="60" id="imgikon" />
@@ -207,8 +167,35 @@
     <script src="~/js/bildeInnlegg.js">
     </script>
 
-    <script src="~/js/lydInnlegg.js">
+    <script>
+        function spillAv(sang, toggle) {
+            var audio = document.getElementsByClassName('lydspor'),
+                i = audio.length;
+            var playpause = document.getElementsByClassName("play_button");
+            var lyd = document.getElementById(sang);
+            var loggle = document.getElementById(toggle);
+            var spiller = document.getElementById("test").style;
+
+
+
+            if (lyd.paused) {
+                while (i--) {
+                    audio[i].pause();
+                    playpause[i].src = "https://www.clipartmax.com/png/middle/134-1347519_youtube-png-play-pictures-png-images-play-button-png.png"
+                };
+                spiller.transition = "all .5s ease";
+                spiller.bottom = "0";
+                loggle.src = "https://lh3.googleusercontent.com/proxy/2AZVDzgE1WACW2-1uV6muHMv8iOicO6-ggoO09EXLE7wemm0ffzq8I4by1A0iWnhM1259fhGsjcDCgnFExgvCsM9CE-7HZbOPirOFwk0-LDHyfnuk5YX0s54RpwCBWg"
+                lyd.play();
+            }
+            else {
+                spiller.transition = "all .5s ease";
+                spiller.bottom = "-70px";
+                loggle.src = "https://www.clipartmax.com/png/middle/134-1347519_youtube-png-play-pictures-png-images-play-button-png.png"
+                lyd.pause();
+            }
+
+
+        };
     </script>
 </body>
-
-
