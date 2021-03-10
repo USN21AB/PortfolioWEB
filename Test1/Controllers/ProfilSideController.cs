@@ -34,7 +34,15 @@ namespace Portefolio_webApp.Controllers
 
         public IActionResult ProfilSide()
         {
-            return View();
+            var token = HttpContext.Session.GetString("_UserToken");
+            if (token != null)
+            {
+                return View();
+            }
+            else
+            {
+                return Redirect("~/Login/SignIn");
+            }
         }
 
         [HttpGet]

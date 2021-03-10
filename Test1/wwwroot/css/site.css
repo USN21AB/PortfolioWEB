@@ -9,11 +9,11 @@ a.navbar-brand {
 .navbar-brand {
     font-size: 20px;
 }
-.navbar-light .navbar-brand {
+.navbar-light .navbar-brand, .navbar-light .navbar-brand:hover {
     font-style: italic;
     color: #fff;
 }
-    /* Provide sufficient contrast against white background */
+        /* Provide sufficient contrast against white background */
 a {
   color: #0366d6;
 }
@@ -104,6 +104,9 @@ body {
     color: #fff;
     margin-top: 3px;
 }
+.navbar-brand .headerting:hover {
+    color: white;
+}
 .navbar {
     background-color: #384352;
 }
@@ -115,7 +118,6 @@ body {
 }
 .navbar-light .navbar-nav .nav-link:focus, .navbar-light .navbar-nav .nav-link:hover {
     color: rgba(125,234,0,.7);
-
 }
 .navbar-light .navbar-nav .nav-link {
     color: white;
