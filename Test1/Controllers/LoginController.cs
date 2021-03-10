@@ -11,14 +11,14 @@ using System;
 
 namespace Test1.Controllers
 {
-   public class LoginController : Controller
-{
-    FirebaseAuthProvider auth;
-    public LoginController()
+    public class LoginController : Controller
     {
-        auth = new FirebaseAuthProvider(
-                        new FirebaseConfig("AIzaSyAF3lsyJBHDwpdd2u9D0qW-m3c2TJftQvE"));
-    }
+        FirebaseAuthProvider auth;
+        public LoginController()
+        {
+            auth = new FirebaseAuthProvider(
+                            new FirebaseConfig("AIzaSyAF3lsyJBHDwpdd2u9D0qW-m3c2TJftQvE"));
+        }
         public IActionResult Register()
         {
             return View();
@@ -73,14 +73,14 @@ namespace Test1.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Exception = "Wrong username or password"; 
+                ViewBag.Exception = "Wrong username or password " + ex.Message;
                 return View();
             }
-               
-                //Debug.WriteLine("--------------||||||||||||||||||||||||" + token);
 
-                //saving the token in a session variable
-                
+            //Debug.WriteLine("--------------||||||||||||||||||||||||" + token);
+
+            //saving the token in a session variable
+
         }
         public IActionResult LogOut()
         {

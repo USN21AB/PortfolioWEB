@@ -191,8 +191,8 @@ namespace Test1.Models
         {
        
             PushResponse respons = klient.Push("Bruker/", bruker);
-            bruker.Id = respons.Result.name;
-            SetResponse setResponse = klient.Set("Bruker/" + bruker.Id, bruker);
+           // bruker.Id = respons.Result.name;
+           // SetResponse setResponse = klient.Set("Bruker/" + bruker.Id, bruker);
                
         }
 

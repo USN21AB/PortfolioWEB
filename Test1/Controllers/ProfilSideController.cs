@@ -34,6 +34,7 @@ namespace Portefolio_webApp.Controllers
 
         public IActionResult ProfilSide()
         {
+            //Midlertidig kommenter ut
             var token = HttpContext.Session.GetString("_UserToken");
             if (token != null)
             {
@@ -48,42 +49,16 @@ namespace Portefolio_webApp.Controllers
         [HttpGet]
         public IActionResult CV()
         {
-          
+
+            Debug.WriteLine("------------------------------------------------------- THIS IS MAIN CV ");
+
             //Dummy bruker med id. 
-            Bruker = firebase.HentEnkeltBruker("-MTuNdX2ldnO73BCZwFp"); 
+            Bruker = firebase.HentEnkeltBruker("-MTuNdX2ldnO73BCZwFp");
 
             ViewData["Bruker"] = Bruker;
-       
             return View(Bruker);
         }
 
-        [HttpPost]
-        public IActionResult CV(Bruker cvbruker)
-        {
-            /*
-            Debug.WriteLine("PROFIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIILLLLLLLLLLLLL222222222222" + cv.ArbeidsErfaring.ElementAt(1) +
-                cv.ArbeidsErfaring.ElementAt(2) + cv.ArbeidsErfaring.ElementAt(3) + cv.ArbeidsErfaring.ElementAt(4));
-            */
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    Debug.WriteLine("Inni isValid");
-                    firebase.OppdaterBruker(cvbruker);
-                    //ModelState.AddModelError(string.Empty, "Registrering suksessfult!");
-                }
-                catch (Exception ex)
-                {
-                    //  ModelState.AddModelError(string.Empty, ex.Message);
-                }
-            }else
-            {
-                Debug.WriteLine("------------------------------------------------------- inni else til CV " + cvbruker.CV.ArbeidsErfaring.Count);
-            }
-            Bruker hentBruker = firebase.HentEnkeltBruker(cvbruker.Id);
-            ViewData["Bruker"] = hentBruker; 
-            return View(hentBruker);
-        }
 
         [HttpPost]
         [RequestSizeLimit(4294967295)]
@@ -112,9 +87,9 @@ namespace Portefolio_webApp.Controllers
         public IActionResult UpsertBruker()
         {
             Bruker nybruker = new Bruker();
-            nybruker = firebase.HentEnkeltBruker("-MTuAm8t_eBlv5KMiuWX"); 
-
-            if(nybruker == null)
+              nybruker = firebase.HentEnkeltBruker("-MTuNdX2ldnO73BCZwFp"); 
+            // Debug.WriteLine("-----------------------------------SESSIONNN!!!" + HttpContext.Session.GetString("_UserToken")); 
+            if (nybruker == null)
                 return NotFound();
 
             return View(nybruker); 
@@ -171,22 +146,24 @@ namespace Portefolio_webApp.Controllers
             Debug.WriteLine("---------------------------------yo " + par3 + " og " + par4);
             Bruker = firebase.HentEnkeltBruker("-MTuNdX2ldnO73BCZwFp");
 
-            if (felt == "Arbeidserfaring") { 
-            //ViewData["liste"] = firebase.SorterAlleInnlegg(kategori);
-          
-            Bruker.CV.ArbeidsErfaring.Add(par1);
-            Bruker.CV.ArbeidsErfaring.Add(par2);
-            Bruker.CV.ArbeidsErfaring.Add(par3);
-            Bruker.CV.ArbeidsErfaring.Add(par4);
-            Bruker.CV.ArbeidsErfaring.Add(par5);
-            } else if(felt == "Utdanning")
+            if (felt == "Arbeidserfaring")
+            {
+                //ViewData["liste"] = firebase.SorterAlleInnlegg(kategori);
+
+                Bruker.CV.ArbeidsErfaring.Add(par1);
+                Bruker.CV.ArbeidsErfaring.Add(par2);
+                Bruker.CV.ArbeidsErfaring.Add(par3);
+                Bruker.CV.ArbeidsErfaring.Add(par4);
+                Bruker.CV.ArbeidsErfaring.Add(par5);
+            }
+            else if (felt == "Utdanning")
             {
                 Bruker.CV.Utdanning.Add(par1);
                 Bruker.CV.Utdanning.Add(par2);
                 Bruker.CV.Utdanning.Add(par3);
                 Bruker.CV.Utdanning.Add(par4);
             }
-            else if(felt == "Ferdigheter")
+            else if (felt == "Ferdigheter")
             {
                 Bruker.CV.Ferdigheter.Add(par1);
                 Bruker.CV.Ferdigheter.Add(par2);
@@ -197,10 +174,61 @@ namespace Portefolio_webApp.Controllers
                 Bruker.CV.Språk.Add(par2);
             }
 
-            firebase.OppdaterBruker(Bruker); 
+            firebase.OppdaterBruker(Bruker);
             var resultat = "Jobberfaring oppdatert: " + par1 + " " + par2;
             var data = new { status = "ok", result = resultat };
 
+            return Json(data);
+        }
+
+        [HttpPost]
+        public JsonResult DeleteCV(string felt, string index)
+        {
+            Debug.WriteLine("---------------------------------yo " + felt + " og " + index);
+            Bruker = firebase.HentEnkeltBruker("-MTuNdX2ldnO73BCZwFp");
+            if (felt == "ArbeidsErfaring")
+            {
+                Bruker.CV.ArbeidsErfaring.RemoveRange(Int32.Parse(index), 5);
+            }
+            else if (felt == "Utdanning")
+            {
+                Bruker.CV.Utdanning.RemoveRange(Int32.Parse(index), 4);
+            }
+
+            firebase.OppdaterBruker(Bruker);
+            var resultat = "Jobberfaring oppdatert: " + felt + " " + index;
+            var data = new { status = "ok", result = resultat };
+
+            return Json(data);
+        }
+
+        [HttpPost]
+        public JsonResult UpdateCV(string bruker, string felt, string index, string årFra, string årTil, string tittel, string bedrift, string bio)
+        {
+            int indexI = Int32.Parse(index);
+
+            Bruker = firebase.HentEnkeltBruker(bruker);
+            if (felt == "ArbeidsErfaring")
+            {
+                Bruker.CV.ArbeidsErfaring[indexI] = årFra;
+                Bruker.CV.ArbeidsErfaring[indexI + 1] = årTil;
+                Bruker.CV.ArbeidsErfaring[indexI + 2] = tittel;
+                Bruker.CV.ArbeidsErfaring[indexI + 3] = bedrift;
+                Bruker.CV.ArbeidsErfaring[indexI + 4] = bio;
+
+            }
+            else if (felt == "Utdanning")
+            {
+                Bruker.CV.Utdanning[indexI] = årFra;
+                Bruker.CV.Utdanning[indexI + 1] = årTil;
+                Bruker.CV.Utdanning[indexI + 2] = tittel;
+                Bruker.CV.Utdanning[indexI + 3] = bedrift;
+            }
+
+            firebase.OppdaterBruker(Bruker);
+            var resultat = "Jobberfaring oppdatert: " + tittel + " " + index;
+            var data = new { status = "ok", result = resultat };
+           
             return Json(data);
         }
     }
