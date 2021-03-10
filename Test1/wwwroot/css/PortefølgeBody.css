@@ -1,0 +1,38 @@
+﻿body {
+    background-color: #212529;
+    margin-top: 80px;
+}
+
+.nav {
+    width: 120px;
+}
+
+.nav-pills .nav-link .active {
+    background-color: rgb(2, 117, 216)
+}
+
+.mapper {
+    width: 200px;
+    margin-right: 10px;
+}
+
+
+/*                                          PORTFOLIO                                             */
+/*////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+
+.awesome-portfolio-area {
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.06);
+    background-color: #fff;
+    background-clip: border-box;
+    border: 0 solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+    overflow: hidden;
+    padding: 10px;
+}
+
+
+
+
+.awesome-portfolio {
+}
