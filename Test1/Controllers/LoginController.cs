@@ -73,7 +73,7 @@ namespace Test1.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Exception = "Wrong username or password " + ex.Message;
+                ViewBag.Exception = "Wrong username or password ";
                 return View();
             }
 

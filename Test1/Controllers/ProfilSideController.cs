@@ -205,6 +205,7 @@ namespace Portefolio_webApp.Controllers
         [HttpPost]
         public JsonResult UpdateCV(string bruker, string felt, string index, string årFra, string årTil, string tittel, string bedrift, string bio)
         {
+            Debug.WriteLine("------------------------------------------ MOMOMOMOMOM");
             int indexI = Int32.Parse(index);
 
             Bruker = firebase.HentEnkeltBruker(bruker);
