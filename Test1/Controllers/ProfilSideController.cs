@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
 using Test1.Models;
 using System.IO;
+using Test1.Controllers;
 
 namespace Portefolio_webApp.Controllers
 {
@@ -35,26 +36,23 @@ namespace Portefolio_webApp.Controllers
         public IActionResult ProfilSide()
         {
             //Midlertidig kommenter ut
-            var token = HttpContext.Session.GetString("_UserToken");
-            if (token != null)
-            {
+           // var token = HttpContext.Session.GetString("_UserToken");
+            //if (token != null)
+            //{
                 return View();
-            }
-            else
-            {
-                return Redirect("~/Login/SignIn");
-            }
+           // }
+          //  else
+          //  {
+          //      return Redirect("~/Login/SignIn");
+          //  }
         }
 
         [HttpGet]
         public IActionResult CV()
         {
 
-            Debug.WriteLine("------------------------------------------------------- THIS IS MAIN CV ");
-
             //Dummy bruker med id. 
             Bruker = firebase.HentEnkeltBruker("-MTuNdX2ldnO73BCZwFp");
-
             ViewData["Bruker"] = Bruker;
             return View(Bruker);
         }
@@ -86,26 +84,25 @@ namespace Portefolio_webApp.Controllers
         [HttpGet]
         public IActionResult UpsertBruker()
         {
-            Bruker nybruker = new Bruker();
-              nybruker = firebase.HentEnkeltBruker("-MTuNdX2ldnO73BCZwFp"); 
-            // Debug.WriteLine("-----------------------------------SESSIONNN!!!" + HttpContext.Session.GetString("_UserToken")); 
+            Bruker nybruker = firebase.HentEnkeltBruker(HttpContext.Session.GetString("_UserID")); 
+             Debug.WriteLine("-----------------------------------SESSIONNN!!!" + HttpContext.Session.GetString("_UserID"));
             if (nybruker == null)
-                return NotFound();
+                nybruker = new Bruker(); 
 
-            return View(nybruker); 
+            return View(nybruker);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult UpsertBruker(Bruker oppBruker, string filename, IFormFile file, [FromServices] IHostingEnvironment oHostingEnvironment)
         {
-            
+            Debug.WriteLine("INNI POST UPSERTBRUKER I KONTROLLER"); 
             if (ModelState.IsValid)
             {
                 try
                 {
                     if (string.IsNullOrEmpty(oppBruker.Id)) {
-                        firebase.RegistrerBruker(oppBruker);
+                      //  firebase.RegistrerBruker(oppBruker);
                         ModelState.AddModelError(string.Empty, "Registrering suksessfult!");
                     } else
                     {
@@ -121,7 +118,15 @@ namespace Portefolio_webApp.Controllers
                     ModelState.AddModelError(string.Empty, ex.Message);
                 }
             }
-            return View(oppBruker);
+            Debug.WriteLine("INNI POST UPSERTBRUKER I KONTROLLER ENDING");
+
+            var logginn = new LoginController();
+            logginn.Register(oppBruker);
+            //return RedirectToAction("Login",
+            //        "Register",
+            //    new { bruker = oppBruker });
+
+            return RedirectToAction("ProfilSide"); 
         }
 
 
@@ -143,7 +148,7 @@ namespace Portefolio_webApp.Controllers
         [HttpPost]
         public JsonResult LeggTilCV(string felt, string par1, string par2, string par3, string par4, string par5)
         {
-            Debug.WriteLine("---------------------------------yo " + par3 + " og " + par4);
+            Debug.WriteLine("---------------------------------yo ");
             Bruker = firebase.HentEnkeltBruker("-MTuNdX2ldnO73BCZwFp");
 
             if (felt == "Arbeidserfaring")
@@ -168,7 +173,7 @@ namespace Portefolio_webApp.Controllers
                 Bruker.CV.Ferdigheter.Add(par1);
                 Bruker.CV.Ferdigheter.Add(par2);
             }
-            else
+            else if(felt == "Språk")
             {
                 Bruker.CV.Språk.Add(par1);
                 Bruker.CV.Språk.Add(par2);
@@ -194,8 +199,16 @@ namespace Portefolio_webApp.Controllers
             {
                 Bruker.CV.Utdanning.RemoveRange(Int32.Parse(index), 4);
             }
+            
+            else if(felt == "Ferdigheter")
+            {
+                Bruker.CV.Ferdigheter.RemoveRange(Int32.Parse(index), 2); 
+            }else if (felt == "Språk")
+            {
+                Bruker.CV.Språk.RemoveRange(Int32.Parse(index), 2);
+            }
 
-            firebase.OppdaterBruker(Bruker);
+                firebase.OppdaterBruker(Bruker);
             var resultat = "Jobberfaring oppdatert: " + felt + " " + index;
             var data = new { status = "ok", result = resultat };
 
@@ -203,9 +216,9 @@ namespace Portefolio_webApp.Controllers
         }
 
         [HttpPost]
-        public JsonResult UpdateCV(string bruker, string felt, string index, string årFra, string årTil, string tittel, string bedrift, string bio)
+        public JsonResult UpdateCV(string bruker, string felt, string index, string årFra, string årTil, string tittel, string bedrift, string bio , string[] array)
         {
-            Debug.WriteLine("------------------------------------------ MOMOMOMOMOM");
+            
             int indexI = Int32.Parse(index);
 
             Bruker = firebase.HentEnkeltBruker(bruker);
@@ -224,6 +237,37 @@ namespace Portefolio_webApp.Controllers
                 Bruker.CV.Utdanning[indexI + 1] = årTil;
                 Bruker.CV.Utdanning[indexI + 2] = tittel;
                 Bruker.CV.Utdanning[indexI + 3] = bedrift;
+            }
+            else if (felt == "Ferdigheter")
+            {
+                int startLengde = Bruker.CV.Ferdigheter.Count; 
+                int tilSammen =  array.Length - startLengde;
+              
+                for (int i = 0; i < Bruker.CV.Ferdigheter.Count; i++)
+                {
+                    Bruker.CV.Ferdigheter[i] = array[i];
+                }
+                for (int j = startLengde; j < array.Length; j++)
+                {
+                    Debug.WriteLine("------------------------------------------ MOMOMOMOMOM-add " + array[j]);
+                    Bruker.CV.Ferdigheter.Add(array[j]);
+                }
+            }
+            else if (felt == "Språk")
+            {
+                Debug.WriteLine("------------------------------------------ MOMOMOMOMOM INNI SPRÅK");
+                int startLengde = Bruker.CV.Språk.Count;
+                int tilSammen = array.Length - startLengde;
+
+                for (int i = 0; i < Bruker.CV.Språk.Count; i++)
+                {
+                    Bruker.CV.Språk[i] = array[i];
+                }
+                for (int j = startLengde; j < array.Length; j++)
+                {
+                    Debug.WriteLine("------------------------------------------ MOMOMOMOMOM-add SPRÅK " + array[j]);
+                    Bruker.CV.Språk.Add(array[j]);
+                }
             }
 
             firebase.OppdaterBruker(Bruker);
