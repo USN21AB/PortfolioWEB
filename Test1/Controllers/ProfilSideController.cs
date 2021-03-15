@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
 using Test1.Models;
 using System.IO;
+using Test1.Controllers;
 
 namespace Portefolio_webApp.Controllers
 {
@@ -35,27 +36,27 @@ namespace Portefolio_webApp.Controllers
         public IActionResult ProfilSide()
         {
             //Midlertidig kommenter ut
-            var token = HttpContext.Session.GetString("_UserToken");
-            if (token != null)
-            {
+           // var token = HttpContext.Session.GetString("_UserToken");
+            //if (token != null)
+            //{
                 return View();
-            }
-            else
-            {
-                return Redirect("~/Login/SignIn");
-            }
+           // }
+          //  else
+          //  {
+          //      return Redirect("~/Login/SignIn");
+          //  }
         }
 
         [HttpGet]
         public IActionResult CV()
         {
 
-            Debug.WriteLine("------------------------------------------------------- THIS IS MAIN CV ");
-
             //Dummy bruker med id. 
             Bruker = firebase.HentEnkeltBruker("-MTuNdX2ldnO73BCZwFp");
-
+            Innlegg innlegg = new Innlegg();
+            innlegg.Tittel = "TESTITTEL"; 
             ViewData["Bruker"] = Bruker;
+            ViewData["test"] = innlegg; 
             return View(Bruker);
         }
 
@@ -86,26 +87,25 @@ namespace Portefolio_webApp.Controllers
         [HttpGet]
         public IActionResult UpsertBruker()
         {
-            Bruker nybruker = new Bruker();
-              nybruker = firebase.HentEnkeltBruker("-MTuNdX2ldnO73BCZwFp"); 
-            // Debug.WriteLine("-----------------------------------SESSIONNN!!!" + HttpContext.Session.GetString("_UserToken")); 
+            Bruker nybruker = firebase.HentEnkeltBruker(HttpContext.Session.GetString("_UserID")); 
+             Debug.WriteLine("-----------------------------------SESSIONNN!!!" + HttpContext.Session.GetString("_UserID"));
             if (nybruker == null)
-                return NotFound();
+                nybruker = new Bruker(); 
 
-            return View(nybruker); 
+            return View(nybruker);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult UpsertBruker(Bruker oppBruker, string filename, IFormFile file, [FromServices] IHostingEnvironment oHostingEnvironment)
         {
-            
+            Debug.WriteLine("INNI POST UPSERTBRUKER I KONTROLLER"); 
             if (ModelState.IsValid)
             {
                 try
                 {
                     if (string.IsNullOrEmpty(oppBruker.Id)) {
-                        firebase.RegistrerBruker(oppBruker);
+                      //  firebase.RegistrerBruker(oppBruker);
                         ModelState.AddModelError(string.Empty, "Registrering suksessfult!");
                     } else
                     {
@@ -121,7 +121,15 @@ namespace Portefolio_webApp.Controllers
                     ModelState.AddModelError(string.Empty, ex.Message);
                 }
             }
-            return View(oppBruker);
+            Debug.WriteLine("INNI POST UPSERTBRUKER I KONTROLLER ENDING");
+
+            var logginn = new LoginController();
+            logginn.Register(oppBruker);
+            //return RedirectToAction("Login",
+            //        "Register",
+            //    new { bruker = oppBruker });
+
+            return RedirectToAction("ProfilSide"); 
         }
 
 

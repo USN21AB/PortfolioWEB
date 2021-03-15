@@ -14,10 +14,12 @@ namespace Test1.Controllers
     public class LoginController : Controller
     {
         FirebaseAuthProvider auth;
+        private readonly FirebaseDB firebase;
         public LoginController()
         {
             auth = new FirebaseAuthProvider(
                             new FirebaseConfig("AIzaSyAF3lsyJBHDwpdd2u9D0qW-m3c2TJftQvE"));
+            firebase = new FirebaseDB();
         }
         public IActionResult Register()
         {
@@ -26,6 +28,7 @@ namespace Test1.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(Bruker bruker)
         {
+            Debug.WriteLine("--------------------------- INNI REGISTRER " + bruker.Email); 
             //create the user
             await auth.CreateUserWithEmailAndPasswordAsync(bruker.Email, bruker.Password);
             //log in the new user
@@ -37,8 +40,10 @@ namespace Test1.Controllers
             //saving the token in a session variable
             if (token != null)
             {
+                bruker.Id = fbAuthLink.User.LocalId; 
                 HttpContext.Session.SetString("_UserToken", token);
-
+               
+                firebase.RegistrerBruker(bruker); 
                 return Redirect("~/ProfilSide/ProfilSide");
             }
             else
@@ -60,10 +65,11 @@ namespace Test1.Controllers
                 var fbAuthLink = await auth
                                 .SignInWithEmailAndPasswordAsync(bruker.Email, bruker.Password);
                 string token = fbAuthLink.FirebaseToken;
+                Debug.WriteLine("Logget inn som " + fbAuthLink.User.Email); 
                 if (token != null)
                 {
                     HttpContext.Session.SetString("_UserToken", token);
-
+                    HttpContext.Session.SetString("_UserID", fbAuthLink.User.LocalId);
                     return Redirect("~/Home/BrowseSide");
                 }
                 else
