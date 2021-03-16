@@ -13,6 +13,8 @@ using System.IO;
 using LazZiya.ImageResize;
 using System.Drawing;
 
+using Test1.Controllers;
+
 
 namespace Portefolio_webApp.Controllers
 {
