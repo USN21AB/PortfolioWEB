@@ -21,14 +21,13 @@ namespace Portefolio_webApp.Controllers
     public class ProfilSideController : Controller
     {
         private readonly FirebaseDB firebase;
+        LoginController logg;
 
         public ProfilSideController()
         {
             firebase = new FirebaseDB();
-            
-
-       
-    }
+            logg = new LoginController();
+        }
 
         [BindProperty]
         public CV CirVit { get; set; }
@@ -41,11 +40,19 @@ namespace Portefolio_webApp.Controllers
 
         public IActionResult ProfilSide()
         {
-            var token = HttpContext.Session.GetString("_UserToken");
-         
-        
-                return View();
-          
+           
+            //var brukerID = HttpContext.Session.GetString("_UserID");
+            //Midlertidig kommenter ut
+            // var token = HttpContext.Session.GetString("_UserToken");
+            //if (token != null)
+            //{
+            return View();
+            // }
+            //  else
+            //  {
+            //      return Redirect("~/Login/SignIn");
+            //  }
+
         }
 
         [HttpGet]
@@ -128,7 +135,10 @@ namespace Portefolio_webApp.Controllers
         public IActionResult UpsertBruker()
         {
             Bruker nybruker = new Bruker();
-            nybruker = firebase.HentEnkeltBruker("-MTuAm8t_eBlv5KMiuWX"); 
+            var token = HttpContext.Session.GetString("_UserToken");
+            
+            if (token != null)
+            nybruker = firebase.HentEnkeltBruker(HttpContext.Session.GetString("_UserID")); 
             
 
             if(nybruker == null)
@@ -141,19 +151,41 @@ namespace Portefolio_webApp.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult UpsertBruker(Bruker oppBruker, string filename, IFormFile file, [FromServices] IHostingEnvironment oHostingEnvironment)
         {
-            
+
             if (ModelState.IsValid)
             {
                 try
                 {
                     if (string.IsNullOrEmpty(oppBruker.Id)) {
-                        firebase.RegistrerBruker(oppBruker);
-                        ModelState.AddModelError(string.Empty, "Registrering suksessfult!");
+
+                        string logginnID = logg.Register(oppBruker.Email, oppBruker.Password).Result;
+                        string [] splittArr = logginnID.Split("|");
+
+                        oppBruker.Id = splittArr[0];
+                        oppBruker.Password = null; 
+                     
+                        HttpContext.Session.SetString("_UserID", splittArr[0]);
+                        HttpContext.Session.SetString("_UserToken", splittArr[1]);
+
+                        if (oppBruker.Id == "")
+                        {
+                            ModelState.AddModelError(string.Empty, "Invalid Password or Email!");
+                        }
+                        else {
+                            oppBruker.CV.BrukerID = oppBruker.Id; 
+
+                            oppBruker.Mapper = new List<Portfolio>(); 
+                            firebase.RegistrerBruker(oppBruker);
+                        }
+                       
+
                     } else
                     {
                         firebase.OppdaterBruker(oppBruker);
+                        if(file != null) {
                         Console.WriteLine("" + file.FileName);
                         UploadFile(file,oHostingEnvironment,oppBruker.Id);
+                        }
                         ModelState.AddModelError(string.Empty, "Oppdatert suksessfult!");
                     }
                 }
@@ -163,7 +195,8 @@ namespace Portefolio_webApp.Controllers
                     ModelState.AddModelError(string.Empty, ex.Message);
                 }
             }
-            return View(oppBruker);
+     
+            return RedirectToAction("BrowseSide", "Home");
         }
 
 
