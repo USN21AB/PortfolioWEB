@@ -189,10 +189,10 @@ namespace Test1.Models
 
         public void RegistrerBruker(Bruker bruker)
         {
-       
-            PushResponse respons = klient.Push("Bruker/", bruker);
-           // bruker.Id = respons.Result.name;
-           // SetResponse setResponse = klient.Set("Bruker/" + bruker.Id, bruker);
+            
+            //PushResponse respons = klient.Push("Bruker/"+bruker.Id, bruker);
+          // bruker.Id = respons.Result.name;
+           SetResponse setResponse = klient.Set("Bruker/" + bruker.Id, bruker);
                
         }
 
