@@ -113,7 +113,6 @@ namespace Portefolio_webApp.Controllers
                 var scaleImg = ImageResize.Scale(image, 10, 10);
                 scaleImg.SaveAs($"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{"Waka"+file.FileName}");
 
-
             }
 
             await firebase.UploadProfilBilde($"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{"Waka" + file.FileName}", file, brukerId);
@@ -186,41 +185,133 @@ namespace Portefolio_webApp.Controllers
         [HttpPost]
         public JsonResult LeggTilCV(string felt, string par1, string par2, string par3, string par4, string par5)
         {
-            Debug.WriteLine("---------------------------------yo " + par3 + " og " + par4);
+            Debug.WriteLine("---------------------------------yo ");
             Bruker = firebase.HentEnkeltBruker("-MTuNdX2ldnO73BCZwFp");
 
-            if (felt == "Arbeidserfaring") { 
-            //ViewData["liste"] = firebase.SorterAlleInnlegg(kategori);
-          
-            Bruker.CV.ArbeidsErfaring.Add(par1);
-            Bruker.CV.ArbeidsErfaring.Add(par2);
-            Bruker.CV.ArbeidsErfaring.Add(par3);
-            Bruker.CV.ArbeidsErfaring.Add(par4);
-            Bruker.CV.ArbeidsErfaring.Add(par5);
-            } else if(felt == "Utdanning")
+            if (felt == "Arbeidserfaring")
+            {
+                Bruker.CV.ArbeidsErfaring.Add(par1);
+                Bruker.CV.ArbeidsErfaring.Add(par2);
+                Bruker.CV.ArbeidsErfaring.Add(par3);
+                Bruker.CV.ArbeidsErfaring.Add(par4);
+                Bruker.CV.ArbeidsErfaring.Add(par5);
+            }
+            else if (felt == "Utdanning")
             {
                 Bruker.CV.Utdanning.Add(par1);
                 Bruker.CV.Utdanning.Add(par2);
                 Bruker.CV.Utdanning.Add(par3);
                 Bruker.CV.Utdanning.Add(par4);
             }
-            else if(felt == "Ferdigheter")
+            else if (felt == "Ferdigheter")
             {
                 Bruker.CV.Ferdigheter.Add(par1);
                 Bruker.CV.Ferdigheter.Add(par2);
             }
-            else
+            else if (felt == "Språk")
             {
                 Bruker.CV.Språk.Add(par1);
                 Bruker.CV.Språk.Add(par2);
             }
 
-            firebase.OppdaterBruker(Bruker); 
+            firebase.OppdaterBruker(Bruker);
             var resultat = "Jobberfaring oppdatert: " + par1 + " " + par2;
             var data = new { status = "ok", result = resultat };
 
             return Json(data);
         }
+
+        [HttpPost]
+        public JsonResult DeleteCV(string felt, string index)
+        {
+            Debug.WriteLine("---------------------------------yo " + felt + " og " + index);
+            Bruker = firebase.HentEnkeltBruker("-MTuNdX2ldnO73BCZwFp");
+            if (felt == "ArbeidsErfaring")
+            {
+                Bruker.CV.ArbeidsErfaring.RemoveRange(Int32.Parse(index), 5);
+            }
+            else if (felt == "Utdanning")
+            {
+                Bruker.CV.Utdanning.RemoveRange(Int32.Parse(index), 4);
+            }
+
+            else if (felt == "Ferdigheter")
+            {
+                Bruker.CV.Ferdigheter.RemoveRange(Int32.Parse(index), 2);
+            }
+            else if (felt == "Språk")
+            {
+                Bruker.CV.Språk.RemoveRange(Int32.Parse(index), 2);
+            }
+
+            firebase.OppdaterBruker(Bruker);
+            var resultat = "Jobberfaring oppdatert: " + felt + " " + index;
+            var data = new { status = "ok", result = resultat };
+
+            return Json(data);
+        }
+
+        [HttpPost]
+        public JsonResult UpdateCV(string bruker, string felt, string index, string årFra, string årTil, string tittel, string bedrift, string bio, string[] array)
+        {
+
+            int indexI = Int32.Parse(index);
+
+            Bruker = firebase.HentEnkeltBruker(bruker);
+            if (felt == "ArbeidsErfaring")
+            {
+                Bruker.CV.ArbeidsErfaring[indexI] = årFra;
+                Bruker.CV.ArbeidsErfaring[indexI + 1] = årTil;
+                Bruker.CV.ArbeidsErfaring[indexI + 2] = tittel;
+                Bruker.CV.ArbeidsErfaring[indexI + 3] = bedrift;
+                Bruker.CV.ArbeidsErfaring[indexI + 4] = bio;
+
+            }
+            else if (felt == "Utdanning")
+            {
+                Bruker.CV.Utdanning[indexI] = årFra;
+                Bruker.CV.Utdanning[indexI + 1] = årTil;
+                Bruker.CV.Utdanning[indexI + 2] = tittel;
+                Bruker.CV.Utdanning[indexI + 3] = bedrift;
+            }
+            else if (felt == "Ferdigheter")
+            {
+                int startLengde = Bruker.CV.Ferdigheter.Count;
+                int tilSammen = array.Length - startLengde;
+
+                for (int i = 0; i < Bruker.CV.Ferdigheter.Count; i++)
+                {
+                    Bruker.CV.Ferdigheter[i] = array[i];
+                }
+                for (int j = startLengde; j < array.Length; j++)
+                {
+                    Debug.WriteLine("------------------------------------------ MOMOMOMOMOM-add " + array[j]);
+                    Bruker.CV.Ferdigheter.Add(array[j]);
+                }
+            }
+            else if (felt == "Språk")
+            {
+                Debug.WriteLine("------------------------------------------ MOMOMOMOMOM INNI SPRÅK");
+                int startLengde = Bruker.CV.Språk.Count;
+                int tilSammen = array.Length - startLengde;
+
+                for (int i = 0; i < Bruker.CV.Språk.Count; i++)
+                {
+                    Bruker.CV.Språk[i] = array[i];
+                }
+                for (int j = startLengde; j < array.Length; j++)
+                {
+                    Debug.WriteLine("------------------------------------------ MOMOMOMOMOM-add SPRÅK " + array[j]);
+                    Bruker.CV.Språk.Add(array[j]);
+                }
+            }
+
+            firebase.OppdaterBruker(Bruker);
+            var resultat = "Jobberfaring oppdatert: " + tittel + " " + index;
+            var data = new { status = "ok", result = resultat };
+
+            return Json(data);
+        }
     }
-    
+
 }
