@@ -1,8 +1,108 @@
 ﻿@model Portefolio_webApp.Models.Innlegg;
-    <link href="~/css/Upsert_Innlegg.css" rel="stylesheet" />
+<link href="~/css/Upsert_Innlegg.css" rel="stylesheet" />
 
 <h2 class="text-info">@(Model.Id == null ? "Registrer" : "Rediger") Innlegg</h2>
 <br />
+
+<style>
+    #bildekategori {
+        position: relative;
+        display: none;
+    }
+
+    #musikkategori {
+        display: none
+    }
+
+    #tekstkategori {
+        display: none;
+    }
+
+    
+
+    .radio {
+        display: inline-block;
+        width: 100px;
+        height: 80px;
+        border-radius: 10%;
+        background-color: lightblue;
+        border: 2px solid lightblue;
+        cursor: pointer;
+        margin: 2px 0;
+    }
+
+        .radio.selected {
+            border-color: blue;
+        }
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<script>
+    function fileValidation() {
+        var file = document.getElementById("input-file").value;
+        document.getElementById('file-type-test').innerHTML = file;
+
+        var validImage = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+        var validAudio = /(\.mp3)$/i;
+        var validTekst = /(\.pdf)$/i;
+
+
+        if (validImage.exec(file)) {
+            document.getElementById('file-type-test').innerHTML = "Bilde";
+            document.getElementById('bildekategori').style.display = "block";
+            document.getElementById('musikkategori').style.display = "none";
+            document.getElementById('tekstkategori').style.display = "none";
+            document.getElementById("kategori-value").value = "";
+
+        }
+        else if (validAudio.exec(file)) {
+            document.getElementById('file-type-test').innerHTML = "Audio";
+            document.getElementById('musikkategori').style.display = "block";
+            document.getElementById('bildekategori').style.display = "none";
+            document.getElementById('tekstkategori').style.display = "none";
+            document.getElementById("kategori-value").value = "";
+        }
+        else if (validTekst.exec(file)) {
+            document.getElementById('file-type-test').innerHTML = "Tekst";
+            document.getElementById('tekstkategori').style.display = "block";
+            document.getElementById('bildekategori').style.display = "none";
+            document.getElementById('musikkategori').style.display = "none";
+            document.getElementById("kategori-value").value = "";
+
+        }
+        else
+            document.getElementById('file-type-test').innerHTML = "Uh oh";
+            document.getElementById("kategori-value").value = "";
+
+    }
+
+    function radio(id) {
+
+        var bilde = /(Fotografi|Digital Art|Traditional Art|3D)$/i;
+        var lyd = /(Musikk|Lydeffekter|Voice Acting|Audiobook)$/i;
+        var tekst = /(Fiction|Non-Fiction)$/i;
+        
+        var verdi = document.getElementById(id).value;
+
+        if (bilde.exec(verdi)) {
+            document.getElementById("kategori-value").value = verdi;
+            
+        }
+        else if (lyd.exec(verdi)) {
+            document.getElementById("kategori-value").value = verdi;
+            
+        }
+        else if (tekst.exec(verdi)) {
+            document.getElementById("kategori-value").value = verdi;
+            
+        }
+    }
+
+    
+
+</script>
+
 
 <div class="border container" style="padding:30px;">
     <form class="whitetext" method="post">
@@ -15,6 +115,35 @@
             <input type="hidden" asp-for="FilStørrelse" />
             <input type="hidden" asp-for="IkonURL" />
         }
+
+        <input class="box__file" id="input-file" type="file" accept="image/png|image/jpeg|image/jpg|image/gif|audio/mp3|application/pdf" oninput="fileValidation()" />
+        <span id="file-type-test">lol</span>
+
+        <div id="bildekategori">
+            <button type="button" class='radio' id="radio1" value="Fotografi" onclick='radio(this.id)'>Fotografi</button>
+            <button type="button" class='radio' id="radio2" value="Digital Art" onclick="radio(this.id)">Digital Art</button>
+            <button type="button" class='radio' id="radio3" value="Traditional Art" onclick="radio(this.id)">Traditional Art</button>
+            <button type="button" class='radio' id="radio4" value="3D" onclick="radio(this.id)">3D</button>
+
+
+        </div>
+        <div id="musikkategori">
+            <button type="button" class='radio' id="radio5" value="Musikk" onclick="radio(this.id)">Musikk</button>
+            <button type="button" class='radio' id="radio6" value="Lydeffekter" onclick="radio(this.id)">Lydeffekter</button>
+            <button type="button" class='radio' id="radio7" value="Voice Acting" onclick="radio(this.id)">Voice Acting</button>
+            <button type="button" class='radio' id="radio8" value="Audiobook" onclick="radio(this.id)">Audiobook</button>
+
+        </div>
+        <div id="tekstkategori">
+            <button type="button" class='radio' id="radio9" value="Fiction" onclick="radio(this.id)">Fiction</button>
+            <button type="button" class='radio' id="radio10" value="Non-Fiction" onclick="radio(this.id)">Non-Fiction</button>
+
+
+        </div>
+
+        <input type="text" id="kategori-value" name="radio-value" value="" />
+
+
         <div class="text-danger" asp-validation-summary="ModelOnly"></div>
         <div class="form-group row">
             <div class="col-3">
@@ -55,6 +184,8 @@
         </div>
     </form>
 </div>
+
+
 
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />
