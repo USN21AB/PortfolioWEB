@@ -1,42 +1,5 @@
-﻿body {
-    background-color: #e2e8f0;
-    margin-top: 80px;
-}
-
-.nav {
-    width: 120px;
-}
-
-.nav-pills .nav-link .active {
-    background-color: rgb(2, 117, 216)
-}
-
-.mapper {
-    width: 200px;
-    margin-right: 10px;
-}
-
-
-/*                                          PORTFOLIO                                             */
+﻿
 /*////////////////////////////////////////////////////////////////////////////////////////////////*/
-
-
-.awesome-portfolio-area {
-    box-shadow: 0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.06);
-    background-color: #fff;
-    background-clip: border-box;
-    border: 0 solid rgba(0,0,0,.125);
-    border-radius: .25rem;
-    overflow: hidden;
-    padding: 10px;
-}
-
-
-
-
-.awesome-portfolio {
-}
-
 .single-awesome-portfolio {
     margin: 2px;
     float: left;
@@ -44,10 +7,10 @@
     position: relative;
 }
 
-    .single-awesome-portfolio a {
-        position: relative;
-        display: block;
-    }
+.single-awesome-portfolio a {
+    position: relative;
+    display: block;
+}
 
 
 
@@ -70,7 +33,7 @@
     }
 
 .awesome-info {
-    background-color: #282727;
+    background-color: #272727;
     height: 25%;
     padding: 20px 30px 12px;
     position: absolute;
@@ -112,8 +75,7 @@
 }
 /**/
 
-
-img {
+.imge {
     max-width: 100%;
     height: auto;
     object-fit: cover;
@@ -127,8 +89,8 @@ img {
 .music_player {
     margin: 2px;
     float: left;
-    width: 300px;
-    height: 300px;
+    width: 310px;
+    height: 310px;
     overflow: hidden;
     position: relative;
     display: block;
@@ -144,7 +106,7 @@ img {
 }
 
 .play_button_div {
-    background-color: #fff;
+    background-color: #272727;
     height: 100%;
     position: absolute;
     top: 0;
@@ -155,11 +117,12 @@ img {
 
 .play_button {
     position: absolute;
-    margin-top: 100px;
-    margin-bottom: 100px;
-    margin-left: 100px;
-    margin-right: 100px;
+    margin-top: 105px;
+    margin-bottom: 105px;
+    margin-left: 105px;
+    margin-right: 105px;
     opacity: 0;
+    z-index: 2;
     width: 100px;
     height: 100px;
 }
@@ -187,72 +150,6 @@ img {
 
 
 
-.musikk_kontroller {
-    position: fixed;
-    z-index: 5;
-    width: 560px;
-    height: 70px;
-    bottom: -70px;
-    background: white;
-    left: 50%;
-    transform: translateX(-50%);
-    transition: none;
-    border-radius: .25rem;
-}
-
-
-
-.stopper {
-    position: absolute;
-    margin-top: 5px;
-    height: 40px;
-    width: 40px;
-    left: calc(50% - 20px);
-}
-
-    .stopper:active {
-        transform: scale(0.9);
-    }
-
-#tracktime {
-    position: absolute;
-    bottom: 7px;
-    margin-left: 19px;
-}
-
-#trackduration {
-    position: absolute;
-    bottom: 7px;
-    right: 19px;
-}
-
-#sangfelt {
-    position: absolute;
-    margin-left: 19px;
-    width: 170px
-}
-
-#artistfelt {
-    position: absolute;
-    margin-left: 19px;
-    margin-top: 18px;
-    width: 170px;
-}
-
-#volume-control {
-    position: absolute;
-    right: 19px;
-    top: 18px;
-}
-
-#seekbar {
-    position: absolute;
-    width: 400px;
-    margin: auto;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-}
 
 
 /*                                              LITTERATUR                                          */

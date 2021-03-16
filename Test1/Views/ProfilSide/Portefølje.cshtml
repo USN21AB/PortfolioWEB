@@ -1,157 +1,21 @@
 ﻿@using Portefolio_webApp.Models
 @model Portefolio_webApp.Models.Bruker;
-    <link href="~/css/Portefølje.css" rel="stylesheet" />
+
 @{
     var BrukerInnhold = (Portefolio_webApp.Models.Bruker)ViewData["Bruker_Innhold"];
 }
 
-
+<link href="~/css/PortefølgeBody.css" rel="stylesheet" />
+<link href="~/css/PorteføljeElementer.css" rel="stylesheet" />
+<link href="~/css/Musikkontroller.css" rel="stylesheet" />
+<script src="~/js/lyd.js"></script>
 
 <script>
-    /*window.onload = initial();
 
-    function initial() {
-        var audio = document.getElementsByClassName('lydspor'),
-            i = audio.length;
-        while (i--) {
-            var lyd = audio[i].id;
-            var luld = document.getElementById(lyd);
-            luld.volume = 0.5;
-        }
-    };
-    */
-
-    function spillAv(sang, toggle) {
-        var audio = document.getElementsByClassName('lydspor'),
-            i = audio.length;
-        var playpause = document.getElementsByClassName("play_button");
-        var lyd = document.getElementById(sang);
-        var loggle = document.getElementById(toggle);
-        var spiller = document.getElementById("test").style;
-
-
-
-        if (lyd.paused) {
-            while (i--) {
-                audio[i].pause();
-                playpause[i].src = "../resources/icons8-play-96.png"
-            };
-            spiller.transition = "all .5s ease";
-            spiller.bottom = "0";
-            loggle.src = "../resources/icons8-pause-96.png"
-            lyd.play();
-        }
-        else {
-            spiller.transition = "all .5s ease";
-            spiller.bottom = "-70px";
-            loggle.src = "../resources/icons8-play-96.png"
-            lyd.pause();
-        }
-
-
-    };
-
-    function volum(verdi) {
-
-
-        var audio = document.getElementsByClassName('lydspor'),
-            i = audio.length;
-
-
-        while (i--) {
-            var lyd = audio[i].id;
-            var luld = document.getElementById(lyd);
-            luld.volume = verdi / 10;
-        };
-
-    }
-
-    function visSang(sang, artist) {
-        var sang = document.getElementById(sang).textContent;
-        var artist = document.getElementById(artist).textContent;
-        var sangfelt = document.getElementById("sangfelt");
-        var artistfelt = document.getElementById("artistfelt");
-
-        sangfelt.innerHTML = sang + " - ";
-        artistfelt.innerHTML = artist;
-    }
-
-
-
-    function timer(lydId) {
-        var lyd = document.getElementById(lydId);
-        lyd = document.getElementById("seekbar").value = (lyd.currentTime * 100) / lyd.duration;
-
-        /*var time = lyd.currentTime;
-        var minutes = Math.floor(time / 60);
-        var seconds = Math.floor(time);
-
-        minutes = parseFloat(minutes);
-        seconds = parseFloat(seconds);*/
-
-        var tid = lyd.currentTime;
-        var lengde = lyd.duration;
-
-
-
-        //document.getElementById('tracktime').innerHTML = Math.floor(lyd.currentTime) + ' / ' + Math.floor(lyd.duration);
-        // + " / " +
-
-    }
-
-
-    function stopAll() {
-        var lyd = document.getElementsByClassName('lydspor');
-        var spiller = document.getElementById("test").style;
-        var playpause = document.getElementsByClassName("play_button");
-        i = lyd.length;
-
-        while (i--) {
-
-            lyd[i].pause();
-            playpause[i].src = "../resources/icons8-play-96.png"
-        }
-
-        spiller.transition = "all .5s ease";
-        spiller.bottom = "-70px";
-    };
-
-    var info = document.getElementsByClassName("awesome-info");
-    var image = document.getElementsByClassName("single-awesome-portfolio");
-
-
-
-
-    $(function () {
-        $('.awesome-portfolio-content').mixItUp({
-            animation: {
-                effects: 'rotateZ',
-                duration: 1000,
-            }
-        });
-
-        $('.blog-column-content').mixItUp({
-            animation: {
-                effects: 'scale',
-                duration: 1000,
-            }
-        });
-
-        $('.portfolio-column-content').mixItUp({
-            animation: {
-                effects: 'fade rotateY(-180deg)',
-                duration: 1000,
-            }
-        });
+    $(document).ready(function () {
+        var hash = window.location.hash;
+        hash && $('#v-pills-tab a[href="' + hash + '"]').tab('show');
     });
-
-    /*$(function timer2(sanger) {
-        var lol = "#" + sanger;
-        $(lol).on('timeupdate', function () {
-            $('#seekbar').attr("value", (this.currentTime * 100) / this.duration);
-        });
-    })*/
-
 
 </script>
 
@@ -205,7 +69,7 @@
                                         <h3>@Innlegg.Beskrivelse</h3>
                                         <p>@Innlegg.Tittel</p>
                                     </div>
-                                    <img src="@Innlegg.IkonURL" alt="">
+                                    <img class="imge" src="@Innlegg.IkonURL" alt="">
                                 </div>
 
                             </a>
@@ -218,6 +82,54 @@
                 </div>
                 mappeNr++;
             }
+            <div class="music_player">
+
+                <div class="play_button_div"></div>
+                <img id="sangi" class="play_button shadowed" src="../resources/icons8-play-96.png" onclick='spillAv("sang", this.id); visSang("sangnavn", "artist")' />
+                <audio id="sang" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2FPok%C3%A9mon%20Theme%20Song.mp3?alt=media&token=bccacd1c-ed6a-4050-8745-b1ee3bb50f96"></audio>
+                <img class="fuck imge" src="https://gameriv.com/wp-content/uploads/2021/01/Untitled-1-23-696x392.jpg" />
+                <p id="sangnavn">Pokémon Theme</p>
+                <p id="artist">IDFK</p>
+
+            </div><div class="music_player">
+
+                <div class="play_button_div"></div>
+                <img id="sangi" class="play_button shadowed" src="../resources/icons8-play-96.png" onclick='spillAv("sang", this.id); visSang("sangnavn", "artist")' />
+                <audio id="sang" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2FPok%C3%A9mon%20Theme%20Song.mp3?alt=media&token=bccacd1c-ed6a-4050-8745-b1ee3bb50f96"></audio>
+                <img class="fuck imge" src="https://gameriv.com/wp-content/uploads/2021/01/Untitled-1-23-696x392.jpg" />
+                <p id="sangnavn">Pokémon Theme</p>
+                <p id="artist">IDFK</p>
+
+            </div><div class="music_player">
+
+                <div class="play_button_div"></div>
+                <img id="sangi" class="play_button shadowed" src="../resources/icons8-play-96.png" onclick='spillAv("sang", this.id); visSang("sangnavn", "artist")' />
+                <audio id="sang" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2FPok%C3%A9mon%20Theme%20Song.mp3?alt=media&token=bccacd1c-ed6a-4050-8745-b1ee3bb50f96"></audio>
+                <img class="fuck imge" src="https://gameriv.com/wp-content/uploads/2021/01/Untitled-1-23-696x392.jpg" />
+                <p id="sangnavn">Pokémon Theme</p>
+                <p id="artist">IDFK</p>
+
+            </div><div class="music_player">
+
+                <div class="play_button_div"></div>
+                <img id="sangi" class="play_button shadowed" src="../resources/icons8-play-96.png" onclick='spillAv("sang", this.id); visSang("sangnavn", "artist")' />
+                <audio id="sang" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2FPok%C3%A9mon%20Theme%20Song.mp3?alt=media&token=bccacd1c-ed6a-4050-8745-b1ee3bb50f96"></audio>
+                <img class="fuck imge" src="https://gameriv.com/wp-content/uploads/2021/01/Untitled-1-23-696x392.jpg" />
+                <p id="sangnavn">Pokémon Theme</p>
+                <p id="artist">IDFK</p>
+
+            </div><div class="music_player">
+
+                <div class="play_button_div"></div>
+                <img id="sangi" class="play_button shadowed" src="../resources/icons8-play-96.png" onclick='spillAv("sang", this.id); visSang("sangnavn", "artist")' />
+                <audio id="sang" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2FPok%C3%A9mon%20Theme%20Song.mp3?alt=media&token=bccacd1c-ed6a-4050-8745-b1ee3bb50f96"></audio>
+                <img class="fuck imge" src="https://gameriv.com/wp-content/uploads/2021/01/Untitled-1-23-696x392.jpg" />
+                <p id="sangnavn">Pokémon Theme</p>
+                <p id="artist">IDFK</p>
+
+            </div>
+
+
 
         </div>
 
@@ -230,7 +142,7 @@
 
 
 
-<div class="music_player">
+<!--<div class="music_player">
 
     <div class="play_button_div"></div>
     <img id="sangi" class="play_button shadowed" src="../resources/icons8-play-96.png" onclick='spillAv("sang", this.id); visSang("sangnavn", "artist")' />
@@ -251,9 +163,7 @@
     <p id="sangnavn1">Habibi</p>
     <p id="artist1">Pokelawls</p>
 
-</div>
-
-
+</div>-->
 <!--<div class="litteratur">
         <img class="book_cover" src="https://m.media-amazon.com/images/I/514FIoHpsmL.jpg" />
         <h3 class="tittel">Den fantastiske Mikkel Rev er en veldig bra film og bok</h3>-59 characters Kan ikke telle
@@ -270,7 +180,7 @@
     <progress id="seekbar" value="0" max="100"></progress>
     <span id="trackduration">00:00</span>
 
-    <img class="stopper" src="https://66.media.tumblr.com/1a1c3bcc08b5a048b90139a56fe7f415/tumblr_o9ku1rVS8z1vnqjx7o2_250.png" onclick="stopAll()" />
+    <img class="stopper" src="../resources/icons8-pause-96.png" onclick="stopAll()" />
 
     <input type="range" id="volume-control" value="5" min="0" max="10" onload="volum(this.value)" onchange="volum(this.value)">
 </div>

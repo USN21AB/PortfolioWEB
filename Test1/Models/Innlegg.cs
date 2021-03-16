@@ -8,8 +8,6 @@ namespace Portefolio_webApp.Models
     public class Innlegg
     {
         public string Id { get; set; }
-
-       
         public string Tittel { get; set; }
         public string Dato { get; set; }
         public string Klokkeslett { get; set; }
