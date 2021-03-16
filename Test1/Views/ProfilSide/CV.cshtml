@@ -241,23 +241,23 @@
                             <button id="submitArbeid" class="btn btn-success waves-effect waves-light mt-1 mb-3"><i class="mdi mdi-content-save"></i> Add</button>
                         </div>
                         <!--
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="useremail">Email Address</label>
-                <input type="email" class="form-control" id="useremail" placeholder="Enter email">
-                <span class="form-text text-muted"><small>If you want to change email please <a href="javascript: void(0);">click</a> here.</small></span>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="userpassword">Password</label>
-                <input type="password" class="form-control" id="userpassword" placeholder="Enter password">
-                <span class="form-text text-muted"><small>If you want to change password please <a href="javascript: void(0);">click</a> here.</small></span>
-            </div>
-        </div> <!-- end col
-    </div> <!-- end row
-    -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="useremail">Email Address</label>
+                                    <input type="email" class="form-control" id="useremail" placeholder="Enter email">
+                                    <span class="form-text text-muted"><small>If you want to change email please <a href="javascript: void(0);">click</a> here.</small></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="userpassword">Password</label>
+                                    <input type="password" class="form-control" id="userpassword" placeholder="Enter password">
+                                    <span class="form-text text-muted"><small>If you want to change password please <a href="javascript: void(0);">click</a> here.</small></span>
+                                </div>
+                            </div> <!-- end col
+                        </div> <!-- end row
+                        -->
 
 
 
@@ -389,24 +389,21 @@
 
 <script type="text/javascript">
     function addSlider(type) {
-        
-        var list = document.getElementById(type).lastElementChild;
-        alert(type + " og list:" +list.id); 
-        var nyId = parseInt(list.id.substring(5, list.id.length))+2;
 
+        var list = document.getElementById(type).lastElementChild;
+     
+        var nyId = parseInt(list.id.substring(5, list.id.length))+2;
         var skill = "";
         var bar = "";
         var tekst = "";
         var slider = "";
         var skillButton = "";
-
         if (type == "skillsEdit") {
             skill = "skill" + nyId;
             bar = "skillbar" + nyId;
             tekst = "sliderTekst" + nyId;
             slider = "skillSlider" + nyId;
             skillButton = nyId + "skillbutton"
-
         } else if (type == "språkEdit") {
             skill = "språk" + nyId;
             bar = "språkbar" + nyId;
@@ -414,7 +411,7 @@
             slider = "språkSlider" + nyId;
             skillButton = nyId + "språkbutton"
         }
-  
+
       //  alert(skill + " " + bar + " " + tekst + " " + slider);
         var tag = "<div class='col-md-6' id='"+ skill +"'>" +
                          " <div class='form-group'>" +
@@ -428,62 +425,49 @@
                                           "</div>" +
                              "</div>" +
             "</div>";
-
        var element = document.getElementById(type);
-
         element.insertAdjacentHTML('beforeend', tag);
         document.getElementById(slider).onchange = function () {
             sliderFunc(tekst, slider);
         };
-
         document.getElementById(skillButton).onclick = function () {
             onDelete(skill, 0, 'slider')
         }
-
     }
-
     function testResponse() {
         alert("HEEY ");
     }
-
     function registrerSliders(brukerID, type) {
 
         var i;
-
         var antall = (document.getElementById(type).childElementCount * 2);
         var arr = [];
         var Slider ="";
         var Bar = "";
-        var kategori = ""; 
-
+        var kategori = "";
         if (type == "skillsEdit") {
             Slider = "skillSlider";
             Bar = "skillbar";
-            kategori = "Ferdigheter"; 
+            kategori = "Ferdigheter";
         }
         else if (type == "språkEdit") {
              Slider = "språkSlider";
              Bar = "språkbar";
-             kategori = "Språk"; 
+             kategori = "Språk";
         }
-
         for (i = 0; i < antall; i += 2) {
-
             var nySlider = Slider + i;
             var nyBar = Bar + i;
             var slid = document.getElementById(nySlider).value + "%";
            var tek = document.getElementById(nyBar).value;
             arr[i] = tek;
             arr[i + 1] = slid;
-           
         }
 
-      
         saveEdit(brukerID, kategori, "0", "", "", "", "", "", arr);
     }
-
     function sliderFunc(id, slider) {
-     //alert(id + " " + slider)
+
        var x1 = document.getElementById(slider).value;
        x2 = document.getElementById(id);
         x2.innerHTML = x1 + '%';
@@ -501,11 +485,10 @@
         document.getElementById(submit).style.display = "none";
     }
     function onDelete(id, index, felt) {
-    
+
         if (felt == "slider") {
             document.getElementById(id).remove();
         } else document.getElementById(id).style.display = "none";
-
         if (felt != "slider") {
         var json = {
             "felt": felt,
@@ -535,18 +518,15 @@
         }
     }
     function saveEdit(bruker, felt, index, årFra, årTil, tittel, bedrift, bio, array) {
-
         var bion = '';
         var fra ='';
         var til = '';
         if (felt != "Ferdigheter" && felt != "Språk") {
          fra = document.getElementById(årFra);
          til = document.getElementById(årTil);
-
         }
         if (felt == "ArbeidsErfaring")
             bion = bio.value;
-
         var json = {
              "bruker": bruker,
             "felt": felt,
@@ -558,7 +538,6 @@
             "bio": bion,
             "array": array
         };
-
         $.ajax({
             type: "POST",
             url: '@Url.Action("UpdateCV", "ProfilSide")',
@@ -579,8 +558,6 @@
 
     <script>
         $(document).ready(function () {
-
-
             document.getElementById("submitArbeid").addEventListener('click', function (event) {
                 event.preventDefault();
                 var felt = "Arbeidserfaring";
@@ -599,7 +576,6 @@
                   };
                 ajaxUpload(jsonJobb);
             });
-
             document.getElementById("submitSkole").addEventListener('click', function (event) {
                 event.preventDefault();
                 var felt = "Utdanning";
@@ -607,7 +583,6 @@
                 var sluttÅr = $('#endYearU').val();
                 var jobbTittel = $('#linje').val();
                 var bedriftNavn = $('#skolename').val();
-
                 var jsonJobb = {
                     "felt": felt,
                     "par1": startÅr,
@@ -623,7 +598,6 @@
                 var felt = "Ferdigheter";
                 var startÅr = $('#skillSlider').val() + "%";
                 var sluttÅr = $('#skillbar').val();
-
                 var jsonJobb = {
                     "felt": felt,
                     "par1": sluttÅr,
@@ -660,8 +634,6 @@
                     }
                 });
             }
-
-
         })
     </script>
 }
