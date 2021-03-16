@@ -10,6 +10,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
 using Test1.Models;
 using System.IO;
+using LazZiya.ImageResize;
+using System.Drawing;
+
 
 namespace Portefolio_webApp.Controllers
 {
@@ -20,8 +23,10 @@ namespace Portefolio_webApp.Controllers
         public ProfilSideController()
         {
             firebase = new FirebaseDB();
-      
-        }
+            
+
+       
+    }
 
         [BindProperty]
         public CV CirVit { get; set; }
@@ -35,14 +40,10 @@ namespace Portefolio_webApp.Controllers
         public IActionResult ProfilSide()
         {
             var token = HttpContext.Session.GetString("_UserToken");
-            if (token != null)
-            {
+         
+        
                 return View();
-            }
-            else
-            {
-                return Redirect("~/Login/SignIn");
-            }
+          
         }
 
         [HttpGet]
@@ -85,13 +86,20 @@ namespace Portefolio_webApp.Controllers
             return View(hentBruker);
         }
 
-        [HttpPost]
+
+
+
+
+[HttpPost]
         [RequestSizeLimit(4294967295)]
         public async Task<ActionResult> UploadFile(IFormFile file, [FromServices] IHostingEnvironment oHostingEnvironment, string brukerId)
         {
 
+           
+
             Console.WriteLine("ACTIVATED;;;;;;;");
             string filename = $"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{file.FileName}";
+            
 
             using (FileStream fileStream = System.IO.File.Create(filename))
             {
@@ -99,20 +107,28 @@ namespace Portefolio_webApp.Controllers
                 file.CopyTo(fileStream);
                 fileStream.Flush();
                 fileStream.Close();
+                Image image = Image.FromStream(file.OpenReadStream(), true, true);
+                var scaleImg = ImageResize.Scale(image, 10, 10);
+                scaleImg.SaveAs($"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{"Waka"+file.FileName}");
 
 
             }
 
-            await firebase.UploadProfilBilde(filename, file,brukerId);
+            await firebase.UploadProfilBilde($"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{"Waka" + file.FileName}", file, brukerId);
+
+
 
             return View("ProfilSide");
         }
+
+       
 
         [HttpGet]
         public IActionResult UpsertBruker()
         {
             Bruker nybruker = new Bruker();
             nybruker = firebase.HentEnkeltBruker("-MTuAm8t_eBlv5KMiuWX"); 
+            
 
             if(nybruker == null)
                 return NotFound();
