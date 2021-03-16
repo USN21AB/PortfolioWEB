@@ -317,53 +317,75 @@
                                     var antallFerdigheter2 = 0;
 
 
-                                }
-                                @if (CvInnhold.Ferdigheter.Count != 0)
-                                    @while (antallFerdigheter2 < CvInnhold.Ferdigheter.Count)
-                                    {
-                                        var FerdighetNavn2 = CvInnhold.Ferdigheter.ElementAt(antallFerdigheter2);
-                                        var FerdighetProsent2 = CvInnhold.Ferdigheter.ElementAt(antallFerdigheter2 + 1);
-                                        var prosent = FerdighetProsent2.Substring(0, FerdighetProsent2.Length - 1);
+                            }
+                            @if (CvInnhold.Ferdigheter.Count != 0)
+                                @while (antallFerdigheter2 < CvInnhold.Ferdigheter.Count)
+                                {
+                                    var FerdighetNavn2 = CvInnhold.Ferdigheter.ElementAt(antallFerdigheter2);
+                                    var FerdighetProsent2 = CvInnhold.Ferdigheter.ElementAt(antallFerdigheter2 + 1);
+                                    var prosent = FerdighetProsent2.Substring(0, FerdighetProsent2.Length - 1);
 
-                                        <div class="col-md-6" id="skill@(antallFerdigheter2)">
-                                            <div class="form-group">
-                                                <input value="@FerdighetNavn2" id="skillbar@(antallFerdigheter2)" />
-                                                <div class="input-group">
-                                                    <input class="slider-general" id="skillSlider@(antallFerdigheter2)" data-slider-id='ex1Slider' value="@prosent" type="range" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14" oninput="sliderFunc('sliderTekst@(antallFerdigheter2)','skillSlider@(antallFerdigheter2)')" />
-                                                    <p id="sliderTekst@(antallFerdigheter2)">@FerdighetProsent2</p>
-                                                </div>
+                                    <div class="col-md-6" id="skill@(antallFerdigheter2)">
+                                        <div class="form-group">
+                                            <input value="@FerdighetNavn2" id="skillbar@(antallFerdigheter2)" />
+                                            <div class="input-group">
+                                                <input class="slider-general" id="skillSlider@(antallFerdigheter2)" data-slider-id='ex1Slider' value="@prosent" type="range" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14" oninput="sliderFunc('sliderTekst@(antallFerdigheter2)','skillSlider@(antallFerdigheter2)')" />
+                                                <button id="@(antallFerdigheter2)skillbutton" style="position:absolute; right:6%; bottom:110%" onclick="onDelete('skill@(antallFerdigheter2)', @antallFerdigheter2, 'Ferdigheter')"><i class="fas fa-window-close fa-sm"></i></button>
+                                                <p id="sliderTekst@(antallFerdigheter2)">@FerdighetProsent2</p>
                                             </div>
-                                        </div> <!-- end col -->
-                                        antallFerdigheter2 += 2;
+
+                                        </div>
+                                    </div> <!-- end col -->
+
+                                    antallFerdigheter2 += 2;
 
                                     }
 
-                            </div> <!-- end row -->
-                            <div class="text-right">
-                                <button id="addSkillButton" class="btn btn-success waves-effect waves-light mt-2" onclick="addSlider()"><i class="fas fa-plus"></i> Add</button>
-                                <button id="submitSkillButton" class="btn btn-success waves-effect waves-light mt-2" onclick=""><i class="mdi mdi-content-save"></i> Save</button>
-                            </div>
+                        </div> <!-- end row -->
+                        <div class="text-right">
+                            <button id="addSkillButton" class="btn btn-success waves-effect waves-light mt-2" onclick="addSlider('skillsEdit')"><i class="fas fa-plus"></i> Add</button>
+                            <button id="submitSkillButton" class="btn btn-success waves-effect waves-light mt-2" onclick="registrerSliders('@BrukerInnhold.Id','skillsEdit')"><i class="mdi mdi-content-save"></i> Save</button>
+                        </div>
 
 
 
-                            <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-translate mr-1"></i>Add / Edit Languages</h5>
-                            <input type="hidden" value="0" id="langCounter" />
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <input placeholder="Language" id="språkbar" />
-                                        <div class="input-group">
-                                            <input class="slider-general" id="språkSlider" data-slider-id='ex1Slider' type="range" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14" oninput="lol('ptest2','språkSlider')" />
-                                            <p id="ptest2">50%</p>
+                        <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-translate mr-1"></i>Add / Edit Languages</h5>
+
+                        <div class="row" id="språkEdit">
+
+                            @{
+                                var antallSliderSpråk = 0;
+                            }
+                            @if (CvInnhold.Språk.Count != 0)
+                                @while (antallSliderSpråk < CvInnhold.Språk.Count)
+                                {
+                                    var SpråkNavn2 = CvInnhold.Språk.ElementAt(antallSliderSpråk);
+                                    var SpråkProsent2 = CvInnhold.Språk.ElementAt(antallSliderSpråk + 1);
+                                    var prosent2 = SpråkProsent2.Substring(0, SpråkProsent2.Length - 1);
+
+                                    <div class="col-md-6" id="språk@(antallSliderSpråk)">
+                                        <div class="form-group">
+                                            <input value="@SpråkNavn2" id="språkbar@(antallSliderSpråk)" />
+                                            <div class="input-group">
+                                                <input class="slider-general" id="språkSlider@(antallSliderSpråk)" data-slider-id='ex1Slider' value="@prosent2" type="range" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14" oninput="sliderFunc('språksliderTekst@(antallSliderSpråk)','språkSlider@(antallSliderSpråk)')" />
+                                                <button id="@(antallSliderSpråk)språkbutton" style="position:absolute; right:6%; bottom:110%" onclick="onDelete('språk@(antallSliderSpråk)', @antallSliderSpråk, 'Språk')"><i class="fas fa-window-close fa-sm"></i></button>
+                                                <p id="språksliderTekst@(antallSliderSpråk)">@SpråkProsent2</p>
+                                            </div>
+
                                         </div>
-                                    </div>
-                                </div>
-                            </div> <!-- end row -->
+                                    </div> <!-- end col -->
 
-                            <div class="text-right">
-                                <button type="submit" id="submitSpråk" class="btn btn-success waves-effect waves-light mt-2" onclick=""><i class="mdi mdi-content-save"></i> Save</button>
-                            </div>
+                                    antallSliderSpråk += 2;
 
+                                }
+
+
+                        </div> <!-- end row -->
+
+
+                        <div class="text-right">
+                            <button id="addSkillButton" class="btn btn-success waves-effect waves-light mt-2" onclick="addSlider('språkEdit')"><i class="fas fa-plus"></i> Add</button>
+                            <button id="submitSkillButton" class="btn btn-success waves-effect waves-light mt-2" onclick="registrerSliders('@BrukerInnhold.Id', 'språkEdit')"><i class="mdi mdi-content-save"></i> Save</button>
                         </div>
 
                         <!-- end settings content-->
@@ -371,49 +393,94 @@
                     </div> <!-- end tab-content -->
 
                 </div> <!-- end card-box-->
-
-            </div> <!-- end col -->
-            <div id="demo"></div>
-        </div>
-
-
-
+        </div> <!-- end col -->
     </div>
 
-    <script type="text/javascript">
-    function addSlider() {
-        var list = document.getElementById("skillsEdit").lastElementChild;
-        var iden = "";
-        var nyId = parseInt(list.id.substring(5, list.id.length))+2;
+</div>
 
-        //alert(list.id + " blir til " + nyId)
-        var skill = "skill" + nyId;
-        var bar = "skillbar" + nyId;
-        var tekst = "sliderTekst" + nyId;
-        var slider = "skillSlider" + nyId;
+<script type="text/javascript">
+    function addSlider(type) {
+
+        var list = document.getElementById(type).lastElementChild;
+    
+        var nyId = parseInt(list.id.substring(5, list.id.length))+2;
+        var skill = "";
+        var bar = "";
+        var tekst = "";
+        var slider = "";
+        var skillButton = "";
+        if (type == "skillsEdit") {
+            skill = "skill" + nyId;
+            bar = "skillbar" + nyId;
+            tekst = "sliderTekst" + nyId;
+            slider = "skillSlider" + nyId;
+            skillButton = nyId + "skillbutton"
+        } else if (type == "språkEdit") {
+            skill = "språk" + nyId;
+            bar = "språkbar" + nyId;
+            tekst = "språksliderTekst" + nyId;
+            slider = "språkSlider" + nyId;
+            skillButton = nyId + "språkbutton"
+        }
+
       //  alert(skill + " " + bar + " " + tekst + " " + slider);
         var tag = "<div class='col-md-6' id='"+ skill +"'>" +
                          " <div class='form-group'>" +
-                                   "<input placeholder='skill' id='" + bar + "' />" +
+                                   " <input placeholder='skill' id='" + bar + "' />" +
                                           " <div class='input-group'>" +
-                                                  "<input class='slider-general' id='" + slider + "' data-slider-id='ex1Slider' value='50'" +
+                                                  " <input class='slider-general' id='" + slider + "' data-slider-id='ex1Slider' value='50'" +
                                                      " type='range' data-slider-min='0' data-slider-max='20' data-slider-step='1' data-slider-value='14' " +
-                                                    "oninput='sliderFunc('" + tekst + "','" + slider + "')' />" +
+            " />" +
+            " <button id='"+skillButton+"' style='position:absolute; right:6%; bottom:110%'><i class='fas fa-window-close fa-sm'></i></button> " +
                                                      "<p id='" + tekst + "'>50%</p>" +
                                           "</div>" +
                              "</div>" +
-                   "</div>";
-
-       // var tag = "<p>hello</p>";
-       var element = document.getElementById("skillsEdit");
-        //element.appendChild(tag);
+            "</div>";
+       var element = document.getElementById(type);
         element.insertAdjacentHTML('beforeend', tag);
+        document.getElementById(slider).onchange = function () {
+            sliderFunc(tekst, slider);
+        };
+        document.getElementById(skillButton).onclick = function () {
+            onDelete(skill, 0, 'slider')
+        }
+    }
+    function testResponse() {
+        alert("HEEY ");
+    }
+    function registrerSliders(brukerID, type) {
 
+        var i;
+        var antall = (document.getElementById(type).childElementCount * 2);
+        var arr = [];
+        var Slider ="";
+        var Bar = "";
+        var kategori = "";
+        if (type == "skillsEdit") {
+            Slider = "skillSlider";
+            Bar = "skillbar";
+            kategori = "Ferdigheter";
+        }
+        else if (type == "språkEdit") {
+             Slider = "språkSlider";
+             Bar = "språkbar";
+             kategori = "Språk";
+        }
+        for (i = 0; i < antall; i += 2) {
+            var nySlider = Slider + i;
+            var nyBar = Bar + i;
+            var slid = document.getElementById(nySlider).value + "%";
+           var tek = document.getElementById(nyBar).value;
+            arr[i] = tek;
+            arr[i + 1] = slid;
+        }
+
+        saveEdit(brukerID, kategori, "0", "", "", "", "", "", arr);
     }
     function sliderFunc(id, slider) {
-     //   alert(id + " " + slider);
-        var x1 = document.getElementById(slider).value;
-        x2 = document.getElementById(id);
+
+       var x1 = document.getElementById(slider).value;
+       x2 = document.getElementById(id);
         x2.innerHTML = x1 + '%';
     }
     function addEdit(id, buttonID, buttonIDRed) {
@@ -429,7 +496,11 @@
         document.getElementById(submit).style.display = "none";
     }
     function onDelete(id, index, felt) {
-        document.getElementById(id).style.display = "none";
+
+        if (felt == "slider") {
+            document.getElementById(id).remove();
+        } else document.getElementById(id).style.display = "none";
+        if (felt != "slider") {
         var json = {
             "felt": felt,
             "index": index,
@@ -442,7 +513,8 @@
                     success: function (result) {
                        // alert("Dette er resultatet " + result.result);
                     }
-                });
+          });
+        }
     }
     function onEdit(type, index, årDatDiv, årFra, årTil,tittel, bedrift, bio, submitKnapp) {
         document.getElementById(submitKnapp).style.display = "inline";
@@ -456,14 +528,16 @@
             document.getElementById(bio).outerHTML = "<textarea id=" + bio + " class='text-muted mt-2' rows='3' cols='50'>" + biVerdi + "</textarea>";
         }
     }
-    function saveEdit(bruker, felt, index, årFra, årTil, tittel, bedrift, bio) {
-       //alert("first");
-        var fra = document.getElementById(årFra);
-        var til = document.getElementById(årTil);
+    function saveEdit(bruker, felt, index, årFra, årTil, tittel, bedrift, bio, array) {
         var bion = '';
+        var fra ='';
+        var til = '';
+        if (felt != "Ferdigheter" && felt != "Språk") {
+         fra = document.getElementById(årFra);
+         til = document.getElementById(årTil);
+        }
         if (felt == "ArbeidsErfaring")
             bion = bio.value;
-       //alert("hmm " + bion);
         var json = {
              "bruker": bruker,
             "felt": felt,
@@ -472,7 +546,8 @@
               "årTil": til.value,
               "tittel": tittel.value,
               "bedrift": bedrift.value,
-              "bio":bion
+            "bio": bion,
+            "array": array
         };
         $.ajax({
             type: "POST",
@@ -480,11 +555,13 @@
             data: json,
             dataType: "json",
             success: function (result) {
-                if(result.status == "ok")
-                    window.location.reload();
-                //else POPUP ERROR
+                if (result.status == "ok")
+                    if(felt != "Ferdigheter" && felt != "Språk")
+                        window.location.reload();
+                alert("You saved succesfully!");
             }
-         });
+        });
+        //alert("third");
     }
     </script>
 
@@ -492,8 +569,6 @@
 
         <script>
         $(document).ready(function () {
-
-
             document.getElementById("submitArbeid").addEventListener('click', function (event) {
 
                 $('.toast').toast('show');
@@ -529,7 +604,6 @@
                 var sluttÅr = $('#endYearU').val();
                 var jobbTittel = $('#linje').val();
                 var bedriftNavn = $('#skolename').val();
-
                 var jsonJobb = {
                     "felt": felt,
                     "par1": startÅr,
@@ -550,7 +624,6 @@
                 var felt = "Ferdigheter";
                 var startÅr = $('#skillSlider').val() + "%";
                 var sluttÅr = $('#skillbar').val();
-
                 var jsonJobb = {
                     "felt": felt,
                     "par1": sluttÅr,
@@ -587,8 +660,6 @@
                     }
                 });
             }
-
-
         })
         </script>
     }

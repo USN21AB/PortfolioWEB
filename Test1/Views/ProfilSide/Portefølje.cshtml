@@ -5,494 +5,12 @@
     var BrukerInnhold = (Portefolio_webApp.Models.Bruker)ViewData["Bruker_Innhold"];
 }
 
-<style>
-    body {
-        background-color: #212529;
-        margin-top: 80px;
-    }
-
-    .nav {
-        width: 120px;
-    }
-
-    .nav-pills .nav-link .active {
-        background-color: rgb(2, 117, 216)
-    }
-
-    .mapper {
-        width: 200px;
-        margin-right: 10px;
-    }
-
-
-    /*                                          PORTFOLIO                                             */
-    /*////////////////////////////////////////////////////////////////////////////////////////////////*/
-
-
-    .awesome-portfolio-area {
-        box-shadow: 0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.06);
-        background-color: #fff;
-        background-clip: border-box;
-        border: 0 solid rgba(0,0,0,.125);
-        border-radius: .25rem;
-        overflow: hidden;
-        padding: 10px;
-    }
-
-
-
-
-    .awesome-portfolio {
-    }
-
-    .single-awesome-portfolio {
-        margin: 2px;
-        float: left;
-        overflow: hidden;
-        position: relative;
-    }
-
-        .single-awesome-portfolio a {
-            position: relative;
-            display: block;
-        }
-
-
-
-    /*                                            BILDER                                               */
-    /*/////////////////////////////////////////////////////////////////////////////////////////////////*/
-
-    .awesome-img {
-        width: 310px;
-        height: 310px;
-        overflow: hidden;
-        position: relative;
-        transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1) 0s;
-        z-index: 0;
-        display: block
-    }
-
-        .awesome-img img {
-            min-height: 100%;
-            min-width: 100%;
-        }
-
-    .awesome-info {
-        background-color: #272727;
-        height: 25%;
-        padding: 20px 30px 12px;
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        opacity: 0;
-        display: block;
-        transition: opacity .3s ease-out;
-        -moz-transition: opacity .3s ease-out;
-        -webkit-transition: opacity .3s ease-out;
-        -o-transition: opacity .3s ease-out;
-    }
-
-        .awesome-info h3 {
-            color: #fff;
-            font-size: 16px;
-            margin-bottom: 3px;
-        }
-
-        .awesome-info p {
-            color: #aaa;
-            font-size: 12px;
-        }
-
-    /**/
-
-
-    .single-awesome-portfolio a:hover .awesome-info {
-        /*transform: translateY(100%);*/
-        opacity: .8;
-    }
-
-    /**/
-
-
-
-    .awesome-portfolio-content .mix {
-        display: none;
-    }
-    /**/
-
-
-    img {
-        max-width: 100%;
-        height: auto;
-        object-fit: cover;
-    }
-
-    /**/
-
-    /*                                           MUSIKK                                            */
-    /*777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777*/
-
-    .music_player {
-        margin: 2px;
-        float: left;
-        width: 310px;
-        height: 310px;
-        overflow: hidden;
-        position: relative;
-        display: block;
-    }
-
-
-    .fuck {
-        min-height: 100%;
-        min-width: 100%;
-    }
-
-    .play_button_div {
-        background-color: #272727;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        width: 100%;
-        opacity: 0;
-        display: block;
-    }
-
-    .play_button {
-        position: absolute;
-        margin-top: 105px;
-        margin-bottom: 105px;
-        margin-left: 105px;
-        margin-right: 105px;
-        opacity: 0;
-        width: 100px;
-        height: 100px;
-    }
-
-    .shadowed {
-        -webkit-filter: drop-shadow(4px 4px 4px rgba(0,0,0,0.8));
-        filter: url(#drop-shadow);
-        -ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=4, OffY=4, Color='#444')";
-        filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=4, OffY=4, Color='#444')";
-    }
-
-    .play_button:active {
-        transform: scale(.95);
-        filter: brightness(50%);
-    }
-
-    .music_player:hover .play_button {
-        opacity: 1;
-    }
-
-
-    .music_player:hover .play_button_div {
-        opacity: .6;
-    }
-
-
-
-    .musikk_kontroller {
-        position: fixed;
-        z-index: 5;
-        width: 560px;
-        height: 70px;
-        bottom: -70px;
-        background: white;
-        left: 50%;
-        transform: translateX(-50%);
-        transition: none;
-        border-radius: .25rem;
-    }
-
-
-
-    .stopper {
-        position: absolute;
-        margin-top: 5px;
-        height: 40px;
-        width: 40px;
-        left: calc(50% - 20px);
-    }
-
-        .stopper:active {
-            transform: scale(0.9);
-        }
-
-    #tracktime {
-        position: absolute;
-        bottom: 7px;
-        margin-left: 19px;
-    }
-
-    #trackduration {
-        position: absolute;
-        bottom: 7px;
-        right: 19px;
-    }
-
-    #sangfelt {
-        position: absolute;
-        margin-left: 19px;
-        width: 170px
-    }
-
-    #artistfelt {
-        position: absolute;
-        margin-left: 19px;
-        margin-top: 18px;
-        width: 170px;
-    }
-
-    #volume-control {
-        position: absolute;
-        right: 19px;
-        top: 18px;
-    }
-
-    #seekbar {
-        position: absolute;
-        width: 400px;
-        margin: auto;
-        bottom: 10px;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-
-    /*                                              LITTERATUR                                          */
-    /*//////////////////////////////////////////////////////////////////////////////////////////////////*/
-
-
-
-
-    .litteratur {
-        margin: 2px;
-        float: left;
-        width: 300px;
-        height: 400px;
-        position: relative;
-        overflow: hidden;
-        display: block;
-        background: rgb(187, 201, 201);
-    }
-
-    .tittel {
-        margin: 15px;
-        font-size: 45px;
-        -webkit-hyphens: auto;
-        -moz-hyphens: auto;
-        -ms-hyphens: auto;
-        hyphens: auto;
-    }
-
-    .forfatter {
-        position: absolute;
-        bottom: 0;
-        margin-left: 15px;
-        font-size: 23px;
-    }
-
-    .book_cover {
-        position: absolute;
-        min-height: 100%;
-        min-width: 100%;
-        opacity: 1;
-        z-index: 2;
-        transition: opacity .2s ease-out;
-        -moz-transition: opacity .2s ease-out;
-        -webkit-transition: opacity .2s ease-out;
-        -o-transition: opacity .2s ease-out;
-    }
-
-        .book_cover:hover {
-            opacity: 0;
-        }
-
-
-
-
-    .clickable {
-        border: 1px solid #333;
-        background: #eee;
-        height: 40px;
-        width: 200px;
-        margin: 15px;
-        position: relative;
-    }
-
-    .display {
-        height: 16px;
-        position: absolute;
-        width: 100%;
-    }
-
-    .progress {
-        position: absolute;
-        left: 0;
-        top: 0;
-        background: green;
-        height: 40px;
-        width: 10px;
-    }
-</style>
-
-
+<link href="~/css/PortefølgeBody.css" rel="stylesheet" />
+<link href="~/css/PorteføljeElementer.css" rel="stylesheet" />
+<link href="~/css/Musikkontroller.css" rel="stylesheet" />
+<script src="~/js/lyd.js"></script>
 
 <script>
-    /*window.onload = initial();
-
-    function initial() {
-        var audio = document.getElementsByClassName('lydspor'),
-            i = audio.length;
-        while (i--) {
-            var lyd = audio[i].id;
-            var luld = document.getElementById(lyd);
-            luld.volume = 0.5;
-        }
-    };
-    */
-
-    function spillAv(sang, toggle) {
-        var audio = document.getElementsByClassName('lydspor'),
-            i = audio.length;
-        var playpause = document.getElementsByClassName("play_button");
-        var lyd = document.getElementById(sang);
-        var loggle = document.getElementById(toggle);
-        var spiller = document.getElementById("test").style;
-
-
-
-        if (lyd.paused) {
-            while (i--) {
-                audio[i].pause();
-                playpause[i].src = "../resources/icons8-play-96.png"
-            };
-            spiller.transition = "all .5s ease";
-            spiller.bottom = "0";
-            loggle.src = "../resources/icons8-pause-96.png"
-            lyd.play();
-        }
-        else {
-            spiller.transition = "all .5s ease";
-            spiller.bottom = "-70px";
-            loggle.src = "../resources/icons8-play-96.png"
-            lyd.pause();
-        }
-
-
-    };
-
-    function volum(verdi) {
-
-
-        var audio = document.getElementsByClassName('lydspor'),
-            i = audio.length;
-
-
-        while (i--) {
-            var lyd = audio[i].id;
-            var luld = document.getElementById(lyd);
-            luld.volume = verdi / 10;
-        };
-
-    }
-
-    function visSang(sang, artist) {
-        var sang = document.getElementById(sang).textContent;
-        var artist = document.getElementById(artist).textContent;
-        var sangfelt = document.getElementById("sangfelt");
-        var artistfelt = document.getElementById("artistfelt");
-
-        sangfelt.innerHTML = sang + " - ";
-        artistfelt.innerHTML = artist;
-    }
-
-
-
-    function timer(lydId) {
-        var lyd = document.getElementById(lydId);
-        lyd = document.getElementById("seekbar").value = (lyd.currentTime * 100) / lyd.duration;
-
-        /*var time = lyd.currentTime;
-        var minutes = Math.floor(time / 60);
-        var seconds = Math.floor(time);
-
-        minutes = parseFloat(minutes);
-        seconds = parseFloat(seconds);*/
-
-        var tid = lyd.currentTime;
-        var lengde = lyd.duration;
-
-
-
-        //document.getElementById('tracktime').innerHTML = Math.floor(lyd.currentTime) + ' / ' + Math.floor(lyd.duration);
-        // + " / " +
-
-    }
-
-
-    function stopAll() {
-        var lyd = document.getElementsByClassName('lydspor');
-        var spiller = document.getElementById("test").style;
-        var playpause = document.getElementsByClassName("play_button");
-        i = lyd.length;
-
-        while (i--) {
-
-            lyd[i].pause();
-            playpause[i].src = "../resources/icons8-play-96.png"
-        }
-
-        spiller.transition = "all .5s ease";
-        spiller.bottom = "-70px";
-    };
-
-    var info = document.getElementsByClassName("awesome-info");
-    var image = document.getElementsByClassName("single-awesome-portfolio");
-
-
-
-
-    $(function () {
-        $('.awesome-portfolio-content').mixItUp({
-            animation: {
-                effects: 'rotateZ',
-                duration: 1000,
-            }
-        });
-
-        $('.blog-column-content').mixItUp({
-            animation: {
-                effects: 'scale',
-                duration: 1000,
-            }
-        });
-
-        $('.portfolio-column-content').mixItUp({
-            animation: {
-                effects: 'fade rotateY(-180deg)',
-                duration: 1000,
-            }
-        });
-    });
-
-    /*$(function timer2(sanger) {
-        var lol = "#" + sanger;
-        $(lol).on('timeupdate', function () {
-            $('#seekbar').attr("value", (this.currentTime * 100) / this.duration);
-        });
-    })*/
-
-    /*$(document).ready(function () {
-        var hash = window.location.hash;
-
-        if (hash != "")
-            $('#v-pills-tab a[href="' + hash + '"]').tab('show');
-        else
-            $('#v-pills-tab a:second').tab('show');
-    });
-    */
 
     $(document).ready(function () {
         var hash = window.location.hash;
@@ -551,7 +69,7 @@
                                         <h3>@Innlegg.Beskrivelse</h3>
                                         <p>@Innlegg.Tittel</p>
                                     </div>
-                                    <img src="@Innlegg.IkonURL" alt="">
+                                    <img class="imge" src="@Innlegg.IkonURL" alt="">
                                 </div>
 
                             </a>
@@ -569,7 +87,7 @@
                 <div class="play_button_div"></div>
                 <img id="sangi" class="play_button shadowed" src="../resources/icons8-play-96.png" onclick='spillAv("sang", this.id); visSang("sangnavn", "artist")' />
                 <audio id="sang" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2FPok%C3%A9mon%20Theme%20Song.mp3?alt=media&token=bccacd1c-ed6a-4050-8745-b1ee3bb50f96"></audio>
-                <img class="fuck" src="https://gameriv.com/wp-content/uploads/2021/01/Untitled-1-23-696x392.jpg" />
+                <img class="fuck imge" src="https://gameriv.com/wp-content/uploads/2021/01/Untitled-1-23-696x392.jpg" />
                 <p id="sangnavn">Pokémon Theme</p>
                 <p id="artist">IDFK</p>
 
@@ -578,7 +96,7 @@
                 <div class="play_button_div"></div>
                 <img id="sangi" class="play_button shadowed" src="../resources/icons8-play-96.png" onclick='spillAv("sang", this.id); visSang("sangnavn", "artist")' />
                 <audio id="sang" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2FPok%C3%A9mon%20Theme%20Song.mp3?alt=media&token=bccacd1c-ed6a-4050-8745-b1ee3bb50f96"></audio>
-                <img class="fuck" src="https://gameriv.com/wp-content/uploads/2021/01/Untitled-1-23-696x392.jpg" />
+                <img class="fuck imge" src="https://gameriv.com/wp-content/uploads/2021/01/Untitled-1-23-696x392.jpg" />
                 <p id="sangnavn">Pokémon Theme</p>
                 <p id="artist">IDFK</p>
 
@@ -587,7 +105,7 @@
                 <div class="play_button_div"></div>
                 <img id="sangi" class="play_button shadowed" src="../resources/icons8-play-96.png" onclick='spillAv("sang", this.id); visSang("sangnavn", "artist")' />
                 <audio id="sang" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2FPok%C3%A9mon%20Theme%20Song.mp3?alt=media&token=bccacd1c-ed6a-4050-8745-b1ee3bb50f96"></audio>
-                <img class="fuck" src="https://gameriv.com/wp-content/uploads/2021/01/Untitled-1-23-696x392.jpg" />
+                <img class="fuck imge" src="https://gameriv.com/wp-content/uploads/2021/01/Untitled-1-23-696x392.jpg" />
                 <p id="sangnavn">Pokémon Theme</p>
                 <p id="artist">IDFK</p>
 
@@ -596,7 +114,7 @@
                 <div class="play_button_div"></div>
                 <img id="sangi" class="play_button shadowed" src="../resources/icons8-play-96.png" onclick='spillAv("sang", this.id); visSang("sangnavn", "artist")' />
                 <audio id="sang" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2FPok%C3%A9mon%20Theme%20Song.mp3?alt=media&token=bccacd1c-ed6a-4050-8745-b1ee3bb50f96"></audio>
-                <img class="fuck" src="https://gameriv.com/wp-content/uploads/2021/01/Untitled-1-23-696x392.jpg" />
+                <img class="fuck imge" src="https://gameriv.com/wp-content/uploads/2021/01/Untitled-1-23-696x392.jpg" />
                 <p id="sangnavn">Pokémon Theme</p>
                 <p id="artist">IDFK</p>
 
@@ -605,13 +123,13 @@
                 <div class="play_button_div"></div>
                 <img id="sangi" class="play_button shadowed" src="../resources/icons8-play-96.png" onclick='spillAv("sang", this.id); visSang("sangnavn", "artist")' />
                 <audio id="sang" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2FPok%C3%A9mon%20Theme%20Song.mp3?alt=media&token=bccacd1c-ed6a-4050-8745-b1ee3bb50f96"></audio>
-                <img class="fuck" src="https://gameriv.com/wp-content/uploads/2021/01/Untitled-1-23-696x392.jpg" />
+                <img class="fuck imge" src="https://gameriv.com/wp-content/uploads/2021/01/Untitled-1-23-696x392.jpg" />
                 <p id="sangnavn">Pokémon Theme</p>
                 <p id="artist">IDFK</p>
 
             </div>
 
-            
+
 
         </div>
 

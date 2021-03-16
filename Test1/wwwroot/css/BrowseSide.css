@@ -85,3 +85,10 @@ a.button {
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
+.forside-innlegg {
+    width: 95%;
+    margin: auto;
+}
+
+

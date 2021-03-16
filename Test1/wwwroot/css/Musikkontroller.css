@@ -1,0 +1,67 @@
+﻿/*//////////////////////////////////////////////////////////////////////////*/
+.musikk_kontroller {
+    position: fixed;
+    z-index: 5;
+    width: 560px;
+    height: 70px;
+    bottom: -70px;
+    background: white;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: none;
+    border-radius: .25rem;
+}
+
+
+
+.stopper {
+    position: absolute;
+    margin-top: 5px;
+    height: 40px;
+    width: 40px;
+    left: calc(50% - 20px);
+}
+
+    .stopper:active {
+        transform: scale(0.9);
+    }
+
+#tracktime {
+    position: absolute;
+    bottom: 7px;
+    margin-left: 19px;
+}
+
+#trackduration {
+    position: absolute;
+    bottom: 7px;
+    right: 19px;
+}
+
+#sangfelt {
+    position: absolute;
+    margin-left: 19px;
+    width: 170px
+}
+
+#artistfelt {
+    position: absolute;
+    margin-left: 19px;
+    margin-top: 18px;
+    width: 170px;
+}
+
+#volume-control {
+    position: absolute;
+    right: 19px;
+    top: 18px;
+}
+
+#seekbar {
+    position: absolute;
+    width: 400px;
+    margin: auto;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}

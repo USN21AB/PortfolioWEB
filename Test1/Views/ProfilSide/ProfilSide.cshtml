@@ -1,13 +1,31 @@
-﻿
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <!--  All snippets are MIT license http://bootdey.com/license -->
+    <title>profile with data and skills - Bootdey.com</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/css/ProfilSide.css" rel="stylesheet" />
+
+</head>
+
+
 <style>
+
+    img {
+        max-width: 100%; /* This rule is very important, please do not ignore this! */
+    }
+
     .folder {
         background: #212529;
         margin: 20px;
     }
+
     .folder-nav {
-       text-align: center;
-       width: 95%;
-       margin: 0 auto;
+        text-align: center;
+        width: 95%;
+        margin: 0 auto;
     }
 
     .shadowed {
@@ -24,6 +42,7 @@
     .folder-design {
         position: relative;
     }
+
     .folder-navn {
         color: white;
         font-size: 25px;
@@ -32,11 +51,11 @@
         transform: translate(-50%, -50%);
         position: absolute;
     }
+
     .folder-bilde {
         width: 200px;
         position: relative;
-
-     }
+    }
 
 
     .devider {
@@ -47,6 +66,7 @@
         margin-right: auto;
         position: relative;
     }
+
     .line {
         position: absolute;
         width: 40%;
@@ -71,52 +91,63 @@
         color: white;
     }
 
-
-
 </style>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <!--  All snippets are MIT license http://bootdey.com/license -->
-    <title>profile with data and skills - Bootdey.com</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="http://netdna.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
-    <link href="~/css/ProfilSide.css" rel="stylesheet" />
-    
-</head>
-
 
 <body>
     <div class="container">
         <div class="main-body">
-
             <div class="row gutters-sm">
                 <div class="col-md-4 mb-3">
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex flex-column align-items-center text-center">
                                 <input type="image" src="https://i1.sndcdn.com/artworks-Y4bCtXG5t6Czo3cb-1bFYoA-t500x500.jpg" alt="Admin" class="rounded-circle profilimg" width="150" />
-                                <input type="image" src="https://www.freeiconspng.com/uploads/upload-icon-6.png" alt="Admin" class="rounded-circle upload" width="150" />
-                                <input type="file" id="my_file" style="display: none;" />
+
+
                                 <div class="mt-3">
                                     <h4>Kakashi</h4>
                                     <p class="text-secondary mb-1">Full Stack Developer</p>
                                     <p class="text-muted font-size-sm">Bay Area, San Francisco, CA</p>
 
-                                    @using (Html.BeginForm("UploadFile", "ProfilSide", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                                    {
-
-                                        <div>
-                                            @Html.TextBox("file", "", new { type = "file" }) <br />
-
-                                            <input type="submit" value="Upload" />
-
-                                        </div>
 
 
+                                    <!-- TEST -->
+
+
+                                    @section css{
+                                        <link href="~/css/jquery.Jcrop.min.css" rel="stylesheet" />
                                     }
+                                    <div class="container">
+                                        <input type="file" class="img" id="imgInp" name="files" accept="image/*">
+                                    </div>
+
+                                    <div class="modal" id="myprofilecrop" tabindex="-1" role="dialog" aria-labelledby="cropmodel">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+
+                                                    <h4 class="modal-title text-center" id="cropmodel">Update Profile Picture</h4>
+                                                </div>
+                                                <form id="formimg">
+                                                    <div class="modal-body text-center">
+                                                        <div id="views" class="m-t-15"></div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button id="cropbutton" class="btn btn-primary" type="submit">Save</button>
+                                                        <button id="rotatebutton" class="btn btn-default" type="button">Rotate</button>
+                                                    </div>
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @section Scripts{
+                                        <script src="~/js/jcrop/jquery.Jcrop.min.js"></script>
+                                        <script src="~/js/ImageCrop.js"></script>
+                                    }
+
+                                    <!-- END TEST -->
+
                                 </div>
                                 <a asp-action="CV"><button class="cvbtn btn btn-primary">Request CV</button></a>
                             </div>
@@ -168,13 +199,14 @@
             </div>
         </div>
     </div>
+
     <div class="devider">
         <hr class="line left-line">
         <hr class="line right-line">
         <h2 class="portfolio-folders">Portfolio folders</h2>
-        
+
     </div>
-    
+
 
     <ul class="nav nav-pills nav-fill folder-nav tabs">
         <li class="nav-item">
@@ -196,6 +228,9 @@
     </ul>
 
 
+
+
+
     <div class="center">
         <div class="center2">
             <a asp-action="CV"><button class="btn btn-primary">CV</button></a>
@@ -215,19 +250,6 @@
         });
 
     </script>
-
-    <svg height="0" xmlns="http://www.w3.org/2000/svg">
-        <filter id="drop-shadow">
-            <feGaussianBlur in="SourceAlpha" stdDeviation="4" />
-            <feOffset dx="4" dy="4" result="offsetblur" />
-            <feFlood flood-color="rgba(0,0,0,0.8)" />
-            <feComposite in2="offsetblur" operator="in" />
-            <feMerge>
-                <feMergeNode />
-                <feMergeNode in="SourceGraphic" />
-            </feMerge>
-        </filter>
-    </svg>
 
     <!-- For later  <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">  -->
 </body>
