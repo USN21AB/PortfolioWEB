@@ -21,7 +21,7 @@ namespace Portefolio_webApp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+
         private readonly FirebaseDB firebase;
         //private ISession session;
 
@@ -29,9 +29,9 @@ namespace Portefolio_webApp.Controllers
         public List<Innlegg> AlleInnlegg { get; set; }
      
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController()
         {
-            _logger = logger;
+          
             firebase = new FirebaseDB();
         //   this.session = httpContextAccessor.HttpContext.Session;
         }
@@ -112,6 +112,10 @@ namespace Portefolio_webApp.Controllers
         }
         public async Task<ActionResult> UploadFilesWihtLocation([FromServices] IHostingEnvironment oHostingEnvironment)
         {
+
+
+            Console.WriteLine("EHHHH?????");
+
             string hoststr = oHostingEnvironment.WebRootPath;
 
             string[] strFileNames;
@@ -133,6 +137,8 @@ namespace Portefolio_webApp.Controllers
                 string fileLocation = Request.Form["UploadLocation"].ToString();
                 //string[] path = fileLocation.Split("/");
                 string fileInitals = Request.Form["FileInitials"].ToString();
+
+                Console.WriteLine("EHHHH?????" + "Something" + fileInitals + " Eh?");
                 int i = 0;
                 string[] path = fileLocation.Split("\\");
                 if (!Directory.Exists(hoststr + "\\" + path[1]))
@@ -157,7 +163,6 @@ namespace Portefolio_webApp.Controllers
                             file.CopyTo(fs);
                             fs.Flush();
                             fs.Close();
-
 
                             await firebase.UploadProfilBilde(fullpath, file, brukerId);
                         }

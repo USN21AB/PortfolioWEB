@@ -20,6 +20,7 @@ namespace Test1.Controllers
             auth = new FirebaseAuthProvider(
                             new FirebaseConfig("AIzaSyAF3lsyJBHDwpdd2u9D0qW-m3c2TJftQvE"));
             firebase = new FirebaseDB();
+
         }
 
         /*
