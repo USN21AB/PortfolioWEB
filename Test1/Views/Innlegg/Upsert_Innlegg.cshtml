@@ -6,8 +6,7 @@
 
 <style>
     #bildekategori {
-        position: relative;
-        display: none;
+        display: inline-block;
     }
 
     #musikkategori {
@@ -18,27 +17,52 @@
         display: none;
     }
 
-
-
-    .radio {
-        display: inline-block;
-        width: 100px;
-        height: 80px;
-        border-radius: 10%;
-        background-color: lightblue;
-        border: 2px solid lightblue;
-        cursor: pointer;
-        margin: 2px 0;
+    #subkat {
+        
     }
 
-        .radio.selected {
-            border-color: blue;
+    #subkatdiv {
+       visibility: visible;
+       position: relative;
+    }
+
+   
+    .radio {
+        display: inline-block;
+        width: 24%;
+        min-width: 125px;
+        height: 70px;
+        background-color: white;
+        border-radius: .25rem;
+        cursor: pointer;
+        margin: 2px 4.7px 2px 0;
+        cursor: pointer;
+    }
+
+        .radio.active, .radio:active {
+            background-color: #0275d8;
+            color: white;
         }
+
+        
 </style>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
 <script>
+
+    $(function () {
+        $('.radio').removeClass('active');
+        $("#radio-dummy").addClass('active');
+        $('.radio').on('click', function () {
+            $('.radio').removeClass('active');
+            $(this).addClass('active');
+        });
+    });
+   
+
     function fileValidation() {
         var file = document.getElementById("input-file").value;
         
@@ -47,41 +71,43 @@
         var validAudio = /(\.mp3)$/i;
         var validTekst = /(\.pdf)$/i;
 
-
         if (validImage.exec(file)) {
             document.getElementById('kategoriVerdi').value = "Bilde";
-            document.getElementById('bildekategori').style.display = "block";
+            document.getElementById('bildekategori').style.display = "inline";
             document.getElementById('musikkategori').style.display = "none";
             document.getElementById('tekstkategori').style.display = "none";
-            document.getElementById("kategori-value").value = "";
-            document.getElementById("kategori-value").value = "";
-
+            document.getElementById('subkatdiv').style.visibility = "visible";
+            document.getElementById('subkatdiv').style.position = "relative";            document.getElementById("kategori-value").value = "";
         }
         else if (validAudio.exec(file)) {
-            document.getElementById('kategoriVerdi').value = "Audio";
-            document.getElementById('musikkategori').style.display = "block";
+            document.getElementById('kategoriVerdi').value = "Lyd";
+            document.getElementById('musikkategori').style.display = "inline";
             document.getElementById('bildekategori').style.display = "none";
             document.getElementById('tekstkategori').style.display = "none";
-            document.getElementById("kategori-value").value = "";
+            document.getElementById('subkatdiv').style.visibility = "visible";
+            document.getElementById('subkatdiv').style.position = "relative";            document.getElementById("kategori-value").value = "";
             document.getElementById('kategoriVerdi').value = "";
         }
         else if (validTekst.exec(file)) {
             document.getElementById('kategoriVerdi').value = "Tekst";
-            document.getElementById('tekstkategori').style.display = "block";
+            document.getElementById('tekstkategori').style.display = "inline";
+            document.getElementById('subkat').style.display = "block";
             document.getElementById('bildekategori').style.display = "none";
             document.getElementById('musikkategori').style.display = "none";
+            document.getElementById('subkatdiv').style.visibility = "visible";
+            document.getElementById('subkatdiv').style.position = "relative";
             document.getElementById("kategori-value").value = "";
-            document.getElementById('kategoriVerdi').value = "";
-
         }
         else
             document.getElementById('file-type-test').innerHTML = "Uh oh";
         document.getElementById("kategori-value").value = "";
-
     }
 
-    function radio(id) {
 
+
+   
+
+    function radio(id) {
         var bilde = /(Fotografi|Digital Art|Traditional Art|3D)$/i;
         var lyd = /(Musikk|Lydeffekter|Voice Acting|Audiobook)$/i;
         var tekst = /(Fiction|Non-Fiction)$/i;
@@ -102,49 +128,68 @@
         }
     }
 
-
-
 </script>
 
 
 
 <div class="border container" style="padding:30px;">
-    <form class="whitetext" id="formimg" method="post" , new enctype="multipart/form-data">
+    <form class="whitetext" method="post" ,, new enctype="multipart/form-data">
         @if (Model.Id == null)
         {
-            <input type="hidden" asp-for="Id" />
-            <input type="hidden" asp-for="Klokkeslett" />
-            <input type="hidden" asp-for="EierId" />
-            <input type="hidden" asp-for="Tagger" />
-            <input type="hidden" asp-for="FilStørrelse" />
-            <input type="hidden" asp-for="IkonURL" />
-        }
+<input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="Klokkeslett" />
+                                <input type="hidden" asp-for="EierId" />
+                                                <input type="hidden" asp-for="Tagger" />
+                                                                <input type="hidden" asp-for="FilStørrelse" />
+                                                                                <input type="hidden" asp-for="IkonURL" />}
 
 
-        <input class="box__file" id="input-file" type="file" accept="image/png|image/jpeg|image/jpg|image/gif|audio/mp3|application/pdf" oninput="fileValidation()" />
-        <!--<span id="file-type-test">lol</span>-->
 
-        <div id="bildekategori">
-            <button type="button" class='radio' id="radio1" value="Fotografi" onclick='radio(this.id)'>Fotografi</button>
-            <button type="button" class='radio' id="radio2" value="Digital Art" onclick="radio(this.id)">Digital Art</button>
-            <button type="button" class='radio' id="radio3" value="Traditional Art" onclick="radio(this.id)">Traditional Art</button>
-            <button type="button" class='radio' id="radio4" value="3D" onclick="radio(this.id)">3D</button>
+        @Html.TextBox("file", "input-file", new { type = "file", id = "input-file", accept = "image/png|image/jpeg|image/jpg|image/gif|audio/mp3|application/pdf", oninput = "fileValidation()" }) <br />
 
 
+
+
+
+        <div class="form-group row">
+            <div class="col-3">
+                <label asp-for="Kategori"></label>
+            </div>
+            <div class="col-9">
+                <input asp-for="Kategori" class="form-control" id="kategoriVerdi" />
+                <span asp-validation-for="Kategori" class="text-danger"></span>
+            </div>
         </div>
-        <div id="musikkategori">
-            <button type="button" class='radio' id="radio5" value="Musikk" onclick="radio(this.id)">Musikk</button>
-            <button type="button" class='radio' id="radio6" value="Lydeffekter" onclick="radio(this.id)">Lydeffekter</button>
-            <button type="button" class='radio' id="radio7" value="Voice Acting" onclick="radio(this.id)">Voice Acting</button>
-            <button type="button" class='radio' id="radio8" value="Audiobook" onclick="radio(this.id)">Audiobook</button>
+        <div class="form-group row" id="subkatdiv">
+            <div class="col-3"  id="subkat">
+                <label asp-for="SubKategori" ></label>
+            </div>
 
-        </div>
-        <div id="tekstkategori">
-            <button type="button" class='radio' id="radio9" value="Fiction" onclick="radio(this.id)">Fiction</button>
-            <button type="button" class='radio' id="radio10" value="Non-Fiction" onclick="radio(this.id)">Non-Fiction</button>
+            <button type="button" class='radio active' id="radio-dummy" value="Fotografi" style="display: none"></button>
+
+
+            <div id="bildekategori" class="col-9">
+                <button type="button" class='radio' id="radio1" value="Fotografi" onclick='radio(this.id)'>Fotografi</button>
+                <button type="button" class='radio' id="radio2" value="Digital Art" onclick="radio(this.id)">Digital Art</button>
+                <button type="button" class='radio' id="radio3" value="Traditional Art" onclick="radio(this.id)">Traditional Art</button>
+                <button type="button" class='radio' id="radio4" value="3D" onclick="radio(this.id)">3D</button>
+
+
+            </div>
+            <div id="musikkategori">
+                <button type="button" class='radio' id="radio5" value="Musikk" onclick="radio(this.id)">Musikk</button>
+                <button type="button" class='radio' id="radio6" value="Lydeffekter" onclick="radio(this.id)">Lydeffekter</button>
+                <button type="button" class='radio' id="radio7" value="Voice Acting" onclick="radio(this.id)">Voice Acting</button>
+                <button type="button" class='radio' id="radio8" value="Audiobook" onclick="radio(this.id)">Audiobook</button>
+
+            </div>
+            <div id="tekstkategori">
+                <button type="button" class='radio' id="radio9" value="Fiction" onclick="radio(this.id)">Fiction</button>
+                <button type="button" class='radio' id="radio10" value="Non-Fiction" onclick="radio(this.id)">Non-Fiction</button>
+            </div>
         </div>
 
-        <input type="text" id="kategori-value" name="radio-value" value="" />
+        <input asp-for="SubKategori" id="kategori-value" style="display: none" />
 
 
         <div class="text-danger" asp-validation-summary="ModelOnly"></div>
@@ -166,15 +211,7 @@
                 <span asp-validation-for="Beskrivelse" class="text-danger"></span>
             </div>
         </div>
-        <div class="form-group row">
-            <div class="col-3">
-                <label asp-for="Kategori"></label>
-            </div>
-            <div class="col-6">
-                <input asp-for="Kategori" class="form-control" id="kategoriVerdi" />
-                <span asp-validation-for="Kategori" class="text-danger"></span>
-            </div>
-        </div>
+
         <div class="form-group row">
             <div class="col-3 offset-3">
                 <button type="submit" class="btn btn-primary form-control">
@@ -191,8 +228,4 @@
 @section Scripts{
 
     <partial name="_ValidationScriptsPartial" />
-
 }
-
-
-
