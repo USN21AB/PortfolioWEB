@@ -2,7 +2,7 @@
 
 @{
     var liste = (List<Portefolio_webApp.Models.Innlegg>)ViewData["liste"];
-
+    //ViewData["Title"] = ViewData["Token"];
 }
 
 <style>
@@ -210,7 +210,7 @@
 <a href="@Url.Action("BrowseSide", "Home", new { kategori = "Musikk" })">Musikk</a>
 
 <div id="testing">kjasdfsndfjibsdf</div>
-<button id="test2">trykk me!</button>
+<button onclick="location.href='@Url.Action("ProfilSide", "ProfilSide")'"  id="test2">trykk me!</button>
 <input id="meg" />
 <input id="meg2" />
 

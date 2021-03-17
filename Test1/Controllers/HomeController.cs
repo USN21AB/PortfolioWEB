@@ -23,6 +23,7 @@ namespace Portefolio_webApp.Controllers
     {
 
         private readonly FirebaseDB firebase;
+
         //private ISession session;
 
         [BindProperty]
@@ -33,7 +34,6 @@ namespace Portefolio_webApp.Controllers
         {
           
             firebase = new FirebaseDB();
-        //   this.session = httpContextAccessor.HttpContext.Session;
         }
 
         private bool IsValidExtension(IFormFile filename)
@@ -201,11 +201,13 @@ namespace Portefolio_webApp.Controllers
             }
             else {
 
-                var listen = firebase.HentAlleInnlegg(); 
+                var listen = firebase.HentAlleInnlegg();
                 
+                //HttpContext.Session.GetString("_UserToken"); 
                 ViewData["liste"] = firebase.SorterAlleInnlegg(kategori, listen);
                 TempData["valgtKnapp"] = kategori;
             }
+            ViewData["Token"] = " ER GANSKE SPESIELL";
             return View();
         }
 

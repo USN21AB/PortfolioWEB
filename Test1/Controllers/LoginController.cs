@@ -23,13 +23,6 @@ namespace Test1.Controllers
 
         }
 
-        /*
-        public IActionResult Register()
-        {
-            return View();
-        }
-   */
-
         [NonAction]
         public async Task<string> Register(string Email, string Password)
         {
