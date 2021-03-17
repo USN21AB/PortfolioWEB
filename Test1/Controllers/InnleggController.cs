@@ -104,7 +104,6 @@ namespace Portefolio_webApp.Controllers
             kommentar.Tekst = tekst;
             kommentar.InnleggId = innleggId;
             kommentar.Dato = l.ToString("dd/MM/yyyy");
-            kommentar.Tekst = "At w3schools.com you will learn how to make a website. They offer free tutorials in all web development technologies.";
 
             try
             {

@@ -227,7 +227,7 @@
                 </a>
                 <textarea id="kommentarFelt" name="w3review" rows="4" cols="70">
                 At w3schools.com you will learn how to make a website. They offer free tutorials in all web development technologies.
-                </textarea><button>Cancel</button><button onclick="@Url.Action("NyttKommentar", "Innlegg", new { tekst = "Musikk", innleggId = @id})">Comment</button>
+                </textarea><button>Cancel</button><button onclick="location.href='@Url.Action("NyttKommentar", "Innlegg", new { tekst = "Musikk", innleggId = "Musikk"})'">Comment</button>
             </div>
             
             <div class="kommentarFelt">
