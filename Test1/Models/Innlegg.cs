@@ -25,6 +25,7 @@ namespace Portefolio_webApp.Models
 
         public double FilStørrelse { get; set; }
 
+
      
     }
 }
