@@ -1,5 +1,11 @@
 ﻿<!DOCTYPE html>
+
+@{
+    var BrukerInnhold = (Portefolio_webApp.Models.Bruker)ViewData["Bruker"];
+}
+
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <!--  All snippets are MIT license http://bootdey.com/license -->
@@ -7,7 +13,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="http://netdna.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="~/css/ProfilSide.css" rel="stylesheet" />
-
 </head>
 
 
@@ -90,7 +95,6 @@
         text-align: center;
         color: white;
     }
-
 </style>
 
 <body>
@@ -105,9 +109,9 @@
 
 
                                 <div class="mt-3">
-                                    <h4>Kakashi</h4>
-                                    <p class="text-secondary mb-1">Full Stack Developer</p>
-                                    <p class="text-muted font-size-sm">Bay Area, San Francisco, CA</p>
+                                    <h4>@BrukerInnhold.Navn</h4>
+                                    <p class="text-secondary mb-1">@BrukerInnhold.Stilling</p>
+                                    <p class="text-muted font-size-sm">@BrukerInnhold.Bosted</p>
 
 
 
@@ -163,7 +167,7 @@
                                     <h6 class="mb-0">Full Name</h6>
                                 </div>
                                 <div class="col-sm-9 text-secondary">
-                                    Kakashi Hatake
+                                    @BrukerInnhold.Navn
                                 </div>
                             </div>
                             <hr>
@@ -172,7 +176,7 @@
                                     <h6 class="mb-0">Email</h6>
                                 </div>
                                 <div class="col-sm-9 text-secondary">
-                                    bestwaytoagirlsheart_chidori@gmail.com
+                                    @BrukerInnhold.Email
                                 </div>
                             </div>
                             <hr>
@@ -181,16 +185,14 @@
                                     <h6 class="mb-0">Phone</h6>
                                 </div>
                                 <div class="col-sm-9 text-secondary">
-                                    (239) 816-69420
+                                    @BrukerInnhold.Tlf
                                 </div>
                             </div>
                             <hr>
                             <div class="rowinfo">
-                                <div class="col-sm-3">
-                                    <h6 class="mb-0">Address</h6>
-                                </div>
+                          
                                 <div class="col-sm-9 text-secondary">
-                                    Bay Area, San Francisco, CA
+                                    @BrukerInnhold.Bosted
                                 </div>
                             </div>
                         </div>
