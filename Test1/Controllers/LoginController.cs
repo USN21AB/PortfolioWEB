@@ -21,36 +21,39 @@ namespace Test1.Controllers
                             new FirebaseConfig("AIzaSyAF3lsyJBHDwpdd2u9D0qW-m3c2TJftQvE"));
             firebase = new FirebaseDB();
         }
+
+        /*
         public IActionResult Register()
         {
             return View();
         }
-        [HttpPost]
-        public async Task<IActionResult> Register(Bruker bruker)
+   */
+
+        [NonAction]
+        public async Task<string> Register(string Email, string Password)
         {
-            Debug.WriteLine("--------------------------- INNI REGISTRER " + bruker.Email); 
-            //create the user
-            await auth.CreateUserWithEmailAndPasswordAsync(bruker.Email, bruker.Password);
+            Debug.WriteLine("--------------------------- INNI REGISTRER2 LOGGINN " + Email + " " + Password);
+            var id = ""; 
+            await auth.CreateUserWithEmailAndPasswordAsync(Email, Password);
             //log in the new user
 
             var fbAuthLink = await auth
-                            .SignInWithEmailAndPasswordAsync(bruker.Email, bruker.Password);
+                            .SignInWithEmailAndPasswordAsync(Email, Password);
 
             string token = fbAuthLink.FirebaseToken;
             //saving the token in a session variable
             if (token != null)
             {
-                bruker.Id = fbAuthLink.User.LocalId; 
-                HttpContext.Session.SetString("_UserToken", token);
-               
-                firebase.RegistrerBruker(bruker); 
-                return Redirect("~/ProfilSide/ProfilSide");
+                id = fbAuthLink.User.LocalId;
+                Debug.WriteLine("--------------------------- INNI REGISTRER2 ID: " + id + " token: " + token );
+            
+
+                //firebase.RegistrerBruker(bruker);
+                return id + "|" + token;
             }
-            else
-            {
-                return View();
-            }
+            return "";  //Noe gikk feil.
         }
+
         public IActionResult SignIn()
         {
             return View();
