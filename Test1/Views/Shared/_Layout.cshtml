@@ -42,11 +42,12 @@
                             <li class="topnav-right vl">
                                 <a class="nav-link" asp-area="" asp-controller="ProfilSide" asp-action="ProfilSide">Min Profil</a>
                             </li>
+                           
                             <li class="topnav-right2">
                                 <a class="nav-link" asp-area="" asp-controller="Login" asp-action="SignIn">Logg inn</a>
                             </li>
                             <li class="topnav-right2">
-                                <a class="nav-link" asp-area="" asp-controller="Login" asp-action="LogOut">Logg ut</a>
+                                <a class="nav-link" asp-area="" asp-controller="Login" asp-action="LogOut">@ViewData["Title"]</a>
                             </li>
                         </ul>
                     </div>
@@ -62,6 +63,7 @@
 
     <footer class="borderfooter footer">
         <div class="container">
+            <p>mamma er @ViewData["Title"]</p>
             &copy; 2021 - Test1 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>

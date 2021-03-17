@@ -191,7 +191,6 @@ namespace Portefolio_webApp.Controllers
           
                 AlleInnlegg = firebase.HentAlleInnlegg();
                 TempData["valgtKnapp"] = "alt";
-               // session.SetString("AlleInnlegg", "Hello my name is");
 
                 ViewData["liste"] = AlleInnlegg;
             }
