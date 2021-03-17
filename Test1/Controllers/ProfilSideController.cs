@@ -40,12 +40,17 @@ namespace Portefolio_webApp.Controllers
 
         public IActionResult ProfilSide()
         {
-           
+
             //var brukerID = HttpContext.Session.GetString("_UserID");
             //Midlertidig kommenter ut
             // var token = HttpContext.Session.GetString("_UserToken");
             //if (token != null)
             //{
+
+            Bruker = firebase.HentEnkeltBruker("-MTuNdX2ldnO73BCZwFp");
+
+            ViewData["Bruker"] = Bruker;
+
             return View();
             // }
             //  else
