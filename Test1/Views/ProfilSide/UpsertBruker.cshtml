@@ -11,6 +11,7 @@
         @if (Model.Id != null)
         {
             <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="Password" />
         }
         <div class="text-danger" asp-validation-summary="ModelOnly"></div>
         <div class="form-group row">
@@ -39,15 +40,18 @@
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
         </div>
-        <div class="form-group row">
-            <div class="col-3">
-                <label asp-for="Password" class="control-label"></label>
+        @if (Model.Id == null)
+        {
+            <div class="form-group row">
+                <div class="col-3">
+                    <label asp-for="Password" class="control-label"></label>
+                </div>
+                <div class="col-6">
+                    <input asp-for="Password" class="form-control" type="password" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
             </div>
-            <div class="col-6">
-                <input asp-for="Password" class="form-control" type="password" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-        </div>
+        }
         <div class="form-group row">
             <div class="col-3">
                 <label asp-for="Alder"></label>
@@ -102,7 +106,7 @@
                 </div>
             </div>
             <div class="col-3">
-                <a asp-controller="Home" asp-action="BrowseSide" class="btn btn-success form-control">Back to List</a>
+                <a asp-controller="Home" asp-action="BrowseSide" class="btn btn-success form-control">Go back</a>
             </div>
         </div>
     </form>

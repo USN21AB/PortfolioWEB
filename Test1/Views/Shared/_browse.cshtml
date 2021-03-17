@@ -1,4 +1,8 @@
 ﻿<link href="~/css/_browse.css" rel="stylesheet" />
+<link href="~/css/PorteføljeElementer.css" rel="stylesheet" />
+<script src="~/js/lyd.js">
+
+</script>
 @model Portefolio_webApp.Models.Innlegg;
 @*
 
@@ -13,7 +17,91 @@
 @{
     var antall = 0;
 }
-<div class="toprow row p-3" id="rowDIV">
+
+
+    @while (antall < liste.Count)
+    {
+        var Innlegg = liste.ElementAt(antall);
+        if (Innlegg.Kategori.Equals("Tekst"))
+        {
+            <div class="litteratur">
+                <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id class="card-link">
+                    <img class="book_cover imge" src="https://m.media-amazon.com/images/I/514FIoHpsmL.jpg" />
+                    <h3 class="tittel">@Innlegg.Tittel</h3>
+                    <h4 class="forfatter">@Innlegg.Kategori</h4>
+                </a>
+            </div>
+        }
+        else if (Innlegg.Kategori.Equals("Musikk"))
+        {
+
+            <div class="music_player">
+                <img id="sangi" class="play_button shadowed" src="../resources/icons8-play-96.png" onclick='spillAv("sang", this.id); visSang("sangnavn", "artist")' />
+                <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id class="card-link">
+                    <div class="play_button_div"></div>
+
+
+                    <img  class="fuck imge" src="https://gameriv.com/wp-content/uploads/2021/01/Untitled-1-23-696x392.jpg" />
+
+                </a>
+
+
+                <audio id="sang" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2FPok%C3%A9mon%20Theme%20Song.mp3?alt=media&token=bccacd1c-ed6a-4050-8745-b1ee3bb50f96"></audio>
+                <p id="sangnavn">@Innlegg.Tittel</p>
+                <p id="artist">@Innlegg.Kategori</p>
+
+
+
+
+            </div>
+
+        }
+
+        else if (Innlegg.Kategori.Equals("Kunst"))
+        {
+
+            <div class="single-awesome-portfolio">
+                <a href="#">
+                    <div class="awesome-img">
+                        <div class="awesome-info">
+                            <h3>@Innlegg.Beskrivelse</h3>
+                            <p>@Innlegg.Tittel</p>
+                        </div>
+                        <img class="imge" src="@Innlegg.IkonURL" alt="">
+                    </div>
+
+                </a>
+            </div>
+
+        }
+        else if (Innlegg.Kategori.Equals("Fotografi"))
+        {
+            <div class="single-awesome-portfolio">
+                <a href="#">
+                    <div class="awesome-img">
+                        <div class="awesome-info">
+                            <h3>@Innlegg.Beskrivelse</h3>
+                            <p>@Innlegg.Tittel</p>
+                        </div>
+                        <img class="imge" src="@Innlegg.IkonURL" alt="">
+                    </div>
+
+                </a>
+            </div>
+        }
+
+        antall++;
+    }
+
+
+
+
+
+
+
+
+
+<!--<div class="toprow row p-3" id="rowDIV">
     @while (antall < liste.Count)
     {
         var Innlegg = liste.ElementAt(antall);
@@ -78,5 +166,4 @@
         }
         antall++;
     }
-</div>
-
+</div>-->

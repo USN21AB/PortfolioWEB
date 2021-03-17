@@ -1,5 +1,11 @@
 ﻿<!DOCTYPE html>
+
+@{
+    var BrukerInnhold = (Portefolio_webApp.Models.Bruker)ViewData["Bruker"];
+}
+
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <!--  All snippets are MIT license http://bootdey.com/license -->
@@ -7,37 +13,145 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="http://netdna.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="~/css/ProfilSide.css" rel="stylesheet" />
-    
 </head>
+
+
+<style>
+
+    img {
+        max-width: 100%; /* This rule is very important, please do not ignore this! */
+    }
+
+    .folder {
+        background: #212529;
+        margin: 20px;
+    }
+
+    .folder-nav {
+        text-align: center;
+        width: 95%;
+        margin: 0 auto;
+    }
+
+    .shadowed {
+        -webkit-filter: drop-shadow(4px 4px 4px rgba(0,0,0,0.8));
+        filter: url(#drop-shadow);
+        -ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=4, OffY=4, Color='#444')";
+        filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=4, OffY=4, Color='#444')";
+    }
+
+    .folder-nav a {
+        display: inline-block;
+    }
+
+    .folder-design {
+        position: relative;
+    }
+
+    .folder-navn {
+        color: white;
+        font-size: 25px;
+        top: 70%;
+        left: 48%;
+        transform: translate(-50%, -50%);
+        position: absolute;
+    }
+
+    .folder-bilde {
+        width: 200px;
+        position: relative;
+    }
+
+
+    .devider {
+        width: 90%;
+        margin-top: 25px;
+        margin-bottom: -15px;
+        margin-left: auto;
+        margin-right: auto;
+        position: relative;
+    }
+
+    .line {
+        position: absolute;
+        width: 40%;
+        height: 0;
+        color: #ffffff;
+        border-color: white;
+        border-top: 2px solid;
+    }
+
+    .right-line {
+        top: 3px;
+        right: 0;
+    }
+
+    .left-line {
+        top: 3px;
+    }
+
+
+    .portfolio-folders {
+        text-align: center;
+        color: white;
+    }
+</style>
+
 <body>
     <div class="container">
         <div class="main-body">
-
             <div class="row gutters-sm">
                 <div class="col-md-4 mb-3">
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex flex-column align-items-center text-center">
                                 <input type="image" src="https://i1.sndcdn.com/artworks-Y4bCtXG5t6Czo3cb-1bFYoA-t500x500.jpg" alt="Admin" class="rounded-circle profilimg" width="150" />
-                                <input type="image" src="https://www.freeiconspng.com/uploads/upload-icon-6.png" alt="Admin" class="rounded-circle upload" width="150" />
-                                <input type="file" id="my_file" style="display: none;" />
+
+
                                 <div class="mt-3">
-                                    <h4>Kakashi</h4>
-                                    <p class="text-secondary mb-1">Full Stack Developer</p>
-                                    <p class="text-muted font-size-sm">Bay Area, San Francisco, CA</p>
-
-                                    @using (Html.BeginForm("UploadFile", "ProfilSide", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                                    {
-
-                                        <div>
-                                            @Html.TextBox("file", "", new { type = "file" }) <br />
-
-                                            <input type="submit" value="Upload" />
-
-                                        </div>
+                                    <h4>@BrukerInnhold.Navn</h4>
+                                    <p class="text-secondary mb-1">@BrukerInnhold.Stilling</p>
+                                    <p class="text-muted font-size-sm">@BrukerInnhold.Bosted</p>
 
 
+
+                                    <!-- TEST -->
+
+
+                                    @section css{
+                                        <link href="~/css/jquery.Jcrop.min.css" rel="stylesheet" />
                                     }
+                                    <div class="container">
+                                        <input type="file" class="img" id="imgInp" name="files" accept="image/*">
+                                    </div>
+
+                                    <div class="modal" id="myprofilecrop" tabindex="-1" role="dialog" aria-labelledby="cropmodel">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+
+                                                    <h4 class="modal-title text-center" id="cropmodel">Update Profile Picture</h4>
+                                                </div>
+                                                <form id="formimg">
+                                                    <div class="modal-body text-center">
+                                                        <div id="views" class="m-t-15"></div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button id="cropbutton" class="btn btn-primary" type="submit">Save</button>
+                                                        <button id="rotatebutton" class="btn btn-default" type="button">Rotate</button>
+                                                    </div>
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @section Scripts{
+                                        <script src="~/js/jcrop/jquery.Jcrop.min.js"></script>
+                                        <script src="~/js/ImageCrop.js"></script>
+                                    }
+
+                                    <!-- END TEST -->
+
                                 </div>
                                 <a asp-action="CV"><button class="cvbtn btn btn-primary">Request CV</button></a>
                             </div>
@@ -53,7 +167,7 @@
                                     <h6 class="mb-0">Full Name</h6>
                                 </div>
                                 <div class="col-sm-9 text-secondary">
-                                    Kakashi Hatake
+                                    @BrukerInnhold.Navn
                                 </div>
                             </div>
                             <hr>
@@ -62,7 +176,7 @@
                                     <h6 class="mb-0">Email</h6>
                                 </div>
                                 <div class="col-sm-9 text-secondary">
-                                    bestwaytoagirlsheart_chidori@gmail.com
+                                    @BrukerInnhold.Email
                                 </div>
                             </div>
                             <hr>
@@ -71,16 +185,14 @@
                                     <h6 class="mb-0">Phone</h6>
                                 </div>
                                 <div class="col-sm-9 text-secondary">
-                                    (239) 816-69420
+                                    @BrukerInnhold.Tlf
                                 </div>
                             </div>
                             <hr>
                             <div class="rowinfo">
-                                <div class="col-sm-3">
-                                    <h6 class="mb-0">Address</h6>
-                                </div>
+                          
                                 <div class="col-sm-9 text-secondary">
-                                    Bay Area, San Francisco, CA
+                                    @BrukerInnhold.Bosted
                                 </div>
                             </div>
                         </div>
@@ -89,6 +201,38 @@
             </div>
         </div>
     </div>
+
+    <div class="devider">
+        <hr class="line left-line">
+        <hr class="line right-line">
+        <h2 class="portfolio-folders">Portfolio folders</h2>
+
+    </div>
+
+
+    <ul class="nav nav-pills nav-fill folder-nav tabs">
+        <li class="nav-item">
+            <a class="nav-link folder " id="Castlevania-tab" href="https://localhost:44344/ProfilSide/Portef%C3%B8lje#v-pills-Castlevania" role="tab" aria-controls="v-pills-Castlevania" aria-selected="false">
+                <div class="folder-design">
+                    <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190271077646336/Portfollowers_tekst.png" />
+                    <span class="folder-navn">Castlevania karakterer</span>
+                </div>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link folder " href="https://localhost:44344/ProfilSide/Portef%C3%B8lje#v-pills-Sly">
+                <div class="folder-design">
+                    <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190211472785468/Portfollowers_bilde.png" />
+                    <span class="folder-navn">Sly</span>
+                </div>
+            </a>
+        </li>
+    </ul>
+
+
+
+
+
     <div class="center">
         <div class="center2">
             <a asp-action="CV"><button class="btn btn-primary">CV</button></a>
@@ -98,14 +242,16 @@
 
     <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="http://netdna.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    
+    <script src="https://cdn.jsdelivr.net/jquery.mixitup/latest/jquery.mixitup.min.js"></script>
+
+
     <script type="text/javascript">
 
         $("input[type='image']").click(function () {
             $("input[id='my_file']").click();
         });
 
-    </script> 
+    </script>
 
     <!-- For later  <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">  -->
 </body>

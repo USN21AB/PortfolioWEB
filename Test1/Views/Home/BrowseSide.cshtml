@@ -12,6 +12,7 @@
 </style>
 
 <link href="~/css/BrowseSide.css" rel="stylesheet" />
+<link href="~/css/Musikkontroller.css" rel="stylesheet" />
 
 <h5 class="headings">Featured projects</h5>
 
@@ -178,7 +179,7 @@
     </div>
     </div>
 -->
-<div class="tab-content" id="innleggDIV">
+<div class="tab-content forside-innlegg" id="innleggDIV">
     @Html.Partial("_browse", @ViewData)
 
 </div>
@@ -212,6 +213,19 @@
 <button id="test2">trykk me!</button>
 <input id="meg" />
 <input id="meg2" />
+
+<div class="musikk_kontroller" id="test">
+    <span id="sangfelt"></span>
+    <span id="artistfelt"></span>
+
+    <span id="tracktime">00:00</span>
+    <progress id="seekbar" value="0" max="100"></progress>
+    <span id="trackduration">00:00</span>
+
+    <img class="stopper" src="../resources/icons8-pause-96.png" onclick="stopAll()" />
+
+    <input type="range" id="volume-control" value="5" min="0" max="10" onload="volum(this.value)" onchange="volum(this.value)">
+</div>
 
 
 @section Scripts

@@ -2,6 +2,7 @@
 using FireSharp.Config;
 using FireSharp.Interfaces;
 using FireSharp.Response;
+using LazZiya.ImageResize;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -10,6 +11,7 @@ using Portefolio_webApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -94,17 +96,15 @@ namespace Test1.Models
             Console.WriteLine("Link " + downloadUrl); }
 
 
+
+
         public async Task UploadProfilBilde(string filename, IFormFile file, string brukerId)
         {
 
 
-            using (var stream = new FileStream(filename, FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
-            }
+            var stream1 = File.Open(filename, FileMode.Open);
 
-            var stream1 = File.Open(@filename, FileMode.Open);
-
+        
 
             // Constructr FirebaseStorage, path to where you want to upload the file and Put it there
             var task = new FirebaseStorage("bachelor-it-97124.appspot.com")
@@ -189,10 +189,10 @@ namespace Test1.Models
 
         public void RegistrerBruker(Bruker bruker)
         {
-       
-            PushResponse respons = klient.Push("Bruker/", bruker);
-            bruker.Id = respons.Result.name;
-            SetResponse setResponse = klient.Set("Bruker/" + bruker.Id, bruker);
+            
+            //PushResponse respons = klient.Push("Bruker/"+bruker.Id, bruker);
+          // bruker.Id = respons.Result.name;
+           SetResponse setResponse = klient.Set("Bruker/" + bruker.Id, bruker);
                
         }
 
