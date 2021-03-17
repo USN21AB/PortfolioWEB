@@ -204,5 +204,14 @@ namespace Test1.Models
             //Bruker mellomBruker = JsonConvert.DeserializeObject<Bruker>(((JProperty)data).Value.ToString()); 
 
         }
+
+        public void RegistrerKommentar(Kommentar kommentar)
+        {
+
+            PushResponse respons = klient.Push("Kommentar/", kommentar);
+            kommentar.Id = respons.Result.name;
+            SetResponse setResponse = klient.Set("Kommentar/" + kommentar.Id, kommentar);
+
+        }
     }
 }
