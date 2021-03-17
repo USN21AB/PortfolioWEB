@@ -42,9 +42,13 @@ namespace Portefolio_webApp.Controllers
         public IActionResult ProfilSide()
         {
             var token = HttpContext.Session.GetString("_UserToken");
-         
-        
-                return View();
+
+            Bruker = firebase.HentEnkeltBruker("-MTuNdX2ldnO73BCZwFp");
+
+            ViewData["Bruker"] = Bruker;
+
+
+            return View();
           
         }
 
