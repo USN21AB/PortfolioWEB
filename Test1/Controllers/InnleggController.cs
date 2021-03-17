@@ -1,5 +1,6 @@
 ﻿using FireSharp.Interfaces;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Portefolio_webApp.Models;
 using System;
@@ -22,6 +23,7 @@ namespace Portefolio_webApp.Controllers
 
         [BindProperty]
         public Innlegg Innlegg { get; set; }
+        public Kommentar Kommentar { get; set; }
 
         public IActionResult Index()
         {
@@ -81,13 +83,50 @@ namespace Portefolio_webApp.Controllers
 
         public IActionResult Nav_Innlegg(string id)
         {
-            Debug.WriteLine("id er:  " + id);
+            //Skjekker om bruker er logget inn
+            var model = new InnleggController();
+            
+            var token = HttpContext.Session.GetString("_UserToken");
+            var isLoggedOn = false;
+            if (token != null) isLoggedOn = true;
+            ViewBag.Status = isLoggedOn;
+            
+            //Henter innlegget bruker klikket på
             var innlegg = new Innlegg();
             innlegg = firebase.HentSpesifiktInnlegg(id);
+            var bruker = new Bruker();
+            bruker = firebase.HentEnkeltBruker(innlegg.EierId);
+                
+            ViewData["bruker"] = bruker;
+
             return View(innlegg);
-            
+
+        }
+
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        public IActionResult NyttKommentar(string tekst, string innleggId)
+        {
+            Kommentar kommentar = new Kommentar();
+            DateTime today = DateTime.Today;
+            DateTime l = today;
+            kommentar.Tekst = tekst;
+            kommentar.InnleggId = innleggId;
+            kommentar.Dato = l.ToString("dd/MM/yyyy");
+
+            try
+            {
+                firebase.RegistrerKommentar(kommentar);
+            }
+            catch(Exception ex)
+            {
+
+            }
+            return Redirect("~/ProfilSide/ProfilSide");
         }
 
     }
-
 }
