@@ -17,6 +17,8 @@ namespace Portefolio_webApp.Models
 
         public string Kategori { get; set; }
 
+        public string SubKategori { get; set; }
+
         public List<string> Tagger { get; set; }
 
         public string IkonURL { get; set; }

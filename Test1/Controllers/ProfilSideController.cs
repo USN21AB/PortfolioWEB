@@ -38,7 +38,7 @@ namespace Portefolio_webApp.Controllers
        
 
 
-        public IActionResult ProfilSide()
+        public IActionResult ProfilSide(string brukerID)
         {
 
             //var brukerID = HttpContext.Session.GetString("_UserID");
@@ -47,9 +47,11 @@ namespace Portefolio_webApp.Controllers
             //if (token != null)
             //{
 
-            Bruker = firebase.HentEnkeltBruker("-MTuNdX2ldnO73BCZwFp");
+            Bruker = firebase.HentEnkeltBruker(brukerID);
 
             ViewData["Bruker"] = Bruker;
+            ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
+            ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
 
             return View();
             // }
@@ -61,14 +63,16 @@ namespace Portefolio_webApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult CV()
+        public IActionResult CV(string brukerID)
         {
           
             //Dummy bruker med id. 
-            Bruker = firebase.HentEnkeltBruker("-MTuNdX2ldnO73BCZwFp"); 
+            Bruker = firebase.HentEnkeltBruker(brukerID); 
 
             ViewData["Bruker"] = Bruker;
-       
+
+            ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
+            ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
             return View(Bruker);
         }
 
@@ -93,7 +97,7 @@ namespace Portefolio_webApp.Controllers
                 }
             }else
             {
-                Debug.WriteLine("------------------------------------------------------- inni else til CV " + cvbruker.CV.ArbeidsErfaring.Count);
+              
             }
             Bruker hentBruker = firebase.HentEnkeltBruker(cvbruker.Id);
             ViewData["Bruker"] = hentBruker; 
@@ -149,6 +153,8 @@ namespace Portefolio_webApp.Controllers
             if(nybruker == null)
                 return NotFound();
 
+            ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
+            ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
             return View(nybruker); 
         }
 
@@ -156,19 +162,19 @@ namespace Portefolio_webApp.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult UpsertBruker(Bruker oppBruker, string filename, IFormFile file, [FromServices] IHostingEnvironment oHostingEnvironment)
         {
+            Debug.WriteLine("-------------------------Im here AT ALL??? " + oppBruker.Id);
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    if (string.IsNullOrEmpty(oppBruker.Id)) {
 
+              
+                    if (string.IsNullOrEmpty(oppBruker.Id))
+                    {
+                        Debug.WriteLine("-------------------------Im in id null!!");
                         string logginnID = logg.Register(oppBruker.Email, oppBruker.Password).Result;
-                        string [] splittArr = logginnID.Split("|");
+                        string[] splittArr = logginnID.Split("|");
 
                         oppBruker.Id = splittArr[0];
-                        oppBruker.Password = null; 
-                     
+                        oppBruker.Password = null;
+
                         HttpContext.Session.SetString("_UserID", splittArr[0]);
                         HttpContext.Session.SetString("_UserToken", splittArr[1]);
 
@@ -176,31 +182,31 @@ namespace Portefolio_webApp.Controllers
                         {
                             ModelState.AddModelError(string.Empty, "Invalid Password or Email!");
                         }
-                        else {
-                            oppBruker.CV.BrukerID = oppBruker.Id; 
+                        else
+                        {
+                            oppBruker.CV.BrukerID = oppBruker.Id;
 
-                            oppBruker.Mapper = new List<Portfolio>(); 
+                            oppBruker.Mapper = new List<Portfolio>();
                             firebase.RegistrerBruker(oppBruker);
                         }
-                       
 
-                    } else
+
+                    }
+                    else
                     {
+                        Debug.WriteLine("-------------------------OPPDATERER THA SHIT!!");
                         firebase.OppdaterBruker(oppBruker);
-                        if(file != null) {
-                        Console.WriteLine("" + file.FileName);
-                        UploadFile(file,oHostingEnvironment,oppBruker.Id);
-                        }
                         ModelState.AddModelError(string.Empty, "Oppdatert suksessfult!");
                     }
-                }
-                
-                catch (Exception ex)
-                {
-                    ModelState.AddModelError(string.Empty, ex.Message);
-                }
-            }
-     
+
+                    if (file != null)
+                    {
+                        Console.WriteLine("" + file.FileName);
+                        UploadFile(file, oHostingEnvironment, oppBruker.Id);
+                    }
+
+
+            Debug.WriteLine("-------------------------End of upsert method!!");
             return RedirectToAction("BrowseSide", "Home");
         }
 
@@ -215,7 +221,9 @@ namespace Portefolio_webApp.Controllers
 
 
             ViewData["Bruker_Innhold"] = Bruker;
-           // ViewData["Port"] = firebase.HentAlleMapper("");
+            ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
+            ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
+            // ViewData["Port"] = firebase.HentAlleMapper("");
             return View(Bruker);
 
         }
@@ -224,7 +232,7 @@ namespace Portefolio_webApp.Controllers
         public JsonResult LeggTilCV(string felt, string par1, string par2, string par3, string par4, string par5)
         {
             Debug.WriteLine("---------------------------------yo ");
-            Bruker = firebase.HentEnkeltBruker("-MTuNdX2ldnO73BCZwFp");
+            Bruker = firebase.HentEnkeltBruker(HttpContext.Session.GetString("_UserID"));
 
             if (felt == "Arbeidserfaring")
             {
@@ -263,7 +271,7 @@ namespace Portefolio_webApp.Controllers
         public JsonResult DeleteCV(string felt, string index)
         {
             Debug.WriteLine("---------------------------------yo " + felt + " og " + index);
-            Bruker = firebase.HentEnkeltBruker("-MTuNdX2ldnO73BCZwFp");
+            Bruker = firebase.HentEnkeltBruker(HttpContext.Session.GetString("_UserID"));
             if (felt == "ArbeidsErfaring")
             {
                 Bruker.CV.ArbeidsErfaring.RemoveRange(Int32.Parse(index), 5);

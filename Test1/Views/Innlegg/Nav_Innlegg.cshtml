@@ -211,10 +211,10 @@
         else
         {
             <div class="innleggProfil">
-                <a asp-controller="Profilside" asp-action="Profilside">
+                <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@bruker.Id">
                     <img src="~/lib/bilder/Mageh.png" height="60" width="60" id="imgikon" />
                 </a>
-                <p class="ikontxt"><u>@bruker.Navn</u> <br> Freelancer </p>
+                <p class="ikontxt"><u>@bruker.Navn</u> <br> @bruker.Stilling </p>
             </div>
             <p class="solid">
                 @beskrivelse

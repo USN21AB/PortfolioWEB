@@ -34,20 +34,37 @@
 
                         <ul class="navbar-nav flex-grow-1">
                             <li class="nav-item1">
-                                <a class="nav-link" asp-area="" asp-controller="Innlegg" asp-action="Upsert_Innlegg">FirebaseTest</a>
+                                <form class="form-inline my-2 my-lg-0">
+                                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                                </form>
                             </li>
-                            <li class="nav-item2">
-                                <a class="nav-link" asp-area="" asp-controller="ProfilSide" asp-action="UpsertBruker">Lag/oppdater bruker</a>
-                            </li>
-                            <li class="topnav-right vl">
-                                <a class="nav-link" asp-area="" asp-controller="ProfilSide" asp-action="ProfilSide">Min Profil</a>
-                            </li>
-                            <li class="topnav-right2">
-                                <a class="nav-link" asp-area="" asp-controller="Login" asp-action="SignIn">Logg inn</a>
-                            </li>
-                            <li class="topnav-right2">
-                                <a class="nav-link" asp-area="" asp-controller="Login" asp-action="LogOut">Logg ut</a>
-                            </li>
+
+
+
+                            @if (ViewData["Token"] == null)
+                            {
+                                <button class="topnav-right vl btn btn-primary" onclick="location.href='@Url.Action("SignIn", "Login")'"><i class="fas fa-sign-in-alt">  Log in</i></button>
+                            }
+                            else
+                            {
+                                <li class="topnav-right vl">
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Dropdown button
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a class="dropdown-item" asp-area="" asp-controller="ProfilSide" asp-action="ProfilSide" asp-route-brukerID="@ViewData["Innlogget_ID"]"><i class="fas fa-user-circle">  My Profile</i></a>
+                                            <a class="dropdown-item" asp-area="" asp-controller="Innlegg" asp-action="Upsert_Innlegg" asp-route-innleggID=""> <i class="fas fa-plus">  Nytt innlegg</i></a>
+                                            <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="LogOut"><i class="fas fa-sign-out-alt">  Log out</i></a>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+
+
+
+
+
                         </ul>
                     </div>
                 </div>
@@ -62,6 +79,7 @@
 
     <footer class="borderfooter footer">
         <div class="container">
+
             &copy; 2021 - Test1 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
