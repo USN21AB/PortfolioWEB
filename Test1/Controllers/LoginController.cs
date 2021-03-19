@@ -89,6 +89,8 @@ namespace Test1.Controllers
         public IActionResult LogOut()
         {
             HttpContext.Session.Remove("_UserToken");
+            HttpContext.Session.Remove("_UserID");
+   
             return Redirect("SignIn");
         }
     }
