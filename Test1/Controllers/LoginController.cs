@@ -67,6 +67,7 @@ namespace Test1.Controllers
                 {
                     HttpContext.Session.SetString("_UserToken", token);
                     HttpContext.Session.SetString("_UserID", fbAuthLink.User.LocalId);
+                
                     return Redirect("~/Home/BrowseSide");
                 }
                 else

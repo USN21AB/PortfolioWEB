@@ -203,11 +203,12 @@ namespace Portefolio_webApp.Controllers
 
                 var listen = firebase.HentAlleInnlegg();
                 
-                //HttpContext.Session.GetString("_UserToken"); 
+               
                 ViewData["liste"] = firebase.SorterAlleInnlegg(kategori, listen);
                 TempData["valgtKnapp"] = kategori;
             }
-            ViewData["Token"] = " ER GANSKE SPESIELL";
+            ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
+            ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
             return View();
         }
 

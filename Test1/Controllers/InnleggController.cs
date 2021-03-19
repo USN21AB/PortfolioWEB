@@ -41,6 +41,8 @@ namespace Portefolio_webApp.Controllers
                 return View(Innlegg);
             }
 
+            ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
+            ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
             return View(Innlegg);
         }
 
@@ -98,14 +100,10 @@ namespace Portefolio_webApp.Controllers
             bruker = firebase.HentEnkeltBruker(innlegg.EierId);
                 
             ViewData["bruker"] = bruker;
-
+            ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
+            ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
             return View(innlegg);
 
-        }
-
-        public IActionResult Register()
-        {
-            return View();
         }
 
         public IActionResult NyttKommentar(string tekst, string innleggId)
