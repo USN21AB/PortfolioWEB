@@ -16,6 +16,7 @@ window.onload = function () {
 
 function nyttKommentar() {
     var tekst = document.getElementById('kommentarFelt');
+    return tekst;
 }
 
 function spillAv(sang, toggle) {
