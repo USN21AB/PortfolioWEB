@@ -50,6 +50,8 @@ namespace Portefolio_webApp.Controllers
             Bruker = firebase.HentEnkeltBruker("-MTuNdX2ldnO73BCZwFp");
 
             ViewData["Bruker"] = Bruker;
+            ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
+            ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
 
             return View();
             // }
@@ -68,7 +70,9 @@ namespace Portefolio_webApp.Controllers
             Bruker = firebase.HentEnkeltBruker("-MTuNdX2ldnO73BCZwFp"); 
 
             ViewData["Bruker"] = Bruker;
-       
+
+            ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
+            ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
             return View(Bruker);
         }
 
@@ -149,6 +153,8 @@ namespace Portefolio_webApp.Controllers
             if(nybruker == null)
                 return NotFound();
 
+            ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
+            ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
             return View(nybruker); 
         }
 
@@ -215,7 +221,9 @@ namespace Portefolio_webApp.Controllers
 
 
             ViewData["Bruker_Innhold"] = Bruker;
-           // ViewData["Port"] = firebase.HentAlleMapper("");
+            ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
+            ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
+            // ViewData["Port"] = firebase.HentAlleMapper("");
             return View(Bruker);
 
         }

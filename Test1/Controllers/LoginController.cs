@@ -23,13 +23,6 @@ namespace Test1.Controllers
 
         }
 
-        /*
-        public IActionResult Register()
-        {
-            return View();
-        }
-   */
-
         [NonAction]
         public async Task<string> Register(string Email, string Password)
         {
@@ -74,6 +67,7 @@ namespace Test1.Controllers
                 {
                     HttpContext.Session.SetString("_UserToken", token);
                     HttpContext.Session.SetString("_UserID", fbAuthLink.User.LocalId);
+                
                     return Redirect("~/Home/BrowseSide");
                 }
                 else
