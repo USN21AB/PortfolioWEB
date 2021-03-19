@@ -31,18 +31,21 @@ namespace Portefolio_webApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult Upsert_Innlegg()
+        public IActionResult Upsert_Innlegg(string innleggID)
         {
             Innlegg = new Innlegg();
 
-            if (Innlegg.Id == null)
+            ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
+            ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
+
+            if (innleggID != "")
             {
                 //create
+                Innlegg = firebase.HentSpesifiktInnlegg(innleggID); 
                 return View(Innlegg);
             }
 
-            ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
-            ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
+       
             return View(Innlegg);
         }
 
@@ -59,24 +62,33 @@ namespace Portefolio_webApp.Controllers
 
             if (ModelState.IsValid)
             {
-                try
+
+                if (string.IsNullOrEmpty(innlegg.Id))
                 {
+                    try
+                    {
 
-                    ProfilSideController profilSideController = new ProfilSideController();
+                        ProfilSideController profilSideController = new ProfilSideController();
 
-                    
-                    //logg.Register(oppBruker.Email, oppBruker.Password).Result;
 
-                    firebase.RegistrerInnlegg(innlegg);
-                    Console.WriteLine("EYOOOOOOOOOOO BRUUUUH");
-                    profilSideController.UploadFile(file,oHostingEnvironment, "- MTuNdX2ldnO73BCZwFp");
-                    Console.WriteLine("EYOOOOOOOOOOO BRUUUUH");
-                    ModelState.AddModelError(string.Empty, "Registrering suksessfult!");
-                    
+                        //logg.Register(oppBruker.Email, oppBruker.Password).Result;
+                        innlegg.EierId = HttpContext.Session.GetString("_UserID");
+                        firebase.RegistrerInnlegg(innlegg);
+                        Console.WriteLine("EYOOOOOOOOOOO BRUUUUH");
+                        profilSideController.UploadFile(file, oHostingEnvironment, "- MTuNdX2ldnO73BCZwFp");
+                        Console.WriteLine("EYOOOOOOOOOOO BRUUUUH");
+                        ModelState.AddModelError(string.Empty, "Registrering suksessfult!");
+
+                    }
+                    catch (Exception ex)
+                    {
+                        ModelState.AddModelError(string.Empty, ex.Message);
+                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    ModelState.AddModelError(string.Empty, ex.Message);
+                    innlegg.EierId = HttpContext.Session.GetString("_UserID"); 
+                    firebase.OppdaterInnlegg(innlegg);
                 }
             }
 
