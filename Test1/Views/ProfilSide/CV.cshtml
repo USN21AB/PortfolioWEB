@@ -126,8 +126,7 @@
                             <h5 class="mb-3 text-uppercase">
                                 <i class="mdi mdi-briefcase mr-1"></i>
                                 Experience
-                            </h5>
-
+                            </h5>   
                             @{
                                 var antallArbeidsErfaring = 0;
                                 var arID = "arEdit" + antallArbeidsErfaring;
@@ -141,7 +140,7 @@
                                     var ArbeidsErfaringBedrift = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring + 3);
                                     var ArbeidsErfaringBeskrivelse = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring + 4);
 
-                                    <div id="@(arID)" onmouseover="addEdit('@arID','@(arID)button','@(arID)buttonRed')" onmouseout="removeEdit('@arID','@(arID)button','@(arID)buttonRed')">
+                                    <div id="@(arID)" onmouseover="@(BrukerInnhold.Id == (string)ViewData["Innlogget_ID"]? "addEdit('"+@arID+"','"+@arID+"button','"+@arID+"buttonRed')":"") "  onmouseout="@(BrukerInnhold.Id == (string)ViewData["Innlogget_ID"]? "removeEdit('"+@arID+"','"+@arID+"button','"+@arID+"buttonRed')":"")  ">
                                         <ul class="list-unstyled timeline-sm">
                                             <li class="timeline-sm-item">
                                                 <span class="timeline-sm-date" id="arDato@(arID)">
@@ -187,7 +186,7 @@
                                     var UtdanningGrad = CvInnhold.Utdanning.ElementAt(antallUtdanning + 2);
                                     var UtdanningInstitusjon = CvInnhold.Utdanning.ElementAt(antallUtdanning + 3);
 
-                                    <div id="@(utID)" onmouseover="addEdit('@utID','@(utID)button','@(utID)buttonRedUT')" onmouseout="removeEdit('@utID','@(utID)button','@(utID)buttonRedUT')">
+                                    <div id="@(utID)" onmouseover="@(BrukerInnhold.Id == (string)ViewData["Innlogget_ID"]? "addEdit('"+@utID+"','"+@utID+"button','"+@utID+"buttonRedUT')":"")" onmouseout="@(BrukerInnhold.Id == (string)ViewData["Innlogget_ID"]? "removeEdit('"+@utID+"','"+@utID+"button','"+@utID+"buttonRedUT')":"")">
                                         <ul class="list-unstyled timeline-sm">
                                             <li class="timeline-sm-item">
                                                 <span class="timeline-sm-date" id="utDato@(utID)">
