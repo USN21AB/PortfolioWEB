@@ -1,6 +1,7 @@
 ﻿@using Portefolio_webApp.Models;
 @{
-    var id = "";
+    var thisid = "djdj";
+    var eierId = "";
     var tittel = "";
     var kategori = "";
     var klokkeslett = "";
@@ -16,7 +17,8 @@
     @model Portefolio_webApp.Models.Innlegg;
     if (Model.Kategori != null || Model.IkonURL != null)
     {
-        id = Model.EierId;
+        thisid = Model.Id;
+        eierId = Model.EierId;
         tittel = Model.Tittel;
         kategori = Model.Kategori;
         klokkeslett = Model.Klokkeslett;
@@ -25,8 +27,6 @@
         tagger = Model.Tagger;
         beskrivelse = Model.Beskrivelse;
     }
-
-    var tekst = "At w3schools.com you will learn how to make a website. They offer free tutorials in all web development technologies.";
 }
 
 <style>
@@ -228,18 +228,26 @@
                 </a>
                 <textarea id="kommentarFelt" name="w3review" rows="4" cols="70">
                 
-                </textarea><button>Cancel</button><button onclick=" @tekst = nyttKommentar(); location.href = '@Url.Action("NyttKommentar", "Innlegg", new { tekst = @tekst, innleggId = "Musikk"})'">Comment</button>
+                </textarea><button>Cancel</button><button onclick="Kommentar('@thisid')">Comment</button>
             </div>
-            
-            <div class="kommentarFelt">
+
+            <div id="alleKommentarFelt">
 
             </div>
         }
     }
-    <script src="~/js/javaInnlegg.js?v=1">
+    <script src="~/js/javaInnlegg.js?v=2">
     </script>
+    <script>
+        function Kommentar(nyId) {
+            var url = '@Html.Raw(Url.Action("NyttKommentar", "Innlegg" , new { tekst = "_tekst_", innleggId = "_innleggId_" }))';
+            var tekst = $('#kommentarFelt').val();
 
-
+            var params = url.replace('_tekst_', tekst).replace('_innleggId_', nyId);
+            window.location.href = params;
+        }
+    </script>
+    @*location.href = '@Url.Action("NyttKommentar", "Innlegg", new { tekst = @tekst, innleggId = "Musikk" })'"*@
 </body>
 
 

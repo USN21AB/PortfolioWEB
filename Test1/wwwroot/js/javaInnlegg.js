@@ -9,14 +9,33 @@ window.onload = function () {
 
     $("#innlegg").css(small).on('click', function () {
     $(this).animate((count == 1) ? large : small);
-    count = 1 - count;
+        count = 1 - count;
   });
 
+    var htmlElements = "";
+    for (var i = 0; i < 5; i++) {
+        htmlElements += '<div class="box"> <p> Hei </p> </div>';
+    }
+    var container = document.getElementById("alleKommentarFelt");
+    container.innerHTML = htmlElements;
 }    
+/*
+window.onload = function () {
+    var htmlElements = "";
+    for (var i = 0; i < 5; i++) {
+        htmlElements += '<div class="box"> <p> Hei </p> </div>';
+    }
+    var container = document.getElementById("alleKommentarFelt");
+    container.innerHTML = htmlElements;
+}*/
 
-function nyttKommentar() {
-    var tekst = document.getElementById('kommentarFelt');
-    return tekst;
+
+function Kommentar(nyId) {
+    var url = '@Html.Raw(Url.Action("NyttKommentar", "Innlegg" , new { tekst = "_tekst_", innleggId = "_innleggId_" }))';
+    var tekst = $('#kommentarFelt').val();
+
+    var params = url.replace('_tekst_', tekst).replace('_innleggId_', nyId);
+    window.location.href = params;
 }
 
 function spillAv(sang, toggle) {
