@@ -1,5 +1,11 @@
 ﻿<!DOCTYPE html>
+
+@{
+    var BrukerInnhold = (Portefolio_webApp.Models.Bruker)ViewData["Bruker"];
+}
+
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <!--  All snippets are MIT license http://bootdey.com/license -->
@@ -7,7 +13,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="http://netdna.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="~/css/ProfilSide.css" rel="stylesheet" />
-
 </head>
 
 
@@ -121,13 +126,19 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex flex-column align-items-center text-center">
-                                <input type="image" src="https://i1.sndcdn.com/artworks-Y4bCtXG5t6Czo3cb-1bFYoA-t500x500.jpg" alt="Admin" class="rounded-circle profilimg" width="150" />
+                                @if (@BrukerInnhold.Profilbilde != null)
+                                {
+                                    <input type="image" src="@BrukerInnhold.Profilbilde" alt="Admin" class="rounded-circle profilimg" width="150" />}
+
+                                else
+                                { <input type="image" src="https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2Fdefault_account.jpg?alt=media&token=290b6907-f17e-4095-90a6-dca2c52563b9" alt="Admin" class="rounded-circle profilimg" width="150" />}
+
 
 
                                 <div class="mt-3">
-                                    <h4>Kakashi</h4>
-                                    <p class="text-secondary mb-1">Full Stack Developer</p>
-                                    <p class="text-muted font-size-sm">Bay Area, San Francisco, CA</p>
+                                    <h4>@BrukerInnhold.Navn</h4>
+                                    <p class="text-secondary mb-1">@BrukerInnhold.Stilling</p>
+                                    <p class="text-muted font-size-sm">@BrukerInnhold.Bosted</p>
 
 
 
@@ -169,7 +180,7 @@
                                     <!-- END TEST -->
 
                                 </div>
-                                <a asp-action="CV"><button class="cvbtn btn btn-info">Request CV</button></a>
+                                <a asp-action="CV" asp-route-brukerID="@BrukerInnhold.Id"><button class="cvbtn btn btn-primary">Request CV</button></a>
                             </div>
                         </div>
                     </div>
@@ -180,10 +191,19 @@
                         <div class="card-body">
                             <div class="rowinfo">
                                 <div class="col-sm-3">
-                                    <h6 class="mb-0">Full Name</h6>
+                                    <div class="row justify-content-between">
+                                        <div class="col-8">
+                                            <h6 class="mb-0">Full Name</h6>
+                                        </div>
+                                        @if (BrukerInnhold.Id == (string)ViewData["Innlogget_ID"]) { 
+                                            <div class="col">
+                                                <button class="btn-primary" onclick="location.href='@Url.Action("UpsertBruker", "ProfilSide")'"><i class="fas fa-edit">  Edit profile</i></button>
+                                            </div>
+                                            }
+                                    </div>
                                 </div>
                                 <div class="col-sm-9 text-secondary">
-                                    Kakashi Hatake
+                                    @BrukerInnhold.Navn
                                 </div>
                             </div>
                             <hr>
@@ -192,7 +212,7 @@
                                     <h6 class="mb-0">Email</h6>
                                 </div>
                                 <div class="col-sm-9 text-secondary">
-                                    bestwaytoagirlsheart_chidori@gmail.com
+                                    @BrukerInnhold.Email
                                 </div>
                             </div>
                             <hr>
@@ -201,16 +221,14 @@
                                     <h6 class="mb-0">Phone</h6>
                                 </div>
                                 <div class="col-sm-9 text-secondary">
-                                    (239) 816-69420
+                                    @BrukerInnhold.Tlf
                                 </div>
                             </div>
                             <hr>
                             <div class="rowinfo">
-                                <div class="col-sm-3">
-                                    <h6 class="mb-0">Address</h6>
-                                </div>
+                          
                                 <div class="col-sm-9 text-secondary">
-                                    Bay Area, San Francisco, CA
+                                    @BrukerInnhold.Bosted
                                 </div>
                             </div>
                         </div>
@@ -253,7 +271,7 @@
 
     <div class="center">
         <div class="center2">
-            <button class="btn btn-primary toastbtn" id="toastbtn">CV</button>
+            <a asp-action="CV"><button class="btn btn-primary">CV</button></a>
             <a asp-action="Portefølje"><button class="btn btn-primary">Portfolio</button></a>
         </div>
     </div>

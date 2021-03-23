@@ -198,10 +198,28 @@ namespace Test1.Models
 
         public void OppdaterBruker(Bruker bruker)
         {
-            Debug.WriteLine("Oppdaterer bruker");
+           
             SetResponse respons = klient.Set("Bruker/"+bruker.Id,bruker);
            // dynamic data = JsonConvert.DeserializeObject<Bruker>(respons.Body);
             //Bruker mellomBruker = JsonConvert.DeserializeObject<Bruker>(((JProperty)data).Value.ToString()); 
+
+        }
+
+        public void OppdaterInnlegg(Innlegg innlegg)
+        {
+            Debug.WriteLine("Oppdaterer innlegg: " + innlegg.Tittel);
+            SetResponse respons = klient.Set("Innlegg/" + innlegg.Id, innlegg);
+            // dynamic data = JsonConvert.DeserializeObject<Bruker>(respons.Body);
+            //Bruker mellomBruker = JsonConvert.DeserializeObject<Bruker>(((JProperty)data).Value.ToString()); 
+
+        }
+
+        public void RegistrerKommentar(Kommentar kommentar)
+        {
+
+            PushResponse respons = klient.Push("Kommentar/", kommentar);
+            kommentar.Id = respons.Result.name;
+            SetResponse setResponse = klient.Set("Kommentar/" + kommentar.Id, kommentar);
 
         }
     }

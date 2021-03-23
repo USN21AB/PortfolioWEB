@@ -20,14 +20,8 @@ namespace Test1.Controllers
             auth = new FirebaseAuthProvider(
                             new FirebaseConfig("AIzaSyAF3lsyJBHDwpdd2u9D0qW-m3c2TJftQvE"));
             firebase = new FirebaseDB();
-        }
 
-        /*
-        public IActionResult Register()
-        {
-            return View();
         }
-   */
 
         [NonAction]
         public async Task<string> Register(string Email, string Password)
@@ -73,6 +67,7 @@ namespace Test1.Controllers
                 {
                     HttpContext.Session.SetString("_UserToken", token);
                     HttpContext.Session.SetString("_UserID", fbAuthLink.User.LocalId);
+                
                     return Redirect("~/Home/BrowseSide");
                 }
                 else
@@ -94,6 +89,8 @@ namespace Test1.Controllers
         public IActionResult LogOut()
         {
             HttpContext.Session.Remove("_UserToken");
+            HttpContext.Session.Remove("_UserID");
+   
             return Redirect("SignIn");
         }
     }

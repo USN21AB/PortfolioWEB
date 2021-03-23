@@ -21,19 +21,19 @@ namespace Portefolio_webApp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+
         private readonly FirebaseDB firebase;
+
         //private ISession session;
 
         [BindProperty]
         public List<Innlegg> AlleInnlegg { get; set; }
      
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController()
         {
-            _logger = logger;
+          
             firebase = new FirebaseDB();
-        //   this.session = httpContextAccessor.HttpContext.Session;
         }
 
         private bool IsValidExtension(IFormFile filename)
@@ -112,6 +112,10 @@ namespace Portefolio_webApp.Controllers
         }
         public async Task<ActionResult> UploadFilesWihtLocation([FromServices] IHostingEnvironment oHostingEnvironment)
         {
+
+
+            Console.WriteLine("EHHHH?????");
+
             string hoststr = oHostingEnvironment.WebRootPath;
 
             string[] strFileNames;
@@ -121,7 +125,7 @@ namespace Portefolio_webApp.Controllers
                 //BrukerID
 
                 Bruker nybruker = new Bruker();
-                nybruker = firebase.HentEnkeltBruker("-MTuAm8t_eBlv5KMiuWX");
+                nybruker = firebase.HentEnkeltBruker("fMMxGHaKvYW6UoZKFSmYRD4cA4j1");
 
                 string brukerId = nybruker.Id;
 
@@ -133,6 +137,8 @@ namespace Portefolio_webApp.Controllers
                 string fileLocation = Request.Form["UploadLocation"].ToString();
                 //string[] path = fileLocation.Split("/");
                 string fileInitals = Request.Form["FileInitials"].ToString();
+
+                Console.WriteLine("EHHHH?????" + "Something" + fileInitals + " Eh?");
                 int i = 0;
                 string[] path = fileLocation.Split("\\");
                 if (!Directory.Exists(hoststr + "\\" + path[1]))
@@ -157,7 +163,6 @@ namespace Portefolio_webApp.Controllers
                             file.CopyTo(fs);
                             fs.Flush();
                             fs.Close();
-
 
                             await firebase.UploadProfilBilde(fullpath, file, brukerId);
                         }
@@ -191,17 +196,19 @@ namespace Portefolio_webApp.Controllers
           
                 AlleInnlegg = firebase.HentAlleInnlegg();
                 TempData["valgtKnapp"] = "alt";
-               // session.SetString("AlleInnlegg", "Hello my name is");
 
                 ViewData["liste"] = AlleInnlegg;
             }
             else {
 
-                var listen = firebase.HentAlleInnlegg(); 
+                var listen = firebase.HentAlleInnlegg();
                 
+               
                 ViewData["liste"] = firebase.SorterAlleInnlegg(kategori, listen);
                 TempData["valgtKnapp"] = kategori;
             }
+            ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
+            ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
             return View();
         }
 
