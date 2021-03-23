@@ -1,9 +1,12 @@
-﻿<!DOCTYPE html>
+﻿@model Portefolio_webApp.Models.Bruker;
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Test1</title>
+
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
@@ -39,9 +42,9 @@
                             <li class="nav-item2">
                                 <a class="nav-link" asp-area="" asp-controller="ProfilSide" asp-action="UpsertBruker">Lag/oppdater bruker</a>
                             </li>
-                            <li class="topnav-right vl">
-                                <a class="nav-link" asp-area="" asp-controller="ProfilSide" asp-action="ProfilSide">Min Profil</a>
-                            </li>
+                                <li class="topnav-right vl">
+                                    <a class="nav-link" asp-area="" asp-controller="ProfilSide" asp-action="ProfilSide">Min Profil</a>
+                                </li>
                             <li class="topnav-right2">
                                 <a class="nav-link" asp-area="" asp-controller="Login" asp-action="SignIn">Logg inn</a>
                             </li>
@@ -65,7 +68,7 @@
             &copy; 2021 - Test1 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
-  
+
     @RenderSection("Scripts", required: false)
 </body>
 </html>
