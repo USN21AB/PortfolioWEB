@@ -14,7 +14,7 @@ using LazZiya.ImageResize;
 using System.Drawing;
 
 using Test1.Controllers;
-
+using Newtonsoft.Json;
 
 namespace Portefolio_webApp.Controllers
 {
@@ -53,6 +53,13 @@ namespace Portefolio_webApp.Controllers
             ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
             ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
 
+            /*
+            var str = HttpContext.Session.GetString("brukertest");
+            var bruker2 = JsonConvert.DeserializeObject<Bruker>(str);
+
+            Debug.WriteLine("-------------------------------Dette er serialized: " + bruker2.Navn); 
+            ViewData["brukertesten"] = bruker2; 
+            */
             return View();
             // }
             //  else
