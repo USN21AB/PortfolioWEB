@@ -38,7 +38,10 @@ body {
 }
 .cvbtn {
     margin-top: 20px;
+    background-color: #1abc9c;
+    border-color: #384352;
 }
+
 .profilimg {
 }
 .profilimg:hover {
