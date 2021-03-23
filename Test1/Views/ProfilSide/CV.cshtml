@@ -123,30 +123,29 @@
 
                     <div class="tab-pane show active" id="aboutme">
 
-                        <h5 class="mb-3 text-uppercase">
-                            <i class="mdi mdi-briefcase mr-1"></i>
-                            Experience
-                        </h5>
+                            <h5 class="mb-3 text-uppercase">
+                                <i class="mdi mdi-briefcase mr-1"></i>
+                                Experience
+                            </h5>   
+                            @{
+                                var antallArbeidsErfaring = 0;
+                                var arID = "arEdit" + antallArbeidsErfaring;
+                            }
+                            @if (CvInnhold.ArbeidsErfaring.Count != 0)
+                                @while (antallArbeidsErfaring < CvInnhold.ArbeidsErfaring.Count)
+                                {
+                                    var ArbeidsErfaringÅrStart = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring);
+                                    var ArbeidsErfaringÅrSlutt = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring + 1);
+                                    var ArbeidsErfaringTittel = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring + 2);
+                                    var ArbeidsErfaringBedrift = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring + 3);
+                                    var ArbeidsErfaringBeskrivelse = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring + 4);
 
-                        @{
-                            var antallArbeidsErfaring = 0;
-                            var arID = "arEdit" + antallArbeidsErfaring;
-                        }
-                        @if (CvInnhold.ArbeidsErfaring.Count != 0)
-                            @while (antallArbeidsErfaring < CvInnhold.ArbeidsErfaring.Count)
-                            {
-                                var ArbeidsErfaringÅrStart = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring);
-                                var ArbeidsErfaringÅrSlutt = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring + 1);
-                                var ArbeidsErfaringTittel = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring + 2);
-                                var ArbeidsErfaringBedrift = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring + 3);
-                                var ArbeidsErfaringBeskrivelse = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring + 4);
-
-                                <div id="@(arID)" onmouseover="addEdit('@arID','@(arID)button','@(arID)buttonRed')" onmouseout="removeEdit('@arID','@(arID)button','@(arID)buttonRed')">
-                                    <ul class="list-unstyled timeline-sm">
-                                        <li class="timeline-sm-item">
-                                            <span class="timeline-sm-date" id="arDato@(arID)">
-                                                <u>@ArbeidsErfaringÅrStart - @ArbeidsErfaringÅrSlutt </u> <button id="@(arID)button" style="position:absolute; right:6%; display:none;" onclick="onDelete('@arID', @antallArbeidsErfaring, 'ArbeidsErfaring')"><i class="fas fa-window-close fa-lg"></i></button>
-                                                <button id="@(arID)buttonRed" style="position:absolute; right:11%; display:none;" onclick="onEdit('ArbeidsErfaring', @antallArbeidsErfaring,
+                                    <div id="@(arID)" onmouseover="@(BrukerInnhold.Id == (string)ViewData["Innlogget_ID"]? "addEdit('"+@arID+"','"+@arID+"button','"+@arID+"buttonRed')":"") "  onmouseout="@(BrukerInnhold.Id == (string)ViewData["Innlogget_ID"]? "removeEdit('"+@arID+"','"+@arID+"button','"+@arID+"buttonRed')":"")  ">
+                                        <ul class="list-unstyled timeline-sm">
+                                            <li class="timeline-sm-item">
+                                                <span class="timeline-sm-date" id="arDato@(arID)">
+                                                    <u>@ArbeidsErfaringÅrStart - @ArbeidsErfaringÅrSlutt </u> <button id="@(arID)button" style="position:absolute; right:6%; display:none;" onclick="onDelete('@arID', @antallArbeidsErfaring, 'ArbeidsErfaring')"><i class="fas fa-window-close fa-lg"></i></button>
+                                                    <button id="@(arID)buttonRed" style="position:absolute; right:11%; display:none;" onclick="onEdit('ArbeidsErfaring', @antallArbeidsErfaring,
                                     'arDato@(arID)',@ArbeidsErfaringÅrStart,@ArbeidsErfaringÅrSlutt, 'arTittel@(arID)', 'arbedrift@(arID)', 'arBio@(arID)', 'submitArbeid@(arID)')">
                                                     <i class="fas fa-pencil-alt fa-lg"></i>
                                                 </button>
@@ -187,12 +186,12 @@
                                 var UtdanningGrad = CvInnhold.Utdanning.ElementAt(antallUtdanning + 2);
                                 var UtdanningInstitusjon = CvInnhold.Utdanning.ElementAt(antallUtdanning + 3);
 
-                                <div id="@(utID)" onmouseover="addEdit('@utID','@(utID)button','@(utID)buttonRedUT')" onmouseout="removeEdit('@utID','@(utID)button','@(utID)buttonRedUT')">
-                                    <ul class="list-unstyled timeline-sm">
-                                        <li class="timeline-sm-item">
-                                            <span class="timeline-sm-date" id="utDato@(utID)">
-                                                <u>@UtdanningÅrStart - @UtdanningÅrSlutt</u>
-                                                <button id="@(utID)buttonRedUT" style="position:absolute; right:11%; display:none;" onclick="onEdit('Utdanning', @antallUtdanning, 'utDato@(utID)',
+                                    <div id="@(utID)" onmouseover="@(BrukerInnhold.Id == (string)ViewData["Innlogget_ID"]? "addEdit('"+@utID+"','"+@utID+"button','"+@utID+"buttonRedUT')":"")" onmouseout="@(BrukerInnhold.Id == (string)ViewData["Innlogget_ID"]? "removeEdit('"+@utID+"','"+@utID+"button','"+@utID+"buttonRedUT')":"")">
+                                        <ul class="list-unstyled timeline-sm">
+                                            <li class="timeline-sm-item">
+                                                <span class="timeline-sm-date" id="utDato@(utID)">
+                                                    <u>@UtdanningÅrStart - @UtdanningÅrSlutt</u>
+                                                    <button id="@(utID)buttonRedUT" style="position:absolute; right:11%; display:none;" onclick="onEdit('Utdanning', @antallUtdanning, 'utDato@(utID)',
                                 @UtdanningÅrStart,@UtdanningÅrSlutt, 'utGrad@(utID)', 'utSted@(utID)', '', 'submitUtdanning@(utID)')">
                                                     <i class="fas fa-pencil-alt fa-lg"></i>
                                                 </button>
