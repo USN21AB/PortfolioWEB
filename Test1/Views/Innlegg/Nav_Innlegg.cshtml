@@ -1,6 +1,7 @@
 ﻿@using Portefolio_webApp.Models;
 @{
-    var id = "";
+    var thisid = "djdj";
+    var eierId = "";
     var tittel = "";
     var kategori = "";
     var klokkeslett = "";
@@ -8,14 +9,19 @@
     var url = "";
     var tagger = new List<string>();
     var beskrivelse = "";
+    var innlegg = new Innlegg();
+    var kommentar = new List<Kommentar>();
+    var i = 0;
 
     var bruker = (Portefolio_webApp.Models.Bruker)ViewData["bruker"];
+
 
 
     @model Portefolio_webApp.Models.Innlegg;
     if (Model.Kategori != null || Model.IkonURL != null)
     {
-        id = Model.EierId;
+        thisid = Model.Id;
+        eierId = Model.EierId;
         tittel = Model.Tittel;
         kategori = Model.Kategori;
         klokkeslett = Model.Klokkeslett;
@@ -23,9 +29,8 @@
         url = Model.IkonURL;
         tagger = Model.Tagger;
         beskrivelse = Model.Beskrivelse;
+        kommentar = Model.Kommentar;
     }
-
-    var tekst = "At w3schools.com you will learn how to make a website. They offer free tutorials in all web development technologies.";
 }
 
 <style>
@@ -219,25 +224,55 @@
                 @beskrivelse
             </p>
 
-            <hr class="white">
 
-            <div class="nyttKommentarFelt">
-                <a asp-controller="Profilside" asp-action="Profilside">
-                    <img src="~/lib/bilder/Mageh.png" height="60" width="60" id="imgikon" />
-                </a>
-                <textarea id="kommentarFelt" name="w3review" rows="4" cols="70">
-                At w3schools.com you will learn how to make a website. They offer free tutorials in all web development technologies.
-                </textarea><button>Cancel</button><button onclick="location.href='@Url.Action("NyttKommentar", "Innlegg", new { tekst = "Musikk", innleggId = "Musikk"})'">Comment</button>
-            </div>
-            
-            <div class="kommentarFelt">
 
-            </div>
         }
     }
-    <script src="~/js/javaInnlegg.js?v=1">
-    </script>
+    @if (ViewData["Token"] != null)
+    {
+        <div class="nyttKommentarFelt">
+            <a asp-controller="Profilside" asp-action="Profilside">
+                <img src="~/lib/bilder/Mageh.png" height="60" width="60" id="imgikon" />
+            </a>
+            <textarea id="kommentarFelt" name="w3review" rows="4" cols="70"></textarea>
+            <button>Cancel</button><button onclick="Kommentar('@thisid')">Comment</button>
+        </div>
+    }
 
+    @{
+        var antallKommentarer = 0;
+    }
+    @if (kommentar.Count != 0)
+        @while (antallKommentarer < kommentar.Count)
+        {
+            var tekst = kommentar[antallKommentarer].Tekst;
+            var komid = kommentar[antallKommentarer].EierId;
+            var bilde = kommentar[antallKommentarer].EierBilde;
+            var nvn = kommentar[antallKommentarer].EierNavn;
+            <div class="innleggProfil">
+                <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@komid">
+                    <img src=@bilde height="30" width="30" id="imgikon" />
+                    <p class="ikontxt"><u>@nvn</u><br></p>
+                </a>
+            </div>
+            <p class="solid">@tekst</p>
+            antallKommentarer += 1;
+        }
+    <div id="alleKommentarFelt">
+
+    </div>
+    <script>
+        function Kommentar(nyId) {
+        var url = '@Html.Raw(Url.Action("NyttKommentar", "Innlegg" , new { tekst = "_tekst_", innleggId = "_innleggId_" }))';
+            var tekst = $('#kommentarFelt').val();
+            var params = url.replace('_tekst_', tekst).replace('_innleggId_', nyId);
+            window.location.href = params;
+        }
+
+
+    </script>
+    <script src="~/js/javaInnlegg.js?v=4">
+    </script>
 
 </body>
 
