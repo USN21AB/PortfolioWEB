@@ -89,7 +89,7 @@ namespace Portefolio_webApp.Controllers
                         innlegg.EierId = HttpContext.Session.GetString("_UserID");
                         firebase.RegistrerInnlegg(innlegg);
                         Console.WriteLine("EYOOOOOOOOOOO BRUUUUH");
-                        profilSideController.UploadFile(file, oHostingEnvironment, "- MTuNdX2ldnO73BCZwFp");
+                        profilSideController.UploadInnleggFile(file, oHostingEnvironment, HttpContext.Session.GetString("_UserID"));
                         Console.WriteLine("EYOOOOOOOOOOO BRUUUUH");
                         ModelState.AddModelError(string.Empty, "Registrering suksessfult!");
 

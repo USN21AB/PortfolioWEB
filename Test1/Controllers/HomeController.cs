@@ -115,6 +115,7 @@ namespace Portefolio_webApp.Controllers
 
 
             Console.WriteLine("EHHHH?????");
+            Console.WriteLine("ID: " + HttpContext.Session.GetString("_UserID"));
 
             string hoststr = oHostingEnvironment.WebRootPath;
 
@@ -122,12 +123,8 @@ namespace Portefolio_webApp.Controllers
             ///string url = "";
             try
             {
-                //BrukerID
-
-                Bruker nybruker = new Bruker();
-                nybruker = firebase.HentEnkeltBruker("fMMxGHaKvYW6UoZKFSmYRD4cA4j1");
-
-                string brukerId = nybruker.Id;
+               
+                string brukerId = HttpContext.Session.GetString("_UserID");
 
                 //END Temporary
 
