@@ -109,6 +109,7 @@ namespace Portefolio_webApp.Controllers
             return View(Innlegg);
         }
 
+        [HttpGet]
         public IActionResult Nav_Innlegg(string id)
         {
             //Skjekker om bruker er logget inn
@@ -138,25 +139,56 @@ namespace Portefolio_webApp.Controllers
             return View(innlegg);
 
         }
+        /*
+        [HttpPost]
+        public IActionResult Nav_Innlegg(string Nyid)
+        {
+            Innlegg innlegg = new Innlegg();
+            innlegg = firebase.HentSpesifiktInnlegg(Nyid);
+            return View(innlegg);
+        }*/
 
         public IActionResult NyttKommentar(string tekst, string innleggId)
         {
+            
+            var str = HttpContext.Session.GetString("Innlogget_Bruker");
+            var innBruker = JsonConvert.DeserializeObject<Bruker>(str);
+            var brukerBilde = innBruker.Profilbilde;
+            var brukerId = innBruker.Id;
+            var brukerNavn = innBruker.Navn;
+
             Kommentar kommentar = new Kommentar();
             DateTime today = DateTime.Today;
             DateTime l = today;
+
             kommentar.Tekst = tekst;
             kommentar.InnleggId = innleggId;
             kommentar.Dato = l.ToString("dd/MM/yyyy");
+            
+            kommentar.EierId = brukerId;
+            kommentar.EierNavn = brukerNavn;
+            kommentar.EierBilde = brukerBilde;
+            
 
+            var innlegg = new Innlegg();
+            innlegg = firebase.HentSpesifiktInnlegg(innleggId);
+            innlegg.Kommentar.Add(kommentar);
+            Debug.WriteLine("Oppdaterer innlegg: " + innleggId + "Oppdaterer innlegg: " );
             try
             {
-                firebase.RegistrerKommentar(kommentar);
+                if (innlegg.Id != null)
+                {
+                    Debug.WriteLine("Oppdaterer innlegg: " + innlegg.Kommentar[0].InnleggId);
+                    //firebase.RegistrerKommentar(kommentar);
+                    firebase.OppdaterInnlegg(innlegg);
+                }
+                
             }
             catch(Exception ex)
             {
 
             }
-            return Redirect("~/ProfilSide/ProfilSide");
+            return Redirect("~/Innlegg/Nav_Innlegg/" + innlegg.Id);
         }
 
     }
