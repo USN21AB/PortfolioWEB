@@ -142,3 +142,6 @@ body {
     z-index: 4;
     transition: top 0.8s;
 }
+.profilbtn {
+    object-fit: cover;
+}

@@ -56,8 +56,11 @@
                             {
                                 <li class="topnav-right vl">
                                     <div class="dropdown">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Dropdown button
+                                        <button class="btn btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <div>
+                                                <img src="~/resources/writer-blogger-author.png" class="profilbtn rounded-circle" width="20px" height="20px" />
+                                                &nbsp;&nbsp;BrukerNavn;
+                                            </div>
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             <a class="dropdown-item" asp-area="" asp-controller="ProfilSide" asp-action="ProfilSide" asp-route-brukerID="@ViewData["Innlogget_ID"]"><i class="fas fa-user-circle">  My Profile</i></a>
