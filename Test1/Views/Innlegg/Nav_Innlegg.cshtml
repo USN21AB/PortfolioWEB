@@ -10,6 +10,8 @@
     var tagger = new List<string>();
     var beskrivelse = "";
     var innlegg = new Innlegg();
+    var kommentar = new List<Kommentar>();
+    var i = 0;
 
     var bruker = (Portefolio_webApp.Models.Bruker)ViewData["bruker"];
 
@@ -27,19 +29,7 @@
         url = Model.IkonURL;
         tagger = Model.Tagger;
         beskrivelse = Model.Beskrivelse;
-
-        innlegg.Id = thisid;
-        innlegg.Tittel = tittel;
-        innlegg.Dato = dato;
-        innlegg.Klokkeslett = klokkeslett;
-        innlegg.EierId = eierId;
-        innlegg.Beskrivelse = beskrivelse;
-        innlegg.Kategori = kategori;
-        innlegg.SubKategori = Model.SubKategori;
-        innlegg.Tagger = Model.Tagger;
-        innlegg.IkonURL = Model.IkonURL;
-        innlegg.FilStørrelse = Model.FilStørrelse;
-        innlegg.Kommentar = Model.Kommentar;
+        kommentar = Model.Kommentar;
     }
 }
 
@@ -234,22 +224,43 @@
                 @beskrivelse
             </p>
 
-            
-            <div class="nyttKommentarFelt">
-                <a asp-controller="Profilside" asp-action="Profilside">
-                    <img src="~/lib/bilder/Mageh.png" height="60" width="60" id="imgikon" />
-                </a>
-                <textarea id="kommentarFelt" name="w3review" rows="4" cols="70">
-                
-                </textarea><button>Cancel</button><button onclick="Kommentar('@thisid')">Comment</button>
-            </div>
-            <div id="alleKommentarFelt">
 
-            </div>
+
         }
     }
-    <script src="~/js/javaInnlegg.js?v=3">
-    </script>
+    @if (ViewData["Token"] != null)
+    {
+        <div class="nyttKommentarFelt">
+            <a asp-controller="Profilside" asp-action="Profilside">
+                <img src="~/lib/bilder/Mageh.png" height="60" width="60" id="imgikon" />
+            </a>
+            <textarea id="kommentarFelt" name="w3review" rows="4" cols="70"></textarea>
+            <button>Cancel</button><button onclick="Kommentar('@thisid')">Comment</button>
+        </div>
+    }
+
+    @{
+        var antallKommentarer = 0;
+    }
+    @if (kommentar.Count != 0)
+        @while (antallKommentarer < kommentar.Count)
+        {
+            var tekst = kommentar[antallKommentarer].Tekst;
+            var komid = kommentar[antallKommentarer].EierId;
+            var bilde = kommentar[antallKommentarer].EierBilde;
+            var nvn = kommentar[antallKommentarer].EierNavn;
+            <div class="innleggProfil">
+                <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@komid">
+                    <img src=@bilde height="30" width="30" id="imgikon" />
+                    <p class="ikontxt"><u>@nvn</u><br></p>
+                </a>
+            </div>
+            <p class="solid">@tekst</p>
+            antallKommentarer += 1;
+        }
+    <div id="alleKommentarFelt">
+
+    </div>
     <script>
         function Kommentar(nyId) {
         var url = '@Html.Raw(Url.Action("NyttKommentar", "Innlegg" , new { tekst = "_tekst_", innleggId = "_innleggId_" }))';
@@ -257,7 +268,12 @@
             var params = url.replace('_tekst_', tekst).replace('_innleggId_', nyId);
             window.location.href = params;
         }
+
+
     </script>
+    <script src="~/js/javaInnlegg.js?v=4">
+    </script>
+
 </body>
 
 

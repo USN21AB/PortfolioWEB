@@ -150,12 +150,26 @@ namespace Portefolio_webApp.Controllers
 
         public IActionResult NyttKommentar(string tekst, string innleggId)
         {
+            
+            var str = HttpContext.Session.GetString("Innlogget_Bruker");
+            var innBruker = JsonConvert.DeserializeObject<Bruker>(str);
+            var brukerBilde = innBruker.Profilbilde;
+            var brukerId = innBruker.Id;
+            var brukerNavn = innBruker.Navn;
+
             Kommentar kommentar = new Kommentar();
             DateTime today = DateTime.Today;
             DateTime l = today;
+
             kommentar.Tekst = tekst;
             kommentar.InnleggId = innleggId;
             kommentar.Dato = l.ToString("dd/MM/yyyy");
+            
+            kommentar.EierId = brukerId;
+            kommentar.EierNavn = brukerNavn;
+            kommentar.EierBilde = brukerBilde;
+            
+
             var innlegg = new Innlegg();
             innlegg = firebase.HentSpesifiktInnlegg(innleggId);
             innlegg.Kommentar.Add(kommentar);
