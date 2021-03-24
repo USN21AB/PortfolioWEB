@@ -5,6 +5,12 @@
 <br />
 
 <style>
+    .radio-buttons {
+        display: flex;
+        flex-direction: row;
+        text-align: center;
+    }
+
     #bildekategori {
         display: none;
     }
@@ -29,13 +35,12 @@
    
     .radio {
         display: inline-block;
-        width: 24%;
-        min-width: 125px;
+        width: 127px;
         height: 70px;
         background-color: white;
         border-radius: .25rem;
         cursor: pointer;
-        margin: 2px 4.7px 2px 0;
+        margin: auto;
         cursor: pointer;
     }
 
@@ -77,7 +82,8 @@
             document.getElementById('musikkategori').style.display = "none";
             document.getElementById('tekstkategori').style.display = "none";
             document.getElementById('subkatdiv').style.visibility = "visible";
-            document.getElementById('subkatdiv').style.position = "relative";            document.getElementById("kategori-value").value = "";
+            document.getElementById('subkatdiv').style.position = "relative";
+            document.getElementById("kategori-value").value = "";
         }
         else if (validAudio.exec(file)) {
             document.getElementById('kategoriVerdi').value = "Lyd";
@@ -85,8 +91,8 @@
             document.getElementById('bildekategori').style.display = "none";
             document.getElementById('tekstkategori').style.display = "none";
             document.getElementById('subkatdiv').style.visibility = "visible";
-            document.getElementById('subkatdiv').style.position = "relative";            document.getElementById("kategori-value").value = "";
-            document.getElementById('kategoriVerdi').value = "";
+            document.getElementById('subkatdiv').style.position = "relative";
+            document.getElementById("kategori-value").value = "";
         }
         else if (validTekst.exec(file)) {
             document.getElementById('kategoriVerdi').value = "Tekst";
@@ -155,8 +161,8 @@
             <div class="col-3">
                 <label asp-for="Kategori"></label>
             </div>
-            <div class="col-9">
-                <input asp-for="Kategori" class="form-control" id="kategoriVerdi" />
+            <div class="col-6">
+                <input asp-for="Kategori" readonly class="form-control" id="kategoriVerdi" />
                 <span asp-validation-for="Kategori" class="text-danger"></span>
             </div>
         </div>
@@ -168,7 +174,7 @@
             <button type="button" class='radio active' id="radio-dummy" value="Fotografi" style="display: none"></button>
 
 
-            <div id="bildekategori" class="col-9">
+            <div id="bildekategori" class="col-6 radio-buttons">
                 <button type="button" class='radio' id="radio1" value="Fotografi" onclick='radio(this.id)'>Fotografi</button>
                 <button type="button" class='radio' id="radio2" value="Digital Art" onclick="radio(this.id)">Digital Art</button>
                 <button type="button" class='radio' id="radio3" value="Traditional Art" onclick="radio(this.id)">Traditional Art</button>
@@ -176,14 +182,14 @@
 
 
             </div>
-            <div id="musikkategori">
+            <div id="musikkategori" class="col-6 radio-buttons">
                 <button type="button" class='radio' id="radio5" value="Musikk" onclick="radio(this.id)">Musikk</button>
                 <button type="button" class='radio' id="radio6" value="Lydeffekter" onclick="radio(this.id)">Lydeffekter</button>
                 <button type="button" class='radio' id="radio7" value="Voice Acting" onclick="radio(this.id)">Voice Acting</button>
                 <button type="button" class='radio' id="radio8" value="Audiobook" onclick="radio(this.id)">Audiobook</button>
 
             </div>
-            <div id="tekstkategori">
+            <div id="tekstkategori" class="col-6 radio-buttons">
                 <button type="button" class='radio' id="radio9" value="Fiction" onclick="radio(this.id)">Fiction</button>
                 <button type="button" class='radio' id="radio10" value="Non-Fiction" onclick="radio(this.id)">Non-Fiction</button>
             </div>
