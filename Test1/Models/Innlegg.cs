@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Test1.Models;
 
 namespace Portefolio_webApp.Models
 {
@@ -25,7 +26,7 @@ namespace Portefolio_webApp.Models
 
         public double FilStørrelse { get; set; }
 
-
      
+
     }
 }

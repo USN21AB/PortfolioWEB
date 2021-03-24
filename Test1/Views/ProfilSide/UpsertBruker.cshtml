@@ -32,23 +32,20 @@
 
                                                         <h4 class="modal-title text-center" id="cropmodel">Update Profile Picture</h4>
                                                     </div>
-                                                 
-                                                        <div class="modal-body text-center">
-                                                            <div id="views" class="m-t-15"></div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button id="cropbutton" class="btn btn-primary" type="submit">Save</button>
-                                                            <button id="rotatebutton" class="btn btn-default" type="button">Rotate</button>
-                                                        </div>
-                                      
+
+                                                    <div class="modal-body text-center">
+                                                        <div id="views" class="m-t-15"></div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button id="cropbutton" class="btn btn-primary" type="submit">Save</button>
+                                                        <button id="rotatebutton" class="btn btn-default" type="button">Rotate</button>
+                                                    </div>
+
 
                                                 </div>
                                             </div>
                                         </div>
-                                        @section Scripts{
-                                            <script src="~/js/jcrop/jquery.Jcrop.min.js"></script>
-                                            <script src="~/js/ImageCrop.js"></script>
-                                        }
+
 
                                         <!-- END TEST -->
                                     </div>
@@ -89,6 +86,10 @@
                         </div>
                     </div>
                 </div>
+                @if (Model.Id != null)
+                {
+                    <input type="hidden" asp-for="Id" />
+                }
                 <div class="col-md-8">
                     <div class="card mb-3">
                         <div class="card-body">
@@ -120,30 +121,20 @@
                                     </div>
                                 </div>
                                 <hr>
-                                <div>
-                                    <div class="text-danger" asp-validation-summary="ModelOnly"></div>
-                                    <div class="form-group row">
-                                        <div class="col-2">
-                                            <label asp-for="Password" class="fattext" class="control-label" style="margin-top: 4px">Password</label>
-                                        </div>
-                                        <div class="col-9">
-                                            <input asp-for="Password" class="form-control" style="height:30px; margin-top: 4px" type="password" />
-                                            <span asp-validation-for="Password" class="text-danger"></span>
-                                        </div>
-                                    </div>
-                                </div>
                                 <hr />
                                 <div>
-                                    <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+
                                     <div class="form-group row">
                                         <div class="col-2">
-                                            <label asp-for="Password" class="fattext" class="control-label" style="margin-top: 4px">Retype Password</label>
+                                            <label class="fattext" class="control-label" style="margin-top: 4px">Password</label>
                                         </div>
                                         <div class="col-9">
-                                            <input asp-for="Password" class="form-control" style="height:30px; margin-top: 15px" type="password" />
-                                            <span asp-validation-for="Password" class="text-danger"></span>
+                                            <input name="password" class="form-control" style="height:30px; margin-top: 15px" />
+                                            <span class="text-danger"></span>
                                         </div>
                                     </div>
+
+
                                 </div>
                                 <hr>
                                 <div>
@@ -226,8 +217,9 @@
 </div>
 
 
-                            @section Scripts{
-                                <script src="~/js/jcrop/jquery.Jcrop.min.js"></script>
-                                <script src="~/js/ImageCrop.js"></script>
-                                <partial name="_ValidationScriptsPartial" />
-                            }
+@section Scripts{
+
+    <script src="~/js/jcrop/jquery.Jcrop.min.js"></script>
+    <script src="~/js/ImageCrop.js"></script>
+    <partial name="_ValidationScriptsPartial" />
+}
