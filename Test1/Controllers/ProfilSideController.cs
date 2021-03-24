@@ -191,11 +191,10 @@ namespace Portefolio_webApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult UpsertBruker(Bruker oppBruker,string password ,string filename, IFormFile file, [FromServices] IHostingEnvironment oHostingEnvironment)
+        public IActionResult UpsertBruker(Bruker oppBruker,string password, string GammelPassword, string filename, IFormFile file, [FromServices] IHostingEnvironment oHostingEnvironment)
         {
 
-
-            Debug.WriteLine("----------------- PASSWORD!!!" + password);
+            Debug.WriteLine("-----------------Let start here " + oppBruker.Navn);
 
             if (string.IsNullOrEmpty(oppBruker.Id))
                     {
@@ -226,8 +225,11 @@ namespace Portefolio_webApp.Controllers
                     }
                     else
                     {
-                        
+                        Debug.WriteLine("----------------- Your doing an update?" );
                         firebase.OppdaterBruker(oppBruker);
+                        var str = HttpContext.Session.GetString("Innlogget_Bruker");
+                        var innBruker = JsonConvert.DeserializeObject<Bruker>(str);
+                        firebase.OppdaterAuth(innBruker.Email,oppBruker.Email, password, GammelPassword); 
                         ModelState.AddModelError(string.Empty, "Oppdatert suksessfult!");
                     }
 
@@ -238,7 +240,15 @@ namespace Portefolio_webApp.Controllers
                     }
 
 
-        
+
+            if (HttpContext.Session.GetString("Innlogget_Bruker") != null)
+            {
+                var str = HttpContext.Session.GetString("Innlogget_Bruker");
+                var innBruker = JsonConvert.DeserializeObject<Bruker>(str);
+
+                ViewData["Innlogget_Bruker"] = innBruker;
+            }
+
             return RedirectToAction("BrowseSide", "Home");
         }
 

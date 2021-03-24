@@ -30,10 +30,13 @@ namespace Test1.Controllers
             Debug.WriteLine("--------------------------- INNI REGISTRER2 LOGGINN " + Email + " " + Password);
             var id = ""; 
             await auth.CreateUserWithEmailAndPasswordAsync(Email, Password);
+            
+  
             //log in the new user
 
             var fbAuthLink = await auth
                             .SignInWithEmailAndPasswordAsync(Email, Password);
+            
 
             string token = fbAuthLink.FirebaseToken;
             //saving the token in a session variable
@@ -62,6 +65,7 @@ namespace Test1.Controllers
                 //log in the user
                 var fbAuthLink = await auth
                                 .SignInWithEmailAndPasswordAsync(bruker.Email, bruker.Password);
+              
                 string token = fbAuthLink.FirebaseToken;
                 Debug.WriteLine("Logget inn som " + fbAuthLink.User.Email); 
                 if (token != null)
