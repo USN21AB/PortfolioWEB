@@ -11,7 +11,7 @@
     }
 </style>
 
-<link href="~/css/BrowseSide.css" rel="stylesheet" />
+<link href="~/css/BrowseSide.css?v=1" rel="stylesheet" />
 <link href="~/css/Musikkontroller.css" rel="stylesheet" />
 
 
@@ -160,31 +160,7 @@
 
 </div>
 
-<br />
-<br />
-<br />
-<br />
 
-<a asp-action="BrowseSide" asp-route-kategori="Tekst">Trykk meg</a>
-<a href="@Url.Action("BrowseSide", "Home", new { kategori = "Lyd" })">Musikk</a>
-
-<div id="testing">kjasdfsndfjibsdf</div>
-<button onclick="location.href='@Url.Action("Metode", "Controller")'"  id="test2">trykk me!</button>
-<input id="meg" />
-<input id="meg2" />
-<p>@ViewData["kommentar"]</p>
-<div class="musikk_kontroller" id="test">
-    <span id="sangfelt"></span>
-    <span id="artistfelt"></span>
-
-    <span id="tracktime">00:00</span>
-    <progress id="seekbar" value="0" max="100"></progress>
-    <span id="trackduration">00:00</span>
-
-    <img class="stopper" src="../resources/icons8-pause-96.png" onclick="stopAll()" />
-
-    <input type="range" id="volume-control" value="5" min="0" max="10" onload="volum(this.value)" onchange="volum(this.value)">
-</div>
 
 
 @section Scripts

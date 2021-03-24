@@ -10,7 +10,7 @@
     <title>@ViewData["Title"] - Test1</title>
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/site.css?v=1" />
     <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -51,14 +51,18 @@
                             {
                                 <li class="topnav-right vl">
                                     <div class="dropdown">
-                                        <button class="btn btn-secondary btn-sm profilbtn" type="button" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="10,20">
-                                            <div class="profilbtn">
-                                                <img src="@innloggetBruker.Profilbilde" alt="Admin" class="profilbtnbilde rounded-circle" width="25px" height="25px" />
-                                                &nbsp;&nbsp;@(innloggetBruker == null? "": innloggetBruker.Navn )
+                                        <button class="btn btn-sm profilbtn" type="button" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <div class="profilbtn profilbtndiv">
+                                                <p class="bruker-navn dropdown-toggle">@(innloggetBruker == null? "": innloggetBruker.Navn)</p>&nbsp;
                                             </div>
                                         </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuOffset">
-                                            <a class="dropdown-item" style="margin-top: 5px;" asp-area="" asp-controller="ProfilSide" asp-action="ProfilSide" asp-route-brukerID="@ViewData["Innlogget_ID"]"><div><i class="fas fa-user-circle ikon"></i><p class="ikontekst">My Profile</p></div></a>
+                                        <a asp-area="" asp-controller="ProfilSide" asp-action="ProfilSide" asp-route-brukerID="@ViewData["Innlogget_ID"]">
+                                            <img src="@innloggetBruker.Profilbilde" alt="" class="profilbtnbilde rounded-circle" />
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a class="dropdown-item" style="margin-top: 5px;" asp-area="" asp-controller="ProfilSide" asp-action="ProfilSide" asp-route-brukerID="@ViewData["Innlogget_ID"]">
+                                                <div><i class="fas fa-user-circle ikon"></i><p class="ikontekst">My Profile</p></div>
+                                            </a>
                                             <hr class="hrdropdown" />
                                             <a class="dropdown-item" asp-area="" asp-controller="Innlegg" asp-action="Upsert_Innlegg" asp-route-innleggID=""> <i class="fas fa-plus ikon">  Nytt innlegg</i></a>
                                             <hr class="hrdropdown" />
