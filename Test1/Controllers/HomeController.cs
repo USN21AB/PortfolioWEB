@@ -216,10 +216,8 @@ namespace Portefolio_webApp.Controllers
                 var str = HttpContext.Session.GetString("Innlogget_Bruker");
                 var innBruker = JsonConvert.DeserializeObject<Bruker>(str);
 
-                Debug.WriteLine("-------------------------------Dette er serialized: " + innBruker.Navn);
                 ViewData["Innlogget_Bruker"] = innBruker;
             }
-
 
             return View();
         }

@@ -32,7 +32,7 @@
                 </a>
             </div>
         }
-        else if (Innlegg.Kategori.Equals("Musikk"))
+        else if (Innlegg.Kategori.Equals("Lyd"))
         {
 
             <div class="music_player">
@@ -41,7 +41,7 @@
                     <div class="play_button_div"></div>
 
 
-                    <img  class="fuck imge" src="https://gameriv.com/wp-content/uploads/2021/01/Untitled-1-23-696x392.jpg" />
+                    <img  class="fuck imge" src="@Innlegg.IkonURL" />
 
                 </a>
 
@@ -57,11 +57,11 @@
 
         }
 
-        else if (Innlegg.Kategori.Equals("Kunst"))
+        else if (Innlegg.Kategori.Equals("Bilde"))
         {
 
             <div class="single-awesome-portfolio">
-                <a href="#">
+                <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id>
                     <div class="awesome-img">
                         <div class="awesome-info">
                             <h3>@Innlegg.Beskrivelse</h3>
@@ -74,96 +74,7 @@
             </div>
 
         }
-        else if (Innlegg.Kategori.Equals("Fotografi"))
-        {
-            <div class="single-awesome-portfolio">
-                <a href="#">
-                    <div class="awesome-img">
-                        <div class="awesome-info">
-                            <h3>@Innlegg.Beskrivelse</h3>
-                            <p>@Innlegg.Tittel</p>
-                        </div>
-                        <img class="imge" src="@Innlegg.IkonURL" alt="">
-                    </div>
-
-                </a>
-            </div>
-        }
 
         antall++;
     }
 
-
-
-
-
-
-
-
-
-<!--<div class="toprow row p-3" id="rowDIV">
-    @while (antall < liste.Count)
-    {
-        var Innlegg = liste.ElementAt(antall);
-        if (Innlegg.Kategori.Equals("Tekst"))
-        {
-            <div class="test col p-2" align="center">
-                <div class="test2 card" style="width: 18rem; height:15rem; overflow: hidden;">
-                    <div class="kortkropp card-body">
-                        <h5 class="card-title">@Innlegg.Tittel</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">@Innlegg.Kategori</h6>
-                        <p class="card-text">@Innlegg.Beskrivelse</p>
-                        <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id class="card-link"> Besøk </a>
-                        <a href="#" class="card-link">Besøk</a>
-                        <a href="#" class="card-link">Lik</a>
-                    </div>
-                </div>
-            </div>
-        }
-        else if (Innlegg.Kategori.Equals("Musikk"))
-        {
-            <div class="col p-2" align="center">
-                <div class="card" style="width: 18rem; height:15rem; overflow: hidden; background-color:black">
-                    <div class="card-body">
-                        <h5 class="card-title">@Innlegg.Tittel</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">@Innlegg.Kategori</h6>
-                        <p class="card-text">@Innlegg.Beskrivelse</p>
-                        <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id class="card-link"> Besøk </a>
-                        <a href="#" class="card-link">Besøk</a>
-                        <a href="#" class="card-link">Lik</a>
-                    </div>
-                </div>
-            </div>
-        }
-        else if (Innlegg.Kategori.Equals("Kunst"))
-        {
-            <div class="col p-2" align="center">
-                <div class="card" style="width: 18rem; height:15rem; overflow: hidden; background-color:red">
-                    <div class="card-body">
-                        <h5 class="card-title">@Innlegg.Tittel</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">@Innlegg.Kategori</h6>
-                        <p class="card-text">@Innlegg.Beskrivelse</p>
-                        <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id class="card-link"> Besøk </a>
-                        <a href="#" class="card-link">Besøk</a>
-                        <a href="#" class="card-link">Lik</a>
-                    </div>
-                </div>
-            </div>
-        }
-        else if (Innlegg.Kategori.Equals("Fotografi"))
-        {
-            <div class="col p-2" align="center">
-                <div class="card" style="width: 18rem; height:15rem; overflow: hidden; background-color:green">
-                    <div class="card-body">
-                        <h5 class="card-title">@Innlegg.Tittel</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">@Innlegg.Kategori</h6>
-                        <p class="card-text">@Innlegg.Beskrivelse</p>
-                        <a href="#" class="card-link">Besøk</a>
-                        <a href="#" class="card-link">Lik</a>
-                    </div>
-                </div>
-            </div>
-        }
-        antall++;
-    }
-</div>-->
