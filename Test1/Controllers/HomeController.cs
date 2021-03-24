@@ -23,6 +23,7 @@ namespace Portefolio_webApp.Controllers
     {
 
         private readonly FirebaseDB firebase;
+
         //private ISession session;
 
         [BindProperty]
@@ -33,7 +34,6 @@ namespace Portefolio_webApp.Controllers
         {
           
             firebase = new FirebaseDB();
-        //   this.session = httpContextAccessor.HttpContext.Session;
         }
 
         private bool IsValidExtension(IFormFile filename)
@@ -125,7 +125,7 @@ namespace Portefolio_webApp.Controllers
                 //BrukerID
 
                 Bruker nybruker = new Bruker();
-                nybruker = firebase.HentEnkeltBruker("-MTuAm8t_eBlv5KMiuWX");
+                nybruker = firebase.HentEnkeltBruker("fMMxGHaKvYW6UoZKFSmYRD4cA4j1");
 
                 string brukerId = nybruker.Id;
 
@@ -196,17 +196,31 @@ namespace Portefolio_webApp.Controllers
           
                 AlleInnlegg = firebase.HentAlleInnlegg();
                 TempData["valgtKnapp"] = "alt";
-               // session.SetString("AlleInnlegg", "Hello my name is");
 
                 ViewData["liste"] = AlleInnlegg;
             }
             else {
 
-                var listen = firebase.HentAlleInnlegg(); 
+                var listen = firebase.HentAlleInnlegg();
                 
+               
                 ViewData["liste"] = firebase.SorterAlleInnlegg(kategori, listen);
                 TempData["valgtKnapp"] = kategori;
             }
+
+            ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
+            ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
+
+           
+            if(HttpContext.Session.GetString("Innlogget_Bruker") != null){
+                var str = HttpContext.Session.GetString("Innlogget_Bruker");
+                var innBruker = JsonConvert.DeserializeObject<Bruker>(str);
+
+                Debug.WriteLine("-------------------------------Dette er serialized: " + innBruker.Navn);
+                ViewData["Innlogget_Bruker"] = innBruker;
+            }
+
+
             return View();
         }
 

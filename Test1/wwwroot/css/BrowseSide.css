@@ -84,6 +84,9 @@ a.button {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    color: #fff;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 25px;
 }
 
 .forside-innlegg {

@@ -62,16 +62,6 @@
     border-color: #dee2e6;
 }
 
-.social-list-item {
-    height: 2rem;
-    width: 2rem;
-    line-height: calc(2rem - 4px);
-    display: block;
-    border: 2px solid #adb5bd;
-    border-radius: 50%;
-    color: #adb5bd;
-}
-
 .text-purple {
     color: #6559cc !important;
 }
@@ -80,55 +70,13 @@
     border-color: #6559cc !important;
 }
 
-.timeline {
-    margin-bottom: 50px;
-    position: relative;
-}
-
-    .timeline:before {
-        background-color: #dee2e6;
-        bottom: 0;
-        content: "";
-        left: 50%;
-        position: absolute;
-        top: 30px;
-        width: 2px;
-        z-index: 0;
-    }
-
-    .timeline .time-show {
-        margin-bottom: 30px;
-        margin-top: 30px;
-        position: relative;
-    }
-
-    .timeline .timeline-box {
-        background: #fff;
-        display: block;
-        margin: 15px 0;
-        position: relative;
-        padding: 20px;
-    }
-
-    .timeline .timeline-album {
-        margin-top: 12px;
-    }
-
-        .timeline .timeline-album a {
-            display: inline-block;
-            margin-right: 5px;
-        }
-
-        .timeline .timeline-album img {
-            height: 36px;
-            width: auto;
-            border-radius: 3px;
-        }
-
 .slider-general {
     width: 200px;
 }
 
 .editClass {
     border: solid; 
+}
+.buttons {
+    background-color: #1abc9c;
 }
