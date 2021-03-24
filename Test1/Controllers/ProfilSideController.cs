@@ -132,13 +132,12 @@ namespace Portefolio_webApp.Controllers
                 file.CopyTo(fileStream);
                 fileStream.Flush();
                 fileStream.Close();
-                Image image = Image.FromStream(file.OpenReadStream(), true, true);
-                var scaleImg = ImageResize.Scale(image, 10, 10);
-                scaleImg.SaveAs($"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{"Waka"+file.FileName}");
+               
+            
 
             }
 
-            await firebase.UploadProfilBilde($"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{"Waka" + file.FileName}", file, brukerId);
+            await firebase.UploadProfilBilde($"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{file.FileName}", file, brukerId);
 
 
 
