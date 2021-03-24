@@ -6,7 +6,7 @@
 
 <style>
     #bildekategori {
-        display: inline-block;
+        display: none;
     }
 
     #musikkategori {
@@ -22,8 +22,8 @@
     }
 
     #subkatdiv {
-       visibility: visible;
-       position: relative;
+       visibility: hidden;
+       position: absolute;
     }
 
    
@@ -73,7 +73,7 @@
 
         if (validImage.exec(file)) {
             document.getElementById('kategoriVerdi').value = "Bilde";
-            document.getElementById('bildekategori').style.display = "inline";
+            document.getElementById('bildekategori').style.display = "inline-block";
             document.getElementById('musikkategori').style.display = "none";
             document.getElementById('tekstkategori').style.display = "none";
             document.getElementById('subkatdiv').style.visibility = "visible";
@@ -81,7 +81,7 @@
         }
         else if (validAudio.exec(file)) {
             document.getElementById('kategoriVerdi').value = "Lyd";
-            document.getElementById('musikkategori').style.display = "inline";
+            document.getElementById('musikkategori').style.display = "inline-block";
             document.getElementById('bildekategori').style.display = "none";
             document.getElementById('tekstkategori').style.display = "none";
             document.getElementById('subkatdiv').style.visibility = "visible";
@@ -90,7 +90,7 @@
         }
         else if (validTekst.exec(file)) {
             document.getElementById('kategoriVerdi').value = "Tekst";
-            document.getElementById('tekstkategori').style.display = "inline";
+            document.getElementById('tekstkategori').style.display = "inline-block";
             document.getElementById('subkat').style.display = "block";
             document.getElementById('bildekategori').style.display = "none";
             document.getElementById('musikkategori').style.display = "none";
