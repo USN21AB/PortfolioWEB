@@ -224,11 +224,10 @@ namespace Test1.Models
 
         public void RegistrerKommentar(Kommentar kommentar)
         {
-
-            PushResponse respons = klient.Push("Kommentar/", kommentar);
+            var link = "Innlegg/" + kommentar.InnleggId + "/Kommentarer/";
+            PushResponse respons = klient.Push(link, kommentar);
             kommentar.Id = respons.Result.name;
-            SetResponse setResponse = klient.Set("Kommentar/" + kommentar.Id, kommentar);
-
+            SetResponse setResponse = klient.Set(link + kommentar.Id, kommentar);
         }
     }
 }
