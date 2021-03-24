@@ -14,7 +14,6 @@
 <link href="~/css/BrowseSide.css" rel="stylesheet" />
 <link href="~/css/Musikkontroller.css" rel="stylesheet" />
 
-<h5 class="headings">Featured projects</h5>
 
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
 
@@ -109,28 +108,27 @@
               area-hidden="true"></span>
     </a>
 </div>
-<h5 class="headings2">Browse content</h5>
+
+<hr class="mb-4" style="        border-color: #384352" />
+
 <div class="wrapmain">
     <div class="maininnhold">
         <ul class="kategorier nav nav-pills" id="pills-tab" role="tablist">
             <li class="kategoriitem nav-item" role="presentation">
                 <a href="@Url.Action("BrowseSide", "Home", new { kategori = "alt" })">
-                    <img src="https://images.unsplash.com/photo-1434725039720-aaad6dd32dfe?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2098&q=80" height="60" width="250" />
+                    <img src="https://images.unsplash.com/photo-1472141521881-95d0e87e2e39?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1352&q=80" height="120" width="250" />
                     <br />
-                    <img src="https://images.unsplash.com/photo-1506704888326-3b8834edb40a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" height="60" width="125" />
-                    <img src="https://images.unsplash.com/photo-1457369804613-52c61a468e7d?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1350&q=80" height="60" width="125" />
-
                     <div class="centered">All categories</div>
                 </a>
             </li>
             <li class="kategoriitem nav-item" role="presentation">
-                <a href="@Url.Action("BrowseSide", "Home", new { kategori = "Kunst" })">
+                <a href="@Url.Action("BrowseSide", "Home", new { kategori = "Bilde" })">
                     <img src="https://images.unsplash.com/photo-1434725039720-aaad6dd32dfe?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2098&q=80" height="120" width="250" />
                     <div class="centered">Images</div>
                 </a>
             </li>
             <li class="kategoriitem nav-item" role="presentation">
-                <a href="@Url.Action("BrowseSide", "Home", new { kategori = "Musikk" })">
+                <a href="@Url.Action("BrowseSide", "Home", new { kategori = "Lyd" })">
                     <img src="https://images.unsplash.com/photo-1506704888326-3b8834edb40a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" height="120" width="250" />
                     <div class="centered">Sound</div>
                 </a>
@@ -144,6 +142,8 @@
         </ul>
     </div>
 </div>
+<hr class="mt-4 mb-1" style="        border-color: #384352
+" />
 <div class="tab-content" id="pills-tabContent">
     <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">...1</div>
     <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">...2</div>
@@ -154,31 +154,7 @@
 
 <script src="https://cdn.jsdelivr.net/jquery.mixitup/latest/jquery.mixitup.min.js"></script>
 
-<!--
-<div class="card text-center">
-    <div class="testing card-header">
-        <ul class="nav nav-pills card-header-tabs justify-content-center" id="valgtab">
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="true" href="@Url.Action("BrowseSide", "Home", new { kategori = "alt" })" id="altKnapp"><i class="nav-item fas fa-globe"> Alt</i></a>
-            </li>
 
-            <li class="nav-item">
-                <a class="nav-link" role="tab" href="@Url.Action("BrowseSide", "Home", new { kategori = "Kunst" })" id="KunstKnapp"> <i class="nav-item fas fa-image"> Kunst</i></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="@Url.Action("BrowseSide", "Home", new { kategori = "Musikk" })" id="MusikkKnapp" role="tab"> <i class="nav-item fas fa-music"> Musikk</i></a>
-
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" role="tab" href="@Url.Action("BrowseSide", "Home", new { kategori = "Fotografi" })" id="FotografiKnapp"> <i class="nav-item fas fa-camera"> Fotografi</i></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" role="tab" href="@Url.Action("BrowseSide", "Home", new { kategori = "Tekst" })" id="TekstKnapp"> <i class="nav-item fas fa-pencil-alt"> Tekst</i></a>
-            </li>
-        </ul>
-    </div>
-    </div>
--->
 <div class="tab-content forside-innlegg" id="innleggDIV">
     @Html.Partial("_browse", @ViewData)
 
@@ -190,13 +166,13 @@
 <br />
 
 <a asp-action="BrowseSide" asp-route-kategori="Tekst">Trykk meg</a>
-<a href="@Url.Action("BrowseSide", "Home", new { kategori = "Musikk" })">Musikk</a>
+<a href="@Url.Action("BrowseSide", "Home", new { kategori = "Lyd" })">Musikk</a>
 
 <div id="testing">kjasdfsndfjibsdf</div>
 <button onclick="location.href='@Url.Action("Metode", "Controller")'"  id="test2">trykk me!</button>
 <input id="meg" />
 <input id="meg2" />
-<p>@ViewData["Innlogget_ID"]</p>
+<p>@ViewData["kommentar"]</p>
 <div class="musikk_kontroller" id="test">
     <span id="sangfelt"></span>
     <span id="artistfelt"></span>

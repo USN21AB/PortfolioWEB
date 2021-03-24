@@ -59,6 +59,7 @@ namespace Test1.Models
             FirebaseResponse respons = klient.Get("Innlegg");
             dynamic data = JsonConvert.DeserializeObject<dynamic>(respons.Body);
             var list = new List<Innlegg>();
+            if(data != null)
             foreach (var item in data)
             {
                 list.Add(JsonConvert.DeserializeObject<Innlegg>(((JProperty)item).Value.ToString()));
@@ -198,11 +199,10 @@ namespace Test1.Models
 
         public void OppdaterBruker(Bruker bruker)
         {
-           
+            bruker.Profilbilde = "https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2Fdefault_account.jpg?alt=media&token=290b6907-f17e-4095-90a6-dca2c52563b9"; 
             SetResponse respons = klient.Set("Bruker/"+bruker.Id,bruker);
            // dynamic data = JsonConvert.DeserializeObject<Bruker>(respons.Body);
             //Bruker mellomBruker = JsonConvert.DeserializeObject<Bruker>(((JProperty)data).Value.ToString()); 
-
         }
 
         public void OppdaterInnlegg(Innlegg innlegg)
@@ -211,7 +211,6 @@ namespace Test1.Models
             SetResponse respons = klient.Set("Innlegg/" + innlegg.Id, innlegg);
             // dynamic data = JsonConvert.DeserializeObject<Bruker>(respons.Body);
             //Bruker mellomBruker = JsonConvert.DeserializeObject<Bruker>(((JProperty)data).Value.ToString()); 
-
         }
 
         public void RegistrerKommentar(Kommentar kommentar)

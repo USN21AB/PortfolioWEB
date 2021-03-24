@@ -207,8 +207,18 @@ namespace Portefolio_webApp.Controllers
                 ViewData["liste"] = firebase.SorterAlleInnlegg(kategori, listen);
                 TempData["valgtKnapp"] = kategori;
             }
+
             ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
             ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
+
+           
+            if(HttpContext.Session.GetString("Innlogget_Bruker") != null){
+                var str = HttpContext.Session.GetString("Innlogget_Bruker");
+                var innBruker = JsonConvert.DeserializeObject<Bruker>(str);
+
+                ViewData["Innlogget_Bruker"] = innBruker;
+            }
+
             return View();
         }
 

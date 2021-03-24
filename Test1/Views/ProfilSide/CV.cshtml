@@ -46,20 +46,20 @@
                     <h4 class="mb-0">@BrukerInnhold.Navn</h4>
                     <p class="text-muted">@BrukerInnhold.Stilling</p>
 
-                </div> <!-- end card-box -->
+            </div> <!-- end card-box -->
 
-                <div class="card-box">
-                    <h4 class="header-title">Skills</h4>
-                    <div class="pt-1">
-                        @{
-                            var antallFerdigheter = 0;
-                        }
-                        @if (CvInnhold.Ferdigheter.Count != 0)
-                            @while (antallFerdigheter < CvInnhold.Ferdigheter.Count)
-                            {
-                                var FerdighetNavn = CvInnhold.Ferdigheter.ElementAt(antallFerdigheter);
-                                var FerdighetProsent = CvInnhold.Ferdigheter.ElementAt(antallFerdigheter + 1);
-                                antallFerdigheter += 2;
+            <div class="card-box">
+                <h4 class="header-title">Skills</h4>
+                <div class="pt-1">
+                    @{
+                        var antallFerdigheter = 0;
+                    }
+                    @if (CvInnhold.Ferdigheter.Count != 0)
+                        @while (antallFerdigheter < CvInnhold.Ferdigheter.Count)
+                        {
+                            var FerdighetNavn = CvInnhold.Ferdigheter.ElementAt(antallFerdigheter);
+                            var FerdighetProsent = CvInnhold.Ferdigheter.ElementAt(antallFerdigheter + 1);
+                            antallFerdigheter += 2;
 
                                 <h6 class="text-uppercase mt-2">
                                     @FerdighetNavn<span class="float-right">@FerdighetProsent</span>
@@ -74,32 +74,32 @@
                     </div>
                 </div> <!-- end card-box-->
 
-                <div class="card-box">
-                    <h4 class="header-title">Languages</h4>
-                    <div class="pt-1">
-                        @{
-                            var antallSpråk = 0;
-                        }
-                        @if (CvInnhold.Språk.Count != 0)
-                            @while (antallSpråk < CvInnhold.Språk.Count)
-                            {
-                                var SpråkNavn = CvInnhold.Språk.ElementAt(antallSpråk);
-                                var SpråkProsent = CvInnhold.Språk.ElementAt(antallSpråk + 1);
-                                antallSpråk += 2;
-                                <h6 class="text-uppercase mt-2">
-                                    @SpråkNavn
-                                    <span class="float-right">
-                                        @SpråkProsent
-                                    </span>
-                                </h6>
-                                <div class="progress progress-sm m-0">
-                                    <div class="progress-bar bg-purple" role="progressbar" aria-valuenow="@SpråkProsent" aria-valuemin="0" aria-valuemax="100" style="width: @SpråkProsent">
-                                    </div>
+            <div class="card-box">
+                <h4 class="header-title">Languages</h4>
+                <div class="pt-1">
+                    @{
+                        var antallSpråk = 0;
+                    }
+                    @if (CvInnhold.Språk.Count != 0)
+                        @while (antallSpråk < CvInnhold.Språk.Count)
+                        {
+                            var SpråkNavn = CvInnhold.Språk.ElementAt(antallSpråk);
+                            var SpråkProsent = CvInnhold.Språk.ElementAt(antallSpråk + 1);
+                            antallSpråk += 2;
+                            <h6 class="text-uppercase mt-2">
+                                @SpråkNavn
+                                <span class="float-right">
+                                    @SpråkProsent
+                                </span>
+                            </h6>
+                            <div class="progress progress-sm m-0">
+                                <div class="progress-bar bg-purple" role="progressbar" aria-valuenow="@SpråkProsent" aria-valuemin="0" aria-valuemax="100" style="width: @SpråkProsent">
                                 </div>
-                            }
-                    </div>
-                </div> <!-- end card-box-->
-            </div> <!-- end col-->
+                            </div>
+                        }
+                </div>
+            </div> <!-- end card-box-->
+        </div> <!-- end col-->
 
             <div class="col-lg-8 col-xl-8">
                 <div class="card-box">
@@ -119,15 +119,14 @@
                         }
                         </ul>
 
-                    <div class="tab-content">
+                <div class="tab-content">
 
-                        <div class="tab-pane show active" id="aboutme">
+                    <div class="tab-pane show active" id="aboutme">
 
                             <h5 class="mb-3 text-uppercase">
                                 <i class="mdi mdi-briefcase mr-1"></i>
                                 Experience
-                            </h5>
-
+                            </h5>   
                             @{
                                 var antallArbeidsErfaring = 0;
                                 var arID = "arEdit" + antallArbeidsErfaring;
@@ -141,192 +140,184 @@
                                     var ArbeidsErfaringBedrift = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring + 3);
                                     var ArbeidsErfaringBeskrivelse = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring + 4);
 
-                                    <div id="@(arID)" onmouseover="addEdit('@arID','@(arID)button','@(arID)buttonRed')" onmouseout="removeEdit('@arID','@(arID)button','@(arID)buttonRed')">
+                                    <div id="@(arID)" onmouseover="@(BrukerInnhold.Id == (string)ViewData["Innlogget_ID"]? "addEdit('"+@arID+"','"+@arID+"button','"+@arID+"buttonRed')":"") "  onmouseout="@(BrukerInnhold.Id == (string)ViewData["Innlogget_ID"]? "removeEdit('"+@arID+"','"+@arID+"button','"+@arID+"buttonRed')":"")  ">
                                         <ul class="list-unstyled timeline-sm">
                                             <li class="timeline-sm-item">
                                                 <span class="timeline-sm-date" id="arDato@(arID)">
                                                     <u>@ArbeidsErfaringÅrStart - @ArbeidsErfaringÅrSlutt </u> <button id="@(arID)button" style="position:absolute; right:6%; display:none;" onclick="onDelete('@arID', @antallArbeidsErfaring, 'ArbeidsErfaring')"><i class="fas fa-window-close fa-lg"></i></button>
                                                     <button id="@(arID)buttonRed" style="position:absolute; right:11%; display:none;" onclick="onEdit('ArbeidsErfaring', @antallArbeidsErfaring,
                                     'arDato@(arID)',@ArbeidsErfaringÅrStart,@ArbeidsErfaringÅrSlutt, 'arTittel@(arID)', 'arbedrift@(arID)', 'arBio@(arID)', 'submitArbeid@(arID)')">
-                                                        <i class="fas fa-pencil-alt fa-lg"></i>
-                                                    </button>
-                                                </span>
-                                                <h5 id="arTittel@(arID)" class="mt-0 mb-1">@ArbeidsErfaringTittel</h5>
-                                                <p id="arbedrift@(arID)">@ArbeidsErfaringBedrift</p>
-                                                <p id="arBio@(arID)" class="text-muted mt-2">
-                                                    @ArbeidsErfaringBeskrivelse
-                                                </p>
-                                            </li>
-                                        </ul>
-                                        <div class="text-right">
-                                            <button id="submitArbeid@(arID)" class="btn btn-success waves-effect waves-light mt-2" style="display:none;"
-                                                    onclick="saveEdit('@BrukerInnhold.Id','ArbeidsErfaring',@antallArbeidsErfaring, (@ArbeidsErfaringÅrStart+@antallArbeidsErfaring), (@ArbeidsErfaringÅrSlutt+@antallArbeidsErfaring),
+                                                    <i class="fas fa-pencil-alt fa-lg"></i>
+                                                </button>
+                                            </span>
+                                            <h5 id="arTittel@(arID)" class="mt-0 mb-1">@ArbeidsErfaringTittel</h5>
+                                            <p id="arbedrift@(arID)">@ArbeidsErfaringBedrift</p>
+                                            <p id="arBio@(arID)" class="text-muted mt-2">
+                                                @ArbeidsErfaringBeskrivelse
+                                            </p>
+                                        </li>
+                                    </ul>
+                                    <div class="text-right">
+                                        <button id="submitArbeid@(arID)" class="btn btn-success waves-effect waves-light mt-2" style="display:none;"
+                                                onclick="saveEdit('@BrukerInnhold.Id','ArbeidsErfaring',@antallArbeidsErfaring, (@ArbeidsErfaringÅrStart+@antallArbeidsErfaring), (@ArbeidsErfaringÅrSlutt+@antallArbeidsErfaring),
                                                                 arTittel@(arID),arbedrift@(arID),arBio@(arID) )">
-                                                <i class="mdi mdi-content-save"></i> Save
-                                            </button>
-                                        </div>
+                                            <i class="mdi mdi-content-save"></i> Save
+                                        </button>
                                     </div>
-                                    antallArbeidsErfaring += 5;
-                                    arID = "arEdit" + antallArbeidsErfaring;
-                                }
-
-                            <h5 class="mb-3 mt-4 text-uppercase">
-                                <i class="mdi mdi-school mr-1"></i>
-                                Education
-                            </h5>
-
-                            @{
-                                var antallUtdanning = 0;
-                                var utID = "utEdit" + antallUtdanning;
+                                </div>
+                                antallArbeidsErfaring += 5;
+                                arID = "arEdit" + antallArbeidsErfaring;
                             }
-                            @if (CvInnhold.Utdanning.Count != 0)
-                                @while (antallUtdanning < CvInnhold.Utdanning.Count)
-                                {
-                                    var UtdanningÅrStart = CvInnhold.Utdanning.ElementAt(antallUtdanning);
-                                    var UtdanningÅrSlutt = CvInnhold.Utdanning.ElementAt(antallUtdanning + 1);
-                                    var UtdanningGrad = CvInnhold.Utdanning.ElementAt(antallUtdanning + 2);
-                                    var UtdanningInstitusjon = CvInnhold.Utdanning.ElementAt(antallUtdanning + 3);
 
-                                    <div id="@(utID)" onmouseover="addEdit('@utID','@(utID)button','@(utID)buttonRedUT')" onmouseout="removeEdit('@utID','@(utID)button','@(utID)buttonRedUT')">
+                        <h5 class="mb-3 mt-4 text-uppercase">
+                            <i class="mdi mdi-school mr-1"></i>
+                            Education
+                        </h5>
+
+                        @{
+                            var antallUtdanning = 0;
+                            var utID = "utEdit" + antallUtdanning;
+                        }
+                        @if (CvInnhold.Utdanning.Count != 0)
+                            @while (antallUtdanning < CvInnhold.Utdanning.Count)
+                            {
+                                var UtdanningÅrStart = CvInnhold.Utdanning.ElementAt(antallUtdanning);
+                                var UtdanningÅrSlutt = CvInnhold.Utdanning.ElementAt(antallUtdanning + 1);
+                                var UtdanningGrad = CvInnhold.Utdanning.ElementAt(antallUtdanning + 2);
+                                var UtdanningInstitusjon = CvInnhold.Utdanning.ElementAt(antallUtdanning + 3);
+
+                                    <div id="@(utID)" onmouseover="@(BrukerInnhold.Id == (string)ViewData["Innlogget_ID"]? "addEdit('"+@utID+"','"+@utID+"button','"+@utID+"buttonRedUT')":"")" onmouseout="@(BrukerInnhold.Id == (string)ViewData["Innlogget_ID"]? "removeEdit('"+@utID+"','"+@utID+"button','"+@utID+"buttonRedUT')":"")">
                                         <ul class="list-unstyled timeline-sm">
                                             <li class="timeline-sm-item">
                                                 <span class="timeline-sm-date" id="utDato@(utID)">
                                                     <u>@UtdanningÅrStart - @UtdanningÅrSlutt</u>
                                                     <button id="@(utID)buttonRedUT" style="position:absolute; right:11%; display:none;" onclick="onEdit('Utdanning', @antallUtdanning, 'utDato@(utID)',
                                 @UtdanningÅrStart,@UtdanningÅrSlutt, 'utGrad@(utID)', 'utSted@(utID)', '', 'submitUtdanning@(utID)')">
-                                                        <i class="fas fa-pencil-alt fa-lg"></i>
-                                                    </button>
-                                                    <button id="@(utID)button" style="position:absolute; right:6%; display:none;" onclick="onDelete('@utID',   @(antallUtdanning), 'Utdanning')"><i class="fas fa-window-close fa-lg"></i></button>
-                                                </span>
-                                                <h5 class="mt-0 mb-1" id="utGrad@(utID)">@UtdanningGrad</h5>
-                                                <p id="utSted@(utID)">@UtdanningInstitusjon</p>
-                                            </li>
-                                        </ul>
-                                        <div class="text-right">
-                                            <button id="submitUtdanning@(utID)" class="btn btn-success waves-effect waves-light mt-2" style="display:none;"
-                                                    onclick="saveEdit('@BrukerInnhold.Id','Utdanning',@antallUtdanning, (@UtdanningÅrStart+@antallUtdanning), (@UtdanningÅrSlutt+@antallUtdanning),
+                                                    <i class="fas fa-pencil-alt fa-lg"></i>
+                                                </button>
+                                                <button id="@(utID)button" style="position:absolute; right:6%; display:none;" onclick="onDelete('@utID',   @(antallUtdanning), 'Utdanning')"><i class="fas fa-window-close fa-lg"></i></button>
+                                            </span>
+                                            <h5 class="mt-0 mb-1" id="utGrad@(utID)">@UtdanningGrad</h5>
+                                            <p id="utSted@(utID)">@UtdanningInstitusjon</p>
+                                        </li>
+                                    </ul>
+                                    <div class="text-right">
+                                        <button id="submitUtdanning@(utID)" class="btn btn-success waves-effect waves-light mt-2" style="display:none;"
+                                                onclick="saveEdit('@BrukerInnhold.Id','Utdanning',@antallUtdanning, (@UtdanningÅrStart+@antallUtdanning), (@UtdanningÅrSlutt+@antallUtdanning),
                                                                 utGrad@(utID),utSted@(utID),'' )">
-                                                <i class="mdi mdi-content-save"></i> Save
-                                            </button>
-                                        </div>
+                                            <i class="mdi mdi-content-save"></i> Save
+                                        </button>
                                     </div>
-                                    antallUtdanning += 4;
-                                    utID = "utEdit" + antallUtdanning;
-                                }
-                        </div>
-                        <!-- end timeline content-->
+                                </div>
+                                antallUtdanning += 4;
+                                utID = "utEdit" + antallUtdanning;
+                            }
+                    </div>
+                    <!-- end timeline content-->
 
                     
                         <div class="tab-pane" id="settings">
 
-                            <input type="hidden" asp-for="Id" />
-                            <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-briefcase-plus mr-1"></i> Add Experience</h5>
+                        <input type="hidden" asp-for="Id" />
+                        <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-briefcase-plus mr-1"></i> Add Experience</h5>
 
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="firstname">Start year</label>
-                                        <input type="text" class="form-control" id="startYearA" placeholder="Enter year started">
-                                    </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control datedrop" id="startYearA" placeholder="Enter year started">
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="lastname">End year</label>
-                                        <input type="text" class="form-control" id="endYearA" placeholder="Enter year ended">
-                                    </div>
-                                </div> <!-- end col -->
-                            </div> <!-- end row -->
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="firstname">Job title</label>
-                                        <input type="text" class="form-control" id="jobTitleA" placeholder="Enter job title">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="lastname">Company name</label>
-                                        <input type="text" class="form-control" id="companyNameA" placeholder="Enter company name">
-                                    </div>
-                                </div>
-                                <span class="text-danger"></span><!-- end col -->
-                            </div> <!-- end row -->
-
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <label for="userbio">Description</label>
-                                        <textarea class="form-control" id="userbio" rows="4" placeholder="Write something..."></textarea>
-                                    </div>
-                                </div> <!-- end col -->
-                            </div> <!-- end row -->
-                            <div class="text-right">
-                                <button id="submitArbeid" class="btn btn-success waves-effect waves-light mt-1 mb-3"><i class="mdi mdi-content-save"></i> Add</button>
                             </div>
-
-
-
-                            <!--
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="useremail">Email Address</label>
-                                        <input type="email" class="form-control" id="useremail" placeholder="Enter email">
-                                        <span class="form-text text-muted"><small>If you want to change email please <a href="javascript: void(0);">click</a> here.</small></span>
-                                    </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="endYearA" placeholder="Enter year ended">
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="userpassword">Password</label>
-                                        <input type="password" class="form-control" id="userpassword" placeholder="Enter password">
-                                        <span class="form-text text-muted"><small>If you want to change password please <a href="javascript: void(0);">click</a> here.</small></span>
-                                    </div>
-                                </div> <!-- end col
-                            </div> <!-- end row
-                            -->
+                            </div> <!-- end col -->
+                        </div> <!-- end row -->
 
-
-
-                            <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-book-plus mr-1"></i>Add Education</h5>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="firstname">Start year</label>
-                                        <input type="text" class="form-control" id="startYearU" placeholder="Enter year started">
-                                    </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="jobTitleA" placeholder="Enter job title">
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="lastname">End year</label>
-                                        <input type="text" class="form-control" id="endYearU" placeholder="Enter year ended">
-                                    </div>
-                                </div> <!-- end col -->
-                            </div> <!-- end row -->
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="companyname">Education type</label>
-                                        <input type="text" class="form-control" id="linje" placeholder="Enter title of education">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="cwebsite">Institute</label>
-                                        <input type="text" class="form-control" id="skolename" placeholder="Enter name of institute">
-                                    </div>
-                                </div> <!-- end col -->
-                            </div> <!-- end row -->
-                            <div class="text-right">
-                                <button type="submit" id="submitSkole" class="btn btn-success waves-effect waves-light mt-1 mb-3"><i class="mdi mdi-content-save"></i> Add</button>
                             </div>
-                            <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-format-list-checkbox mr-1"></i>Add / Edit Skills</h5>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="companyNameA" placeholder="Enter company name">
+                                </div>
+                            </div>
+                            <span class="text-danger"></span><!-- end col -->
+                        </div> <!-- end row -->
 
-                            <div class="row" id="skillsEdit">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="userbio">Description</label>
+                                    <textarea class="form-control" id="userbio" rows="4" placeholder="Write something..."></textarea>
+                                </div>
+                            </div> <!-- end col -->
+                        </div> <!-- end row -->
+                        <div class="text-right">
+                            <button id="submitArbeid" class="btn btn-success buttons mt-1 mb-3" data-toggle="modal" data-target="#exampleModal"><i class="mdi mdi-content-save"></i> Add</button>
+                        </div>
 
-                                @{
-                                    var antallFerdigheter2 = 0;
+
+
+                        <!--
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="useremail">Email Address</label>
+                                    <input type="email" class="form-control" id="useremail" placeholder="Enter email">
+                                    <span class="form-text text-muted"><small>If you want to change email please <a href="javascript: void(0);">click</a> here.</small></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="userpassword">Password</label>
+                                    <input type="password" class="form-control" id="userpassword" placeholder="Enter password">
+                                    <span class="form-text text-muted"><small>If you want to change password please <a href="javascript: void(0);">click</a> here.</small></span>
+                                </div>
+                            </div> <!-- end col
+                        </div> <!-- end row
+                        -->
+
+
+
+                        <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-book-plus mr-1"></i>Add Education</h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="startYearU" placeholder="Enter year started">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="endYearU" placeholder="Enter year ended">
+                                </div>
+                            </div> <!-- end col -->
+                        </div> <!-- end row -->
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="linje" placeholder="Enter title of education">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="skolename" placeholder="Enter name of institute">
+                                </div>
+                            </div> <!-- end col -->
+                        </div> <!-- end row -->
+                        <div class="text-right">
+                            <button type="submit" id="submitSkole" class="btn btn-success buttons waves-effect waves-light mt-1 mb-3"><i class="mdi mdi-content-save"></i> Add</button>
+                        </div>
+                        <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-format-list-checkbox mr-1"></i>Add / Edit Skills</h5>
+
+                        <div class="row" id="skillsEdit">
+
+                            @{
+                                var antallFerdigheter2 = 0;
 
 
                                 }
@@ -368,8 +359,8 @@
 
                             </div> <!-- end row -->
                         <div class="text-right">
-                            <button id="addSkillButton" class="btn btn-success waves-effect waves-light mt-2" onclick="addSlider('skillsEdit')"><i class="fas fa-plus"></i> Add</button>
-                            <button id="submitSkillButton" class="btn btn-success waves-effect waves-light mt-2" onclick="registrerSliders('@BrukerInnhold.Id','skillsEdit')"><i class="mdi mdi-content-save"></i> Save</button>
+                            <button id="addSkillButton" class="btn btn-success buttons waves-effect waves-light mt-2 mb-3" onclick="addSlider('skillsEdit')"><i class="fas fa-plus"></i> Add</button>
+                            <button id="submitSkillButton" class="btn btn-success buttons waves-effect waves-light mt-2 mb-3" onclick="registrerSliders('@BrukerInnhold.Id','skillsEdit')"><i class="mdi mdi-content-save"></i> Save</button>
                         </div>
 
 
@@ -421,8 +412,8 @@
 
 
                         <div class="text-right">
-                            <button id="addSkillButton" class="btn btn-success waves-effect waves-light mt-2" onclick="addSlider('språkEdit')"><i class="fas fa-plus"></i> Add</button>
-                            <button id="submitSkillButton" class="btn btn-success waves-effect waves-light mt-2" onclick="registrerSliders('@BrukerInnhold.Id', 'språkEdit')"><i class="mdi mdi-content-save"></i> Save</button>
+                            <button id="addSkillButton" class="btn btn-success buttons waves-effect waves-light mt-2" onclick="addSlider('språkEdit')"><i class="fas fa-plus"></i> Add</button>
+                            <button id="submitSkillButton" class="btn btn-success buttons waves-effect waves-light mt-2" onclick="registrerSliders('@BrukerInnhold.Id', 'språkEdit')"><i class="mdi mdi-content-save"></i> Save</button>
                         </div>
 
                         <!-- end settings content-->
@@ -431,16 +422,35 @@
 
                         
                 </div> <!-- end card-box-->
-        </div> <!-- end col -->
+            </div> <!-- end col -->
+        </div>
+
     </div>
 
-</div>
-
-<script type="text/javascript">
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #55586b; border-color: black;">
+                    <h5 class="modal-title" id="exampleModalLabel">Warning!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="        background-color: #1b2638;">
+                    Are you sure you want to delete that ?!
+                </div>
+                <div class="modal-footer" style="        background-color: #1b2638; border-color: #1b2638;">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" style="background-color: red; border-color: red;">DELETE</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
     function addSlider(type) {
 
         var list = document.getElementById(type).lastElementChild;
-    
+
         var nyId = parseInt(list.id.substring(5, list.id.length))+2;
         var skill = "";
         var bar = "";
@@ -514,6 +524,17 @@
         }
 
         saveEdit(brukerID, kategori, "0", "", "", "", "", "", arr);
+
+        if (type == "skillsEdit") {
+            $('.toast').toast('show');
+            document.getElementById("toast").style.display = "inline";
+            document.getElementById("toast-body").innerHTML = "Added/Edited skills successfull!";
+        }
+        else {
+            $('.toast').toast('show');
+            document.getElementById("toast").style.display = "inline";
+            document.getElementById("toast-body").innerHTML = "Added/Edited languages successfull!";
+        }
     }
     function sliderFunc(id, slider) {
 
@@ -605,54 +626,51 @@
 
     @section Scripts {
 
+
         <script>
         $(document).ready(function () {
-            document.getElementById("submitArbeid").addEventListener('click', function (event) {
+        document.getElementById("submitArbeid").addEventListener('click', function (event) {
 
-                $('.toast').toast('show');
-                document.getElementById("toast").style.display = "inline";
-                document.getElementById("toast-body").innerHTML = "Added new experience!";
+        event.preventDefault();
+        var felt = "Arbeidserfaring";
+        var startÅr = $('#startYearA').val();
+        var sluttÅr = $('#endYearA').val();
+        var jobbTittel = $('#jobTitleA').val();
+        var bedriftNavn = $('#companyNameA').val();
+        var jobbBeskrivelse = $('#userbio').val();
+        var jsonJobb = {
+        "felt": felt,
+        "par1": startÅr,
+        "par2": sluttÅr,
+        "par3": jobbTittel,
+        "par4": bedriftNavn,
+        "par5": jobbBeskrivelse
+        };
+        ajaxUpload(jsonJobb);
+        });
+        document.getElementById("submitSkole").addEventListener('click', function (event) {
 
-                event.preventDefault();
-                var felt = "Arbeidserfaring";
-                var startÅr = $('#startYearA').val();
-                var sluttÅr = $('#endYearA').val();
-                var jobbTittel = $('#jobTitleA').val();
-                var bedriftNavn = $('#companyNameA').val();
-                var jobbBeskrivelse = $('#userbio').val();
-                var jsonJobb = {
-                     "felt": felt,
-                    "par1": startÅr,
-                    "par2": sluttÅr,
-                    "par3": jobbTittel,
-                    "par4": bedriftNavn,
-                    "par5": jobbBeskrivelse
-                  };
-                ajaxUpload(jsonJobb);
-            });
-            document.getElementById("submitSkole").addEventListener('click', function (event) {
+        $('.toast').toast('show');
+        document.getElementById("toast").style.display = "inline";
+        document.getElementById("toast-body").innerHTML = "Added new education!";
 
-                $('.toast').toast('show');
-                document.getElementById("toast").style.display = "inline";
-                document.getElementById("toast-body").innerHTML = "Added new education!";
-
-                event.preventDefault();
-                var felt = "Utdanning";
-                var startÅr = $('#startYearU').val();
-                var sluttÅr = $('#endYearU').val();
-                var jobbTittel = $('#linje').val();
-                var bedriftNavn = $('#skolename').val();
-                var jsonJobb = {
-                    "felt": felt,
-                    "par1": startÅr,
-                    "par2": sluttÅr,
-                    "par3": jobbTittel,
-                    "par4": bedriftNavn,
-                    "par5": ""
-                };
-                ajaxUpload(jsonJobb);
-            });
-            document.getElementById("submitSkill").addEventListener('click', function (event) {
+        event.preventDefault();
+        var felt = "Utdanning";
+        var startÅr = $('#startYearU').val();
+        var sluttÅr = $('#endYearU').val();
+        var jobbTittel = $('#linje').val();
+        var bedriftNavn = $('#skolename').val();
+        var jsonJobb = {
+        "felt": felt,
+        "par1": startÅr,
+        "par2": sluttÅr,
+        "par3": jobbTittel,
+        "par4": bedriftNavn,
+        "par5": ""
+        };
+        ajaxUpload(jsonJobb);
+        });
+        document.getElementById("submitSkill").addEventListener('click', function (event) {
 
                 $('.toast').toast('show');
                 document.getElementById("toast").style.display = "inline";
@@ -696,9 +714,9 @@
                     dataType: "json",
                     success: function (result) {
 
-                    }
-                });
-            }
+        }
+        });
+        }
         })
         </script>
     }

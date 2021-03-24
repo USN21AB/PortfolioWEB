@@ -97,6 +97,27 @@
     }
 </style>
 
+<div style="display: flex; justify-content: flex-end">
+    <div class="toast" id="toast" role="alert" aria-live="assertive" aria-atomic="true" 
+        style="
+        display: none;
+        position: fixed;
+        z-index: 1;
+        color: white;
+        width: 199px;
+        right: 3px;">
+        <div class="toast-header" style="        background-color: #384352;">
+            <i class="fas fa-bell" style="color: #1abc9c;"></i>
+            <strong class="mr-auto" style="color: #1abc9c;"> &nbsp; Notification</strong>
+        </div>
+        <div class="toast-body" id="toast-body" style="        
+        color: #1abc9c;
+        background-color: white;">
+        </div>
+    </div>
+</div>
+
+
 <body>
     <div class="container">
         <div class="main-body">
@@ -118,6 +139,8 @@
                                     <h4>@BrukerInnhold.Navn</h4>
                                     <p class="text-secondary mb-1">@BrukerInnhold.Stilling</p>
                                     <p class="text-muted font-size-sm">@BrukerInnhold.Bosted</p>
+                                    
+                                 
 
 
 
@@ -267,6 +290,20 @@
         });
 
     </script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            document.getElementById("toastbtn").addEventListener('click', function (event) {
+                $('.toast').toast('show');
+                document.getElementById("toast").style.display = "inline";
+                document.getElementById("toast-body").innerHTML = "Something";
+            });
+        });
+
+    </script>
+
 
     <!-- For later  <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">  -->
 </body>
