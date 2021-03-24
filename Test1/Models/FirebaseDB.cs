@@ -70,7 +70,7 @@ namespace Test1.Models
             return AlleInnlegg;
         }
 
-        public async Task UploadFile(string filename, IFormFile file)
+        public async Task UploadInnleggFile(string filename, IFormFile file, string brukerId)
         {
 
 
@@ -93,9 +93,13 @@ namespace Test1.Models
 
             // await the task to wait until upload completes and get the download url
             var downloadUrl = await task;
-          
 
-            Console.WriteLine("Link " + downloadUrl); }
+            
+            Console.WriteLine("Link " + downloadUrl);
+
+
+            klient.Set("Innlegg/" + brukerId + "/IkonURL", downloadUrl);
+        }
 
 
 
@@ -122,9 +126,11 @@ namespace Test1.Models
 
             //Putter bilde urlen i ProfilBilde
             UpdateSingleUserValue(brukerId, "Profilbilde", downloadUrl);
+            klient.Set("Bruker/" + brukerId + "/" + "MEEEH", downloadUrl);
 
 
-            Console.WriteLine("Link " + downloadUrl);
+
+            Console.WriteLine("Link EH" + downloadUrl);
         }
 
         public List<Innlegg> SorterAlleInnlegg(string Type, List<Innlegg> liste)
@@ -199,7 +205,10 @@ namespace Test1.Models
 
         public void OppdaterBruker(Bruker bruker)
         {
-            bruker.Profilbilde = "https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2Fdefault_account.jpg?alt=media&token=290b6907-f17e-4095-90a6-dca2c52563b9"; 
+            if (bruker.Profilbilde == "")
+            {
+                bruker.Profilbilde = "https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2Fdefault_account.jpg?alt=media&token=290b6907-f17e-4095-90a6-dca2c52563b9";
+            }
             SetResponse respons = klient.Set("Bruker/"+bruker.Id,bruker);
            // dynamic data = JsonConvert.DeserializeObject<Bruker>(respons.Body);
             //Bruker mellomBruker = JsonConvert.DeserializeObject<Bruker>(((JProperty)data).Value.ToString()); 
@@ -223,11 +232,10 @@ namespace Test1.Models
 
         public void RegistrerKommentar(Kommentar kommentar)
         {
-
-            PushResponse respons = klient.Push("Kommentar/", kommentar);
+            var link = "Innlegg/" + kommentar.InnleggId + "/Kommentarer/";
+            PushResponse respons = klient.Push(link, kommentar);
             kommentar.Id = respons.Result.name;
-            SetResponse setResponse = klient.Set("Kommentar/" + kommentar.Id, kommentar);
-
+            SetResponse setResponse = klient.Set(link + kommentar.Id, kommentar);
         }
     }
 }

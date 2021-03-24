@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Test1.Models;
 
 namespace Portefolio_webApp.Models
@@ -26,7 +23,13 @@ namespace Portefolio_webApp.Models
 
         public double FilStørrelse { get; set; }
 
-     
+        public List<Kommentar> Kommentar { get; set; }
+
+        public Innlegg()
+        {
+            Kommentar = new List<Kommentar>();
+        }
+
 
     }
 }

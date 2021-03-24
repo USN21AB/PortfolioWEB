@@ -1,12 +1,51 @@
 ﻿@model Portefolio_webApp.Models.Innlegg;
 <link href="~/css/Upsert_Innlegg.css" rel="stylesheet" />
+<link href="~/css/PorteføljeElementer.css?v=2" rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
 
 <h2 class="text-info">@(Model.Id == null ? "Registrer" : "Rediger") Innlegg</h2>
 <br />
 
 <style>
-    #bildekategori {
+
+    .preview-label {
+        position: absolute;
+        right: 179px;
+        padding: 15px;
+        top: 70px;
+    }
+
+    .preview {
+        position: absolute;
+        right: 80px;
+        padding: 15px;
+        top: 150px;
+    }
+
+
+    .round {
+        border: 3px solid white;
+        width: 1000px;
+        padding: 41px;
         display: inline-block;
+    }
+
+    .round-preview {
+        border: 3px solid white;
+        width: 350px;
+        height: 350px;
+        
+    }
+
+    .radio-buttons {
+        display: flex;
+        flex-direction: row;
+        text-align: center;
+    }
+
+    #bildekategori {
+        display: none;
     }
 
     #musikkategori {
@@ -17,25 +56,40 @@
         display: none;
     }
 
+    #bilde-innlegg {
+        display: none;
+    }
+
+    #lyd-innlegg {
+        display: none;
+    }
+
+    #tekst-innlegg {
+        display: none;
+    }
+
+    #cover-image {
+        display: none;
+    }
+
     #subkat {
-        
     }
 
     #subkatdiv {
-       visibility: visible;
-       position: relative;
+        visibility: hidden;
+        position: absolute;
     }
 
-   
+
     .radio {
         display: inline-block;
-        width: 24%;
-        min-width: 125px;
+        width: 141px;
         height: 70px;
         background-color: white;
         border-radius: .25rem;
         cursor: pointer;
-        margin: 2px 4.7px 2px 0;
+        margin-left: 4px;
+        margin-right: 4px;
         cursor: pointer;
     }
 
@@ -43,8 +97,6 @@
             background-color: #0275d8;
             color: white;
         }
-
-        
 </style>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -61,42 +113,75 @@
             $(this).addClass('active');
         });
     });
-   
+
 
     function fileValidation() {
         var file = document.getElementById("input-file").value;
-        
+
 
         var validImage = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
         var validAudio = /(\.mp3)$/i;
         var validTekst = /(\.pdf)$/i;
 
         if (validImage.exec(file)) {
+            //Endrer verider
             document.getElementById('kategoriVerdi').value = "Bilde";
-            document.getElementById('bildekategori').style.display = "inline";
-            document.getElementById('musikkategori').style.display = "none";
-            document.getElementById('tekstkategori').style.display = "none";
-            document.getElementById('subkatdiv').style.visibility = "visible";
-            document.getElementById('subkatdiv').style.position = "relative";            document.getElementById("kategori-value").value = "";
-        }
-        else if (validAudio.exec(file)) {
-            document.getElementById('kategoriVerdi').value = "Lyd";
-            document.getElementById('musikkategori').style.display = "inline";
-            document.getElementById('bildekategori').style.display = "none";
-            document.getElementById('tekstkategori').style.display = "none";
-            document.getElementById('subkatdiv').style.visibility = "visible";
-            document.getElementById('subkatdiv').style.position = "relative";            document.getElementById("kategori-value").value = "";
-            document.getElementById('kategoriVerdi').value = "";
-        }
-        else if (validTekst.exec(file)) {
-            document.getElementById('kategoriVerdi').value = "Tekst";
-            document.getElementById('tekstkategori').style.display = "inline";
-            document.getElementById('subkat').style.display = "block";
-            document.getElementById('bildekategori').style.display = "none";
-            document.getElementById('musikkategori').style.display = "none";
+            document.getElementById("kategori-value").value = "";
+
+            //Gjør elemeter synlig
+            document.getElementById('bildekategori').style.display = "inline-block";
+            document.getElementById('bilde-innlegg').style.display = "block";
             document.getElementById('subkatdiv').style.visibility = "visible";
             document.getElementById('subkatdiv').style.position = "relative";
+
+            //Gjør elementer usynlig
+            document.getElementById('musikkategori').style.display = "none";
+            document.getElementById('tekstkategori').style.display = "none";
+            document.getElementById('lyd-innlegg').style.display = "none";
+            document.getElementById('tekst-innlegg').style.display = "none";
+
+        }
+        else if (validAudio.exec(file)) {
+            //Endrer verider
+            document.getElementById('kategoriVerdi').value = "Lyd";
             document.getElementById("kategori-value").value = "";
+
+            //Gjør elemeter synlig
+            document.getElementById('musikkategori').style.display = "inline-block";
+            document.getElementById('lyd-innlegg').style.display = "block";
+            document.getElementById('subkatdiv').style.visibility = "visible";
+            document.getElementById('subkatdiv').style.position = "relative";
+            document.getElementById('cover-image').style.display = "block";
+
+            //Gjør elementer usynlig
+            document.getElementById('bildekategori').style.display = "none";
+            document.getElementById('tekstkategori').style.display = "none";
+            document.getElementById('tekst-innlegg').style.display = "none";
+            document.getElementById('bilde-innlegg').style.display = "none";
+            
+        }
+        else if (validTekst.exec(file)) {
+            //Endrer verider
+            document.getElementById('kategoriVerdi').value = "Tekst";
+            document.getElementById("kategori-value").value = "";
+
+            //Gjør elemeter synlig
+            document.getElementById('tekstkategori').style.display = "inline-block";
+            document.getElementById('tekst-innlegg').style.display = "block";
+            document.getElementById('subkat').style.display = "block";
+            document.getElementById('subkatdiv').style.visibility = "visible";
+            document.getElementById('subkatdiv').style.position = "relative";
+            document.getElementById('cover-image').style.display = "block";
+
+            //Gjør elementer usynlig
+            document.getElementById('bildekategori').style.display = "none";
+            document.getElementById('musikkategori').style.display = "none";
+            document.getElementById('lyd-innlegg').style.display = "none";
+            document.getElementById('bilde-innlegg').style.display = "none";
+
+            
+           
+            
         }
         else
             document.getElementById('file-type-test').innerHTML = "Uh oh";
@@ -105,7 +190,7 @@
 
 
 
-   
+
 
     function radio(id) {
         var bilde = /(Fotografi|Digital Art|Traditional Art|3D)$/i;
@@ -128,11 +213,50 @@
         }
     }
 
+
+    function tittelPreview() {
+        tittel = document.getElementById("tittel").value;
+        document.getElementById("bilde-tittel-preview").innerHTML = tittel;
+        document.getElementById("sangnavn").innerHTML = tittel;
+        document.getElementById("lit-tittel").innerHTML = tittel;
+    }
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#idmge').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]); // convert to base64 string
+        }
+    }
+
+    $("#input-file").change(function () {
+        readURL(this);
+    });
+
+    function readURL2(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('.idmge').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]); // convert to base64 string
+        }
+    }
+
+    $("#cover-input-file").change(function () {
+        readURL(this);
+    });
 </script>
 
 
 
-<div class="border container" style="padding:30px;">
+<div class="round">
     <form class="whitetext" method="post" ,, new enctype="multipart/form-data">
         @if (Model.Id == null)
         {
@@ -144,61 +268,64 @@
                                                                                 <input type="hidden" asp-for="IkonURL" />}
 
 
+        <div class="form-group row">
+            <div class="col-3">
+                @Html.TextBox("file", "input-file", new { type = "file", id = "input-file", accept = "image/png|image/jpeg|image/jpg|image/gif|audio/mp3|application/pdf", oninput = "fileValidation(); readURL(this);" }) <br />
 
-        @Html.TextBox("file", "input-file", new { type = "file", id = "input-file", accept = "image/png|image/jpeg|image/jpg|image/gif|audio/mp3|application/pdf", oninput = "fileValidation()" }) <br />
+            </div>
 
-
-
-
+        </div>
 
         <div class="form-group row">
             <div class="col-3">
                 <label asp-for="Kategori"></label>
             </div>
-            <div class="col-9">
-                <input asp-for="Kategori" class="form-control" id="kategoriVerdi" />
+            <div class="col-8">
+                <input asp-for="Kategori" readonly class="form-control" id="kategoriVerdi" required/>
                 <span asp-validation-for="Kategori" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group row" id="subkatdiv">
-            <div class="col-3"  id="subkat">
-                <label asp-for="SubKategori" ></label>
+            <div class="col-3" id="subkat">
+                <label asp-for="SubKategori"></label>
             </div>
 
             <button type="button" class='radio active' id="radio-dummy" value="Fotografi" style="display: none"></button>
 
-
-            <div id="bildekategori" class="col-9">
+            <div id="bildekategori" class="col-8 radio-buttons">
                 <button type="button" class='radio' id="radio1" value="Fotografi" onclick='radio(this.id)'>Fotografi</button>
                 <button type="button" class='radio' id="radio2" value="Digital Art" onclick="radio(this.id)">Digital Art</button>
                 <button type="button" class='radio' id="radio3" value="Traditional Art" onclick="radio(this.id)">Traditional Art</button>
                 <button type="button" class='radio' id="radio4" value="3D" onclick="radio(this.id)">3D</button>
-
-
             </div>
-            <div id="musikkategori">
+            <div id="musikkategori" class="col-8 radio-buttons">
                 <button type="button" class='radio' id="radio5" value="Musikk" onclick="radio(this.id)">Musikk</button>
                 <button type="button" class='radio' id="radio6" value="Lydeffekter" onclick="radio(this.id)">Lydeffekter</button>
                 <button type="button" class='radio' id="radio7" value="Voice Acting" onclick="radio(this.id)">Voice Acting</button>
                 <button type="button" class='radio' id="radio8" value="Audiobook" onclick="radio(this.id)">Audiobook</button>
 
             </div>
-            <div id="tekstkategori">
+            <div id="tekstkategori" class="col-8 radio-buttons">
                 <button type="button" class='radio' id="radio9" value="Fiction" onclick="radio(this.id)">Fiction</button>
                 <button type="button" class='radio' id="radio10" value="Non-Fiction" onclick="radio(this.id)">Non-Fiction</button>
             </div>
         </div>
 
-        <input asp-for="SubKategori" id="kategori-value" style="display: none" />
+        <input asp-for="SubKategori" id="kategori-value" style="display: none" required/>
 
+        <div id="cover-image" class="form-group row">
+            <div class="col-3">
+                @Html.TextBox("cover-file", "cover-input-file", new { type = "file", id = "cover-input-file", accept = "image/png|image/jpeg|image/jpg", oninput = "readURL2(this);"  }) <br />
+            </div>
+        </div>
 
         <div class="text-danger" asp-validation-summary="ModelOnly"></div>
         <div class="form-group row">
             <div class="col-3">
                 <label asp-for="Tittel"></label>
             </div>
-            <div class="col-6">
-                <input asp-for="Tittel" class="form-control" />
+            <div class="col-8">
+                <input asp-for="Tittel" class="form-control" id="tittel" onkeyup="tittelPreview()" required/>
                 <span asp-validation-for="Tittel" class="text-danger"></span>
             </div>
         </div>
@@ -206,8 +333,8 @@
             <div class="col-3">
                 <label asp-for="Beskrivelse"></label>
             </div>
-            <div class="col-6">
-                <input asp-for="Beskrivelse" class="form-control" />
+            <div class="col-8">
+                <input asp-for="Beskrivelse" class="form-control" required/>
                 <span asp-validation-for="Beskrivelse" class="text-danger"></span>
             </div>
         </div>
@@ -223,6 +350,45 @@
             </div>
         </div>
     </form>
+</div>
+
+<h2 class="text-info preview-label">Forhåndsvisning</h2>
+
+<div class="preview round-preview">
+    <div class="preview-div">
+        <div id="bilde-innlegg" class="single-awesome-portfolio">
+            <a href="#">
+                <div class="awesome-img">
+                    <div class="awesome-info">
+                        <h3 id="bilde-tittel-preview">    </h3>
+                        <p class="bruker-preview">Ola Normann</p>
+                    </div>
+                    <img class="imge" id="idmge" src="#" alt="">
+                </div>
+
+            </a>
+        </div>
+
+        <div class="music_player" id="lyd-innlegg">
+
+            <div class="play_button_div"></div>
+            <img id="sangi" class="play_button shadowed" src="../resources/icons8-play-96.png" onclick='spillAv("sang", this.id); visSang("sangnavn", "artist")' />
+            <audio id="sang" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2FPok%C3%A9mon%20Theme%20Song.mp3?alt=media&token=bccacd1c-ed6a-4050-8745-b1ee3bb50f96"></audio>
+            <img class="fuck imge idmge" id="lyd-imge" src="#" alt="" />
+            <p id="sangnavn"></p>
+            <p id="artist">Ola Normann</p>
+
+        </div>
+
+
+        <div class="litteratur" id="tekst-innlegg">
+            <img class="book_cover idmge" id="lit-imge" src="#" alt="" />
+            <h3 class="tittel" id="lit-tittel"></h3>
+            <h4 class="forfatter">Roal Dahl</h4>
+        </div>
+
+
+    </div>
 </div>
 
 @section Scripts{
