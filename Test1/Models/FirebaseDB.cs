@@ -125,7 +125,6 @@ namespace Test1.Models
 
             //Putter bilde urlen i ProfilBilde
             UpdateSingleUserValue(brukerId, "Profilbilde", downloadUrl);
-            klient.Set("Bruker/" + brukerId + "/" + "MEEEH", downloadUrl);
 
 
 
