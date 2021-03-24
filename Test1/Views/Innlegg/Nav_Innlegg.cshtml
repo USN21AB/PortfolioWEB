@@ -9,6 +9,7 @@
     var url = "";
     var tagger = new List<string>();
     var beskrivelse = "";
+    var innlegg = new Innlegg();
 
     var bruker = (Portefolio_webApp.Models.Bruker)ViewData["bruker"];
 
@@ -26,6 +27,19 @@
         url = Model.IkonURL;
         tagger = Model.Tagger;
         beskrivelse = Model.Beskrivelse;
+
+        innlegg.Id = thisid;
+        innlegg.Tittel = tittel;
+        innlegg.Dato = dato;
+        innlegg.Klokkeslett = klokkeslett;
+        innlegg.EierId = eierId;
+        innlegg.Beskrivelse = beskrivelse;
+        innlegg.Kategori = kategori;
+        innlegg.SubKategori = Model.SubKategori;
+        innlegg.Tagger = Model.Tagger;
+        innlegg.IkonURL = Model.IkonURL;
+        innlegg.FilStørrelse = Model.FilStørrelse;
+        innlegg.Kommentar = Model.Kommentar;
     }
 }
 
@@ -220,8 +234,7 @@
                 @beskrivelse
             </p>
 
-            <hr class="white">
-
+            
             <div class="nyttKommentarFelt">
                 <a asp-controller="Profilside" asp-action="Profilside">
                     <img src="~/lib/bilder/Mageh.png" height="60" width="60" id="imgikon" />
@@ -230,24 +243,21 @@
                 
                 </textarea><button>Cancel</button><button onclick="Kommentar('@thisid')">Comment</button>
             </div>
-
             <div id="alleKommentarFelt">
 
             </div>
         }
     }
-    <script src="~/js/javaInnlegg.js?v=2">
+    <script src="~/js/javaInnlegg.js?v=3">
     </script>
     <script>
         function Kommentar(nyId) {
-            var url = '@Html.Raw(Url.Action("NyttKommentar", "Innlegg" , new { tekst = "_tekst_", innleggId = "_innleggId_" }))';
+        var url = '@Html.Raw(Url.Action("NyttKommentar", "Innlegg" , new { tekst = "_tekst_", innleggId = "_innleggId_" }))';
             var tekst = $('#kommentarFelt').val();
-
             var params = url.replace('_tekst_', tekst).replace('_innleggId_', nyId);
             window.location.href = params;
         }
     </script>
-    @*location.href = '@Url.Action("NyttKommentar", "Innlegg", new { tekst = @tekst, innleggId = "Musikk" })'"*@
 </body>
 
 

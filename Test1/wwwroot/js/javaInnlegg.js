@@ -58,3 +58,4 @@ function spillAv(sang, toggle) {
         lyd.pause();
     }
 };
+

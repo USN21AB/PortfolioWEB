@@ -22,7 +22,9 @@
     @while (antall < liste.Count)
     {
         var Innlegg = liste.ElementAt(antall);
-        if (Innlegg.Kategori.Equals("Tekst"))
+        if (Innlegg.Kategori == null)
+        { }
+        else if (Innlegg.Kategori.Equals("Tekst"))
         {
             <div class="litteratur">
                 <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id class="card-link">

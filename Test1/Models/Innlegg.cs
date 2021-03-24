@@ -23,7 +23,12 @@ namespace Portefolio_webApp.Models
 
         public double FilStørrelse { get; set; }
 
-        public List<Kommentar> Kommentarer { get; set; }
+        public List<Kommentar> Kommentar { get; set; }
+
+        public Innlegg()
+        {
+            Kommentar = new List<Kommentar>();
+        }
 
 
     }
