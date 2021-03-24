@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Portefolio_webApp.Models;
 using System;
 using System.Diagnostics;
@@ -34,14 +35,26 @@ namespace Portefolio_webApp.Controllers
         public IActionResult Upsert_Innlegg(string innleggID)
         {
             Innlegg = new Innlegg();
+            Debug.WriteLine("------------------------------------upsert innlegg GET: " + innleggID); 
 
             ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
             ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
+            if (HttpContext.Session.GetString("Innlogget_Bruker") != null)
+            {
+                var str = HttpContext.Session.GetString("Innlogget_Bruker");
+                var innBruker = JsonConvert.DeserializeObject<Bruker>(str);
+
+                ViewData["Innlogget_Bruker"] = innBruker;
+            }
 
             if (innleggID != "")
             {
                 //create
-                Innlegg = firebase.HentSpesifiktInnlegg(innleggID); 
+                Innlegg = firebase.HentSpesifiktInnlegg(innleggID);
+
+                if (Innlegg == null)
+                    Innlegg = new Innlegg(); 
+                Debug.WriteLine("------------------------------------upsert innlegg GET INNI IF TOM: " + innleggID);
                 return View(Innlegg);
             }
 
@@ -52,6 +65,7 @@ namespace Portefolio_webApp.Controllers
         [HttpPost]
         public async System.Threading.Tasks.Task<IActionResult> Upsert_InnleggAsync(Microsoft.AspNetCore.Http.IFormFile file, Innlegg innlegg, [FromServices] IHostingEnvironment oHostingEnvironment)
         {
+            Debug.WriteLine("------------------------------------upsert innlegg POST");
             Console.WriteLine("EYOOOOOOOOOOO BRUUUUH");
             DateTime today = DateTime.Today;
             DateTime l = today;
@@ -114,6 +128,13 @@ namespace Portefolio_webApp.Controllers
             ViewData["bruker"] = bruker;
             ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
             ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
+            if (HttpContext.Session.GetString("Innlogget_Bruker") != null)
+            {
+                var str = HttpContext.Session.GetString("Innlogget_Bruker");
+                var innBruker = JsonConvert.DeserializeObject<Bruker>(str);
+
+                ViewData["Innlogget_Bruker"] = innBruker;
+            }
             return View(innlegg);
 
         }

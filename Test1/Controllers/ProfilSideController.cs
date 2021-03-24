@@ -60,6 +60,14 @@ namespace Portefolio_webApp.Controllers
             Debug.WriteLine("-------------------------------Dette er serialized: " + bruker2.Navn); 
             ViewData["brukertesten"] = bruker2; 
             */
+            if (HttpContext.Session.GetString("Innlogget_Bruker") != null)
+            {
+                var str = HttpContext.Session.GetString("Innlogget_Bruker");
+                var innBruker = JsonConvert.DeserializeObject<Bruker>(str);
+
+                ViewData["Innlogget_Bruker"] = innBruker;
+            }
+
             return View();
             // }
             //  else
@@ -80,6 +88,14 @@ namespace Portefolio_webApp.Controllers
 
             ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
             ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
+
+            if (HttpContext.Session.GetString("Innlogget_Bruker") != null)
+            {
+                var str = HttpContext.Session.GetString("Innlogget_Bruker");
+                var innBruker = JsonConvert.DeserializeObject<Bruker>(str);
+
+                ViewData["Innlogget_Bruker"] = innBruker;
+            }
             return View(Bruker);
         }
 
@@ -161,21 +177,30 @@ namespace Portefolio_webApp.Controllers
 
             ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
             ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
+            if (HttpContext.Session.GetString("Innlogget_Bruker") != null)
+            {
+                var str = HttpContext.Session.GetString("Innlogget_Bruker");
+                var innBruker = JsonConvert.DeserializeObject<Bruker>(str);
+
+                ViewData["Innlogget_Bruker"] = innBruker;
+            }
+
             return View(nybruker); 
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult UpsertBruker(Bruker oppBruker, string filename, IFormFile file, [FromServices] IHostingEnvironment oHostingEnvironment)
+        public IActionResult UpsertBruker(Bruker oppBruker,string password ,string filename, IFormFile file, [FromServices] IHostingEnvironment oHostingEnvironment)
         {
-            Debug.WriteLine("-------------------------Im here AT ALL??? " + oppBruker.Id);
 
 
-              
-                    if (string.IsNullOrEmpty(oppBruker.Id))
+            Debug.WriteLine("----------------- PASSWORD!!!" + password);
+
+            if (string.IsNullOrEmpty(oppBruker.Id))
                     {
-                        Debug.WriteLine("-------------------------Im in id null!!");
-                        string logginnID = logg.Register(oppBruker.Email, oppBruker.Password).Result;
+                       Debug.WriteLine("----------------- YOU BETTER NOT BE IN HERE, BITACH"); 
+                        
+                        string logginnID = logg.Register(oppBruker.Email, password).Result;
                         string[] splittArr = logginnID.Split("|");
 
                         oppBruker.Id = splittArr[0];
@@ -200,7 +225,7 @@ namespace Portefolio_webApp.Controllers
                     }
                     else
                     {
-                        Debug.WriteLine("-------------------------OPPDATERER THA SHIT!!");
+                        
                         firebase.OppdaterBruker(oppBruker);
                         ModelState.AddModelError(string.Empty, "Oppdatert suksessfult!");
                     }
@@ -212,7 +237,7 @@ namespace Portefolio_webApp.Controllers
                     }
 
 
-            Debug.WriteLine("-------------------------End of upsert method!!");
+        
             return RedirectToAction("BrowseSide", "Home");
         }
 
@@ -229,6 +254,14 @@ namespace Portefolio_webApp.Controllers
             ViewData["Bruker_Innhold"] = Bruker;
             ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
             ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
+
+            if (HttpContext.Session.GetString("Innlogget_Bruker") != null)
+            {
+                var str = HttpContext.Session.GetString("Innlogget_Bruker");
+                var innBruker = JsonConvert.DeserializeObject<Bruker>(str);
+
+                ViewData["Innlogget_Bruker"] = innBruker;
+            }
             // ViewData["Port"] = firebase.HentAlleMapper("");
             return View(Bruker);
 
