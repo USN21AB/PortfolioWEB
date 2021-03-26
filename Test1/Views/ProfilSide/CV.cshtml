@@ -11,6 +11,7 @@
 <style>
     .editClass {
         border: solid;
+        padding:5px;
     }
 </style>
 
@@ -157,13 +158,14 @@
                                             </p>
                                         </li>
                                     </ul>
-                                    <div class="text-right">
-                                        <button id="submitArbeid@(arID)" class="btn btn-success waves-effect waves-light mt-2" style="display:none;"
-                                                onclick="saveEdit('@BrukerInnhold.Id','ArbeidsErfaring',@antallArbeidsErfaring, (@ArbeidsErfaringÅrStart+@antallArbeidsErfaring), (@ArbeidsErfaringÅrSlutt+@antallArbeidsErfaring),
+                                        <div class="text-right">
+                                            <span id="@(antallArbeidsErfaring)spanA" class="text-danger"></span>
+                                            <button id="submitArbeid@(arID)" class="btn btn-success waves-effect waves-light mt-2" style="display:none;"
+                                                    onclick="saveEdit('@BrukerInnhold.Id','ArbeidsErfaring',@antallArbeidsErfaring, (@ArbeidsErfaringÅrStart+@antallArbeidsErfaring), (@ArbeidsErfaringÅrSlutt+@antallArbeidsErfaring),
                                                                 arTittel@(arID),arbedrift@(arID),arBio@(arID) )">
-                                            <i class="mdi mdi-content-save"></i> Save
-                                        </button>
-                                    </div>
+                                                <i class="mdi mdi-content-save"></i> Save
+                                            </button>
+                                        </div>
                                 </div>
                                 antallArbeidsErfaring += 5;
                                 arID = "arEdit" + antallArbeidsErfaring;
@@ -201,13 +203,14 @@
                                             <p id="utSted@(utID)">@UtdanningInstitusjon</p>
                                         </li>
                                     </ul>
-                                    <div class="text-right">
-                                        <button id="submitUtdanning@(utID)" class="btn btn-success waves-effect waves-light mt-2" style="display:none;"
-                                                onclick="saveEdit('@BrukerInnhold.Id','Utdanning',@antallUtdanning, (@UtdanningÅrStart+@antallUtdanning), (@UtdanningÅrSlutt+@antallUtdanning),
+                                        <div class="text-right">
+                                            <span id="@(antallUtdanning)spanU" class="text-danger"></span>
+                                            <button id="submitUtdanning@(utID)" class="btn btn-success waves-effect waves-light mt-2" style="display:none;"
+                                                    onclick="saveEdit('@BrukerInnhold.Id','Utdanning',@antallUtdanning, (@UtdanningÅrStart+@antallUtdanning), (@UtdanningÅrSlutt+@antallUtdanning),
                                                                 utGrad@(utID),utSted@(utID),'' )">
-                                            <i class="mdi mdi-content-save"></i> Save
-                                        </button>
-                                    </div>
+                                                <i class="mdi mdi-content-save"></i> Save
+                                            </button>
+                                        </div>
                                 </div>
                                 antallUtdanning += 4;
                                 utID = "utEdit" + antallUtdanning;
@@ -224,12 +227,14 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input type="text" class="form-control datedrop" id="startYearA" placeholder="Enter year started">
+                                    <label for="startYearA">From month</label>
+                                    <input type="month" class="form-control datedrop" id="startYearA" placeholder="Enter year started*">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="endYearA" placeholder="Enter year ended">
+                                    <label for="endYearA">To month</label>
+                                    <input type="month" class="form-control" id="endYearA" placeholder="Enter year ended*">
                                 </div>
                             </div> <!-- end col -->
                         </div> <!-- end row -->
@@ -237,12 +242,12 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="jobTitleA" placeholder="Enter job title">
+                                    <input type="text" class="form-control" id="jobTitleA" placeholder="Enter job title*">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="companyNameA" placeholder="Enter company name">
+                                    <input type="text" class="form-control" id="companyNameA" placeholder="Enter company name*">
                                 </div>
                             </div>
                             <span class="text-danger"></span><!-- end col -->
@@ -257,7 +262,8 @@
                             </div> <!-- end col -->
                         </div> <!-- end row -->
                         <div class="text-right">
-                            <button id="submitArbeid" class="btn btn-success buttons mt-1 mb-3" data-toggle="modal" data-target="#exampleModal"><i class="mdi mdi-content-save"></i> Add</button>
+                            <span id="danger_arbeid" class="text-danger"></span>
+                                <button id="submitArbeid" class="btn btn-success buttons mt-1 mb-3" data-toggle="modal" data-target="#exampleModal"><i class="mdi mdi-content-save"></i> Add</button>
                         </div>
 
 
@@ -287,12 +293,14 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="startYearU" placeholder="Enter year started">
+                                    <label for="startYearU">From month</label>
+                                    <input type="month" class="form-control" id="startYearU" placeholder="Enter year started">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="endYearU" placeholder="Enter year ended">
+                                    <label for="endYearU">From month</label>
+                                    <input type="month" class="form-control" id="endYearU" placeholder="Enter year ended">
                                 </div>
                             </div> <!-- end col -->
                         </div> <!-- end row -->
@@ -300,16 +308,17 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="linje" placeholder="Enter title of education">
+                                    <input type="text" class="form-control" id="linje" placeholder="Enter title of education*">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="skolename" placeholder="Enter name of institute">
+                                    <input type="text" class="form-control" id="skolename" placeholder="Enter name of institute*">
                                 </div>
                             </div> <!-- end col -->
                         </div> <!-- end row -->
                         <div class="text-right">
+                            <span id="danger_skole" class="text-danger"></span>
                             <button type="submit" id="submitSkole" class="btn btn-success buttons waves-effect waves-light mt-1 mb-3"><i class="mdi mdi-content-save"></i> Add</button>
                         </div>
                         <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-format-list-checkbox mr-1"></i>Add / Edit Skills</h5>
@@ -359,6 +368,7 @@
 
                             </div> <!-- end row -->
                         <div class="text-right">
+                            <span id="danger_skills" class="text-danger"></span>
                             <button id="addSkillButton" class="btn btn-success buttons waves-effect waves-light mt-2 mb-3" onclick="addSlider('skillsEdit')"><i class="fas fa-plus"></i> Add</button>
                             <button id="submitSkillButton" class="btn btn-success buttons waves-effect waves-light mt-2 mb-3" onclick="registrerSliders('@BrukerInnhold.Id','skillsEdit')"><i class="mdi mdi-content-save"></i> Save</button>
                         </div>
@@ -412,6 +422,7 @@
 
 
                         <div class="text-right">
+                            <span id="danger_språk" class="text-danger"></span>
                             <button id="addSkillButton" class="btn btn-success buttons waves-effect waves-light mt-2" onclick="addSlider('språkEdit')"><i class="fas fa-plus"></i> Add</button>
                             <button id="submitSkillButton" class="btn btn-success buttons waves-effect waves-light mt-2" onclick="registrerSliders('@BrukerInnhold.Id', 'språkEdit')"><i class="mdi mdi-content-save"></i> Save</button>
                         </div>
@@ -504,23 +515,34 @@
         var Slider ="";
         var Bar = "";
         var kategori = "";
+        var danger = "";
         if (type == "skillsEdit") {
             Slider = "skillSlider";
             Bar = "skillbar";
             kategori = "Ferdigheter";
+            danger = "danger_skills"
         }
         else if (type == "språkEdit") {
              Slider = "språkSlider";
              Bar = "språkbar";
-             kategori = "Språk";
+            kategori = "Språk";
+            danger = "danger_språk"
         }
         for (i = 0; i < antall; i += 2) {
             var nySlider = Slider + i;
             var nyBar = Bar + i;
             var slid = document.getElementById(nySlider).value + "%";
-           var tek = document.getElementById(nyBar).value;
+            var tek = document.getElementById(nyBar).value;
+
+            if (slid == "" || tek == "") {
+                var text = document.createTextNode("Please fill in all inputs!");
+                document.getElementById(danger).appendChild(text);
+                return;
+            }
+
             arr[i] = tek;
             arr[i + 1] = slid;
+
         }
 
         saveEdit(brukerID, kategori, "0", "", "", "", "", "", arr);
@@ -575,34 +597,64 @@
           });
         }
     }
-    function onEdit(type, index, årDatDiv, årFra, årTil,tittel, bedrift, bio, submitKnapp) {
+        function onEdit(type, index, årDatDiv, årFra, årTil, tittel, bedrift, bio, submitKnapp) {
+
         document.getElementById(submitKnapp).style.display = "inline";
         var tittVerdi = document.getElementById(tittel).innerHTML;
-        var bedVerdi = document.getElementById(bedrift).innerHTML;
-        document.getElementById(tittel).outerHTML = "</br><input id=" +tittel+" value='" + tittVerdi+ "' class='mt-0 mb-1'/></br>";
-        document.getElementById(bedrift).outerHTML = "<input id=" + bedrift +" value='" + bedVerdi + "' /></br>";
-        document.getElementById(årDatDiv).outerHTML = "<input id='" + (årFra + index) + "' value='" + årFra + "' /> - <input id='" + (årTil + index) + "' value='" + (årTil + index) + "' /></br>";
+            var bedVerdi = document.getElementById(bedrift).innerHTML;
+
+            var årF1 = String(årFra);
+            var årf = årF1.replace(".", "-");
+            var årF2 = String(årTil);
+            var årT = årF2.replace(".", "-");
+
+        document.getElementById(tittel).outerHTML = "</br><input id=" +tittel+" value='" + tittVerdi+ "' class='mt-0 mb-1 form-control col-6'/></br>";
+        document.getElementById(bedrift).outerHTML = "<input id=" + bedrift +" value='" + bedVerdi + "' class='form-control col-6' /></br>";
+            document.getElementById(årDatDiv).outerHTML = "<div class='row'><div class='col-4'><input class='form-control' id='" + (årFra + index) + "' value='" + årf +"' type='month' /></div> - <div class='col-4'><input class='form-control' id='" + (årTil + index) + "'  value='"+årT+"' type='month' /></br></div></div>";
         if (type == "ArbeidsErfaring") {
             var biVerdi = document.getElementById(bio).innerHTML;
-            document.getElementById(bio).outerHTML = "<textarea id=" + bio + " class='text-muted mt-2' rows='3' cols='50'>" + biVerdi + "</textarea>";
+            document.getElementById(bio).outerHTML = "<textarea class='form-control' id=" + bio + " class='text-muted mt-2' rows='3' cols='50'>" + biVerdi + "</textarea>";
         }
     }
     function saveEdit(bruker, felt, index, årFra, årTil, tittel, bedrift, bio, array) {
         var bion = '';
         var fra ='';
         var til = '';
+        var årf ='';
+        var årT = '';
+        var spanField = "spanU"; 
+
         if (felt != "Ferdigheter" && felt != "Språk") {
          fra = document.getElementById(årFra);
-         til = document.getElementById(årTil);
+            til = document.getElementById(årTil);
+            var årF1 = String(fra.value);
+            var årf = årF1.replace("-", ".");
+            var årF2 = String(til.value);
+            var årT = årF2.replace("-", ".");
         }
-        if (felt == "ArbeidsErfaring")
+        if (felt == "ArbeidsErfaring") {
             bion = bio.value;
+            spanField = "spanA"; 
+            if (bion == "") {
+                var text = document.createTextNode("Please fill in all inputs!");
+                document.getElementById(index+spanField).appendChild(text);
+                return;
+            }
+
+        }
+
+
+        if (tittel.value == "" || bedrift.value == "") {
+            var text = document.createTextNode("Please fill in all inputs!");
+            document.getElementById(index + spanField).appendChild(text);
+            return;
+        }
         var json = {
              "bruker": bruker,
             "felt": felt,
               "index": index,
-              "årFra": fra.value,
-              "årTil": til.value,
+              "årFra": årf,
+              "årTil": årT,
               "tittel": tittel.value,
               "bedrift": bedrift.value,
             "bio": bion,
@@ -617,7 +669,7 @@
                 if (result.status == "ok")
                     if(felt != "Ferdigheter" && felt != "Språk")
                         window.location.reload();
-                alert("You saved succesfully!");
+
             }
         });
         //alert("third");
@@ -633,78 +685,83 @@
 
         event.preventDefault();
         var felt = "Arbeidserfaring";
-        var startÅr = $('#startYearA').val();
-        var sluttÅr = $('#endYearA').val();
+            var startÅr = $('#startYearA').val().replace("-", ".");
+            var sluttÅr = $('#endYearA').val().replace("-", ".");
+
+          //  var splittmånedStart = startÅ.split("-");
+           // var splittmånedSlutt = sluttÅ.split("-")
+          // var startÅr = res[0] + "."+res[1];
+
+
         var jobbTittel = $('#jobTitleA').val();
         var bedriftNavn = $('#companyNameA').val();
-        var jobbBeskrivelse = $('#userbio').val();
-        var jsonJobb = {
-        "felt": felt,
-        "par1": startÅr,
-        "par2": sluttÅr,
-        "par3": jobbTittel,
-        "par4": bedriftNavn,
-        "par5": jobbBeskrivelse
-        };
-        ajaxUpload(jsonJobb);
+            var jobbBeskrivelse = $('#userbio').val();
+            if (startÅr == "" || sluttÅr == "" || jobbTittel == "" || bedriftNavn == "" || jobbBeskrivelse == "") {
+                var text = document.createTextNode("Please fill in all inputs!");
+                document.getElementById("danger_arbeid").appendChild(text); 
+                return; 
+            }
+            else {
+                $('.toast').toast('show');
+                document.getElementById("toast").style.display = "inline";
+                document.getElementById("toast-body").innerHTML = "Added new education!";
+
+                $('#startYearA').val("");
+                $('#endYearA').val("");
+                $('#jobTitleA').val("");
+                $('#companyNameA').val("");
+                $('#userbio').val("");
+
+                var jsonJobb = {
+                 "felt": felt,
+                 "par1": startÅr,
+                  "par2": sluttÅr,
+                 "par3": jobbTittel,
+                 "par4": bedriftNavn,
+                 "par5": jobbBeskrivelse
+                };
+
+                ajaxUpload(jsonJobb);
+            }
         });
+
         document.getElementById("submitSkole").addEventListener('click', function (event) {
-
-        $('.toast').toast('show');
-        document.getElementById("toast").style.display = "inline";
-        document.getElementById("toast-body").innerHTML = "Added new education!";
-
+            
         event.preventDefault();
         var felt = "Utdanning";
-        var startÅr = $('#startYearU').val();
-        var sluttÅr = $('#endYearU').val();
+        var startÅr = $('#startYearU').val().replace("-", ".");
+        var sluttÅr = $('#endYearU').val().replace("-", ".");
+
         var jobbTittel = $('#linje').val();
-        var bedriftNavn = $('#skolename').val();
-        var jsonJobb = {
-        "felt": felt,
-        "par1": startÅr,
-        "par2": sluttÅr,
-        "par3": jobbTittel,
-        "par4": bedriftNavn,
-        "par5": ""
-        };
-        ajaxUpload(jsonJobb);
-        });
-        document.getElementById("submitSkill").addEventListener('click', function (event) {
+            var bedriftNavn = $('#skolename').val();
+
+            if (startÅr == "" || sluttÅr == "" || jobbTittel == "" || bedriftNavn == "") {
+                var text = document.createTextNode("Please fill in all inputs!");
+                document.getElementById("danger_skole").appendChild(text);
+                return;
+            } else {
 
                 $('.toast').toast('show');
                 document.getElementById("toast").style.display = "inline";
-                document.getElementById("toast-body").innerHTML = "Added/Edited skills successfull!";
+                document.getElementById("toast-body").innerHTML = "Added new education!";
+               $('#startYearU').val("");
+                $('#endYearU').val("");
+                $('#linje').val("");
+                $('#skolename').val("");
+                 var jsonJobb = {
+                   "felt": felt,
+                   "par1": startÅr,
+                   "par2": sluttÅr,
+                   "par3": jobbTittel,
+                   "par4": bedriftNavn,
+                   "par5": ""
+                };
+    
+                ajaxUpload(jsonJobb);
+          
+                }
+        });
 
-                event.preventDefault();
-                var felt = "Ferdigheter";
-                var startÅr = $('#skillSlider').val() + "%";
-                var sluttÅr = $('#skillbar').val();
-                var jsonJobb = {
-                    "felt": felt,
-                    "par1": sluttÅr,
-                    "par2": startÅr,
-                    "par3": "",
-                    "par4": "",
-                    "par5": ""
-                };
-                ajaxUpload(jsonJobb);
-            });
-            document.getElementById("submitSpråk").addEventListener('click', function (event) {
-                event.preventDefault();
-                var felt = "Språk";
-                var startÅr = $('#språkbar').val();
-                var sluttÅr = $('#språkSlider').val() + "%";
-                var jsonJobb = {
-                    "felt": felt,
-                    "par1": startÅr,
-                    "par2": sluttÅr,
-                    "par3": "",
-                    "par4": "",
-                    "par5": ""
-                };
-                ajaxUpload(jsonJobb);
-            });
 
             function ajaxUpload(json) {
              $.ajax({
@@ -713,7 +770,7 @@
                     data: json,
                     dataType: "json",
                     success: function (result) {
-
+                    
         }
         });
         }

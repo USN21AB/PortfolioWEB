@@ -225,14 +225,14 @@ namespace Portefolio_webApp.Controllers
             Debug.WriteLine("-----------------Let start here " + oppBruker.Navn);
 
             if (string.IsNullOrEmpty(oppBruker.Id))
-                    {
+                    { //CREATE 
                        Debug.WriteLine("----------------- YOU BETTER NOT BE IN HERE, BITACH"); 
                         
                         string logginnID = logg.Register(oppBruker.Email, password).Result;
                         string[] splittArr = logginnID.Split("|");
 
                         oppBruker.Id = splittArr[0];
-                        oppBruker.Password = null;
+                        
 
                         HttpContext.Session.SetString("_UserID", splittArr[0]);
                         HttpContext.Session.SetString("_UserToken", splittArr[1]);
@@ -252,30 +252,30 @@ namespace Portefolio_webApp.Controllers
 
                     }
                     else
-                    {
+                    { //OPPDATERER
                         Debug.WriteLine("----------------- Your doing an update?" );
                         firebase.OppdaterBruker(oppBruker);
-                        var str = HttpContext.Session.GetString("Innlogget_Bruker");
-                        var innBruker = JsonConvert.DeserializeObject<Bruker>(str);
-                        firebase.OppdaterAuth(innBruker.Email,oppBruker.Email, password, GammelPassword); 
+                        
+                        var innBruker = JsonConvert.DeserializeObject<Bruker>(HttpContext.Session.GetString("Innlogget_Bruker"));
+
+                        //firebase.OppdaterAuth(innBruker.Email,oppBruker.Email, GammelPassword, password); 
                         ModelState.AddModelError(string.Empty, "Oppdatert suksessfult!");
-                    }
+                    } //Slutt på if
+
 
                     if (file != null)
                     {
                         Console.WriteLine("" + file.FileName);
-                        UploadFile(file, oHostingEnvironment, oppBruker.Id);
+                        UploadFile(file, oHostingEnvironment, oppBruker.Id); //Sender til db. En annen metode for å lagre lokalt
                     }
 
 
 
-            if (HttpContext.Session.GetString("Innlogget_Bruker") != null)
-            {
-                var str = HttpContext.Session.GetString("Innlogget_Bruker");
-                var innBruker = JsonConvert.DeserializeObject<Bruker>(str);
+            var str = JsonConvert.SerializeObject(oppBruker);
+            HttpContext.Session.SetString("Innlogget_Bruker", str);
 
-                ViewData["Innlogget_Bruker"] = innBruker;
-            }
+            ViewData["Innlogget_Bruker"] = oppBruker;
+           
 
             return RedirectToAction("BrowseSide", "Home");
         }
@@ -309,7 +309,7 @@ namespace Portefolio_webApp.Controllers
         [HttpPost]
         public JsonResult LeggTilCV(string felt, string par1, string par2, string par3, string par4, string par5)
         {
-            Debug.WriteLine("---------------------------------yo ");
+            
             Bruker = firebase.HentEnkeltBruker(HttpContext.Session.GetString("_UserID"));
 
             if (felt == "Arbeidserfaring")
@@ -322,6 +322,7 @@ namespace Portefolio_webApp.Controllers
             }
             else if (felt == "Utdanning")
             {
+          
                 Bruker.CV.Utdanning.Add(par1);
                 Bruker.CV.Utdanning.Add(par2);
                 Bruker.CV.Utdanning.Add(par3);
@@ -339,6 +340,7 @@ namespace Portefolio_webApp.Controllers
             }
 
             firebase.OppdaterBruker(Bruker);
+     
             var resultat = "Jobberfaring oppdatert: " + par1 + " " + par2;
             var data = new { status = "ok", result = resultat };
 

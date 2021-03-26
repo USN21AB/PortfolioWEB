@@ -216,8 +216,11 @@ namespace Test1.Models
 
         public void OppdaterAuth(string gammelEmail, string Email, string Password, string GammelPassord)
         {
-           
-            klient.ChangeEmail(gammelEmail, Email, Password);
+            Debug.WriteLine("--------------- jeg oppdater auth: " + gammelEmail + " " + Email +" " + Password + " " + GammelPassord);
+            //klient.ChangeEmail("", Email, Password);
+            
+            
+          //  if(Password != "")
             klient.ChangePassword(Email,GammelPassord, Password);
             
         }
