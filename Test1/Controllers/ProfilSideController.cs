@@ -163,9 +163,10 @@ namespace Portefolio_webApp.Controllers
 
         [HttpPost]
         [RequestSizeLimit(4294967295)]
-        public async Task<ActionResult> UploadFile(IFormFile file, [FromServices] IHostingEnvironment oHostingEnvironment, string brukerId)
+        public async Task<ActionResult> UploadFile(IFormFile file, [FromServices] IHostingEnvironment oHostingEnvironment, string brukerId, Bruker Oppbruker, string passord, string name)
         {
 
+          
 
 
             Console.WriteLine("ACTIVATED;;;;;;;");
@@ -182,8 +183,9 @@ namespace Portefolio_webApp.Controllers
 
 
             }
-
+            UpsertBruker(Oppbruker, passord, name, file, oHostingEnvironment);
             await firebase.UploadProfilBilde($"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{file.FileName}", file, brukerId);
+           
 
 
 
@@ -262,7 +264,7 @@ namespace Portefolio_webApp.Controllers
                     if (file != null)
                     {
                         Console.WriteLine("" + file.FileName);
-                        UploadFile(file, oHostingEnvironment, oppBruker.Id);
+                        
                     }
 
 
