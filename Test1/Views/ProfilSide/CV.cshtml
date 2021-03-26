@@ -10,8 +10,9 @@
 
 <style>
     .editClass {
-        border: solid;
-        padding:5px;
+        border: solid grey;
+        padding: 5px;
+        border-radius: 8px;
     }
 </style>
 
@@ -144,19 +145,32 @@
                                     <div id="@(arID)" onmouseover="@(BrukerInnhold.Id == (string)ViewData["Innlogget_ID"]? "addEdit('"+@arID+"','"+@arID+"button','"+@arID+"buttonRed')":"") "  onmouseout="@(BrukerInnhold.Id == (string)ViewData["Innlogget_ID"]? "removeEdit('"+@arID+"','"+@arID+"button','"+@arID+"buttonRed')":"")  ">
                                         <ul class="list-unstyled timeline-sm">
                                             <li class="timeline-sm-item">
-                                                <span class="timeline-sm-date" id="arDato@(arID)">
-                                                    <u>@ArbeidsErfaringÅrStart - @ArbeidsErfaringÅrSlutt </u> <button id="@(arID)button" style="position:absolute; right:6%; display:none;" onclick="onDelete('@arID', @antallArbeidsErfaring, 'ArbeidsErfaring')"><i class="fas fa-window-close fa-lg"></i></button>
-                                                    <button id="@(arID)buttonRed" style="position:absolute; right:11%; display:none;" onclick="onEdit('ArbeidsErfaring', @antallArbeidsErfaring,
-                                    'arDato@(arID)',@ArbeidsErfaringÅrStart,@ArbeidsErfaringÅrSlutt, 'arTittel@(arID)', 'arbedrift@(arID)', 'arBio@(arID)', 'submitArbeid@(arID)')">
-                                                    <i class="fas fa-pencil-alt fa-lg"></i>
-                                                </button>
-                                            </span>
-                                            <h5 id="arTittel@(arID)" class="mt-0 mb-1">@ArbeidsErfaringTittel</h5>
-                                            <p id="arbedrift@(arID)">@ArbeidsErfaringBedrift</p>
-                                            <p id="arBio@(arID)" class="text-muted mt-2">
-                                                @ArbeidsErfaringBeskrivelse
-                                            </p>
-                                        </li>
+                                                <div class="row">
+                                                    <div class="col-10">
+                                                        <span class="timeline-sm-date" id="arDato@(arID)">
+                                                            <u>@ArbeidsErfaringÅrStart - @ArbeidsErfaringÅrSlutt </u>
+                                                        </span>
+                                                    </div>
+                                                    <div class="col-2" style="padding-right:30px;">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <button id="@(arID)button" class="btn btn-light" style="position:absolute; right:6%; display:none;" onclick="onDelete('@arID', @antallArbeidsErfaring, 'ArbeidsErfaring')"><i class="fas fa-window-close fa-lg"></i></button>
+                                                            </div>
+                                                            <div class="col">
+                                                                <button id="@(arID)buttonRed" class="btn btn-light" style="position:absolute; right:11%; display:none;" onclick="onEdit('ArbeidsErfaring', @antallArbeidsErfaring,
+                                                    'arDato@(arID)',@ArbeidsErfaringÅrStart,@ArbeidsErfaringÅrSlutt, 'arTittel@(arID)', 'arbedrift@(arID)', 'arBio@(arID)', 'submitArbeid@(arID)')">
+                                                                    <i class="fas fa-pencil-alt fa-lg"></i>
+                                                                </button>
+                                                            </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <h5 id="arTittel@(arID)" class="mt-0 mb-1">@ArbeidsErfaringTittel</h5>
+                                                    <p id="arbedrift@(arID)">@ArbeidsErfaringBedrift</p>
+                                                    <p id="arBio@(arID)" class="text-muted mt-2">
+                                                        @ArbeidsErfaringBeskrivelse
+                                                    </p>
+</li>
                                     </ul>
                                         <div class="text-right">
                                             <span id="@(antallArbeidsErfaring)spanA" class="text-danger"></span>
@@ -191,17 +205,33 @@
                                     <div id="@(utID)" onmouseover="@(BrukerInnhold.Id == (string)ViewData["Innlogget_ID"]? "addEdit('"+@utID+"','"+@utID+"button','"+@utID+"buttonRedUT')":"")" onmouseout="@(BrukerInnhold.Id == (string)ViewData["Innlogget_ID"]? "removeEdit('"+@utID+"','"+@utID+"button','"+@utID+"buttonRedUT')":"")">
                                         <ul class="list-unstyled timeline-sm">
                                             <li class="timeline-sm-item">
-                                                <span class="timeline-sm-date" id="utDato@(utID)">
-                                                    <u>@UtdanningÅrStart - @UtdanningÅrSlutt</u>
-                                                    <button id="@(utID)buttonRedUT" style="position:absolute; right:11%; display:none;" onclick="onEdit('Utdanning', @antallUtdanning, 'utDato@(utID)',
-                                @UtdanningÅrStart,@UtdanningÅrSlutt, 'utGrad@(utID)', 'utSted@(utID)', '', 'submitUtdanning@(utID)')">
-                                                    <i class="fas fa-pencil-alt fa-lg"></i>
-                                                </button>
-                                                <button id="@(utID)button" style="position:absolute; right:6%; display:none;" onclick="onDelete('@utID',   @(antallUtdanning), 'Utdanning')"><i class="fas fa-window-close fa-lg"></i></button>
-                                            </span>
-                                            <h5 class="mt-0 mb-1" id="utGrad@(utID)">@UtdanningGrad</h5>
-                                            <p id="utSted@(utID)">@UtdanningInstitusjon</p>
-                                        </li>
+                                                <div class="row">
+                                                    <div class="col-10">
+                                                        <span class="timeline-sm-date" id="utDato@(utID)">
+                                                            <u>@UtdanningÅrStart - @UtdanningÅrSlutt</u>
+                                                        </span>
+                                                    </div>
+                                                    <div class="col-2" style="padding-right:30px;">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <button id="@(utID)buttonRedUT" class="btn btn-light" style="position:absolute; right:11%; display:none;" onclick="onEdit('Utdanning', @antallUtdanning, 'utDato@(utID)',
+                                                                  @UtdanningÅrStart,@UtdanningÅrSlutt, 'utGrad@(utID)', 'utSted@(utID)', '', 'submitUtdanning@(utID)')">
+                                                                    <i class="fas fa-pencil-alt fa-lg"></i>
+                                                                </button>
+                                                            </div>
+                                                            <div class="col">
+                                                                <button id="@(utID)button" class="btn btn-light" style="position:absolute; right:6%; display:none;"
+                                                                        onclick="onDelete('@utID',@(antallUtdanning), 'Utdanning')">
+                                                                    <i class="fas fa-window-close fa-lg"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    </div>
+                                                <h5 class="mt-0 mb-1" id="utGrad@(utID)">@UtdanningGrad</h5>
+                                                <p id="utSted@(utID)">@UtdanningInstitusjon</p>
+                                            </li>
                                     </ul>
                                         <div class="text-right">
                                             <span id="@(antallUtdanning)spanU" class="text-danger"></span>
