@@ -69,7 +69,7 @@ namespace Test1.Models
             return AlleInnlegg;
         }
 
-        public async Task UploadInnleggFile(string filename, IFormFile file, string brukerId)
+        public async Task UploadInnleggFile(string filename, IFormFile file, Innlegg innlegg)
         {
 
 
@@ -96,8 +96,13 @@ namespace Test1.Models
             
             Console.WriteLine("Link " + downloadUrl);
 
-
-            klient.Set("Innlegg/" + brukerId + "/IkonURL", downloadUrl);
+            var data = innlegg;
+            data.IkonURL = downloadUrl;
+            PushResponse respons = klient.Push("Innlegg/", data);
+            data.Id = respons.Result.name;
+            SetResponse setResponse = klient.Set("Innlegg/" + data.Id, data);
+            
+            
         }
 
 

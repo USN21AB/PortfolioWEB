@@ -128,39 +128,6 @@ namespace Portefolio_webApp.Controllers
         }
 
 
-
-
-
-[HttpPost]
-        [RequestSizeLimit(4294967295)]
-        public async Task<ActionResult> UploadInnleggFile(IFormFile file, [FromServices] IHostingEnvironment oHostingEnvironment, string brukerId)
-        {
-
-           
-
-            Console.WriteLine("ACTIVATED;;;;;;;");
-            string filename = $"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{file.FileName}";
-            
-
-            using (FileStream fileStream = System.IO.File.Create(filename))
-            {
-
-                file.CopyTo(fileStream);
-                fileStream.Flush();
-                fileStream.Close();
-               
-            
-
-            }
-
-            await firebase.UploadInnleggFile($"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{file.FileName}", file, brukerId);
-
-
-
-
-            return View();
-        }
-
         [HttpPost]
         [RequestSizeLimit(4294967295)]
         public async Task<ActionResult> UploadFile(IFormFile file, [FromServices] IHostingEnvironment oHostingEnvironment, string brukerId, Bruker Oppbruker, string passord, string name)
