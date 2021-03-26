@@ -217,3 +217,12 @@ body {
     right: 0;
     top: 0;
 }
+#søkefelt {
+    width: 100%;
+}
+.searchcontainer {
+    margin: auto;
+    width: 40%;
+    margin-top: 20px;
+}
+
