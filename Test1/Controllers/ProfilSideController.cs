@@ -251,8 +251,6 @@ namespace Portefolio_webApp.Controllers
                             oppBruker.Mapper = new List<Portfolio>();
                             firebase.RegistrerBruker(oppBruker);
                         }
-
-
                     }
                     else
                     {
@@ -266,6 +264,7 @@ namespace Portefolio_webApp.Controllers
                         Console.WriteLine("" + file.FileName);
                         
                     }
+                    
 
 
         
