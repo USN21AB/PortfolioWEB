@@ -8,5 +8,7 @@ namespace Portefolio_webApp.Models
     public class TekstInnlegg : Innlegg
     {
         public string Innhold { get; set; }
+
+        public string CoverURL { get; set; }
     }
 }

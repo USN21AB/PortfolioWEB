@@ -8,5 +8,7 @@ namespace Portefolio_webApp.Models
     public class MusikkInnlegg : Innlegg
     {
         public  string StorageURL { get; set; }
+
+        public string CoverURL { get; set; }
     }
 }

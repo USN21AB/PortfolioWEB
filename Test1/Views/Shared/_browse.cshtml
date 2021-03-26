@@ -1,5 +1,5 @@
 ﻿<link href="~/css/_browse.css" rel="stylesheet" />
-<link href="~/css/PorteføljeElementer.css" rel="stylesheet" />
+<link href="~/css/PorteføljeElementer.css?v=1" rel="stylesheet" />
 <script src="~/js/lyd.js">
 
 </script>
@@ -22,7 +22,9 @@
     @while (antall < liste.Count)
     {
         var Innlegg = liste.ElementAt(antall);
-        if (Innlegg.Kategori.Equals("Tekst"))
+        if (Innlegg.Kategori == null)
+        { }
+        else if (Innlegg.Kategori.Equals("Tekst"))
         {
             <div class="litteratur">
                 <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id class="card-link">
@@ -77,4 +79,6 @@
 
         antall++;
     }
+
+
 

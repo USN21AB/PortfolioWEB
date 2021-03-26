@@ -143,5 +143,77 @@ body {
     transition: top 0.8s;
 }
 .profilbtn {
+    height: 35px;
+    max-width: 350px;
+    text-align: right;
+    font-family:'Modern No. 20';
+    font-size: 18px;
+    color: white;
+    right: 12px;
+    display: inline;
+    
+
+}
+.profilbtnbilde {
     object-fit: cover;
+    display: inline;
+    top: 0;
+    right: 0;
+    width: 35px;
+    height: 35px;
+}
+.dropdown-menu {
+    padding: 0;
+    width: 150px;
+    right: 50px;
+    margin-top: 12px;
+    background-color: #384352;
+    font-family: 'Modern No. 20';
+    font-weight: 100;
+}
+.dropdown-item {
+    padding: 1px;
+    margin-right: 0px;
+    color: #fff;
+    font-weight: 100;
+}
+.dropdown {
+    margin: 0;
+    padding: 0;
+}
+.hrdropdown {
+    width: 80px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.ikon {
+    margin-left: 10px;
+}
+.ikontekst {
+    text-align: right;
+    float: right;
+    margin-right: 10px;
+    display: inline;
+}
+
+.btn:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.bruker-navn {
+    max-width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.profilbtndiv {
+    display: inline;
+}
+
+.dropdown-toggle {
+    display: inline;
+    right: 0;
+    top: 0;
 }
