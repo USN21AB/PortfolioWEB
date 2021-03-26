@@ -79,11 +79,11 @@ namespace Test1.Models
             }
 
             var stream1 = File.Open(@filename, FileMode.Open);
-
+            var data = innlegg;
 
             // Constructr FirebaseStorage, path to where you want to upload the file and Put it there
             var task = new FirebaseStorage("bachelor-it-97124.appspot.com")
-            .Child("images")
+            .Child(data.Kategori)
             .Child(file.FileName)
             .PutAsync(stream1);
 
@@ -96,7 +96,7 @@ namespace Test1.Models
             
             Console.WriteLine("Link " + downloadUrl);
 
-            var data = innlegg;
+           
             data.IkonURL = downloadUrl;
             PushResponse respons = klient.Push("Innlegg/", data);
             data.Id = respons.Result.name;
