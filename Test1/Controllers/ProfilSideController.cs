@@ -128,44 +128,12 @@ namespace Portefolio_webApp.Controllers
         }
 
 
-
-
-
-[HttpPost]
-        [RequestSizeLimit(4294967295)]
-        public async Task<ActionResult> UploadInnleggFile(IFormFile file, [FromServices] IHostingEnvironment oHostingEnvironment, string brukerId)
-        {
-
-           
-
-            Console.WriteLine("ACTIVATED;;;;;;;");
-            string filename = $"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{file.FileName}";
-            
-
-            using (FileStream fileStream = System.IO.File.Create(filename))
-            {
-
-                file.CopyTo(fileStream);
-                fileStream.Flush();
-                fileStream.Close();
-               
-            
-
-            }
-
-            await firebase.UploadInnleggFile($"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{file.FileName}", file, brukerId);
-
-
-
-
-            return View();
-        }
-
         [HttpPost]
         [RequestSizeLimit(4294967295)]
-        public async Task<ActionResult> UploadFile(IFormFile file, [FromServices] IHostingEnvironment oHostingEnvironment, string brukerId)
+        public async Task<ActionResult> UploadFile(IFormFile file, [FromServices] IHostingEnvironment oHostingEnvironment, string brukerId, Bruker Oppbruker, string passord, string name)
         {
 
+          
 
 
             Console.WriteLine("ACTIVATED;;;;;;;");
@@ -182,8 +150,9 @@ namespace Portefolio_webApp.Controllers
 
 
             }
-
+            UpsertBruker(Oppbruker, passord, name, file, oHostingEnvironment);
             await firebase.UploadProfilBilde($"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{file.FileName}", file, brukerId);
+           
 
 
 
@@ -249,8 +218,6 @@ namespace Portefolio_webApp.Controllers
                             oppBruker.Mapper = new List<Portfolio>();
                             firebase.RegistrerBruker(oppBruker);
                         }
-
-
                     }
                     else
                     {
@@ -262,8 +229,9 @@ namespace Portefolio_webApp.Controllers
                     if (file != null)
                     {
                         Console.WriteLine("" + file.FileName);
-                        UploadFile(file, oHostingEnvironment, oppBruker.Id);
+                        
                     }
+                    
 
 
         
