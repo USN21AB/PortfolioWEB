@@ -1,8 +1,8 @@
 ﻿<link href="~/css/_browse.css" rel="stylesheet" />
 <link href="~/css/PorteføljeElementer.css?v=1" rel="stylesheet" />
-<script src="~/js/lyd.js">
+<script src="~/js/lyd.js"></script>
+<link href="~/css/Musikkontroller.css" rel="stylesheet" />
 
-</script>
 @model Portefolio_webApp.Models.Innlegg;
 @*
 
@@ -19,66 +19,91 @@
 }
 
 
-    @while (antall < liste.Count)
+@while (antall < liste.Count)
+{
+    var Innlegg = liste.ElementAt(antall);
+    if (Innlegg.Kategori == null)
+    { }
+    else if (Innlegg.Kategori.Equals("Tekst"))
     {
-        var Innlegg = liste.ElementAt(antall);
-        if (Innlegg.Kategori == null)
-        { }
-        else if (Innlegg.Kategori.Equals("Tekst"))
-        {
-            <div class="litteratur">
-                <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id class="card-link">
-                    <img class="book_cover imge" src="https://m.media-amazon.com/images/I/514FIoHpsmL.jpg" />
-                    <h3 class="tittel">@Innlegg.Tittel</h3>
-                    <h4 class="forfatter">@Innlegg.Kategori</h4>
-                </a>
-            </div>
-        }
-        else if (Innlegg.Kategori.Equals("Lyd"))
-        {
+        <div class="litteratur">
+            <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id class="card-link">
+                <img class="book_cover imge" src="https://m.media-amazon.com/images/I/514FIoHpsmL.jpg" />
+                <h3 class="tittel">@Innlegg.Beskrivelse</h3>
+                <h4 class="forfatter">@Innlegg.Kategori</h4>
+            </a>
+        </div>
+    }
+    else if (Innlegg.Kategori.Equals("Lyd"))
+    {
 
-            <div class="music_player">
-                <img id="sangi" class="play_button shadowed" src="../resources/icons8-play-96.png" onclick='spillAv("sang", this.id); visSang("sangnavn", "artist")' />
-                <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id class="card-link">
-                    <div class="play_button_div"></div>
+        <div class="music_player">
+            <img id="sang-@Innlegg.Id" class="play_button shadowed" src="../resources/icons8-play-96.png" onclick='spillAv("sangaudio-@Innlegg.Id", this.id); visSang("sangnavn-@Innlegg.Id", "artist-@Innlegg.Id")' />
+            <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id class="card-link">
+                <div class="play_button_div"></div>
 
 
-                    <img  class="fuck imge" src="@Innlegg.IkonURL" />
+                <img class="fuck imge" src="#" alt=""/>
 
-                </a>
+            </a>
 
 
-                <audio id="sang" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2FPok%C3%A9mon%20Theme%20Song.mp3?alt=media&token=bccacd1c-ed6a-4050-8745-b1ee3bb50f96"></audio>
-                <p id="sangnavn">@Innlegg.Tittel</p>
-                <p id="artist">@Innlegg.Kategori</p>
+            <audio id="sangaudio-@Innlegg.Id" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="@Innlegg.IkonURL"></audio>
+            <p id="sangnavn-@Innlegg.Id">@Innlegg.Tittel</p>
+            <p id="artist-@Innlegg.Id">@Innlegg.Kategori</p>
 
 
 
 
-            </div>
+        </div>
 
-        }
-
-        else if (Innlegg.Kategori.Equals("Bilde"))
-        {
-
-            <div class="single-awesome-portfolio">
-                <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id>
-                    <div class="awesome-img">
-                        <div class="awesome-info">
-                            <h3>@Innlegg.Beskrivelse</h3>
-                            <p>@Innlegg.Tittel</p>
-                        </div>
-                        <img class="imge" src="@Innlegg.IkonURL" alt="">
-                    </div>
-
-                </a>
-            </div>
-
-        }
-
-        antall++;
     }
 
+    else if (Innlegg.Kategori.Equals("Bilde"))
+    {
+
+        <div class="single-awesome-portfolio">
+            <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id>
+                <div class="awesome-img">
+                    <div class="awesome-info">
+                        <h3>@Innlegg.Tittel</h3>
+                        <p>@Innlegg.Beskrivelse</p>
+                    </div>
+                    <img class="imge" src="@Innlegg.IkonURL" alt="">
+                </div>
+
+            </a>
+        </div>
+
+    }
+
+    antall++;
+}
 
 
+
+<div class="musikk_kontroller" id="test">
+    <span id="sangfelt"></span>
+    <span id="artistfelt"></span>
+
+    <span id="tracktime">00:00</span>
+    <progress id="seekbar" value="0" max="100"></progress>
+    <span id="trackduration">00:00</span>
+
+    <img class="stopper" src="../resources/icons8-pause-96.png" onclick="stopAll()" />
+
+    <input type="range" id="volume-control" value="5" min="0" max="10" onload="volum(this.value)" onchange="volum(this.value)">
+</div>
+
+<svg height="0" xmlns="http://www.w3.org/2000/svg">
+    <filter id="drop-shadow">
+        <feGaussianBlur in="SourceAlpha" stdDeviation="4" />
+        <feOffset dx="4" dy="4" result="offsetblur" />
+        <feFlood flood-color="rgba(0,0,0,0.8)" />
+        <feComposite in2="offsetblur" operator="in" />
+        <feMerge>
+            <feMergeNode />
+            <feMergeNode in="SourceGraphic" />
+        </feMerge>
+    </filter>
+</svg>
