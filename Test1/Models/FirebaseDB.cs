@@ -96,7 +96,6 @@ namespace Test1.Models
             
             Console.WriteLine("Link " + downloadUrl);
 
-           
             data.IkonURL = downloadUrl;
             PushResponse respons = klient.Push("Innlegg/", data);
             data.Id = respons.Result.name;
