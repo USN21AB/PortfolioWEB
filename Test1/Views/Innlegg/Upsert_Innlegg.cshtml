@@ -221,6 +221,7 @@
         });
     });
 
+
     function fileValidation() {
         var file = document.getElementById("input-file").value;
 
@@ -366,7 +367,6 @@
         document.getElementById("mappe").value = valgt;
     }
 
-
     
 </script>
 
@@ -440,7 +440,7 @@
 
         <div class="form-group row">
             <div class="col-3">
-                <label >monkey</label>
+                <label>monkey</label>
             </div>
 
             <ul class="nav nav-pills nav-fill folder-nav tabs">
@@ -449,7 +449,7 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <div class="folder-design chosen" onclick='mappeValg("mappe1")'>
+                    <div class="folder-design chosen" id="chosen" onclick='mappeValg("mappe1")'>
                         <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190271077646336/Portfollowers_tekst.png" />
                         <span id="mappe1" class="folder-navn">Castlevania karakterer</span>
                     </div>
@@ -470,8 +470,8 @@
         </div>
         <div class="form-group row" style="display:none">
 
-            <div class="col-3" >
-                <label >donkey</label>
+            <div class="col-3">
+                <label>donkey</label>
             </div>
             <div class="col-8">
                 <input type="text" class="form-control" id="mappe" required />
@@ -496,25 +496,32 @@
                 <span asp-validation-for="Beskrivelse" class="text-danger"></span>
             </div>
         </div>
-
-
-        <div class="form-group row">
-            <div class="col-3">
-                <label asp-for="Tagger"></label>
-            </div>
-            <div class="col-8">
-                <input asp-for="Tagger" class="form-control" data-role="tagsinput" placeholder="Add tag," />
-                <span asp-validation-for="Tagger" class="text-danger"></span>
-                
-
-            </div>
-        </div>
-
         
+
+                        <div class="form-group row">
+                            <div class="col-3">
+                                <label asp-for="Tagger"></label>
+                            </div>
+                            <div class="col-8">
+                                <input asp-for="Tagger" id="taginput" class="form-control" value="Istanbul, Adana, Adiyaman, Afyon, Agri, Aksaray, Ankara" data-role="tagsinput" placeholder="Add tag," />
+    
+                                
+
+                                <span asp-validation-for="Tagger" class="text-danger"></span>
+
+
+                            </div>
+                        </div>
+
+
+                        
+
+
+
 
         <div class="form-group row">
             <div class="col-3 offset-3">
-                <button type="submit" class="btn btn-primary form-control">
+                <button type="submit" id="submit-btn" class="btn btn-primary form-control">
                     @(Model.Id == null ? "Registrer" : "Oppdater")
                 </button>
             </div>
@@ -563,8 +570,9 @@
 
     </div>
 </div>
+<span id="array"></span>
 
 @section Scripts{
-
+    
     <partial name="_ValidationScriptsPartial" />
 }

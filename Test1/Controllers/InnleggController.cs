@@ -35,7 +35,11 @@ namespace Portefolio_webApp.Controllers
         public IActionResult Upsert_Innlegg(string innleggID)
         {
             Innlegg = new Innlegg();
-            Debug.WriteLine("------------------------------------upsert innlegg GET: " + innleggID); 
+            Debug.WriteLine("------------------------------------upsert innlegg GET: " + innleggID);
+
+            
+            
+
 
             ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
             ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
@@ -195,6 +199,8 @@ namespace Portefolio_webApp.Controllers
             }
             return Redirect("~/Innlegg/Nav_Innlegg/" + innlegg.Id);
         }
+
+        
 
     }
 }
