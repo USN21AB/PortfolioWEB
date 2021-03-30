@@ -1,6 +1,4 @@
-﻿body {
-    margin-top: 80px;
-}
+﻿
 .whitetext {
     color: #fff;
 }
@@ -44,8 +42,22 @@ body {
 }
 
 .profilimg {
+    cursor: pointer;
+    object-fit: cover;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
-    .profilimg:hover {
-        display: inline;
-    }
+.img-top {
+    display: none;
+    position: absolute;
+    z-index: 99;
+    cursor: pointer;
+    object-fit: cover;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.img-top:hover {
+    display: inline;
+}

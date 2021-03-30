@@ -128,44 +128,12 @@ namespace Portefolio_webApp.Controllers
         }
 
 
-
-
-
-[HttpPost]
-        [RequestSizeLimit(4294967295)]
-        public async Task<ActionResult> UploadInnleggFile(IFormFile file, [FromServices] IHostingEnvironment oHostingEnvironment, string brukerId)
-        {
-
-           
-
-            Console.WriteLine("ACTIVATED;;;;;;;");
-            string filename = $"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{file.FileName}";
-            
-
-            using (FileStream fileStream = System.IO.File.Create(filename))
-            {
-
-                file.CopyTo(fileStream);
-                fileStream.Flush();
-                fileStream.Close();
-               
-            
-
-            }
-
-            await firebase.UploadInnleggFile($"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{file.FileName}", file, brukerId);
-
-
-
-
-            return View();
-        }
-
         [HttpPost]
         [RequestSizeLimit(4294967295)]
-        public async Task<ActionResult> UploadFile(IFormFile file, [FromServices] IHostingEnvironment oHostingEnvironment, string brukerId)
+        public async Task<ActionResult> UploadFile(IFormFile file, [FromServices] IHostingEnvironment oHostingEnvironment, string brukerId, Bruker Oppbruker, string passord, string name)
         {
 
+          
 
 
             Console.WriteLine("ACTIVATED;;;;;;;");
@@ -182,8 +150,9 @@ namespace Portefolio_webApp.Controllers
 
 
             }
-
+            UpsertBruker(Oppbruker, passord, name, file, oHostingEnvironment);
             await firebase.UploadProfilBilde($"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{file.FileName}", file, brukerId);
+           
 
 
 
@@ -219,7 +188,7 @@ namespace Portefolio_webApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult UpsertBruker(Bruker oppBruker,string password, string GammelPassword, string filename, IFormFile file, [FromServices] IHostingEnvironment oHostingEnvironment)
+        public IActionResult UpsertBruker(Bruker oppBruker,string password, string filename, IFormFile file, [FromServices] IHostingEnvironment oHostingEnvironment)
         {
 
             Debug.WriteLine("-----------------Let start here " + oppBruker.Navn);
@@ -248,8 +217,6 @@ namespace Portefolio_webApp.Controllers
                             oppBruker.Mapper = new List<Portfolio>();
                             firebase.RegistrerBruker(oppBruker);
                         }
-
-
                     }
                     else
                     { //OPPDATERER
@@ -266,8 +233,12 @@ namespace Portefolio_webApp.Controllers
                     if (file != null)
                     {
                         Console.WriteLine("" + file.FileName);
-                        UploadFile(file, oHostingEnvironment, oppBruker.Id); //Sender til db. En annen metode for å lagre lokalt
+                        
                     }
+                    
+
+
+        
 
 
 
