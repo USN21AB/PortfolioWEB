@@ -87,9 +87,14 @@ namespace Portefolio_webApp.Controllers
 
                         //logg.Register(oppBruker.Email, oppBruker.Password).Result;
                         innlegg.EierId = HttpContext.Session.GetString("_UserID");
-                        firebase.RegistrerInnlegg(innlegg);
                         Console.WriteLine("EYOOOOOOOOOOO BRUUUUH");
-                        profilSideController.UploadFile(file, oHostingEnvironment, "- MTuNdX2ldnO73BCZwFp");
+                        //profilSideController.UploadInnleggFile(file, oHostingEnvironment, innlegg);
+                        if (file != null)
+                            await firebase.UploadInnleggFile($"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{file.FileName}", file, innlegg);
+                        else {
+
+                            firebase.RegistrerInnlegg(innlegg);
+                        }
                         Console.WriteLine("EYOOOOOOOOOOO BRUUUUH");
                         ModelState.AddModelError(string.Empty, "Registrering suksessfult!");
 

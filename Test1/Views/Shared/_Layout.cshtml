@@ -1,5 +1,5 @@
-﻿@{ 
-    var innloggetBruker = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"]; 
+﻿@{
+    var innloggetBruker = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
 }
 
 <!DOCTYPE html>
@@ -10,7 +10,7 @@
     <title>@ViewData["Title"] - Test1</title>
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/site.css?v=1" />
     <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -26,7 +26,7 @@
                 <div class="container-fluid">
                     <div class="headerlogocontainer">
                         <a class="navbar-brand headerting" asp-area="" asp-controller="Home" asp-action="BrowseSide">
-                            <img class="topimg" src="../resources/Portfollowers.png" alt="logo" width="25px" height="25px" />CreationHub
+                            <img class="topimg" src="~/resources/Portfollowers.png" alt="logo" width="25px" height="25px" />CreationHub
                         </a>
                     </div>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -37,11 +37,7 @@
                     <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
 
                         <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item1">
-                                <form class="form-inline my-2 my-lg-0">
-                                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                                </form>
-                            </li>
+                            
 
                             @if (ViewData["Token"] == null)
                             {
@@ -51,23 +47,26 @@
                             {
                                 <li class="topnav-right vl">
                                     <div class="dropdown">
-                                        <button class="btn btn-secondary btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <div class="row" >
-                                                <div class="col-6 col-sm-3">
-                                                    <img src="@innloggetBruker.Profilbilde" alt="Admin" class="rounded-circle profilimg" width="30" />
-                                                </div>
-                                                <div class="col-6 col-sm-3">
-                                                    <p>   @(innloggetBruker == null? "": innloggetBruker.Navn )</p>
-                                                </div>
+                                        <button class="btn btn-sm profilbtn" type="button" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <div class="profilbtn profilbtndiv">
+                                                <p class="bruker-navn">@(innloggetBruker == null? "": innloggetBruker.Navn)</p>&nbsp;
                                             </div>
                                         </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item" asp-area="" asp-controller="ProfilSide" asp-action="ProfilSide" asp-route-brukerID="@ViewData["Innlogget_ID"]"><i class="fas fa-user-circle">  My Profile</i></a>
-                                            <a class="dropdown-item" asp-area="" asp-controller="Innlegg" asp-action="Upsert_Innlegg" asp-route-innleggID=""> <i class="fas fa-plus">  Nytt innlegg</i></a>
-                                            <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="LogOut"><i class="fas fa-sign-out-alt">  Log out</i></a>
+                                        <a asp-area="" asp-controller="ProfilSide" asp-action="ProfilSide" asp-route-brukerID="@ViewData["Innlogget_ID"]">
+                                            <img src="@innloggetBruker.Profilbilde" alt="" class="profilbtnbilde rounded-circle" />
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a class="dropdown-item" style="margin-top: 5px;" asp-area="" asp-controller="ProfilSide" asp-action="ProfilSide" asp-route-brukerID="@ViewData["Innlogget_ID"]">
+                                                <div><i class="fas fa-user-circle ikon"></i><p class="ikontekst">My Profile</p></div>
+                                            </a>
+                                            <hr class="hrdropdown" />
+                                            <a class="dropdown-item" asp-area="" asp-controller="Innlegg" asp-action="Upsert_Innlegg" asp-route-innleggID=""> <i class="fas fa-plus ikon">  Nytt innlegg</i></a>
+                                            <hr class="hrdropdown" />
+                                            <a class="dropdown-item" style="margin-bottom: 5px;" asp-area="" asp-controller="Login" asp-action="LogOut"><i class="fas fa-sign-out-alt ikon">  Log out</i></a>
                                         </div>
                                     </div>
                                 </li>
+
                             }
 
 
@@ -109,4 +108,15 @@
         }
         prevScrollpos = currentScrollPos;
     }
+</script>
+
+<script>
+    $('.dropdown').on('show.bs.dropdown', function () {
+        $(this).find('.dropdown-menu').first().stop(true, true).slideDown();
+    });
+
+    // Add slideUp animation to Bootstrap dropdown when collapsing.
+    $('.dropdown').on('hide.bs.dropdown', function () {
+        $(this).find('.dropdown-menu').first().stop(true, true).slideUp();
+    });
 </script>
