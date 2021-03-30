@@ -24,6 +24,7 @@ namespace Portefolio_webApp.Models
 
         public List<string> Tagger { get; set; }
 
+
         public string IkonURL { get; set; }
 
         public double FilStørrelse { get; set; }

@@ -71,7 +71,7 @@ namespace Portefolio_webApp.Controllers
             DateTime l = today;
             innlegg.Dato = l.ToString("dd/MM/yyyy");
             //Hent innlogget person innlegg.EierId = firebase.hentBruker();  
-
+           
             innlegg.Klokkeslett = DateTime.Now.ToString("h:mm:ss tt");
 
             if (ModelState.IsValid)

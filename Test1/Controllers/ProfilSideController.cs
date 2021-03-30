@@ -35,9 +35,9 @@ namespace Portefolio_webApp.Controllers
         [BindProperty]
         public Bruker Bruker { get; set; }
 
-       
 
 
+        [HttpGet]
         public IActionResult ProfilSide(string brukerID)
         {
 
@@ -77,6 +77,9 @@ namespace Portefolio_webApp.Controllers
 
         }
 
+
+
+
         [HttpGet]
         public IActionResult CV(string brukerID)
         {
@@ -111,7 +114,7 @@ namespace Portefolio_webApp.Controllers
                 try
                 {
                     Debug.WriteLine("Inni isValid");
-                    firebase.OppdaterBruker(cvbruker);
+                    firebase.OppdaterBrukerAsync(cvbruker);
                     //ModelState.AddModelError(string.Empty, "Registrering suksessfult!");
                 }
                 catch (Exception ex)
@@ -128,37 +131,7 @@ namespace Portefolio_webApp.Controllers
         }
 
 
-        [HttpPost]
-        [RequestSizeLimit(4294967295)]
-        public async Task<ActionResult> UploadFile(IFormFile file, [FromServices] IHostingEnvironment oHostingEnvironment, string brukerId, Bruker Oppbruker, string passord, string name)
-        {
-
-          
-
-
-            Console.WriteLine("ACTIVATED;;;;;;;");
-            string filename = $"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{file.FileName}";
-
-
-            using (FileStream fileStream = System.IO.File.Create(filename))
-            {
-
-                file.CopyTo(fileStream);
-                fileStream.Flush();
-                fileStream.Close();
-
-
-
-            }
-            UpsertBruker(Oppbruker, passord, name, file, oHostingEnvironment);
-            await firebase.UploadProfilBilde($"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{file.FileName}", file, brukerId);
-           
-
-
-
-
-            return View();
-        }
+      
 
         [HttpGet]
         public IActionResult UpsertBruker()
@@ -188,14 +161,15 @@ namespace Portefolio_webApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult UpsertBruker(Bruker oppBruker,string password, string filename, IFormFile file, [FromServices] IHostingEnvironment oHostingEnvironment)
+        public async Task<IActionResult> UpsertBrukerAsync(Bruker oppBruker,string password ,string filename, IFormFile file, [FromServices] IHostingEnvironment oHostingEnvironment)
         {
 
-            Debug.WriteLine("-----------------Let start here " + oppBruker.Navn);
+            Debug.WriteLine("--------------------------UPSERT BRUKER TEST CV: ");
+
 
             if (string.IsNullOrEmpty(oppBruker.Id))
                     { //CREATE 
-                       Debug.WriteLine("----------------- YOU BETTER NOT BE IN HERE, BITACH"); 
+                    
                         
                         string logginnID = logg.Register(oppBruker.Email, password).Result;
                         string[] splittArr = logginnID.Split("|");
@@ -215,19 +189,26 @@ namespace Portefolio_webApp.Controllers
                             oppBruker.CV.BrukerID = oppBruker.Id;
 
                             oppBruker.Mapper = new List<Portfolio>();
-                            firebase.RegistrerBruker(oppBruker);
+                             firebase.RegistrerBruker(oppBruker);
                         }
                     }
                     else
-                    { //OPPDATERER
-                        Debug.WriteLine("----------------- Your doing an update?" );
-                        firebase.OppdaterBruker(oppBruker);
-                        
-                        var innBruker = JsonConvert.DeserializeObject<Bruker>(HttpContext.Session.GetString("Innlogget_Bruker"));
+            { //OPPDATERER
 
-                        //firebase.OppdaterAuth(innBruker.Email,oppBruker.Email, GammelPassword, password); 
-                        ModelState.AddModelError(string.Empty, "Oppdatert suksessfult!");
-                    } //Slutt på if
+
+                var str2 = HttpContext.Session.GetString("Innlogget_Bruker");
+                var innBruker = JsonConvert.DeserializeObject<Bruker>(str2);
+                Debug.WriteLine("------------------ CV session: " + innBruker.CV.ArbeidsErfaring[0]); 
+                oppBruker.CV = innBruker.CV;
+
+                Debug.WriteLine("------------------ CV innlogget Bruker: " + oppBruker.CV.ArbeidsErfaring[0]);
+                if (HttpContext.Session.GetString("CroppedPath") != null)
+                await firebase.UploadProfilBilde(HttpContext.Session.GetString("CroppedPath"), oppBruker.Id);
+                await firebase.OppdaterBrukerAsync(oppBruker);
+              
+                ModelState.AddModelError(string.Empty, "Oppdatert suksessfult!");
+                    }
+
 
 
                     if (file != null)
@@ -235,12 +216,6 @@ namespace Portefolio_webApp.Controllers
                         Console.WriteLine("" + file.FileName);
                         
                     }
-                    
-
-
-        
-
-
 
             var str = JsonConvert.SerializeObject(oppBruker);
             HttpContext.Session.SetString("Innlogget_Bruker", str);
@@ -310,8 +285,13 @@ namespace Portefolio_webApp.Controllers
                 Bruker.CV.Språk.Add(par2);
             }
 
-            firebase.OppdaterBruker(Bruker);
-     
+            Bruker.CV.BrukerID ="123456"; 
+            firebase.OppdaterBrukerAsync(Bruker);
+
+            var str = JsonConvert.SerializeObject(Bruker);
+            HttpContext.Session.SetString("Innlogget_Bruker", str);
+
+
             var resultat = "Jobberfaring oppdatert: " + par1 + " " + par2;
             var data = new { status = "ok", result = resultat };
 
@@ -341,12 +321,18 @@ namespace Portefolio_webApp.Controllers
                 Bruker.CV.Språk.RemoveRange(Int32.Parse(index), 2);
             }
 
-            firebase.OppdaterBruker(Bruker);
+            firebase.OppdaterBrukerAsync(Bruker);
+
+            var str = JsonConvert.SerializeObject(Bruker);
+            HttpContext.Session.SetString("Innlogget_Bruker", str);
+
             var resultat = "Jobberfaring oppdatert: " + felt + " " + index;
             var data = new { status = "ok", result = resultat };
 
             return Json(data);
         }
+
+
 
         [HttpPost]
         public JsonResult UpdateCV(string bruker, string felt, string index, string årFra, string årTil, string tittel, string bedrift, string bio, string[] array)
@@ -355,6 +341,8 @@ namespace Portefolio_webApp.Controllers
             int indexI = Int32.Parse(index);
 
             Bruker = firebase.HentEnkeltBruker(bruker);
+            string bilde = Bruker.Profilbilde; 
+      
             if (felt == "ArbeidsErfaring")
             {
                 Bruker.CV.ArbeidsErfaring[indexI] = årFra;
@@ -402,8 +390,13 @@ namespace Portefolio_webApp.Controllers
                     Bruker.CV.Språk.Add(array[j]);
                 }
             }
+            Bruker.Profilbilde = bilde;
+            Debug.WriteLine("--------------------------- LEGG TIL CV profilbilde?: " + Bruker.Profilbilde);
+            firebase.OppdaterBrukerAsync(Bruker);
 
-            firebase.OppdaterBruker(Bruker);
+            var str = JsonConvert.SerializeObject(Bruker);
+            HttpContext.Session.SetString("Innlogget_Bruker", str);
+
             var resultat = "Jobberfaring oppdatert: " + tittel + " " + index;
             var data = new { status = "ok", result = resultat };
 

@@ -24,6 +24,8 @@ namespace Test1.Models
         public readonly IFirebaseConfig db;
         public IFirebaseClient klient;
 
+        private string croppedImageUrl;
+
 
         [BindProperty]
         public List<Innlegg> AlleInnlegg { get; set; }
@@ -97,30 +99,42 @@ namespace Test1.Models
             
             Console.WriteLine("Link " + downloadUrl);
 
-           
+            
+
             data.IkonURL = downloadUrl;
             PushResponse respons = klient.Push("Innlegg/", data);
             data.Id = respons.Result.name;
             SetResponse setResponse = klient.Set("Innlegg/" + data.Id, data);
-            
-            
+
+            stream1.Close();
+          
+
+            //Slett Lokal Fil etter opplastet
+
+            Console.WriteLine("File Location: " + filename);
+
+            System.IO.File.Delete(filename);
+
+
         }
 
 
 
 
-        public async Task UploadProfilBilde(string filename, IFormFile file, string brukerId)
+        public async Task UploadProfilBilde(string filename, string brukerId)
         {
 
 
             var stream1 = File.Open(filename, FileMode.Open);
+
+            Console.WriteLine("FILEPAAATH: " + filename);
 
         
 
             // Constructr FirebaseStorage, path to where you want to upload the file and Put it there
             var task = new FirebaseStorage("bachelor-it-97124.appspot.com")
             .Child("images")
-            .Child(file.FileName)
+            .Child(stream1.Name)
             .PutAsync(stream1);
 
             // Track progress of the upload
@@ -129,12 +143,15 @@ namespace Test1.Models
             // await the task to wait until upload completes and get the download url
             var downloadUrl = await task;
 
-            //Putter bilde urlen i ProfilBilde
-            UpdateSingleUserValue(brukerId, "Profilbilde", downloadUrl);
+            croppedImageUrl = downloadUrl;
+            stream1.Close();
 
 
+            //Slett Lokal Fil etter opplaste
 
-            Console.WriteLine("Link EH" + downloadUrl);
+            System.IO.File.Delete(filename);
+
+            
         }
 
         public List<Innlegg> SorterAlleInnlegg(string Type, List<Innlegg> liste)
@@ -207,12 +224,22 @@ namespace Test1.Models
             SetResponse setResponse = klient.Set("Bruker/" + bruker.Id, bruker);
         }
 
-        public void OppdaterBruker(Bruker bruker)
+        public async Task OppdaterBrukerAsync(Bruker bruker) 
         {
+
+          
+            Portefolio_webApp.Controllers.HomeController controller = new Portefolio_webApp.Controllers.HomeController();
+
+            bruker.Profilbilde = croppedImageUrl;
+
             if (bruker.Profilbilde == "")
             {
                 bruker.Profilbilde = "https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2Fdefault_account.jpg?alt=media&token=290b6907-f17e-4095-90a6-dca2c52563b9";
             }
+
+
+
+
             SetResponse respons = klient.Set("Bruker/"+bruker.Id,bruker);
            // dynamic data = JsonConvert.DeserializeObject<Bruker>(respons.Body);
             //Bruker mellomBruker = JsonConvert.DeserializeObject<Bruker>(((JProperty)data).Value.ToString()); 

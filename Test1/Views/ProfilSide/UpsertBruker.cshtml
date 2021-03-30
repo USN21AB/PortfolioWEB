@@ -7,61 +7,57 @@
 
 <div class="container">
     <div class="main-body">
+
+
+        @section css{
+            <link href="~/css/jquery.Jcrop.min.css" rel="stylesheet" />
+        }
+
+        <div class="modal" id="myprofilecrop" tabindex="-1" role="dialog" aria-labelledby="cropmodel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+
+                        <h4 class="modal-title text-center" id="cropmodel">Update Profile Picture</h4>
+                    </div>
+
+                    <div class="modal-body text-center">
+                        <div id="views" class="m-t-15"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <form form method="post" , new enctype="multipart/form-data" id="formimg">
+                            <button id="cropbutton" class="btn btn-primary" type="submit">Save</button>
+                            <button id="rotatebutton" class="btn btn-default" type="button">Rotate</button>
+                        </form>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+
+        <!-- END TEST -->
+
+
         <form method="post" , new enctype="multipart/form-data">
             <div class="row gutters-sm">
                 <div class="col-md-4 mb-3">
                     <div class="card">
                         <div class="card-body">
-<<<<<<< HEAD
                             <div class="d-flex flex-column align-items-center text-center">
-                                <input type="image" src="~/resources/writer-blogger-author.png" alt="Admin" class="rounded-circle profilimg" width="150" />
-=======
-                            <div class="d-flex flex-column align-items-center text-center"> 
->>>>>>> 83b289a064bddd7c87ce921a8ece5a5fc8e734fd
                                 <div class="mt-3">
                                     <div class="form-group row">
-                                        <!-- TEST -->
 
-
-                                        @section css{
-                                            <link href="~/css/jquery.Jcrop.min.css" rel="stylesheet" />
-                                        }
-<<<<<<< HEAD
                                         <div class="container">
-                                            <input type="file" class="img" id="imgInp" name="files" accept="image/*">
-                                        </div>
-
-=======
-                                    <div class="container">
-                                        <label for="imgInp">
-                                            <img src="~/resources/writer-blogger-author.png" alt="Admin" class="rounded-circle profilimg" width="150">
-                                            <img src="~/resources/pexels-andrea-piacquadio-774909.jpg" class="rounded-circle img-top" width="150">
-                                        </label>
-                                        <input type="file" class="img" id="imgInp" name="files" accept="image/*" style="display: none">
-                                    </div>
->>>>>>> 83b289a064bddd7c87ce921a8ece5a5fc8e734fd
-                                        <div class="modal" id="myprofilecrop" tabindex="-1" role="dialog" aria-labelledby="cropmodel">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-
-                                                        <h4 class="modal-title text-center" id="cropmodel">Update Profile Picture</h4>
-                                                    </div>
-
-                                                    <div class="modal-body text-center">
-                                                        <div id="views" class="m-t-15"></div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button id="cropbutton" class="btn btn-primary" type="submit">Save</button>
-                                                        <button id="rotatebutton" class="btn btn-default" type="button">Rotate</button>
-                                                    </div>
-
-                                                </div>
-                                            </div>
+                                            <label for="imgInp">
+                                                <img src="~/resources/writer-blogger-author.png" alt="Admin" class="rounded-circle profilimg" width="150">
+                                                <img src="~/resources/pexels-andrea-piacquadio-774909.jpg" class="rounded-circle img-top" width="150">
+                                            </label>
+                                            <input type="file" class="img" id="imgInp" name="files" accept="image/*" style="display: none">
                                         </div>
 
 
-                                        <!-- END TEST -->
                                     </div>
                                     <div class="modal" id="myprofilecrop" tabindex="-1" role="dialog" aria-labelledby="cropmodel">
                                         <div class="modal-dialog" role="document">
@@ -91,13 +87,10 @@
                             <div class="form-group row mt-2 mb-2">
                                 <div class="col-8 offset-2">
                                     <div>
-<<<<<<< HEAD
+
                                         <button type="submit" value="Upload" class="btn btn-primary form-control">
                                             @(ViewData["Token"] == null? "Create new user" : "Update profile" )
-=======
-                                        <button type="submit" id="cropbutton" value="Upload" class="btn btn-primary form-control">
-                                            Register New User
->>>>>>> 83b289a064bddd7c87ce921a8ece5a5fc8e734fd
+
                                         </button>
                                     </div>
                                 </div>
@@ -108,8 +101,10 @@
                 @if (Model.Id != null)
                 {
                     <input type="hidden" asp-for="Id" />
+
                 }
-              <input type="hidden" asp-for="Email" />
+                <input type="hidden" asp-for="Email" />
+
                 <div class="col-md-8">
                     <div class="card mb-3">
                         <div class="card-body">
@@ -126,73 +121,38 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!--
-    <hr>
 
-    <div>
-        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
-        <div class="form-group row">
-            <div class="col-2">
-                <label asp-for="Email" class="fattext" style="margin-top: 4px">Email</label>
-            </div>
-            <div class="col-9">
-                <input asp-for="Email" class="form-control" style="height:30px; margin-top: 4px" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-        </div>
-    </div>
-
-<<<<<<< HEAD
-    <hr>
-    <hr />
-    -->
-=======
-                                <hr>
-                                <div>
-                                    <div class="text-danger" asp-validation-summary="ModelOnly"></div>
-                                    <div class="form-group row">
-                                        <div class="col-2">
-                                            <label asp-for="Email" class="fattext" style="margin-top: 4px">Email</label>
-                                        </div>
-                                        <div class="col-9">
-                                            <input asp-for="Email" class="form-control" style="height:30px; margin-top: 4px" />
-                                            <span asp-validation-for="Email" class="text-danger"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <hr />
->>>>>>> 83b289a064bddd7c87ce921a8ece5a5fc8e734fd
                                 <div>
                                     <!--
-            <div class="form-group row">
-                <div class="col-2">
-                    <label class="fattext" class="control-label" style="margin-top: 4px">Old Password</label>
-                </div>
-                <div class="col-9">
-                    <input name="Gammelpassword" class="form-control" style="height:30px; margin-top: 15px" />
-                    <span class="text-danger"></span>
-                </div>
-            </div>
+                            <div class="form-group row">
+                                <div class="col-2">
+                                    <label class="fattext" class="control-label" style="margin-top: 4px">Old Password</label>
+                                </div>
+                                <div class="col-9">
+                                    <input name="Gammelpassword" class="form-control" style="height:30px; margin-top: 15px" />
+                                    <span class="text-danger"></span>
+                                </div>
+                            </div>
 
-        <div class="form-group row">
-            <div class="col-2">
-                <label class="fattext" class="control-label" style="margin-top: 4px">New Password</label>
-            </div>
-            <div class="col-9">
-                <input name="password" class="form-control" style="height:30px; margin-top: 15px" />
-                <span class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-2">
-                <label class="fattext" class="control-label" style="margin-top: 4px">Retype new Password</label>
-            </div>
-            <div class="col-9">
-                <input name="password" class="form-control" style="height:30px; margin-top: 15px" />
-                <span class="text-danger"></span>
-            </div>
-        </div>
-          -->
+                        <div class="form-group row">
+                            <div class="col-2">
+                                <label class="fattext" class="control-label" style="margin-top: 4px">New Password</label>
+                            </div>
+                            <div class="col-9">
+                                <input name="password" class="form-control" style="height:30px; margin-top: 15px" />
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-2">
+                                <label class="fattext" class="control-label" style="margin-top: 4px">Retype new Password</label>
+                            </div>
+                            <div class="col-9">
+                                <input name="password" class="form-control" style="height:30px; margin-top: 15px" />
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                          -->
 
                                 </div>
                                 <hr>
