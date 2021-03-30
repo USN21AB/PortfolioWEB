@@ -22,6 +22,8 @@ namespace Portefolio_webApp.Controllers
     public class HomeController : Controller
     {
 
+     
+
         private readonly FirebaseDB firebase;
 
         //private ISession session;
@@ -34,6 +36,7 @@ namespace Portefolio_webApp.Controllers
         {
           
             firebase = new FirebaseDB();
+            string fullpath1 = "";
         }
 
         private bool IsValidExtension(IFormFile filename)
@@ -113,10 +116,8 @@ namespace Portefolio_webApp.Controllers
         public async Task<ActionResult> UploadFilesWihtLocation([FromServices] IHostingEnvironment oHostingEnvironment)
         {
 
-
             Console.WriteLine("EHHHH?????");
             Console.WriteLine("ID: " + HttpContext.Session.GetString("_UserID"));
-
             string hoststr = oHostingEnvironment.WebRootPath;
 
             string[] strFileNames;
@@ -161,7 +162,11 @@ namespace Portefolio_webApp.Controllers
                             fs.Flush();
                             fs.Close();
 
-                            await firebase.UploadProfilBilde(fullpath, file, brukerId);
+
+                            HttpContext.Session.SetString("CroppedPath", fullpath);
+
+
+
                         }
                     }
                     else
@@ -178,6 +183,10 @@ namespace Portefolio_webApp.Controllers
                 strFileNames[0] = ex.Message;
             }
             return Json(strFileNames);
+
+            return View("ProfilSide");
+
+
         }
 
         public IActionResult LoggInnSide()
