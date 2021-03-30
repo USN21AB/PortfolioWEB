@@ -191,5 +191,49 @@ namespace Portefolio_webApp.Controllers
             return Redirect("~/Innlegg/Nav_Innlegg/" + innlegg.Id);
         }
 
-    }
+        public IActionResult NyttReply(string tekst, string innleggId, int kommentId)
+        {
+            var str = HttpContext.Session.GetString("Innlogget_Bruker");
+            var innBruker = JsonConvert.DeserializeObject<Bruker>(str);
+            var brukerBilde = innBruker.Profilbilde;
+            var brukerId = innBruker.Id;
+            var brukerNavn = innBruker.Navn;
+
+            Kommentar kommentar = new Kommentar();
+            DateTime today = DateTime.Today;
+            DateTime l = today;
+
+            kommentar.Tekst = tekst;
+            kommentar.InnleggId = innleggId;
+            kommentar.Dato = l.ToString("dd/MM/yyyy");
+
+            kommentar.EierId = brukerId;
+            kommentar.EierNavn = brukerNavn;
+            kommentar.EierBilde = brukerBilde;
+
+
+            var innlegg = new Innlegg();
+            innlegg = firebase.HentSpesifiktInnlegg(innleggId);
+            var baseKomment = innlegg.Kommentar[kommentId];
+            baseKomment.Kommentarer.Add(kommentar);
+            innlegg.Kommentar[kommentId] = baseKomment;
+            Debug.WriteLine("Oppdaterer innlegg1: " + innleggId + "Oppdaterer innlegg: ");
+            try
+            {
+                if (innlegg.Id != null)
+                {
+                    Debug.WriteLine("Oppdaterer innlegg2: " + innlegg.Kommentar[0].InnleggId);
+                    Debug.WriteLine("Oppdaterer innlegg3: " + innlegg.Kommentar[0].Kommentarer[0].Tekst);
+                    //firebase.RegistrerKommentar(kommentar);
+                    firebase.OppdaterInnlegg(innlegg);
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return Redirect("~/Innlegg/Nav_Innlegg/" + innlegg.Id);
+        }
+    }      
 }

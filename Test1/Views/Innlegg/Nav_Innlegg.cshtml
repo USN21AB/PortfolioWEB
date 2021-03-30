@@ -11,7 +11,6 @@
     var beskrivelse = "";
     var innlegg = new Innlegg();
     var kommentar = new List<Kommentar>();
-    var i = 0;
 
     var bruker = (Portefolio_webApp.Models.Bruker)ViewData["bruker"];
 
@@ -20,6 +19,7 @@
     @model Portefolio_webApp.Models.Innlegg;
     if (Model.Kategori != null || Model.IkonURL != null)
     {
+
         thisid = Model.Id;
         eierId = Model.EierId;
         tittel = Model.Tittel;
@@ -113,7 +113,8 @@
 
 
 
-    @* brukerikon og brukernavn sammen *@ .innleggProfil {
+    @* brukerikon og brukernavn sammen *@ 
+    .innleggProfil {
         display: block;
         margin-top: 20px;
         margin-left: 300px;
@@ -146,7 +147,8 @@
         vertical-align: bottom;
     }
 
-    @* Beskrivelse tekst *@ p.solid {
+    @* Beskrivelse tekst *@ 
+    p.solid {
         display: block;
         margin-top: 10px;
         margin-left: 300px;
@@ -180,12 +182,12 @@
 
                 <h1 onclick="">@tittel</h1>
                 <p>@dato</p>
-                <img src="~/lib/bilder/yeetle_nen.png" class="small" alt="error" id="innlegg" />
+                <img src='@url' class="small" alt="error" id="innlegg" />
 
             }
             else if (kategori.Equals("Tekst"))
             {
-                <embed src="~/lib/pdfs/prosjektbeskrivelse.pdf" class="tekstInnlegg" />
+                <embed src='@url' class="tekstInnlegg" />
                 <p>@dato</p>
             }
             else if (kategori.Equals("Musikk"))
@@ -238,23 +240,28 @@
             <button>Cancel</button><button onclick="Kommentar('@thisid')">Comment</button>
         </div>
     }
-
+    @*Setter opp alle kommentarer som tilhører innlegget*@
     @{
         var antallKommentarer = 0;
     }
     @if (kommentar.Count != 0)
         @while (antallKommentarer < kommentar.Count)
         {
+            var kommentid = kommentar[antallKommentarer].Id;
             var tekst = kommentar[antallKommentarer].Tekst;
             var komid = kommentar[antallKommentarer].EierId;
             var bilde = kommentar[antallKommentarer].EierBilde;
             var nvn = kommentar[antallKommentarer].EierNavn;
+
             <div class="innleggProfil">
                 <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@komid">
                     <img src=@bilde height="30" width="30" id="imgikon" />
                     <p class="ikontxt"><u>@nvn</u><br></p>
                 </a>
+                <textarea id="replyFelt" name="w3review" rows="4" cols="70"></textarea>
+
             </div>
+            <button>Cancel</button><button onclick="Reply('@thisid' , '@antallKommentarer')">Comment</button>
             <p class="solid">@tekst</p>
             antallKommentarer += 1;
         }
@@ -268,8 +275,12 @@
             var params = url.replace('_tekst_', tekst).replace('_innleggId_', nyId);
             window.location.href = params;
         }
-
-
+        function Reply(nyId, kommId) {
+        var url = '@Html.Raw(Url.Action("NyttReply", "Innlegg" , new { tekst = "_tekst_", innleggId = "_innleggId_", kommentId = "_kommentId_" }))';
+            var tekst = $('#replyFelt').val();
+            var params = url.replace('_tekst_', tekst).replace('_innleggId_', nyId).replace('_kommentId_', kommId);
+            window.location.href = params;
+        }
     </script>
     <script src="~/js/javaInnlegg.js?v=4">
     </script>
