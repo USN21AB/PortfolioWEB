@@ -1,4 +1,7 @@
 ﻿@model Portefolio_webApp.Models.Innlegg;
+@{
+    var BrukerInnhold = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
+}
 <link href="~/css/Upsert_Innlegg.css" rel="stylesheet" />
 <link href="~/css/PorteføljeElementer.css?v=1" rel="stylesheet" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -146,6 +149,11 @@
         position: absolute;
     }
 
+    #mappefelt {
+        position: absolute;
+        visibility: hidden;
+    }
+
 
     .radio {
         display: inline-block;
@@ -194,6 +202,10 @@
 
     .activefolder {
         border: 1px solid white;
+    }
+
+    .filknapp {
+        color: red;
     }
 </style>
 
@@ -367,7 +379,14 @@
         document.getElementById("mappe").value = valgt;
     }
 
-    
+    function nyMappe() {
+        var folderfield = document.getElementById("mappefelt");
+        folderfield.style.position = "relative";
+        folderfield.style.visibility = "visible";
+        document.getElementById("mappe").value = "";
+    }
+
+
 </script>
 
 
@@ -376,17 +395,17 @@
     <form class="whitetext" method="post" ,, new enctype="multipart/form-data">
         @if (Model.Id == null)
         {
-    <input type="hidden" asp-for="Id" />
-                    <input type="hidden" asp-for="Klokkeslett" />
-                                    <input type="hidden" asp-for="EierId" />
-                                                    <input type="hidden" asp-for="Tagger" />
-                                                                    <input type="hidden" asp-for="FilStørrelse" />
-                                                                                    <input type="hidden" asp-for="IkonURL" />}
+<input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="Klokkeslett" />
+                                <input type="hidden" asp-for="EierId" />
+                                                <input type="hidden" asp-for="Tagger" />
+                                                                <input type="hidden" asp-for="FilStørrelse" />
+                                                                                <input type="hidden" asp-for="IkonURL" />}
 
 
         <div class="form-group row">
             <div class="col-3">
-                @Html.TextBox("file", "input-file", new { type = "file", id = "input-file", accept = "image/png|image/jpeg|image/jpg|image/gif|audio/mp3|application/pdf", oninput = "fileValidation(); readURL(this);" }) <br />
+                @Html.TextBox("file", "input-file", new { type = "file", id = "input-file", accept = "image/png|image/jpeg|image/jpg|image/gif|audio/mp3|application/pdf", oninput = "fileValidation(); readURL(this);", Class = "filknapp" }) <br />
 
             </div>
 
@@ -443,38 +462,59 @@
                 <label>monkey</label>
             </div>
 
+
+
+
+
+
+
+           
+            @{ 
+                var antall = 0;
+            }
+
             <ul class="nav nav-pills nav-fill folder-nav tabs">
+
                 <li class="nav-item">
                     <div class="folder-design chosen" id="dummy-folder" style="display: none">
                     </div>
                 </li>
+
+                @while (antall < BrukerInnhold.Mapper.Count)
+                        {
+                            var Mappe = BrukerInnhold.Mapper.ElementAt(antall);
+
+
+            <li class="nav-item">
+                <div class="folder-design chosen" id="chosen" onclick='mappeValg("mappe-@antall")'>
+                    <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190271077646336/Portfollowers_tekst.png" />
+                    <span id="mappe-@antall" class="folder-navn">@Mappe.MappeNavn</span>
+                </div>
+            </li>
+                    antall++;
+                }
                 <li class="nav-item">
-                    <div class="folder-design chosen" id="chosen" onclick='mappeValg("mappe1")'>
-                        <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190271077646336/Portfollowers_tekst.png" />
-                        <span id="mappe1" class="folder-navn">Castlevania karakterer</span>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <div class="folder-design chosen" onclick='mappeValg("mappe2")'>
-                        <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190211472785468/Portfollowers_bilde.png" />
-                        <span id="mappe2" class="folder-navn">Sly</span>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <div class="folder-design">
+                    <div class="folder-design" onclick="nyMappe()">
                         <i class="fas fa-folder-plus fa-4x add-folder"></i>
                     </div>
                 </li>
             </ul>
 
-        </div>
-        <div class="form-group row" style="display:none">
+                    </div>
+
+
+
+
+
+
+
+        <div class="form-group row " id="mappefelt">
 
             <div class="col-3">
                 <label>donkey</label>
             </div>
             <div class="col-8">
-                <input type="text" class="form-control" id="mappe" required />
+                <input type="text" name="mappenavn" class="form-control" id="mappe" placeholder="Mappenavn" required />
             </div>
         </div>
 
@@ -496,25 +536,25 @@
                 <span asp-validation-for="Beskrivelse" class="text-danger"></span>
             </div>
         </div>
-        
-
-                        <div class="form-group row">
-                            <div class="col-3">
-                                <label asp-for="Tagger"></label>
-                            </div>
-                            <div class="col-8">
-                                <input asp-for="Tagger" id="taginput" class="form-control" value="Istanbul, Adana, Adiyaman, Afyon, Agri, Aksaray, Ankara" data-role="tagsinput" placeholder="Add tag," />
-    
-                                
-
-                                <span asp-validation-for="Tagger" class="text-danger"></span>
 
 
-                            </div>
-                        </div>
+        <div class="form-group row">
+            <div class="col-3">
+                <label asp-for="Tagger"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="Tagger" id="taginput" class="form-control" value="Istanbul,Adana,Adiyaman,Afyon,Agri,Aksaray,Ankara" data-role="tagsinput" placeholder="Add tag," />
 
 
-                        
+
+                <span asp-validation-for="Tagger" class="text-danger"></span>
+
+
+            </div>
+        </div>
+
+
+
 
 
 
@@ -541,7 +581,7 @@
                 <div class="awesome-img">
                     <div class="awesome-info">
                         <h3 id="bilde-tittel-preview">    </h3>
-                        <p class="bruker-preview">Ola Normann</p>
+                        <p class="bruker-preview">@BrukerInnhold.Navn</p>
                     </div>
                     <img class="imge" id="idmge" src="#" alt="">
                 </div>
@@ -573,6 +613,6 @@
 <span id="array"></span>
 
 @section Scripts{
-    
+
     <partial name="_ValidationScriptsPartial" />
 }
