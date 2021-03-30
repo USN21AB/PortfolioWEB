@@ -77,7 +77,18 @@ namespace Portefolio_webApp.Controllers
 
         }
 
+        public IActionResult NyMappe(string brukerID)
+        {
 
+            Bruker bruker = firebase.HentEnkeltBruker(brukerID);
+
+            bruker.Mapper.Add(new Portfolio(brukerID, "Default"));
+
+            firebase.OppdaterBrukerAsync(bruker);
+
+            return RedirectToAction("ProfilSide");
+            
+        }
 
 
         [HttpGet]
