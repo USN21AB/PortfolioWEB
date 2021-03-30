@@ -35,7 +35,11 @@ namespace Portefolio_webApp.Controllers
         public IActionResult Upsert_Innlegg(string innleggID)
         {
             Innlegg = new Innlegg();
-            Debug.WriteLine("------------------------------------upsert innlegg GET: " + innleggID); 
+            Debug.WriteLine("------------------------------------upsert innlegg GET: " + innleggID);
+
+            
+            
+
 
             ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
             ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
@@ -63,22 +67,67 @@ namespace Portefolio_webApp.Controllers
         }
 
         [HttpPost]
-        public async System.Threading.Tasks.Task<IActionResult> Upsert_InnleggAsync(Microsoft.AspNetCore.Http.IFormFile file, Innlegg innlegg, [FromServices] IHostingEnvironment oHostingEnvironment)
+        public async System.Threading.Tasks.Task<IActionResult> Upsert_InnleggAsync(Microsoft.AspNetCore.Http.IFormFile file, Innlegg innlegg, [FromServices] IHostingEnvironment oHostingEnvironment, string mappenavn)
         {
-            Debug.WriteLine("------------------------------------upsert innlegg POST");
+
+
+
+            innlegg.EierId = HttpContext.Session.GetString("_UserID");
+
+            Debug.WriteLine("------------------------------------upsert innlegg POST" + mappenavn);
             Console.WriteLine("EYOOOOOOOOOOO BRUUUUH");
             DateTime today = DateTime.Today;
             DateTime l = today;
             innlegg.Dato = l.ToString("dd/MM/yyyy");
             //Hent innlogget person innlegg.EierId = firebase.hentBruker();  
 
+            innlegg.Tagger[1].Split(",");
+            var splitTag = innlegg.Tagger[1].Split(",");
+            innlegg.Tagger.Clear();
+            for (var i = 0; i < splitTag.Length; i++)
+            {
+                innlegg.Tagger.Add(splitTag[i]);
+            }
+
+            var bruker = firebase.HentEnkeltBruker(innlegg.EierId);
+
+
             innlegg.Klokkeslett = DateTime.Now.ToString("h:mm:ss tt");
 
             if (ModelState.IsValid)
             {
+                
+                Boolean mappefinnes = false;
+
+                Debug.WriteLine("lol" + innlegg.EierId);
+                for (var i = 0; i < bruker.Mapper.Count; i++)
+                {
+                    Debug.WriteLine("for runde: " + i);
+                    if (bruker.Mapper[i].MappeNavn == mappenavn)
+                    {
+                        Portfolio portfolio = bruker.Mapper[i];
+                        portfolio.MappeInnhold.Add(innlegg);
+
+                        //bruker.Mapper[i].MappeInnhold.Add(innlegg);
+                        mappefinnes = true;
+                        Debug.WriteLine("Mappen finnes");
+                       
+                    }
+                }
+
+                if (mappefinnes ==  false)
+                {
+                    Debug.WriteLine("Mappen finnes ikke");
+                    Portfolio portfolio = new Portfolio(bruker.Id, mappenavn);
+                    portfolio.MappeInnhold.Add(innlegg);
+                    bruker.Mapper.Add(portfolio);
+
+                }
 
                 if (string.IsNullOrEmpty(innlegg.Id))
                 {
+
+
                     try
                     {
 
@@ -86,14 +135,19 @@ namespace Portefolio_webApp.Controllers
 
 
                         //logg.Register(oppBruker.Email, oppBruker.Password).Result;
-                        innlegg.EierId = HttpContext.Session.GetString("_UserID");
+                        //innlegg.EierId = HttpContext.Session.GetString("_UserID");
                         Console.WriteLine("EYOOOOOOOOOOO BRUUUUH");
                         //profilSideController.UploadInnleggFile(file, oHostingEnvironment, innlegg);
                         if (file != null)
+                        {
                             await firebase.UploadInnleggFile($"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{file.FileName}", file, innlegg);
-                        else {
+                            firebase.OppdaterBrukerAsync(bruker);
+                        }
+                        else
+                        {
 
                             firebase.RegistrerInnlegg(innlegg);
+                            firebase.OppdaterBrukerAsync(bruker);
                         }
                         Console.WriteLine("EYOOOOOOOOOOO BRUUUUH");
                         ModelState.AddModelError(string.Empty, "Registrering suksessfult!");
@@ -108,8 +162,14 @@ namespace Portefolio_webApp.Controllers
                 {
                     innlegg.EierId = HttpContext.Session.GetString("_UserID"); 
                     firebase.OppdaterInnlegg(innlegg);
+                    firebase.OppdaterBrukerAsync(bruker);
                 }
             }
+
+            var str = JsonConvert.SerializeObject(bruker);
+            HttpContext.Session.SetString("Innlogget_Bruker", str);
+
+            ViewData["Innlogget_Bruker"] = bruker;
 
             return View(Innlegg);
         }
@@ -195,6 +255,8 @@ namespace Portefolio_webApp.Controllers
             }
             return Redirect("~/Innlegg/Nav_Innlegg/" + innlegg.Id);
         }
+
+        
 
     }
 }

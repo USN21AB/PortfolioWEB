@@ -45,6 +45,8 @@ namespace Test1.Models
         {
             var data = innlegg;
             PushResponse respons = klient.Push("Innlegg/", data);
+
+
             data.Id = respons.Result.name;
             SetResponse setResponse = klient.Set("Innlegg/" + data.Id, data);
         }
