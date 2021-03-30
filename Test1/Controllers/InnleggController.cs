@@ -83,10 +83,11 @@ namespace Portefolio_webApp.Controllers
 
             innlegg.Tagger[1].Split(",");
             var splitTag = innlegg.Tagger[1].Split(",");
+            
             innlegg.Tagger.Clear();
             for (var i = 0; i < splitTag.Length; i++)
             {
-                innlegg.Tagger.Add(splitTag[i]);
+                innlegg.Tagger.Add(splitTag[i].Trim());
             }
 
             var bruker = firebase.HentEnkeltBruker(innlegg.EierId);

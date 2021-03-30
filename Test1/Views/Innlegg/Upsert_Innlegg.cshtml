@@ -154,6 +154,12 @@
         visibility: hidden;
     }
 
+    
+
+    #ny-mappe-valgt {
+        display: none
+    }
+
 
     .radio {
         display: inline-block;
@@ -372,8 +378,6 @@
         readURL(this);
     });
 
-
-
     function mappeValg(mappe) {
         var valgt = document.getElementById(mappe).innerText;
         document.getElementById("mappe").value = valgt;
@@ -384,7 +388,26 @@
         folderfield.style.position = "relative";
         folderfield.style.visibility = "visible";
         document.getElementById("mappe").value = "";
+        document.getElementById("ny-mappe").style.display = "none";
+        document.getElementById("ny-mappe-valgt").style.display = "block";
     }
+
+    function mappeNavn() {
+        var yes = document.getElementById("mappe").hasAttribute("readonly");
+        navn = document.getElementById("mappe").value;
+        if (yes == false) {
+            document.getElementById("mappeny").innerHTML = navn;}
+        
+    }
+
+    function readonly() {
+        $("#mappe").attr("readonly", true);
+    }
+
+    function readonlyOff() {
+        $("#mappe").attr("readonly", false);
+    }
+    
 
 
 </script>
@@ -459,7 +482,7 @@
 
         <div class="form-group row">
             <div class="col-3">
-                <label>monkey</label>
+                <label>Mapper</label>
             </div>
 
 
@@ -473,32 +496,36 @@
                 var antall = 0;
             }
 
-            <ul class="nav nav-pills nav-fill folder-nav tabs">
-
-                <li class="nav-item">
-                    <div class="folder-design chosen" id="dummy-folder" style="display: none">
-                    </div>
-                </li>
-
-                @while (antall < BrukerInnhold.Mapper.Count)
-                        {
-                            var Mappe = BrukerInnhold.Mapper.ElementAt(antall);
-
+        <ul class="nav nav-pills nav-fill folder-nav tabs">
 
             <li class="nav-item">
-                <div class="folder-design chosen" id="chosen" onclick='mappeValg("mappe-@antall")'>
-                    <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190271077646336/Portfollowers_tekst.png" />
-                    <span id="mappe-@antall" class="folder-navn">@Mappe.MappeNavn</span>
+                <div class="folder-design chosen" id="dummy-folder" style="display: none">
                 </div>
             </li>
-                    antall++;
-                }
-                <li class="nav-item">
-                    <div class="folder-design" onclick="nyMappe()">
-                        <i class="fas fa-folder-plus fa-4x add-folder"></i>
-                    </div>
-                </li>
-            </ul>
+
+            @while (antall < BrukerInnhold.Mapper.Count)
+            {
+                var Mappe = BrukerInnhold.Mapper.ElementAt(antall);
+
+
+        <li class="nav-item">
+            <div class="folder-design chosen" onclick='mappeValg("mappe-@antall"); readonly()'>
+                <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190271077646336/Portfollowers_tekst.png" />
+                <span id="mappe-@antall" class="folder-navn">@Mappe.MappeNavn</span>
+            </div>
+        </li>antall++;
+                    }
+           
+            <li class="nav-item">
+                <div class="folder-design" id="ny-mappe" onclick="nyMappe()">
+                    <i class="fas fa-folder-plus fa-4x add-folder"></i>
+                </div>
+                <div class="folder-design chosen" id="ny-mappe-valgt" onclick='mappeValg("mappeny"); readonlyOff()'>
+                    <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190271077646336/Portfollowers_tekst.png" />
+                    <span id="mappeny" class="folder-navn"></span>
+                </div>
+            </li>
+        </ul>
 
                     </div>
 
@@ -511,10 +538,10 @@
         <div class="form-group row " id="mappefelt">
 
             <div class="col-3">
-                <label>donkey</label>
+                <label>Navn på mappe</label>
             </div>
             <div class="col-8">
-                <input type="text" name="mappenavn" class="form-control" id="mappe" placeholder="Mappenavn" required />
+                <input type="text" name="mappenavn" class="form-control" id="mappe" placeholder="Mappenavn" onkeyup="mappeNavn()" required/>
             </div>
         </div>
 
@@ -543,7 +570,7 @@
                 <label asp-for="Tagger"></label>
             </div>
             <div class="col-8">
-                <input asp-for="Tagger" id="taginput" class="form-control" value="Istanbul,Adana,Adiyaman,Afyon,Agri,Aksaray,Ankara" data-role="tagsinput" placeholder="Add tag," />
+                <input asp-for="Tagger" id="taginput" class="form-control" value="Smash, Hot,    Sex appeal, Rule 34   , Melons" data-role="tagsinput" placeholder="Add tag," />
 
 
 
