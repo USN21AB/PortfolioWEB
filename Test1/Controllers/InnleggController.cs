@@ -81,6 +81,7 @@ namespace Portefolio_webApp.Controllers
             innlegg.Dato = l.ToString("dd/MM/yyyy");
             //Hent innlogget person innlegg.EierId = firebase.hentBruker();  
 
+
             innlegg.Tagger[1].Split(",");
             var splitTag = innlegg.Tagger[1].Split(",");
             innlegg.Tagger.Clear();
@@ -90,7 +91,6 @@ namespace Portefolio_webApp.Controllers
             }
 
             var bruker = firebase.HentEnkeltBruker(innlegg.EierId);
-
 
             innlegg.Klokkeslett = DateTime.Now.ToString("h:mm:ss tt");
 
