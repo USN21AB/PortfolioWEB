@@ -12,6 +12,7 @@ namespace Portefolio_webApp.Models
 
         [Key]
         public string Id { get; set; }
+        [MaxLength(30)]
         [Required]
         public string Navn { get; set; }
 
@@ -19,17 +20,18 @@ namespace Portefolio_webApp.Models
         [EmailAddress]
         public string Email { get; set; }
 
-        public string Password { get; set; }
         public string Bio { get; set; }
 
         public string Profilbilde { get; set; }
 
+        [Range(10,100)]
         public int Alder { get; set; }
 
         public string Stilling { get; set; }
 
         public string Bosted { get; set; }
 
+        [Phone]
         public string Tlf { get; set; }
 
         public CV CV { get; set; }
