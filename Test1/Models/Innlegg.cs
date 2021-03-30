@@ -22,6 +22,8 @@ namespace Portefolio_webApp.Models
 
         public string IkonURL { get; set; }
 
+        public string CoverURL { get; set; }
+
         public double FilStørrelse { get; set; }
 
         public List<Kommentar> Kommentar { get; set; }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Portefolio_webApp.Models;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Test1.Models;
 
@@ -62,8 +63,20 @@ namespace Portefolio_webApp.Controllers
             return View(Innlegg);
         }
 
+        /*[HttpPost]
+        public async System.Threading.Tasks.Task<IActionResult> UploadCoverPhoto(Microsoft.AspNetCore.Http.IFormFile file, Innlegg innlegg, [FromServices] IHostingEnvironment oHostingEnvironment, string submit)
+        {
+          
+                        if (file != null)
+                            await firebase.UploadCoverPhoto($"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{file.FileName}", file);
+                       
+
+            return View(Innlegg);
+        }*/
+
+
         [HttpPost]
-        public async System.Threading.Tasks.Task<IActionResult> Upsert_InnleggAsync(Microsoft.AspNetCore.Http.IFormFile file, Innlegg innlegg, [FromServices] IHostingEnvironment oHostingEnvironment)
+        public async System.Threading.Tasks.Task<IActionResult> Upsert_InnleggAsync(IFormFile inputfile, IFormFile coverfile, Innlegg innlegg, [FromServices] IHostingEnvironment oHostingEnvironment, string submit)
         {
             Debug.WriteLine("------------------------------------upsert innlegg POST");
             Console.WriteLine("EYOOOOOOOOOOO BRUUUUH");
@@ -82,19 +95,38 @@ namespace Portefolio_webApp.Controllers
                     try
                     {
 
-                        ProfilSideController profilSideController = new ProfilSideController();
-
 
                         //logg.Register(oppBruker.Email, oppBruker.Password).Result;
                         innlegg.EierId = HttpContext.Session.GetString("_UserID");
                         Console.WriteLine("EYOOOOOOOOOOO BRUUUUH");
                         //profilSideController.UploadInnleggFile(file, oHostingEnvironment, innlegg);
-                        if (file != null)
-                            await firebase.UploadInnleggFile($"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{file.FileName}", file, innlegg);
-                        else {
+
+                        
+
+                            Console.WriteLine("Cover File: " + coverfile.FileName);
+                        Console.WriteLine("Input File: " + inputfile.FileName);
+
+                        if (coverfile != null)
+                            await firebase.UploadCoverPhoto($"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{coverfile.FileName}", coverfile);
+                        else
+                        {
 
                             firebase.RegistrerInnlegg(innlegg);
                         }
+
+                        if (inputfile != null)
+                                await firebase.UploadInnleggFile($"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{inputfile.FileName}", inputfile, innlegg);
+                            else
+                            {
+
+                                firebase.RegistrerInnlegg(innlegg);
+                            }
+
+
+                        
+
+
+                       
                         Console.WriteLine("EYOOOOOOOOOOO BRUUUUH");
                         ModelState.AddModelError(string.Empty, "Registrering suksessfult!");
 
