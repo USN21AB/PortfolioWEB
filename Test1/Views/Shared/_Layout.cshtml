@@ -49,7 +49,7 @@
                                     <div class="dropdown">
                                         <button class="btn btn-sm profilbtn" type="button" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <div class="profilbtn profilbtndiv">
-                                                <p class="bruker-navn dropdown-toggle">@(innloggetBruker == null? "": innloggetBruker.Navn)</p>&nbsp;
+                                                <p class="bruker-navn">@(innloggetBruker == null? "": innloggetBruker.Navn)</p>&nbsp;
                                             </div>
                                         </button>
                                         <a asp-area="" asp-controller="ProfilSide" asp-action="ProfilSide" asp-route-brukerID="@ViewData["Innlogget_ID"]">
