@@ -226,11 +226,17 @@ namespace Test1.Models
             SetResponse setResponse = klient.Set("Bruker/" + bruker.Id, bruker);
         }
 
+        public void OppdaterBruker(Bruker bruker)
+        {
+            SetResponse respons = klient.Set("Bruker/" + bruker.Id, bruker);
+        }
+
         public async Task OppdaterBrukerAsync(Bruker bruker) 
         {
 
           
             Portefolio_webApp.Controllers.HomeController controller = new Portefolio_webApp.Controllers.HomeController();
+
 
             bruker.Profilbilde = croppedImageUrl;
 
