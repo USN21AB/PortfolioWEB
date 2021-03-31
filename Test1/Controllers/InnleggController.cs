@@ -80,7 +80,7 @@ namespace Portefolio_webApp.Controllers
 
 
         [HttpPost]
-        public async System.Threading.Tasks.Task<IActionResult> Upsert_InnleggAsync(Microsoft.AspNetCore.Http.IFormFile file, Innlegg innlegg, [FromServices] IHostingEnvironment oHostingEnvironment, string mappenavn)
+        public async System.Threading.Tasks.Task<IActionResult> Upsert_InnleggAsync(IFormFile inputfile, IFormFile coverfile,Innlegg innlegg, [FromServices] IHostingEnvironment oHostingEnvironment, string mappenavn)
         {
 
 
@@ -145,22 +145,31 @@ namespace Portefolio_webApp.Controllers
                     try
                     {
 
-
-                        //logg.Register(oppBruker.Email, oppBruker.Password).Result;
-                        //innlegg.EierId = HttpContext.Session.GetString("_UserID");
-                        Console.WriteLine("EYOOOOOOOOOOO BRUUUUH");
-                        //profilSideController.UploadInnleggFile(file, oHostingEnvironment, innlegg);
-                        if (file != null)
+                        if (coverfile != null)
+                            await firebase.UploadCoverPhoto($"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{coverfile.FileName}", coverfile);
+                        else
                         {
-                            await firebase.UploadInnleggFile($"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{file.FileName}", file, innlegg);
+
+                            firebase.RegistrerInnlegg(innlegg);
+                           
+                        }
+
+                        if (inputfile != null)
+                        {
+                            await firebase.UploadInnleggFile($"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{inputfile.FileName}", inputfile, innlegg);
                             firebase.OppdaterBrukerAsync(bruker);
                         }
                         else
                         {
 
                             firebase.RegistrerInnlegg(innlegg);
-                            firebase.OppdaterBrukerAsync(bruker);
+                         
                         }
+
+
+
+
+
                         Console.WriteLine("EYOOOOOOOOOOO BRUUUUH");
                         ModelState.AddModelError(string.Empty, "Registrering suksessfult!");
 

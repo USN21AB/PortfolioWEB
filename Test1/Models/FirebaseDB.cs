@@ -283,7 +283,7 @@ namespace Test1.Models
 
             Portefolio_webApp.Controllers.HomeController controller = new Portefolio_webApp.Controllers.HomeController();
 
-            bruker.Profilbilde = croppedImageUrl;
+            bruker.Profilbilde = croppedProfilImageUrl;
 
             if (bruker.Profilbilde == "")
             {
