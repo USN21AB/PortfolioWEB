@@ -30,10 +30,13 @@ namespace Test1.Controllers
             Debug.WriteLine("--------------------------- INNI REGISTRER2 LOGGINN " + Email + " " + Password);
             var id = ""; 
             await auth.CreateUserWithEmailAndPasswordAsync(Email, Password);
+            
+  
             //log in the new user
 
             var fbAuthLink = await auth
                             .SignInWithEmailAndPasswordAsync(Email, Password);
+            
 
             string token = fbAuthLink.FirebaseToken;
             //saving the token in a session variable
@@ -54,14 +57,15 @@ namespace Test1.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> SignIn(Bruker bruker)
+        public async Task<IActionResult> SignIn(string Password, string Email)
         {
 
             try
             {
                 //log in the user
                 var fbAuthLink = await auth
-                                .SignInWithEmailAndPasswordAsync(bruker.Email, bruker.Password);
+                                .SignInWithEmailAndPasswordAsync(Email, Password);
+              
                 string token = fbAuthLink.FirebaseToken;
                 Debug.WriteLine("Logget inn som " + fbAuthLink.User.Email); 
                 if (token != null)
@@ -96,7 +100,7 @@ namespace Test1.Controllers
         {
             HttpContext.Session.Remove("_UserToken");
             HttpContext.Session.Remove("_UserID");
-   
+            HttpContext.Session.Remove("Innlogget_Bruker"); 
             return Redirect("SignIn");
         }
     }

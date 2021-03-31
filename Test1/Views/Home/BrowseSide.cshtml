@@ -168,12 +168,12 @@
 
 
 <div style="        height: 100px;
-        background-color: #212529;
+        background-color: #232426;
         bottom: 0">
 
 </div>
 
-
+<a asp-action="Test">TEST MEG!</a>
 
 
 @section Scripts
@@ -218,8 +218,18 @@
 
 
             $(function () {
-                var _valgtKnapp = "#" + '@TempData["valgtKnapp"]' +"Knapp";
+                var _valgtKnapp = "#" + '@TempData["valgtKnapp"]' + "Knapp";
 
+                if (_valgtKnapp == "#altKnapp") {
+                    console.log("Hei. Nå er du inni alt");
+                } else if (_valgtKnapp == "#BildeKnapp") {
+                    console.log("Hei. Nå er du inni #BildeKnapp");
+                } else if (_valgtKnapp == "#LydKnapp") {
+                    console.log("Nå er jeg inni lyd");
+                } else {
+                    console.log("Nå er jeg inni Tekst");
+                }
+            
                 $("#altKnapp").removeClass("active");
                 $(_valgtKnapp).addClass("active");
             });

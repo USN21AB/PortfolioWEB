@@ -1,11 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Test1.Models;
 
 namespace Portefolio_webApp.Models
 {
     public class Innlegg
     {
+        [Key]
         public string Id { get; set; }
+        [MaxLength(50)]
+        [Required]
         public string Tittel { get; set; }
         public string Dato { get; set; }
         public string Klokkeslett { get; set; }
@@ -13,6 +17,7 @@ namespace Portefolio_webApp.Models
 
         public string Beskrivelse { get; set; }
 
+        [Required]
         public string Kategori { get; set; }
 
         public string SubKategori { get; set; }

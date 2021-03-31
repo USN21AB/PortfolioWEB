@@ -46,12 +46,15 @@ namespace Test1.Models
         {
             var data = innlegg;
             PushResponse respons = klient.Push("Innlegg/", data);
+
+
             data.Id = respons.Result.name;
             SetResponse setResponse = klient.Set("Innlegg/" + data.Id, data);
         }
 
         public Innlegg HentSpesifiktInnlegg(string Innlegg_id)
-        {         
+        {
+           
             FirebaseResponse respons = klient.Get("Innlegg/" + Innlegg_id);
             Innlegg returnInnlegg = JsonConvert.DeserializeObject<Innlegg>(respons.Body);
             return returnInnlegg;
@@ -264,11 +267,15 @@ namespace Test1.Models
 
         public void RegistrerBruker(Bruker bruker)
         {
-            
+            bruker.Profilbilde = "https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2Fdefault_account.jpg?alt=media&token=290b6907-f17e-4095-90a6-dca2c52563b9";
             //PushResponse respons = klient.Push("Bruker/"+bruker.Id, bruker);
-          // bruker.Id = respons.Result.name;
-           SetResponse setResponse = klient.Set("Bruker/" + bruker.Id, bruker);
-               
+            // bruker.Id = respons.Result.name;
+            SetResponse setResponse = klient.Set("Bruker/" + bruker.Id, bruker);
+        }
+
+        public void OppdaterBruker(Bruker bruker)
+        {
+            SetResponse respons = klient.Set("Bruker/" + bruker.Id, bruker);
         }
 
         public async Task OppdaterBrukerAsync(Bruker bruker) 
@@ -276,7 +283,7 @@ namespace Test1.Models
 
             Portefolio_webApp.Controllers.HomeController controller = new Portefolio_webApp.Controllers.HomeController();
 
-            bruker.Profilbilde = croppedProfilImageUrl;
+            bruker.Profilbilde = croppedImageUrl;
 
             if (bruker.Profilbilde == "")
             {
@@ -289,6 +296,17 @@ namespace Test1.Models
             SetResponse respons = klient.Set("Bruker/"+bruker.Id,bruker);
            // dynamic data = JsonConvert.DeserializeObject<Bruker>(respons.Body);
             //Bruker mellomBruker = JsonConvert.DeserializeObject<Bruker>(((JProperty)data).Value.ToString()); 
+        }
+
+        public void OppdaterAuth(string gammelEmail, string Email, string Password, string GammelPassord)
+        {
+            Debug.WriteLine("--------------- jeg oppdater auth: " + gammelEmail + " " + Email +" " + Password + " " + GammelPassord);
+            //klient.ChangeEmail("", Email, Password);
+            
+            
+          //  if(Password != "")
+            klient.ChangePassword(Email,GammelPassord, Password);
+            
         }
 
         public void OppdaterInnlegg(Innlegg innlegg)
