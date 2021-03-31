@@ -195,23 +195,55 @@ namespace Portefolio_webApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult BrowseSide(string kategori)
+        public IActionResult BrowseSide(string kategori, string søketekst)
         {
+           
+            Debug.WriteLine("SØK: " + søketekst); 
             if (string.IsNullOrEmpty(kategori))
             {
           
                 AlleInnlegg = firebase.HentAlleInnlegg();
                 TempData["valgtKnapp"] = "alt";
+                ViewData["Kategori"] = "alt";
 
-                ViewData["liste"] = AlleInnlegg;
+               ViewData["liste"] = AlleInnlegg;
             }
             else {
 
                 var listen = firebase.HentAlleInnlegg();
-                
-               
-                ViewData["liste"] = firebase.SorterAlleInnlegg(kategori, listen);
+                var katListe = firebase.SorterAlleInnlegg(kategori, listen);
+
+                if (søketekst != null)
+                {
+                    var filterListe = new List<Innlegg>(); 
+                    Debug.WriteLine("Let's search this site!!!" + søketekst);
+                    
+                    for(int i= 0; i<katListe.Count; i++)
+                    {
+                        var tagger = katListe[i].Tagger;
+                        if ((katListe[i].Tittel.ToLower()).Contains(søketekst.ToLower()))
+                        { //Funnet match i tittel
+                            filterListe.Add(katListe[i]);
+                        }
+                        else { //Tittel ikke funnet, skjekk i tagger? 
+                             if(tagger != null)
+                                for(int j = 0; j< tagger.Count; j++)
+                                 {
+
+                                      if ((tagger[j].ToLower()).Contains(søketekst.ToLower()))
+                                          filterListe.Add(katListe[i]); 
+                                  }
+                        }
+                    }
+
+                    katListe = filterListe; 
+                }
+
+
+                ViewData["liste"] = katListe; 
                 TempData["valgtKnapp"] = kategori;
+                ViewData["Kategori"] = kategori;
+                ViewData["Søk"] = søketekst; 
             }
 
             ViewData["Token"] = HttpContext.Session.GetString("_UserToken");

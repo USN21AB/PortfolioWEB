@@ -24,7 +24,7 @@ namespace Portefolio_webApp.Models
 
         public List<string> Tagger { get; set; }
 
-
+        public int antallLikes { get; set; }
         public string IkonURL { get; set; }
 
         public string CoverURL { get; set; }
