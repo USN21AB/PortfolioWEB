@@ -83,17 +83,12 @@ namespace Portefolio_webApp.Controllers
         public async System.Threading.Tasks.Task<IActionResult> Upsert_InnleggAsync(IFormFile inputfile, IFormFile coverfile,Innlegg innlegg, [FromServices] IHostingEnvironment oHostingEnvironment, string mappenavn)
         {
 
-
-
             innlegg.EierId = HttpContext.Session.GetString("_UserID");
 
-            Debug.WriteLine("------------------------------------upsert innlegg POST" + mappenavn);
-            Console.WriteLine("EYOOOOOOOOOOO BRUUUUH");
             DateTime today = DateTime.Today;
             DateTime l = today;
             innlegg.Dato = l.ToString("dd/MM/yyyy");
-            //Hent innlogget person innlegg.EierId = firebase.hentBruker();  
-
+    
 
             innlegg.Tagger[1].Split(",");
             var splitTag = innlegg.Tagger[1].Split(",");
@@ -149,7 +144,7 @@ namespace Portefolio_webApp.Controllers
                             await firebase.UploadCoverPhoto($"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{coverfile.FileName}", coverfile);
                         else
                         {
-
+                            innlegg.antallLikes = 0;
                             firebase.RegistrerInnlegg(innlegg);
                            
                         }
