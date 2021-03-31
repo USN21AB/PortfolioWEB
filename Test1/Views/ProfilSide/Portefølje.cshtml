@@ -2,7 +2,7 @@
 @model Portefolio_webApp.Models.Bruker;
 
 @{
-    var BrukerInnhold = (Portefolio_webApp.Models.Bruker)ViewData["Bruker_Innhold"];
+    var BrukerInnhold = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
 }
 
 <link href="~/css/PortefølgeBody.css" rel="stylesheet" />
@@ -35,7 +35,7 @@
             @while (antall < BrukerInnhold.Mapper.Count)
             {
                 var Mappe = BrukerInnhold.Mapper.ElementAt(antall);
-                <a class="nav-link" id="@Mappe.MappeNavn-tab" data-bs-toggle="pill" href="#v-pills-@Mappe.MappeNavn" role="tab" aria-controls="v-pills-@Mappe.MappeNavn" aria-selected="false">@Mappe.MappeNavn</a>
+                <a class="nav-link" id="@antall-tab" data-bs-toggle="pill" href="#v-pills-@antall" role="tab" aria-controls="v-pills-@Mappe.MappeNavn" aria-selected="false">@Mappe.MappeNavn</a>
                 antall++;
             }
         </div>
@@ -54,12 +54,18 @@
             {
                 antall = 0;
                 var Mappe = BrukerInnhold.Mapper.ElementAt(mappeNr);
-                <div class="tab-pane fade" id="v-pills-@Mappe.MappeNavn" role="tabpanel" aria-labelledby="@Mappe.MappeNavn-tab">
+            <div class="tab-pane fade" id="v-pills-@mappeNr" role="tabpanel" aria-labelledby="@Mappe.MappeNavn-tab">
 
-                    @while (antall < Mappe.MappeInnhold.Count)
+                @while (antall < Mappe.MappeInnhold.Count)
+                {
+
+                    Innlegg Innlegg = Mappe.MappeInnhold.ElementAt(antall);
+
+                    
+
+                    if (Innlegg.Kategori == null) { }
+                    else if (Innlegg.Kategori.Equals("Bilde"))
                     {
-
-                        Innlegg Innlegg = Mappe.MappeInnhold.ElementAt(antall);
 
                         <!-- single-awesome-portfolio start -->
                         <div class="single-awesome-portfolio">
@@ -67,7 +73,7 @@
                                 <div class="awesome-img">
                                     <div class="awesome-info">
                                         <h3>@Innlegg.Beskrivelse</h3>
-                                        <p>@Innlegg.Tittel</p>
+                                        <p>@BrukerInnhold.Navn</p>
                                     </div>
                                     <img class="imge" src="@Innlegg.IkonURL" alt="">
                                 </div>
@@ -75,11 +81,35 @@
                             </a>
                         </div>
                         <!-- single-awesome-portfolio end -->
-                        var lol = Innlegg.Tittel;
-                        Console.WriteLine(lol);
-                        antall++;
                     }
-                </div>
+
+                    else if (Innlegg.Kategori.Equals("Lyd"))
+                    {
+                        <div class="music_player">
+
+                            <div class="play_button_div"></div>
+                            <img id="sang-@antall" class="play_button shadowed" src="../resources/icons8-play-96.png" onclick='spillAv("sang-a-@antall", this.id); visSang("sangnavn", "artist")' />
+                            <audio id="sang-a-@antall" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="@Innlegg.IkonURL"></audio>
+                            <img class="fuck imge" src="@Innlegg.CoverURL" />
+                            <p id="sangnavn">@Innlegg.Tittel</p>
+                            <p id="artist">@BrukerInnhold.Navn</p>
+
+                        </div>
+                    }
+
+                    else if (Innlegg.Kategori.Equals("Tekst"))
+                    {
+                        <div class="litteratur">
+                            <img class="book_cover" src="@Innlegg.CoverURL" />
+                            <h3 class="tittel">@Innlegg.Tittel</h3>-59 characters Kan ikke telle
+                            <h4 class="forfatter">@BrukerInnhold.Navn</h4>
+                        </div>
+                    }
+                    var lol = Innlegg.Tittel;
+                    Console.WriteLine(lol);
+                    antall++;
+                }
+            </div>
                 mappeNr++;
             }
             <!--<div class="music_player">
