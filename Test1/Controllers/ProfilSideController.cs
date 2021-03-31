@@ -84,7 +84,7 @@ namespace Portefolio_webApp.Controllers
 
             bruker.Mapper.Add(new Portfolio(brukerID, "Default"));
 
-            firebase.OppdaterBrukerAsync(bruker);
+            firebase.OppdaterBruker(bruker);
 
             return RedirectToAction("ProfilSide");
             
@@ -125,7 +125,7 @@ namespace Portefolio_webApp.Controllers
                 try
                 {
                     Debug.WriteLine("Inni isValid");
-                    firebase.OppdaterBrukerAsync(cvbruker);
+                    firebase.OppdaterBruker(cvbruker);
                     //ModelState.AddModelError(string.Empty, "Registrering suksessfult!");
                 }
                 catch (Exception ex)
@@ -209,10 +209,10 @@ namespace Portefolio_webApp.Controllers
 
                 var str2 = HttpContext.Session.GetString("Innlogget_Bruker");
                 var innBruker = JsonConvert.DeserializeObject<Bruker>(str2);
-                Debug.WriteLine("------------------ CV session: " + innBruker.CV.ArbeidsErfaring[0]); 
+              
                 oppBruker.CV = innBruker.CV;
 
-                Debug.WriteLine("------------------ CV innlogget Bruker: " + oppBruker.CV.ArbeidsErfaring[0]);
+               
                 if (HttpContext.Session.GetString("CroppedPath") != null)
                 await firebase.UploadProfilBilde(HttpContext.Session.GetString("CroppedPath"), oppBruker.Id);
                 await firebase.OppdaterBrukerAsync(oppBruker);
@@ -297,7 +297,7 @@ namespace Portefolio_webApp.Controllers
             }
 
             Bruker.CV.BrukerID ="123456"; 
-            firebase.OppdaterBrukerAsync(Bruker);
+            firebase.OppdaterBruker(Bruker);
 
             var str = JsonConvert.SerializeObject(Bruker);
             HttpContext.Session.SetString("Innlogget_Bruker", str);
@@ -332,7 +332,7 @@ namespace Portefolio_webApp.Controllers
                 Bruker.CV.Språk.RemoveRange(Int32.Parse(index), 2);
             }
 
-            firebase.OppdaterBrukerAsync(Bruker);
+            firebase.OppdaterBruker(Bruker);
 
             var str = JsonConvert.SerializeObject(Bruker);
             HttpContext.Session.SetString("Innlogget_Bruker", str);
@@ -352,7 +352,7 @@ namespace Portefolio_webApp.Controllers
             int indexI = Int32.Parse(index);
 
             Bruker = firebase.HentEnkeltBruker(bruker);
-            string bilde = Bruker.Profilbilde; 
+           
       
             if (felt == "ArbeidsErfaring")
             {
@@ -401,9 +401,8 @@ namespace Portefolio_webApp.Controllers
                     Bruker.CV.Språk.Add(array[j]);
                 }
             }
-            Bruker.Profilbilde = bilde;
-            Debug.WriteLine("--------------------------- LEGG TIL CV profilbilde?: " + Bruker.Profilbilde);
-            firebase.OppdaterBrukerAsync(Bruker);
+            
+            firebase.OppdaterBruker(Bruker);
 
             var str = JsonConvert.SerializeObject(Bruker);
             HttpContext.Session.SetString("Innlogget_Bruker", str);

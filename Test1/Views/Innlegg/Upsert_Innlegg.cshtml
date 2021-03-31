@@ -415,7 +415,7 @@
 
 
 <div class="round">
-    <form class="whitetext" method="post" ,, new enctype="multipart/form-data">
+    <form class="whitetext" method="post" , new enctype="multipart/form-data">
         @if (Model.Id == null)
         {
 <input type="hidden" asp-for="Id" />
@@ -428,7 +428,7 @@
 
         <div class="form-group row">
             <div class="col-3">
-                @Html.TextBox("file", "input-file", new { type = "file", id = "input-file", accept = "image/png|image/jpeg|image/jpg|image/gif|audio/mp3|application/pdf", oninput = "fileValidation(); readURL(this);", Class = "filknapp" }) <br />
+                @Html.TextBox("inputfile", "inputfile", new { type = "file", name = "inputfile", id="input-file", accept = "image/png|image/jpeg|image/jpg|image/gif|audio/mp3|application/pdf", oninput = "fileValidation(); readURL(this);" }) <br />
 
             </div>
 
@@ -473,7 +473,10 @@
 
         <div id="cover-image" class="form-group row">
             <div class="col-3">
-                @Html.TextBox("cover-file", "cover-input-file", new { type = "file", id = "cover-input-file", accept = "image/png|image/jpeg|image/jpg", oninput = "readURL2(this);" }) <br />
+              
+                    @Html.TextBox("coverfile", "coverfile", new { type = "file", name = "coverfile", id="cover-input-file", accept = "image/png|image/jpeg|image/jpg", oninput = "readURL2(this);" }) <br />
+                    
+
             </div>
         </div>
 
