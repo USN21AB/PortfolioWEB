@@ -15,9 +15,14 @@ namespace Test1.Models
 
         public List<Innlegg> MappeInnhold { get; set; }
 
-        public Portfolio()
+        public Portfolio(string BrukerID, string MappeNavn)
         {
+
+            this.BrukerID = BrukerID;
+            this.MappeNavn = MappeNavn;
+
             MappeInnhold = new List<Innlegg>();
+
         }
 
     }
