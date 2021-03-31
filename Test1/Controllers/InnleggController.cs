@@ -114,7 +114,7 @@ namespace Portefolio_webApp.Controllers
             return View(Innlegg);
         }
 
-        [HttpGet]
+        
         public IActionResult Nav_Innlegg(string id)
         {
             //Skjekker om bruker er logget inn

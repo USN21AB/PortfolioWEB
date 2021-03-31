@@ -160,6 +160,23 @@
         clear: left;
         color: white;
     }
+    p.solidreply {
+        display: block;
+        margin-top: 10px;
+        margin-left: 350px;
+        margin-right: 300px;
+        border-style: solid;
+        border-width: thin;
+        border-color: dimgray;
+        padding: 10px;
+        clear: left;
+        color: white;
+    }
+
+    .replyarea {
+        display: none;
+        margin-left:300px;
+    }
 
 </style>
 
@@ -172,12 +189,7 @@
     <div class="hovedInnlegg">
         @{
 
-            if (@ViewBag.Status.Equals(true))
-            {
-                <p>hei</p>
-            }
-
-            else if (kategori.Equals("Bilde"))
+            if (kategori.Equals("Bilde"))
             {
 
                 <h1 onclick="">@tittel</h1>
@@ -203,6 +215,10 @@
                     <p id="artist">IDFK</p>
                 </div>
             }
+            else
+            {
+                <p>Noe gikk galt</p>
+            }
         }
 
 
@@ -218,7 +234,7 @@
         {
             <div class="innleggProfil">
                 <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@bruker.Id">
-                    <img src="~/lib/bilder/Mageh.png" height="60" width="60" id="imgikon" />
+                    <img src="@bruker.Profilbilde" height="60" width="60" id="imgikon" />
                 </a>
                 <p class="ikontxt"><u>@bruker.Navn</u> <br> @bruker.Stilling </p>
             </div>
@@ -232,15 +248,18 @@
     }
     @if (ViewData["Token"] != null)
     {
-        <div class="nyttKommentarFelt">
+        <div class="nyttKommentarFelt" style="margin-left: 300px";>
             <a asp-controller="Profilside" asp-action="Profilside">
                 <img src="~/lib/bilder/Mageh.png" height="60" width="60" id="imgikon" />
             </a>
             <textarea id="kommentarFelt" name="w3review" rows="4" cols="70"></textarea>
-            <button>Cancel</button><button onclick="Kommentar('@thisid')">Comment</button>
+            <button onclick="Kommentar('@thisid')">Comment</button>
         </div>
     }
     @*Setter opp alle kommentarer som tilhører innlegget*@
+    @{
+        var antallReply = 0;
+    }
     @{
         var antallKommentarer = 0;
     }
@@ -258,28 +277,63 @@
                     <img src=@bilde height="30" width="30" id="imgikon" />
                     <p class="ikontxt"><u>@nvn</u><br></p>
                 </a>
-                <textarea id="replyFelt" name="w3review" rows="4" cols="70"></textarea>
-
             </div>
-            <button>Cancel</button><button onclick="Reply('@thisid' , '@antallKommentarer')">Comment</button>
+
+            var divid = "replyFelt" + antallKommentarer;
             <p class="solid">@tekst</p>
-            antallKommentarer += 1;
-        }
+
+            @while (antallReply < kommentar[antallKommentarer].Kommentarer.Count)
+            {
+                var replyid = kommentar[antallKommentarer].Kommentarer[antallReply].Id;
+                var replytekst = kommentar[antallKommentarer].Kommentarer[antallReply].Tekst;
+                var replykomid = kommentar[antallKommentarer].Kommentarer[antallReply].EierId;
+                var replybilde = kommentar[antallKommentarer].Kommentarer[antallReply].EierBilde;
+                var replynvn = kommentar[antallKommentarer].Kommentarer[antallReply].EierNavn;
+
+                <div class="innleggProfil">
+                    <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@replykomid">
+                        <img src=@replybilde height="30" width="30" id="imgikon" />
+                        <p class="ikontxt"><u>@replynvn</u><br></p>
+                    </a>
+                </div>
+
+                <p class="solidreply">@replytekst</p>
+
+                antallReply += 1;
+            }
+            @if (ViewData["Token"] != null)
+            {
+                <button onclick="hideReply('@antallKommentarer')" style="margin-left: 300px";>reply</button>
+            }
+                
+                <div id="@("replyArea"+antallKommentarer)" class="replyarea">
+                    <textarea id="@("replyFelt"+antallKommentarer)" name="w3review" rows="4" cols="70"></textarea>
+                    <button onclick="Reply('@thisid' , '@antallKommentarer')">Comment</button>
+                </div>
+                antallReply = 0;
+                antallKommentarer += 1;
+            }
     <div id="alleKommentarFelt">
 
     </div>
     <script>
         function Kommentar(nyId) {
-        var url = '@Html.Raw(Url.Action("NyttKommentar", "Innlegg" , new { tekst = "_tekst_", innleggId = "_innleggId_" }))';
+            var url = '@Html.Raw(Url.Action("NyttKommentar", "Innlegg" , new { tekst = "_tekst_", innleggId = "_innleggId_" }))';
             var tekst = $('#kommentarFelt').val();
             var params = url.replace('_tekst_', tekst).replace('_innleggId_', nyId);
             window.location.href = params;
         }
         function Reply(nyId, kommId) {
-        var url = '@Html.Raw(Url.Action("NyttReply", "Innlegg" , new { tekst = "_tekst_", innleggId = "_innleggId_", kommentId = "_kommentId_" }))';
-            var tekst = $('#replyFelt').val();
+            var url = '@Html.Raw(Url.Action("NyttReply", "Innlegg" , new { tekst = "_tekst_", innleggId = "_innleggId_", kommentId = "_kommentId_" }))';
+            var tekst = $('#replyFelt' + kommId).val();
             var params = url.replace('_tekst_', tekst).replace('_innleggId_', nyId).replace('_kommentId_', kommId);
             window.location.href = params;
+        }
+        function hideReply(kommId) {
+
+                $('#replyArea' + kommId).toggle();
+
+
         }
     </script>
     <script src="~/js/javaInnlegg.js?v=4">
