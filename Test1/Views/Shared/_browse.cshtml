@@ -28,7 +28,7 @@
     {
         <div class="litteratur">
             <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id class="card-link">
-                <img class="book_cover imge" src="https://m.media-amazon.com/images/I/514FIoHpsmL.jpg" />
+                <img class="book_cover imge" src="@Innlegg.CoverURL" />
                 <h3 class="tittel">@Innlegg.Beskrivelse</h3>
                 <h4 class="forfatter">@Innlegg.Kategori</h4>
             </a>
@@ -43,7 +43,7 @@
                 <div class="play_button_div"></div>
 
 
-                <img class="fuck imge" src="#" alt=""/>
+                <img class="fuck imge" src="@Innlegg.CoverURL" alt=""/>
 
             </a>
 
