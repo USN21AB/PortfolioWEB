@@ -42,15 +42,6 @@ namespace Test1.Models
             klient = new FireSharp.FirebaseClient(db);
         }
 
-        public void RegistrerInnlegg(Innlegg innlegg)
-        {
-            var data = innlegg;
-            PushResponse respons = klient.Push("Innlegg/", data);
-
-
-            data.Id = respons.Result.name;
-            SetResponse setResponse = klient.Set("Innlegg/" + data.Id, data);
-        }
 
         public Innlegg HentSpesifiktInnlegg(string Innlegg_id)
         {
@@ -117,7 +108,7 @@ namespace Test1.Models
 
         }
 
-        public async Task UploadInnleggFile(string filename, IFormFile file, Innlegg innlegg)
+        public async Task RegistrerInnleggMedFil(string filename, IFormFile file, Innlegg innlegg)
         {
 
 
@@ -166,8 +157,6 @@ namespace Test1.Models
 
 
         }
-
-
 
 
         public async Task UploadProfilBilde(string filename, string brukerId)

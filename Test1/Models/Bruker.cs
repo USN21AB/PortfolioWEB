@@ -34,6 +34,10 @@ namespace Portefolio_webApp.Models
         [Phone]
         public string Tlf { get; set; }
 
+        public double likeRatio { get; set; }
+
+        public List<string> CVAdgang { get; set; }
+
         public CV CV { get; set; }
         public List<Portfolio> Mapper { get; set; }
 
