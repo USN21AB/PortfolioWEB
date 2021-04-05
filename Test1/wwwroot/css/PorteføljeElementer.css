@@ -12,6 +12,15 @@
     display: block;
 }
 
+.innlegg-ikon {
+    position: absolute;
+    margin: 5px;
+    z-index: 2;
+    color: black;
+    font-size: 20px;
+    opacity: 1;
+}
+
 
 
 /*                                            BILDER                                               */
@@ -23,7 +32,7 @@
     overflow: hidden;
     position: relative;
     transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1) 0s;
-    z-index: 2;
+    z-index: 1;
     display: block
 }
 
@@ -150,7 +159,7 @@
     margin-left: 105px;
     margin-right: 105px;
     opacity: 0;
-    z-index: 2;
+    z-index: 1;
     width: 100px;
     height: 100px;
 }
@@ -178,7 +187,7 @@
     background-color: rgba(39,39,39,0.8);
 }
 
-#artist, #sangnavn {
+.artist, .sangnavn {
     opacity: 0;
     white-space: nowrap;
     overflow: hidden;
@@ -187,11 +196,11 @@
 
 
 
-.music_player:hover #artist {
+.music_player:hover .artist {
     opacity: 1;
 }
 
-.music_player:hover #sangnavn {
+.music_player:hover .sangnavn {
     opacity: 1;
 }
 
@@ -221,7 +230,7 @@
 }
 
 .tittel {
-    margin: 10px;
+    margin: 15px;
     font-size: 42px;
     overflow: hidden;
     display: -webkit-box;
@@ -237,8 +246,8 @@
 }
 
 .forfatter {
-    margin-top: 10px;
-    margin-left: 10px;
+    margin-top: -10px;
+    margin-left: 15px;
     font-size: 25px;
     z-index: 0;
     color: black;
@@ -253,7 +262,7 @@
     height: auto;
     object-fit: cover;
     opacity: 1;
-    z-index: 2;
+    z-index: 1;
     transition: opacity .2s ease-out;
     -moz-transition: opacity .2s ease-out;
     -webkit-transition: opacity .2s ease-out;
@@ -261,6 +270,10 @@
 }
 
     .book_cover:hover {
+        opacity: 0;
+    }
+
+    .book_cover:hover .innlegg-ikon {
         opacity: 0;
     }
 
