@@ -157,7 +157,7 @@ namespace Portefolio_webApp.Controllers
                         if (inputfile != null)
                         {
                             await firebase.UploadInnleggFile($"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{inputfile.FileName}", inputfile, innlegg);
-                            firebase.OppdaterBrukerAsync(bruker);
+                            firebase.OppdaterBruker(bruker);
                         }
                         else
                         {
@@ -183,7 +183,7 @@ namespace Portefolio_webApp.Controllers
                 {
                     innlegg.EierId = HttpContext.Session.GetString("_UserID"); 
                     firebase.OppdaterInnlegg(innlegg);
-                    firebase.OppdaterBrukerAsync(bruker);
+                    firebase.OppdaterBruker(bruker);
                 }
             }
 

@@ -211,11 +211,12 @@ namespace Portefolio_webApp.Controllers
                 var innBruker = JsonConvert.DeserializeObject<Bruker>(str2);
               
                 oppBruker.CV = innBruker.CV;
+                oppBruker.Mapper = innBruker.Mapper;
 
-               
+
                 if (HttpContext.Session.GetString("CroppedPath") != null)
                 await firebase.UploadProfilBilde(HttpContext.Session.GetString("CroppedPath"), oppBruker.Id);
-                await firebase.OppdaterBrukerAsync(oppBruker);
+                firebase.OppdaterBrukerBilde(oppBruker);
               
                 ModelState.AddModelError(string.Empty, "Oppdatert suksessfult!");
                     }
