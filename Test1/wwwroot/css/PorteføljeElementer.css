@@ -27,10 +27,7 @@
     display: block
 }
 
-    .awesome-img img {
-        min-height: 100%;
-        min-width: 100%;
-    }
+    
 
 .awesome-info {
     background-color: #272727;
@@ -50,12 +47,20 @@
     .awesome-info h3 {
         color: #fff;
         font-size: 16px;
-        margin-bottom: 3px;
+        margin-bottom: 5px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .awesome-info p {
         color: #aaa;
         font-size: 12px;
+        bottom: 5px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        
     }
 
 /**/
@@ -76,7 +81,9 @@
 /**/
 
 .imge {
-    max-width: 100%;
+    min-width: 100%;
+    min-height: 100%;
+    max-width:100%;
     height: auto;
     object-fit: cover;
 }
@@ -94,27 +101,47 @@
     overflow: hidden;
     position: relative;
     display: block;
-    background-color: red;
+    background-color: #212529
 }
-
-
 
 
 
 .fuck {
-    min-height: 100%;
     min-width: 100%;
+    min-height: 100%;
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
 }
 
 .play_button_div {
-    background-color: #272727;
+    background-color: rgba(39,39,39,0);
     height: 100%;
     position: absolute;
     top: 0;
     width: 100%;
-    opacity: 0;
+    padding-top: 220px;
     display: block;
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
 }
+
+    .play_button_div h3 {
+        color: #fff;
+        font-size: 20px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .play_button_div p {
+        color: #fff;
+        font-size: 20px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 
 .play_button {
     position: absolute;
@@ -135,6 +162,8 @@
     filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=4, OffY=4, Color='#444')";
 }
 
+
+
 .play_button:active {
     transform: scale(.95);
     filter: brightness(50%);
@@ -146,7 +175,24 @@
 
 
 .music_player:hover .play_button_div {
-    opacity: .6;
+    background-color: rgba(39,39,39,0.8);
+}
+
+#artist, #sangnavn {
+    opacity: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+
+.music_player:hover #artist {
+    opacity: 1;
+}
+
+.music_player:hover #sangnavn {
+    opacity: 1;
 }
 
 
@@ -155,10 +201,6 @@
 
 /*                                              LITTERATUR                                          */
 /*//////////////////////////////////////////////////////////////////////////////////////////////////*/
-
-
-
-
 .litteratur {
     margin: 2px;
     float: left;
@@ -170,26 +212,46 @@
     background: rgb(187, 201, 201);
 }
 
+.lit-tekst {
+    position: absolute;
+    height: 310px;
+    width: 310px;
+    top: 0;
+    z-index: 0;
+}
+
 .tittel {
-    margin: 15px;
-    font-size: 45px;
+    margin: 10px;
+    font-size: 42px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
     -webkit-hyphens: auto;
     -moz-hyphens: auto;
     -ms-hyphens: auto;
     hyphens: auto;
+    height: 255px;
+    z-index: 0;
+    color: black;
 }
 
 .forfatter {
-    position: absolute;
-    bottom: 0;
-    margin-left: 15px;
-    font-size: 23px;
+    margin-top: 10px;
+    margin-left: 10px;
+    font-size: 25px;
+    z-index: 0;
+    color: black;
+    
 }
 
 .book_cover {
-    
-    min-height: 100%;
+    position: absolute;
     min-width: 100%;
+    min-height: 100%;
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
     opacity: 1;
     z-index: 2;
     transition: opacity .2s ease-out;
