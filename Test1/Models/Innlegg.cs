@@ -15,6 +15,8 @@ namespace Portefolio_webApp.Models
         public string Klokkeslett { get; set; }
         public  string EierId { get; set; }
 
+        public string Eier { get; set; }
+
         public string Beskrivelse { get; set; }
 
         [Required]
@@ -24,7 +26,7 @@ namespace Portefolio_webApp.Models
 
         public List<string> Tagger { get; set; }
 
-
+        public int antallLikes { get; set; }
         public string IkonURL { get; set; }
 
         public string CoverURL { get; set; }

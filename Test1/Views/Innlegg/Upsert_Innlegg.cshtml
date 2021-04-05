@@ -3,7 +3,7 @@
     var BrukerInnhold = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
 }
 <link href="~/css/Upsert_Innlegg.css" rel="stylesheet" />
-<link href="~/css/PorteføljeElementer.css?v=1" rel="stylesheet" />
+<link href="~/css/PorteføljeElementer.css" rel="stylesheet" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="~/js/bootstrap-tagsinput.js?v=1"></script>
 
@@ -89,20 +89,35 @@
     .preview {
         position: absolute;
         right: 80px;
-        padding: 15px;
+        padding: 18px;
         top: 150px;
     }
 
 
     .round {
-        border: 3px solid white;
-        width: 1000px;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #384352;
+        background-clip: border-box;
+        border: 0 solid rgba(0,0,0,.125);
+        border-radius: .25rem;
+        width: 1050px;
         padding: 41px;
         display: inline-block;
     }
 
     .round-preview {
-        border: 3px solid white;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #384352;
+        background-clip: border-box;
+        border: 0 solid rgba(0,0,0,.125);
+        border-radius: .25rem;
         width: 350px;
         height: 350px;
     }
@@ -190,6 +205,14 @@
         top: 63%;
         left: 48%;
         transform: translate(-45%, -50%);
+        max-width: 75px;
+        max-height:40px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-hyphens: auto;
+        -moz-hyphens: auto;
+        -ms-hyphens: auto;
+        hyphens: auto;
         position: absolute;
     }
 
@@ -423,7 +446,9 @@
                                 <input type="hidden" asp-for="EierId" />
                                                 <input type="hidden" asp-for="Tagger" />
                                                                 <input type="hidden" asp-for="FilStørrelse" />
-                                                                                <input type="hidden" asp-for="IkonURL" />}
+                                                                                <input type="hidden" asp-for="IkonURL" />
+                                                                                       <input type="hidden" asp-for="Eier" value="@BrukerInnhold.Navn"/>}
+        <input type="hidden" asp-for="antallLikes" />
 
 
         <div class="form-group row">
@@ -499,7 +524,7 @@
                 var antall = 0;
             }
 
-        <ul class="nav nav-pills nav-fill folder-nav tabs">
+        <ul class="nav nav-pills nav-fill folder-nav tabs col-8">
 
             <li class="nav-item">
                 <div class="folder-design chosen" id="dummy-folder" style="display: none">
@@ -595,9 +620,9 @@
                     @(Model.Id == null ? "Registrer" : "Oppdater")
                 </button>
             </div>
-            <div class="col-3">
-                <a asp-controller="Home" asp-action="BrowseSide" class="btn btn-success form-control">Back to List</a>
-            </div>
+            <!--<div class="col-3">
+        <a asp-controller="Home" asp-action="BrowseSide" class="btn btn-success form-control">Back to List</a>
+    </div>-->
         </div>
     </form>
 </div>
@@ -621,12 +646,14 @@
 
         <div class="music_player" id="lyd-innlegg">
 
-            <div class="play_button_div"></div>
+            <div class="play_button_div">
+                <h3 class="shadowed" id="sangnavn"></h3>
+                <p class="shadowed" id="artist">@BrukerInnhold.Navn</p>
+            </div>
             <img id="sangi" class="play_button shadowed" src="../resources/icons8-play-96.png" onclick='spillAv("sang", this.id); visSang("sangnavn", "artist")' />
             <audio id="sang" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2FPok%C3%A9mon%20Theme%20Song.mp3?alt=media&token=bccacd1c-ed6a-4050-8745-b1ee3bb50f96"></audio>
             <img class="fuck imge idmge" id="lyd-imge" src="#" alt="" />
-            <p id="sangnavn"></p>
-            <p id="artist">Ola Normann</p>
+            
 
         </div>
 
@@ -634,12 +661,25 @@
         <div class="litteratur" id="tekst-innlegg">
             <img class="book_cover idmge" id="lit-imge" src="#" alt="" />
             <h3 class="tittel" id="lit-tittel"></h3>
-            <h4 class="forfatter">Roal Dahl</h4>
+            <h4 class="forfatter">@BrukerInnhold.Navn</h4>
         </div>
 
 
     </div>
 </div>
+
+<svg height="0" xmlns="http://www.w3.org/2000/svg">
+    <filter id="drop-shadow">
+        <feGaussianBlur in="SourceAlpha" stdDeviation="4" />
+        <feOffset dx="4" dy="4" result="offsetblur" />
+        <feFlood flood-color="rgba(0,0,0,0.8)" />
+        <feComposite in2="offsetblur" operator="in" />
+        <feMerge>
+            <feMergeNode />
+            <feMergeNode in="SourceGraphic" />
+        </feMerge>
+    </filter>
+</svg>
 <span id="array"></span>
 
 @section Scripts{

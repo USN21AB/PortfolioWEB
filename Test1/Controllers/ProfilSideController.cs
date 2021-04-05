@@ -198,8 +198,9 @@ namespace Portefolio_webApp.Controllers
                         else
                         {
                             oppBruker.CV.BrukerID = oppBruker.Id;
+                            
 
-                            oppBruker.Mapper = new List<Portfolio>();
+                    oppBruker.Mapper = new List<Portfolio>();
                              firebase.RegistrerBruker(oppBruker);
                         }
                     }
@@ -212,7 +213,7 @@ namespace Portefolio_webApp.Controllers
               
                 oppBruker.CV = innBruker.CV;
                 oppBruker.Mapper = innBruker.Mapper;
-
+                oppBruker.CVAdgang = innBruker.CVAdgang;
 
                 if (HttpContext.Session.GetString("CroppedPath") != null)
                 await firebase.UploadProfilBilde(HttpContext.Session.GetString("CroppedPath"), oppBruker.Id);
@@ -233,7 +234,8 @@ namespace Portefolio_webApp.Controllers
             HttpContext.Session.SetString("Innlogget_Bruker", str);
 
             ViewData["Innlogget_Bruker"] = oppBruker;
-           
+            ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
+            ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
 
             return RedirectToAction("BrowseSide", "Home");
         }

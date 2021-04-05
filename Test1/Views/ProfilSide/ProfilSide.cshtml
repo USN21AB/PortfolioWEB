@@ -2,6 +2,7 @@
 
 @{
     var BrukerInnhold = (Portefolio_webApp.Models.Bruker)ViewData["Bruker"];
+    
 }
 
 <html lang="en">
@@ -54,6 +55,14 @@
         top: 70%;
         left: 48%;
         transform: translate(-50%, -50%);
+        max-width: 300px;
+        max-height: 115px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-hyphens: auto;
+        -moz-hyphens: auto;
+        -ms-hyphens: auto;
+        hyphens: auto;
         position: absolute;
     }
 
@@ -139,8 +148,8 @@
                                     <h4>@BrukerInnhold.Navn</h4>
                                     <p class="text-secondary mb-1">@BrukerInnhold.Stilling</p>
                                     <p class="text-muted font-size-sm">@BrukerInnhold.Bosted</p>
-                                    
-                             
+
+
 
                                 </div>
                                 <a asp-action="CV" asp-route-brukerID="@BrukerInnhold.Id"><button class="cvbtn btn btn-primary">Request CV</button></a>
@@ -158,11 +167,12 @@
                                         <div class="col-8">
                                             <h6 class="mb-0">Full Name</h6>
                                         </div>
-                                        @if (BrukerInnhold.Id == (string)ViewData["Innlogget_ID"]) { 
+                                        @if (BrukerInnhold.Id == (string)ViewData["Innlogget_ID"])
+                                        {
                                             <div class="col">
                                                 <button class="btn-primary" onclick="location.href='@Url.Action("UpsertBruker", "ProfilSide")'"><i class="fas fa-edit">  Edit profile</i></button>
                                             </div>
-                                            }
+                                        }
                                     </div>
                                 </div>
                                 <div class="col-sm-9 text-secondary">
@@ -189,7 +199,7 @@
                             </div>
                             <hr>
                             <div class="rowinfo">
-                          
+
                                 <div class="col-sm-9 text-secondary">
                                     @BrukerInnhold.Bosted
                                 </div>
@@ -209,23 +219,26 @@
     </div>
 
 
-    <ul class="nav nav-pills nav-fill folder-nav tabs">
+    @{
+        var antall = 0;
+    }
+
+<ul class="nav nav-pills nav-fill folder-nav tabs">
+    @while (antall < BrukerInnhold.Mapper.Count)
+    {
+        var Mappe = BrukerInnhold.Mapper.ElementAt(antall);
+
+
         <li class="nav-item">
-            <a class="nav-link folder " id="Castlevania-tab" href="https://localhost:44344/ProfilSide/Portef%C3%B8lje#v-pills-Castlevania" role="tab" aria-controls="v-pills-Castlevania" aria-selected="false">
-                <div class="folder-design">
-                    <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190271077646336/Portfollowers_tekst.png" />
-                    <span class="folder-navn">Castlevania karakterer</span>
-                </div>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link folder " href="https://localhost:44344/ProfilSide/Portef%C3%B8lje#v-pills-Sly">
+            <a class="nav-link folder " href="https://localhost:44344/ProfilSide/Portef%C3%B8lje#v-pills-@antall">
                 <div class="folder-design">
                     <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190211472785468/Portfollowers_bilde.png" />
-                    <span class="folder-navn">Sly</span>
+                    <span class="folder-navn">@Mappe.MappeNavn</span>
                 </div>
             </a>
         </li>
+        antall++;
+    }
     </ul>
     <div>
         <a asp-action="NyMappe" asp-route-brukerID="@BrukerInnhold.Id" id="nymappe">
