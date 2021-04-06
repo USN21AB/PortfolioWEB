@@ -38,7 +38,7 @@
             success: function (path) {
               
                 $(".img").attr('src', path);
-                //alert("Congrats this is how your bootiful picture looks :D");
+                alert("Congrats this is how your bootiful picture looks :D");
             }
         });
     }
