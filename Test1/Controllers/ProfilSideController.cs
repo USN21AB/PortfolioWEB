@@ -201,8 +201,16 @@ namespace Portefolio_webApp.Controllers
                             
 
                     oppBruker.Mapper = new List<Portfolio>();
-                             firebase.RegistrerBruker(oppBruker);
-                        }
+                             await firebase.RegistrerBruker(oppBruker);
+                             await firebase.UploadProfilBilde(HttpContext.Session.GetString("CroppedPath"), oppBruker.Id);
+                             firebase.OppdaterBrukerBilde(oppBruker);
+
+
+
+
+
+
+                }
                     }
                     else
             { //OPPDATERER

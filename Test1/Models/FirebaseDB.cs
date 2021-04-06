@@ -254,7 +254,7 @@ namespace Test1.Models
             SetResponse setResponse = klient.Set("Portefolio/" + port.BrukerID, port);
         }
 
-        public void RegistrerBruker(Bruker bruker)
+        public async Task RegistrerBruker(Bruker bruker)
         {
             bruker.Profilbilde = "https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2Fdefault_account.jpg?alt=media&token=290b6907-f17e-4095-90a6-dca2c52563b9";
             //PushResponse respons = klient.Push("Bruker/"+bruker.Id, bruker);
