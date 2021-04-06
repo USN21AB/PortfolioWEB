@@ -11,15 +11,15 @@
     var beskrivelse = "";
     var innlegg = new Innlegg();
     var kommentar = new List<Kommentar>();
-    var i = 0;
 
     var bruker = (Portefolio_webApp.Models.Bruker)ViewData["bruker"];
-
+    
 
 
     @model Portefolio_webApp.Models.Innlegg;
     if (Model.Kategori != null || Model.IkonURL != null)
     {
+
         thisid = Model.Id;
         eierId = Model.EierId;
         tittel = Model.Tittel;
@@ -113,7 +113,8 @@
 
 
 
-    @* brukerikon og brukernavn sammen *@ .innleggProfil {
+    @* brukerikon og brukernavn sammen *@ 
+    .innleggProfil {
         display: block;
         margin-top: 20px;
         margin-left: 300px;
@@ -146,7 +147,8 @@
         vertical-align: bottom;
     }
 
-    @* Beskrivelse tekst *@ p.solid {
+    @* Beskrivelse tekst *@ 
+    p.solid {
         display: block;
         margin-top: 10px;
         margin-left: 300px;
@@ -157,6 +159,23 @@
         padding: 10px;
         clear: left;
         color: white;
+    }
+    p.solidreply {
+        display: block;
+        margin-top: 10px;
+        margin-left: 350px;
+        margin-right: 300px;
+        border-style: solid;
+        border-width: thin;
+        border-color: dimgray;
+        padding: 10px;
+        clear: left;
+        color: white;
+    }
+
+    .replyarea {
+        display: none;
+        margin-left:300px;
     }
 
 </style>
@@ -170,22 +189,17 @@
     <div class="hovedInnlegg">
         @{
 
-            if (@ViewBag.Status.Equals(true))
-            {
-                <p>hei</p>
-            }
-
-            else if (kategori.Equals("Bilde"))
+            if (kategori.Equals("Bilde"))
             {
 
                 <h1 onclick="">@tittel</h1>
                 <p>@dato</p>
-                <img src="~/lib/bilder/yeetle_nen.png" class="small" alt="error" id="innlegg" />
+                <img src='@url' class="small" alt="error" id="innlegg" />
 
             }
             else if (kategori.Equals("Tekst"))
             {
-                <embed src="~/lib/pdfs/prosjektbeskrivelse.pdf" class="tekstInnlegg" />
+                <embed src='@url' class="tekstInnlegg" />
                 <p>@dato</p>
             }
             else if (kategori.Equals("Lyd"))
@@ -200,6 +214,10 @@
                     <p id="sangnavn">Pokémon Theme</p>
                     <p id="artist">IDFK</p>
                 </div>
+            }
+            else
+            {
+                <p>Noe gikk galt</p>
             }
         }
 
@@ -216,7 +234,7 @@
         {
             <div class="innleggProfil">
                 <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@bruker.Id">
-                    <img src="~/lib/bilder/Mageh.png" height="60" width="60" id="imgikon" />
+                    <img src="@bruker.Profilbilde" height="60" width="60" id="@url" />
                 </a>
                 <p class="ikontxt"><u>@bruker.Navn</u> <br> @bruker.Stilling </p>
             </div>
@@ -230,32 +248,85 @@
     }
     @if (ViewData["Token"] != null)
     {
-        <div class="nyttKommentarFelt">
+        <div class="nyttKommentarFelt" style="margin-left: 300px" ;>
             <a asp-controller="Profilside" asp-action="Profilside">
                 <img src="~/lib/bilder/Mageh.png" height="60" width="60" id="imgikon" />
             </a>
             <textarea id="kommentarFelt" name="w3review" rows="4" cols="70"></textarea>
-            <button>Cancel</button><button onclick="Kommentar('@thisid')">Comment</button>
+            <button onclick="Kommentar('@thisid')">Comment</button>
         </div>
     }
-
+    @*Setter opp alle kommentarer som tilhører innlegget*@
+    @{
+        var antallReply = 0;
+    }
     @{
         var antallKommentarer = 0;
     }
     @if (kommentar.Count != 0)
         @while (antallKommentarer < kommentar.Count)
         {
+            var kommentid = kommentar[antallKommentarer].Id;
             var tekst = kommentar[antallKommentarer].Tekst;
             var komid = kommentar[antallKommentarer].EierId;
             var bilde = kommentar[antallKommentarer].EierBilde;
             var nvn = kommentar[antallKommentarer].EierNavn;
+
             <div class="innleggProfil">
                 <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@komid">
                     <img src=@bilde height="30" width="30" id="imgikon" />
                     <p class="ikontxt"><u>@nvn</u><br></p>
                 </a>
             </div>
+
+            var divid = "replyFelt" + antallKommentarer;
             <p class="solid">@tekst</p>
+            @if (ViewData["Token"] != null)
+            {
+                var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
+                @if (du.Id.Equals(@komid))
+                {
+                    <button style="margin-left: 300px"  onclick="deleteKommentar('@antallKommentarer', '@thisid')">Delete Comment</button>
+                }
+
+            }
+            @while (antallReply < kommentar[antallKommentarer].Kommentarer.Count)
+            {
+                var replyid = kommentar[antallKommentarer].Kommentarer[antallReply].EierId;
+                var replytekst = kommentar[antallKommentarer].Kommentarer[antallReply].Tekst;
+                var replykomid = kommentar[antallKommentarer].Kommentarer[antallReply].EierId;
+                var replybilde = kommentar[antallKommentarer].Kommentarer[antallReply].EierBilde;
+                var replynvn = kommentar[antallKommentarer].Kommentarer[antallReply].EierNavn;
+
+                <div style="margin-left: 300px" class="innleggProfil">
+                    <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@replykomid">
+                        <img src=@replybilde height="30" width="30" id="imgikon" />
+                        <p class="ikontxt"><u>@replynvn</u><br></p>
+                    </a>
+                </div>
+
+                <p class="solidreply">@replytekst</p>
+                @if (ViewData["Token"] != null)
+                {
+                    var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
+                    @if (du.Id.Equals(@replyid))
+                    {
+                        <button style="margin-left: 300px"  onclick="deleteReply('@antallReply', '@antallKommentarer', '@thisid')">Delete Reply</button>
+                    }
+
+                }
+                antallReply += 1;
+            }
+            @if (ViewData["Token"] != null)
+            {
+                <button onclick="hideReply('@antallKommentarer')" style="margin-left: 300px" ;>reply</button>
+            }
+
+            <div id="@("replyArea"+antallKommentarer)" class="replyarea">
+                <textarea id="@("replyFelt"+antallKommentarer)" name="w3review" rows="4" cols="70"></textarea>
+                <button onclick="Reply('@thisid' , '@antallKommentarer')">Reply</button>
+            </div>
+            antallReply = 0;
             antallKommentarer += 1;
         }
     <div id="alleKommentarFelt">
@@ -263,13 +334,30 @@
     </div>
     <script>
         function Kommentar(nyId) {
-        var url = '@Html.Raw(Url.Action("NyttKommentar", "Innlegg" , new { tekst = "_tekst_", innleggId = "_innleggId_" }))';
+            var url = '@Html.Raw(Url.Action("NyttKommentar", "Innlegg" , new { tekst = "_tekst_", innleggId = "_innleggId_" }))';
             var tekst = $('#kommentarFelt').val();
             var params = url.replace('_tekst_', tekst).replace('_innleggId_', nyId);
             window.location.href = params;
         }
-
-
+        function Reply(nyId, kommId) {
+            var url = '@Html.Raw(Url.Action("NyttReply", "Innlegg" , new { tekst = "_tekst_", innleggId = "_innleggId_", kommentId = "_kommentId_" }))';
+            var tekst = $('#replyFelt' + kommId).val();
+            var params = url.replace('_tekst_', tekst).replace('_innleggId_', nyId).replace('_kommentId_', kommId);
+            window.location.href = params;
+        }
+        function hideReply(kommId) {
+                $('#replyArea' + kommId).toggle();
+        }
+        function deleteKommentar(kommId, innId) {
+            var url = '@Html.Raw(Url.Action("DeleteKommentar", "Innlegg" , new {innleggId = "_innleggId_", kommentarId = "_kommentarId_" }))';
+            var params = url.replace('_innleggId_', innId).replace('_kommentarId_', kommId);
+            window.location.href = params;
+        }
+        function deleteReply(repId, kommId, innId) {
+            var url = '@Html.Raw(Url.Action("DeleteReply", "Innlegg" , new {innleggId = "_innleggId_", kommentarId = "_kommentarId_", replyId = "_replyId_" }))';
+            var params = url.replace('_innleggId_', innId).replace('_kommentarId_', kommId).replace('_replyId_', repId);
+            window.location.href = params;
+        }
     </script>
     <script src="~/js/javaInnlegg.js?v=4">
     </script>
