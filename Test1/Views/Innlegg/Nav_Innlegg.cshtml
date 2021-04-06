@@ -234,7 +234,7 @@
         {
             <div class="innleggProfil">
                 <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@bruker.Id">
-                    <img src="@bruker.Profilbilde" height="60" width="60" id="imgikon" />
+                    <img src="@bruker.Profilbilde" height="60" width="60" id="@url" />
                 </a>
                 <p class="ikontxt"><u>@bruker.Navn</u> <br> @bruker.Stilling </p>
             </div>
