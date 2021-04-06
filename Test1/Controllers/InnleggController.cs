@@ -301,5 +301,55 @@ namespace Portefolio_webApp.Controllers
             }
             return Redirect("~/Innlegg/Nav_Innlegg/" + innlegg.Id);
         }
+                                                                           
+        public IActionResult DeleteKommentar(string innleggId, int kommentarId)
+        {
+            var innlegg = new Innlegg();
+            innlegg = firebase.HentSpesifiktInnlegg(innleggId);
+            innlegg.Kommentar.RemoveAt(kommentarId);
+
+            try
+            {
+                if (innlegg.Id != null)
+                {
+                    Debug.WriteLine("Oppdaterer innlegg2: " + innlegg.Id);
+                    //firebase.RegistrerKommentar(kommentar);
+                    firebase.OppdaterInnlegg(innlegg);
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return Redirect("~/Innlegg/Nav_Innlegg/" + innlegg.Id);
+            
+        }
+
+        public IActionResult DeleteReply(string innleggId, int kommentarId, int replyId)
+        {
+            var innlegg = new Innlegg();
+            innlegg = firebase.HentSpesifiktInnlegg(innleggId);
+            innlegg.Kommentar[kommentarId].Kommentarer.RemoveAt(replyId);
+
+            try
+            {
+                if (innlegg.Id != null)
+                {
+                    Debug.WriteLine("Oppdaterer innlegg2: " + innlegg.Id);
+                    //firebase.RegistrerKommentar(kommentar);
+                    firebase.OppdaterInnlegg(innlegg);
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return Redirect("~/Innlegg/Nav_Innlegg/" + innlegg.Id);
+
+        }
     }      
-}
+}                                                         
