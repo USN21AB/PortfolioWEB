@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Portefolio_webApp.Models;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Test1.Models;
 
@@ -66,21 +67,28 @@ namespace Portefolio_webApp.Controllers
             return View(Innlegg);
         }
 
-        [HttpPost]
-        public async System.Threading.Tasks.Task<IActionResult> Upsert_InnleggAsync(Microsoft.AspNetCore.Http.IFormFile file, Innlegg innlegg, [FromServices] IHostingEnvironment oHostingEnvironment, string mappenavn)
+        /*[HttpPost]
+        public async System.Threading.Tasks.Task<IActionResult> UploadCoverPhoto(Microsoft.AspNetCore.Http.IFormFile file, Innlegg innlegg, [FromServices] IHostingEnvironment oHostingEnvironment, string submit)
         {
+          
+                        if (file != null)
+                            await firebase.UploadCoverPhoto($"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{file.FileName}", file);
+                       
+
+            return View(Innlegg);
+        }*/
 
 
+        [HttpPost]
+        public async System.Threading.Tasks.Task<IActionResult> Upsert_InnleggAsync(IFormFile inputfile, IFormFile coverfile,Innlegg innlegg, [FromServices] IHostingEnvironment oHostingEnvironment, string mappenavn)
+        {
 
             innlegg.EierId = HttpContext.Session.GetString("_UserID");
 
-            Debug.WriteLine("------------------------------------upsert innlegg POST" + mappenavn);
-            Console.WriteLine("EYOOOOOOOOOOO BRUUUUH");
             DateTime today = DateTime.Today;
             DateTime l = today;
             innlegg.Dato = l.ToString("dd/MM/yyyy");
-            //Hent innlogget person innlegg.EierId = firebase.hentBruker();  
-
+    
 
             innlegg.Tagger[1].Split(",");
             var splitTag = innlegg.Tagger[1].Split(",");
@@ -126,50 +134,45 @@ namespace Portefolio_webApp.Controllers
                 }
 
                 if (string.IsNullOrEmpty(innlegg.Id))
-                {
+                { //REgistrer nytt innlegg siden id er null.
 
 
                     try
                     {
 
-                        ProfilSideController profilSideController = new ProfilSideController();
+                        if (coverfile != null)
+                            await firebase.UploadCoverPhoto($"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{coverfile.FileName}", coverfile);
 
-
-                        //logg.Register(oppBruker.Email, oppBruker.Password).Result;
-                        //innlegg.EierId = HttpContext.Session.GetString("_UserID");
-                        Console.WriteLine("EYOOOOOOOOOOO BRUUUUH");
-                        //profilSideController.UploadInnleggFile(file, oHostingEnvironment, innlegg);
-                        if (file != null)
+                        if (inputfile != null)
                         {
-                            await firebase.UploadInnleggFile($"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{file.FileName}", file, innlegg);
-                            firebase.OppdaterBrukerAsync(bruker);
+                            innlegg.antallLikes = 0;
+                            await firebase.RegistrerInnleggMedFil($"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{inputfile.FileName}", inputfile, innlegg);
+                          
+                            firebase.OppdaterBruker(bruker);
                         }
-                        else
-                        {
 
-                            firebase.RegistrerInnlegg(innlegg);
-                            firebase.OppdaterBrukerAsync(bruker);
-                        }
-                        Console.WriteLine("EYOOOOOOOOOOO BRUUUUH");
                         ModelState.AddModelError(string.Empty, "Registrering suksessfult!");
-
                     }
                     catch (Exception ex)
                     {
                         ModelState.AddModelError(string.Empty, ex.Message);
                     }
-                }
+                } // Oppdater innlegg siden id finnes!
                 else
                 {
+
+                    //MÅ LEGGE TIL UPDATE INNLEGG HER
                     innlegg.EierId = HttpContext.Session.GetString("_UserID"); 
                     firebase.OppdaterInnlegg(innlegg);
-                    firebase.OppdaterBrukerAsync(bruker);
+                    firebase.OppdaterBruker(bruker);
                 }
             }
 
             var str = JsonConvert.SerializeObject(bruker);
             HttpContext.Session.SetString("Innlogget_Bruker", str);
 
+            ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
+            ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
             ViewData["Innlogget_Bruker"] = bruker;
 
             return View(Innlegg);

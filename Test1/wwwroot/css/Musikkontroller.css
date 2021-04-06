@@ -5,7 +5,7 @@
     width: 560px;
     height: 70px;
     bottom: -70px;
-    background: white;
+    background: #384352;
     left: 50%;
     transform: translateX(-50%);
     transition: none;
@@ -30,18 +30,21 @@
     position: absolute;
     bottom: 7px;
     margin-left: 19px;
+    color: white;
 }
 
 #trackduration {
     position: absolute;
     bottom: 7px;
     right: 19px;
+    color: white;
 }
 
 #sangfelt {
     position: absolute;
     margin-left: 19px;
-    width: 170px
+    width: 170px;
+    color: white;
 }
 
 #artistfelt {
@@ -49,6 +52,7 @@
     margin-left: 19px;
     margin-top: 18px;
     width: 170px;
+    color: white;
 }
 
 #volume-control {

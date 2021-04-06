@@ -2,12 +2,12 @@
 @model Portefolio_webApp.Models.Bruker;
 
 @{
-    var BrukerInnhold = (Portefolio_webApp.Models.Bruker)ViewData["Bruker_Innhold"];
+    var BrukerInnhold = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
 }
 
 <link href="~/css/PortefølgeBody.css" rel="stylesheet" />
-<link href="~/css/PorteføljeElementer.css" rel="stylesheet" />
-<link href="~/css/Musikkontroller.css" rel="stylesheet" />
+<link href="~/css/PorteføljeElementer.css?v=1" rel="stylesheet" />
+<link href="~/css/Musikkontroller.css?v=1" rel="stylesheet" />
 <script src="~/js/lyd.js"></script>
 
 <script>
@@ -35,7 +35,7 @@
             @while (antall < BrukerInnhold.Mapper.Count)
             {
                 var Mappe = BrukerInnhold.Mapper.ElementAt(antall);
-                <a class="nav-link" id="@Mappe.MappeNavn-tab" data-bs-toggle="pill" href="#v-pills-@Mappe.MappeNavn" role="tab" aria-controls="v-pills-@Mappe.MappeNavn" aria-selected="false">@Mappe.MappeNavn</a>
+                <a class="nav-link" id="@antall-tab" data-bs-toggle="pill" href="#v-pills-@antall" role="tab" aria-controls="v-pills-@Mappe.MappeNavn" aria-selected="false">@Mappe.MappeNavn</a>
                 antall++;
             }
         </div>
@@ -54,27 +54,71 @@
             {
                 antall = 0;
                 var Mappe = BrukerInnhold.Mapper.ElementAt(mappeNr);
-                <div class="tab-pane fade" id="v-pills-@Mappe.MappeNavn" role="tabpanel" aria-labelledby="@Mappe.MappeNavn-tab">
+                <div class="tab-pane fade" id="v-pills-@mappeNr" role="tabpanel" aria-labelledby="@Mappe.MappeNavn-tab">
 
                     @while (antall < Mappe.MappeInnhold.Count)
                     {
 
                         Innlegg Innlegg = Mappe.MappeInnhold.ElementAt(antall);
 
-                        <!-- single-awesome-portfolio start -->
-                        <div class="single-awesome-portfolio">
-                            <a href="#">
-                                <div class="awesome-img">
-                                    <div class="awesome-info">
-                                        <h3>@Innlegg.Beskrivelse</h3>
-                                        <p>@Innlegg.Tittel</p>
-                                    </div>
-                                    <img class="imge" src="@Innlegg.IkonURL" alt="">
-                                </div>
 
-                            </a>
-                        </div>
-                        <!-- single-awesome-portfolio end -->
+
+                        if (Innlegg.Kategori == null) { }
+                        else if (Innlegg.Kategori.Equals("Bilde"))
+                        {
+
+                            <!-- single-awesome-portfolio start -->
+                            <div class="single-awesome-portfolio">
+                                <a href="#">
+                                    <div class="awesome-img">
+                                        <i class="far fa-image innlegg-ikon"></i>
+
+
+                                        <div class="awesome-info">
+                                            <h3>@Innlegg.Beskrivelse</h3>
+                                            <p>@BrukerInnhold.Navn</p>
+                                        </div>
+                                        <img class="imge" src="@Innlegg.IkonURL" alt="" data-adaptive-background>
+                                    </div>
+
+                                </a>
+                            </div>
+                            <!-- single-awesome-portfolio end -->
+                        }
+
+                        else if (Innlegg.Kategori.Equals("Lyd"))
+                        {
+                <div class="music_player">
+                    <i class="fas fa-music innlegg-ikon"></i>
+
+
+                    <div class="play_button_div">
+
+                        <h3 class="sangnavn" id="sangnavn-@Innlegg.Id">@Innlegg.Tittel</h3>
+                        <p class="artist" id="artist-@Innlegg.Id">@BrukerInnhold.Navn</p>
+                    </div>
+                    <img id="sang-@antall" class="play_button shadowed" src="../resources/icons8-play-96.png" onclick='spillAv("sang-a-@antall", this.id); visSang("sangnavn", "artist")' />
+                    <audio id="sang-a-@antall" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="@Innlegg.IkonURL"></audio>
+                    <img class="fuck imge" src="@Innlegg.CoverURL" />
+
+
+                </div>
+                        }
+
+                        else if (Innlegg.Kategori.Equals("Tekst"))
+                        {
+                <div class="litteratur">
+                    <i class="far fa-file-alt innlegg-ikon"></i>
+
+
+                    <img class="book_cover" src="@Innlegg.CoverURL" alt="" />
+                    <div class="lit-tekst">
+                        <h3 class="tittel">Det var en gang en mann som døre å en gender reveal party lol @Innlegg.Tittel</h3>
+                        <h4 class="forfatter">@BrukerInnhold.Navn</h4>
+                    </div>
+
+                </div>
+                        }
                         var lol = Innlegg.Tittel;
                         Console.WriteLine(lol);
                         antall++;
@@ -84,14 +128,16 @@
             }
             <!--<div class="music_player">
 
-                <div class="play_button_div"></div>
-                <img id="sangi" class="play_button shadowed" src="../resources/icons8-play-96.png" onclick='spillAv("sang", this.id); visSang("sangnavn", "artist")' />
-                <audio id="sang" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/Lyd%2FHabibi.mp3?alt=media&token=14f9ad88-a6b9-4c33-922a-d385b86a23b1"></audio>
-                <img class="fuck imge" src="https://gameriv.com/wp-content/uploads/2021/01/Untitled-1-23-696x392.jpg" />
-                <p id="sangnavn">Pokémonfefe Theme</p>
-                <p id="artist">IDFK</p>
+        <div class="play_button_div">
+            <h3 id="sangnavn">Pokémonfefe Theme konda good, it is a banger</h3>
+            <p id="artist">IDFK</p>
+        </div>
+        <img id="sangi" class="play_button shadowed" src="../resources/icons8-play-96.png" onclick='spillAv("sang", this.id); visSang("sangnavn", "artist")' />
+        <audio id="sang" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/Lyd%2FHabibi.mp3?alt=media&token=14f9ad88-a6b9-4c33-922a-d385b86a23b1"></audio>
+        <img class="fuck imge" src="#" alt="" />
 
-            </div>-->
+
+    </div>-->
 
 
 
@@ -146,7 +192,7 @@
 
     <img class="stopper" src="../resources/icons8-pause-96.png" onclick="stopAll()" />
 
-    <input type="range" id="volume-control" value="5" min="0" max="10" onload="volum(this.value)" onchange="volum(this.value)">
+    <input type="range" id="volume-control" value="10" min="0" max="10" onload="volum(this.value)" onchange="volum(this.value)">
 </div>
 
 <svg height="0" xmlns="http://www.w3.org/2000/svg">

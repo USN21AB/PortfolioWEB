@@ -23,6 +23,10 @@ window.onload = function () {
     });
 }
 
+$(document).ready(function () {
+    $.adaptiveBackground.run();
+});
+
 function spillAv(sang, toggle) {
     var audio = document.getElementsByClassName('lydspor'),
         i = audio.length;
