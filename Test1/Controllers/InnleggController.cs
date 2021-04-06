@@ -178,7 +178,7 @@ namespace Portefolio_webApp.Controllers
             return View(Innlegg);
         }
 
-        [HttpGet]
+        
         public IActionResult Nav_Innlegg(string id)
         {
             //Skjekker om bruker er logget inn
@@ -260,7 +260,168 @@ namespace Portefolio_webApp.Controllers
             return Redirect("~/Innlegg/Nav_Innlegg/" + innlegg.Id);
         }
 
-        
+        public IActionResult NyttReply(string tekst, string innleggId, int kommentId)
+        {
+            var str = HttpContext.Session.GetString("Innlogget_Bruker");
+            var innBruker = JsonConvert.DeserializeObject<Bruker>(str);
+            var brukerBilde = innBruker.Profilbilde;
+            var brukerId = innBruker.Id;
+            var brukerNavn = innBruker.Navn;
 
-    }
-}
+            Kommentar kommentar = new Kommentar();
+            DateTime today = DateTime.Today;
+            DateTime l = today;
+
+            kommentar.Tekst = tekst;
+            kommentar.InnleggId = innleggId;
+            kommentar.Dato = l.ToString("dd/MM/yyyy");
+
+            kommentar.EierId = brukerId;
+            kommentar.EierNavn = brukerNavn;
+            kommentar.EierBilde = brukerBilde;
+
+
+            var innlegg = new Innlegg();
+            innlegg = firebase.HentSpesifiktInnlegg(innleggId);
+            var baseKomment = innlegg.Kommentar[kommentId];
+            baseKomment.Kommentarer.Add(kommentar);
+            innlegg.Kommentar[kommentId] = baseKomment;
+            Debug.WriteLine("Oppdaterer innlegg1: " + innleggId + "Oppdaterer innlegg: ");
+            try
+            {
+                if (innlegg.Id != null)
+                {
+                    Debug.WriteLine("Oppdaterer innlegg2: " + innlegg.Kommentar[0].InnleggId);
+                    Debug.WriteLine("Oppdaterer innlegg3: " + innlegg.Kommentar[0].Kommentarer[0].Tekst);
+                    //firebase.RegistrerKommentar(kommentar);
+                    firebase.OppdaterInnlegg(innlegg);
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return Redirect("~/Innlegg/Nav_Innlegg/" + innlegg.Id);
+        }
+                                                                           
+        public IActionResult DeleteKommentar(string innleggId, int kommentarId)
+        {
+            var innlegg = new Innlegg();
+            innlegg = firebase.HentSpesifiktInnlegg(innleggId);
+            innlegg.Kommentar.RemoveAt(kommentarId);
+
+            try
+            {
+                if (innlegg.Id != null)
+                {
+                    Debug.WriteLine("Oppdaterer innlegg2: " + innlegg.Id);
+                    //firebase.RegistrerKommentar(kommentar);
+                    firebase.OppdaterInnlegg(innlegg);
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return Redirect("~/Innlegg/Nav_Innlegg/" + innlegg.Id);
+            
+        }
+
+        public IActionResult DeleteReply(string innleggId, int kommentarId, int replyId)
+        {
+            var innlegg = new Innlegg();
+            innlegg = firebase.HentSpesifiktInnlegg(innleggId);
+            innlegg.Kommentar[kommentarId].Kommentarer.RemoveAt(replyId);
+
+            try
+            {
+                if (innlegg.Id != null)
+                {
+                    Debug.WriteLine("Oppdaterer innlegg2: " + innlegg.Id);
+                    //firebase.RegistrerKommentar(kommentar);
+                    firebase.OppdaterInnlegg(innlegg);
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return Redirect("~/Innlegg/Nav_Innlegg/" + innlegg.Id);
+
+        }
+        public IActionResult LikeInnlegg(string innleggId)
+        {
+            var str = HttpContext.Session.GetString("Innlogget_Bruker");
+            var innBruker = JsonConvert.DeserializeObject<Bruker>(str);
+
+            var innlegg = firebase.HentSpesifiktInnlegg(innleggId);
+            if (innlegg.Likes != null)
+            {
+                innlegg.Likes.Antall += 1;
+                innlegg.Likes.Brukere.Add(innBruker.Id);
+            }
+            else
+            {
+                Debug.WriteLine("Noe: " + innBruker.Id);
+                Like like = new Like();
+                like.Antall = 1;
+                like.Brukere.Add(innBruker.Id);
+
+                innlegg.Likes = like;
+            }
+           
+
+            try
+            {
+                if (innlegg.Id != null)
+                {
+
+                    firebase.OppdaterInnlegg(innlegg);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+                    return Redirect("~/Innlegg/Nav_Innlegg/" + innlegg.Id);
+        }
+
+        public IActionResult DislikeInnlegg(string innleggId)
+        {
+            var str = HttpContext.Session.GetString("Innlogget_Bruker");
+            var innBruker = JsonConvert.DeserializeObject<Bruker>(str);
+
+            var innlegg = firebase.HentSpesifiktInnlegg(innleggId);
+
+            var i = 0;
+            while (i < innlegg.Likes.Brukere.Count)
+            {
+                if (innBruker.Id.Equals(innlegg.Likes.Brukere[i]))
+                {
+                    innlegg.Likes.Brukere.RemoveAt(i);
+                    innlegg.Likes.Antall -= 1;
+                }
+                i++;
+            }
+
+            try
+            {
+                if (innlegg.Id != null)
+                {
+
+                    firebase.OppdaterInnlegg(innlegg);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return Redirect("~/Innlegg/Nav_Innlegg/" + innlegg.Id);
+        }
+    }      
+}                                                         

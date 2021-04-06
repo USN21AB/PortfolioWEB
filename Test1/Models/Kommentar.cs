@@ -19,5 +19,10 @@ namespace Test1.Models
 
         public List<Kommentar> Kommentarer { get; set; }
 
+        public Kommentar()
+        {
+            Kommentarer = new List<Kommentar>();
+        }
+
     }
 }
