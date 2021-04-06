@@ -354,5 +354,74 @@ namespace Portefolio_webApp.Controllers
             return Redirect("~/Innlegg/Nav_Innlegg/" + innlegg.Id);
 
         }
+        public IActionResult LikeInnlegg(string innleggId)
+        {
+            var str = HttpContext.Session.GetString("Innlogget_Bruker");
+            var innBruker = JsonConvert.DeserializeObject<Bruker>(str);
+
+            var innlegg = firebase.HentSpesifiktInnlegg(innleggId);
+            if (innlegg.Likes != null)
+            {
+                innlegg.Likes.Antall += 1;
+                innlegg.Likes.Brukere.Add(innBruker.Id);
+            }
+            else
+            {
+                Debug.WriteLine("Noe: " + innBruker.Id);
+                Like like = new Like();
+                like.Antall = 1;
+                like.Brukere.Add(innBruker.Id);
+
+                innlegg.Likes = like;
+            }
+           
+
+            try
+            {
+                if (innlegg.Id != null)
+                {
+
+                    firebase.OppdaterInnlegg(innlegg);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+                    return Redirect("~/Innlegg/Nav_Innlegg/" + innlegg.Id);
+        }
+
+        public IActionResult DislikeInnlegg(string innleggId)
+        {
+            var str = HttpContext.Session.GetString("Innlogget_Bruker");
+            var innBruker = JsonConvert.DeserializeObject<Bruker>(str);
+
+            var innlegg = firebase.HentSpesifiktInnlegg(innleggId);
+
+            var i = 0;
+            while (i < innlegg.Likes.Brukere.Count)
+            {
+                if (innBruker.Id.Equals(innlegg.Likes.Brukere[i]))
+                {
+                    innlegg.Likes.Brukere.RemoveAt(i);
+                    innlegg.Likes.Antall -= 1;
+                }
+                i++;
+            }
+
+            try
+            {
+                if (innlegg.Id != null)
+                {
+
+                    firebase.OppdaterInnlegg(innlegg);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return Redirect("~/Innlegg/Nav_Innlegg/" + innlegg.Id);
+        }
     }      
 }                                                         
