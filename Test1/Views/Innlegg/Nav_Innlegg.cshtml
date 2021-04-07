@@ -13,7 +13,7 @@
     var kommentar = new List<Kommentar>();
 
     var bruker = (Portefolio_webApp.Models.Bruker)ViewData["bruker"];
-    
+
 
 
     @model Portefolio_webApp.Models.Innlegg;
@@ -33,36 +33,77 @@
     }
 }
 
+
+
+
+
 <style>
     .music_player {
+        margin: 2px;
+        width: 310px;
+        height: 310px;
+        overflow: hidden;
+        position: relative;
+        margin: auto;
+        display: block;
+        background-color: #212529
     }
 
-
-        .music_player img {
-            width: 300px;
-            height: 300px;
-        }
 
     .play_button_div {
-        background-color: #fff;
+        background-color: rgba(39,39,39,0);
+        height: 100%;
         position: absolute;
         top: 0;
-        width: 100px;
-        opacity: 0;
+        width: 100%;
+        padding-top: 220px;
         display: block;
+        text-align: center;
+        padding-left: 10px;
+        padding-right: 10px;
     }
+
+        .play_button_div h3 {
+            color: #fff;
+            font-size: 20px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .play_button_div p {
+            color: #fff;
+            font-size: 20px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
     .play_button {
         position: absolute;
+        margin-top: 105px;
+        margin-bottom: 105px;
+        margin-left: 105px;
+        margin-right: 105px;
         opacity: 0;
+        z-index: 1;
         width: 100px;
         height: 100px;
     }
 
-        .play_button:active {
-            transform: scale(.95);
-            filter: brightness(50%);
-        }
+    .shadowed {
+        -webkit-filter: drop-shadow(4px 4px 4px rgba(0,0,0,0.8));
+        filter: url(#drop-shadow);
+        -ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=4, OffY=4, Color='#444')";
+        filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=4, OffY=4, Color='#444')";
+    }
+
+
+
+    .play_button:active {
+        transform: scale(.95);
+        filter: brightness(50%);
+    }
 
     .music_player:hover .play_button {
         opacity: 1;
@@ -70,16 +111,43 @@
 
 
     .music_player:hover .play_button_div {
-        opacity: 0.6;
+        background-color: rgba(39,39,39,0.8);
     }
+
+    .artist, .sangnavn {
+        opacity: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+
+
+    .music_player:hover .artist {
+        opacity: 1;
+    }
+
+    .music_player:hover .sangnavn {
+        opacity: 1;
+    }
+
+    .imge {
+        min-width: 100%;
+        min-height: 100%;
+        max-width: 100%;
+        height: auto;
+        object-fit: cover;
+    }
+
+
+
+
 
     textarea {
         resize: none;
     }
-</style>
-
-<style>
-    body{
+    body {
+        background-color: rgb(46, 46, 46);
         margin-top: 60px;
     }
 
@@ -113,7 +181,7 @@
 
 
 
-    @* brukerikon og brukernavn sammen *@ 
+    @* brukerikon og brukernavn sammen *@
     .innleggProfil {
         display: block;
         margin-top: 20px;
@@ -147,7 +215,7 @@
         vertical-align: bottom;
     }
 
-    @* Beskrivelse tekst *@ 
+    @* Beskrivelse tekst *@
     p.solid {
         display: block;
         margin-top: 10px;
@@ -191,233 +259,261 @@
 
 </style>
 
+<script>
 
 
-<body style="background-color: rgb(46, 46, 46)">
-
-    @*Klassen inneholder Tittel, opplastingsdato, og hovedinnlegget (bilde eller pdf)*@
-
-    <div class="hovedInnlegg">
-        @{
-
-            if (kategori.Equals("Bilde"))
-            {
-
-                <h1 onclick="">@tittel</h1>
-                <p>@dato</p>
-                <img src='@url' class="small" alt="error" id="innlegg" />
-
-            }
-            else if (kategori.Equals("Tekst"))
-            {
-                <embed src='@url' class="tekstInnlegg" />
-                <p>@dato</p>
-            }
-            else if (kategori.Equals("Lyd"))
-            {
-                <h1 onclick="">@tittel </h1>
-                <p>@dato</p>
-                <div class="music_player">
-                    <div class="play_button_div"></div>
-                    <img id="sangi" class="play_button shadowed" src="https://www.clipartmax.com/png/middle/134-1347519_youtube-png-play-pictures-png-images-play-button-png.png" onclick='spillAv("sang", this.id); visSang("sangnavn", "artist")' />
-                    <audio id="sang" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2FPok%C3%A9mon%20Theme%20Song.mp3?alt=media&token=bccacd1c-ed6a-4050-8745-b1ee3bb50f96"></audio>
-                    <img src="~/lib/bilder/Maracoween_F.png" />
-                    <p id="sangnavn">Pokémon Theme</p>
-                    <p id="artist">IDFK</p>
-                </div>
-            }
-            else
-            {
-                <p>Noe gikk galt</p>
-            }
-        }
+function Kommentar(nyId) {
+    var url = '@Html.Raw(Url.Action("NyttKommentar", "Innlegg" , new { tekst = "_tekst_", innleggId = "_innleggId_" }))';
+    var tekst = $('#kommentarFelt').val();
+    var params = url.replace('_tekst_', tekst).replace('_innleggId_', nyId);
+    window.location.href = params;
+}
+function Reply(nyId, kommId) {
+    var url = '@Html.Raw(Url.Action("NyttReply", "Innlegg" , new { tekst = "_tekst_", innleggId = "_innleggId_", kommentId = "_kommentId_" }))';
+    var tekst = $('#replyFelt' + kommId).val();
+    var params = url.replace('_tekst_', tekst).replace('_innleggId_', nyId).replace('_kommentId_', kommId);
+    window.location.href = params;
+}
+function hideReply(kommId) {
+    $('#replyArea' + kommId).toggle();
+}
+function deleteKommentar(kommId, innId) {
+    var url = '@Html.Raw(Url.Action("DeleteKommentar", "Innlegg" , new {innleggId = "_innleggId_", kommentarId = "_kommentarId_" }))';
+    var params = url.replace('_innleggId_', innId).replace('_kommentarId_', kommId);
+    window.location.href = params;
+}
+function deleteReply(repId, kommId, innId) {
+    var url = '@Html.Raw(Url.Action("DeleteReply", "Innlegg" , new {innleggId = "_innleggId_", kommentarId = "_kommentarId_", replyId = "_replyId_" }))';
+    var params = url.replace('_innleggId_', innId).replace('_kommentarId_', kommId).replace('_replyId_', repId);
+    window.location.href = params;
+}
+function like(innId) {
+    var url = '@Html.Raw(Url.Action("LikeInnlegg", "Innlegg" , new {innleggId = "_innleggId_"}))';
+    var params = url.replace('_innleggId_', innId);
+    window.location.href = params;
+}
+function dislike(innId) {
+    var url = '@Html.Raw(Url.Action("DislikeInnlegg", "Innlegg" , new {innleggId = "_innleggId_"}))';
+    var params = url.replace('_innleggId_', innId);
+    window.location.href = params;
+}
 
 
-    </div>
+</script>
+
+<link href="~/css/Musikkontroller.css" rel="stylesheet" />
+<script src="~/js/lyd.js?v=1"></script>
+@*Klassen inneholder Tittel, opplastingsdato, og hovedinnlegget (bilde eller pdf)*@
+
+<div class="hovedInnlegg">
     @{
-        if (kategori.Equals(""))
+
+        if (kategori.Equals("Bilde"))
         {
-            <div class="hovedInnlegg">
-                <p>Beklager men denne siden eksisterer ikke </p>
+
+            <h1 onclick="">@tittel</h1>
+            <p>@dato</p>
+            <img src='@url' class="small" alt="error" id="innlegg" />
+
+        }
+        else if (kategori.Equals("Tekst"))
+        {
+            <embed src='@url' class="tekstInnlegg" />
+            <p>@dato</p>
+        }
+        else if (kategori.Equals("Lyd"))
+        {
+            <h1 onclick="">@tittel </h1>
+            <p>@dato</p>
+            <div class="music_player">
+                <div class="play_button_div">
+                    <h3 class="sangnavn" id="sangnavn">@tittel</h3>
+                    <p class="artist" id="artist">@bruker.Navn</p>
+                </div>
+                <img id="sangi" class="play_button shadowed" src='~/resources/icons8-play-96.png' onclick='spillAv("sang", "sangi"); visSang("sangnavn", "artist")' />
+                <audio id="sang" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="@url"></audio>
+                <img class="fuck imge" src="@Model.CoverURL" />
             </div>
         }
         else
         {
-            <div class="innleggProfil">
-                <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@bruker.Id">
-                    <img src="@bruker.Profilbilde" height="60" width="60" id="@url" />
-                </a>
-                <p class="ikontxt"><u>@bruker.Navn</u> <br> @bruker.Stilling </p>
-            </div>
-            <p class="solid">
-                @beskrivelse
-            </p>
-
-
-
+            <p>Noe gikk galt</p>
         }
     }
-    @if (Model.Likes != null)
+
+</div>
+@{
+    if (kategori.Equals(""))
     {
-        var likes = Model.Likes.Antall;
-        <p class="solid">Likes: @likes</p>
-    }
-    @if (ViewData["Token"] != null)
-
-    {
-        var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
-        var i = 0;
-        var check = 0;
-        @if (Model.Likes != null)
-        {
-            
-
-            @while (i < Model.Likes.Brukere.Count)
-            {
-                @if (du.Id.Equals(Model.Likes.Brukere[i]))
-                {
-                    <button onclick="dislike('@thisid')">Dislike</button>
-                    check = 1;
-                    break;
-                }
-
-
-                i++;
-            }
-        }
-        if (check == 0)
-        {
-            <button onclick="like('@thisid')">Like</button>
-        }
-
-
-
-        <div class="nyttKommentarFelt" style="margin-left: 300px" ;>
-            <a asp-controller="Profilside" asp-action="Profilside">
-                <img src=@du.Profilbilde height="60" width="60" id="imgikon" />
-            </a>
-            <textarea id="kommentarFelt" name="w3review" rows="4" cols="70"></textarea>
-            <button onclick="Kommentar('@thisid')">Comment</button>
+        <div class="hovedInnlegg">
+            <p>Beklager men denne siden eksisterer ikke </p>
         </div>
     }
-    @*Setter opp alle kommentarer som tilhører innlegget*@
+    else
+    {
+        <div class="innleggProfil">
+            <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@bruker.Id">
+                <img src="@bruker.Profilbilde" height="60" width="60" id="@url" />
 
-    @{
-        var antallReply = 0;
+                <p class="ikontxt"><u>@bruker.Navn</u>  <br> @bruker.Stilling </p>
+            </a>
+        </div>
+        <p class="solid">
+            @beskrivelse
+        </p>
+
+
+
     }
-    @{
-        var antallKommentarer = 0;
-    }
-    @if (kommentar.Count != 0)
-        @while (antallKommentarer < kommentar.Count)
+}
+@if (Model.Likes != null)
+{
+    var likes = Model.Likes.Antall;
+    <p class="solid">Likes: @likes</p>
+}
+@if (ViewData["Token"] != null)
+
+{
+    var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
+    var i = 0;
+    var check = 0;
+    @if (Model.Likes != null)
+    {
+
+
+        @while (i < Model.Likes.Brukere.Count)
         {
-            var kommentid = kommentar[antallKommentarer].Id;
-            var tekst = kommentar[antallKommentarer].Tekst;
-            var komid = kommentar[antallKommentarer].EierId;
-            var bilde = kommentar[antallKommentarer].EierBilde;
-            var nvn = kommentar[antallKommentarer].EierNavn;
+            @if (du.Id.Equals(Model.Likes.Brukere[i]))
+            {
+                <button onclick="dislike('@thisid')">Dislike</button>
+                check = 1;
+                break;
+            }
 
-            <div class="innleggProfil">
-                <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@komid">
-                    <img src=@bilde height="30" width="30" id="imgikon" />
-                    <p class="ikontxt"><u>@nvn</u><br></p>
+
+            i++;
+        }
+    }
+    if (check == 0)
+    {
+        <button onclick="like('@thisid')">Like</button>
+    }
+
+
+
+    <div class="nyttKommentarFelt" style="margin-left: 300px" ;>
+        <a asp-controller="Profilside" asp-action="Profilside">
+            <img src=@du.Profilbilde height="60" width="60" id="imgikon" />
+        </a>
+        <textarea id="kommentarFelt" name="w3review" rows="4" cols="70"></textarea>
+        <button onclick="Kommentar('@thisid')">Comment</button>
+    </div>
+}
+@*Setter opp alle kommentarer som tilhører innlegget*@
+
+@{
+    var antallReply = 0;
+}
+@{
+    var antallKommentarer = 0;
+}
+@if (kommentar.Count != 0)
+    @while (antallKommentarer < kommentar.Count)
+    {
+        var kommentid = kommentar[antallKommentarer].Id;
+        var tekst = kommentar[antallKommentarer].Tekst;
+        var komid = kommentar[antallKommentarer].EierId;
+        var bilde = kommentar[antallKommentarer].EierBilde;
+        var nvn = kommentar[antallKommentarer].EierNavn;
+
+        <div class="innleggProfil">
+            <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@komid">
+                <img src=@bilde height="30" width="30" id="imgikon" />
+                <p class="ikontxt"><u>@nvn</u><br></p>
+            </a>
+        </div>
+
+        var divid = "replyFelt" + antallKommentarer;
+        <p class="solid">@tekst</p>
+        @if (ViewData["Token"] != null)
+        {
+            var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
+            @if (du.Id.Equals(@komid))
+            {
+                <button style="margin-left: 300px" onclick="deleteKommentar('@antallKommentarer', '@thisid')">Delete Comment</button>
+            }
+
+        }
+        @while (antallReply < kommentar[antallKommentarer].Kommentarer.Count)
+        {
+            var replyid = kommentar[antallKommentarer].Kommentarer[antallReply].EierId;
+            var replytekst = kommentar[antallKommentarer].Kommentarer[antallReply].Tekst;
+            var replykomid = kommentar[antallKommentarer].Kommentarer[antallReply].EierId;
+            var replybilde = kommentar[antallKommentarer].Kommentarer[antallReply].EierBilde;
+            var replynvn = kommentar[antallKommentarer].Kommentarer[antallReply].EierNavn;
+
+            <div style="margin-left: 300px" class="innleggProfil">
+                <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@replykomid">
+                    <img src=@replybilde height="30" width="30" id="imgikon" />
+                    <p class="ikontxt"><u>@replynvn</u><br></p>
                 </a>
             </div>
 
-            var divid = "replyFelt" + antallKommentarer;
-            <p class="solid">@tekst</p>
+            <p class="solidreply">@replytekst</p>
             @if (ViewData["Token"] != null)
             {
                 var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
-                @if (du.Id.Equals(@komid))
+                @if (du.Id.Equals(@replyid))
                 {
-                    <button style="margin-left: 300px" onclick="deleteKommentar('@antallKommentarer', '@thisid')">Delete Comment</button>
+                    <button style="margin-left: 300px" onclick="deleteReply('@antallReply', '@antallKommentarer', '@thisid')">Delete Reply</button>
                 }
 
             }
-            @while (antallReply < kommentar[antallKommentarer].Kommentarer.Count)
-            {
-                var replyid = kommentar[antallKommentarer].Kommentarer[antallReply].EierId;
-                var replytekst = kommentar[antallKommentarer].Kommentarer[antallReply].Tekst;
-                var replykomid = kommentar[antallKommentarer].Kommentarer[antallReply].EierId;
-                var replybilde = kommentar[antallKommentarer].Kommentarer[antallReply].EierBilde;
-                var replynvn = kommentar[antallKommentarer].Kommentarer[antallReply].EierNavn;
-
-                <div style="margin-left: 300px" class="innleggProfil">
-                    <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@replykomid">
-                        <img src=@replybilde height="30" width="30" id="imgikon" />
-                        <p class="ikontxt"><u>@replynvn</u><br></p>
-                    </a>
-                </div>
-
-                <p class="solidreply">@replytekst</p>
-                @if (ViewData["Token"] != null)
-                {
-                    var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
-                    @if (du.Id.Equals(@replyid))
-                    {
-                        <button style="margin-left: 300px" onclick="deleteReply('@antallReply', '@antallKommentarer', '@thisid')">Delete Reply</button>
-                    }
-
-                }
-                antallReply += 1;
-            }
-            @if (ViewData["Token"] != null)
-            {
-                <button onclick="hideReply('@antallKommentarer')" style="margin-left: 300px" ;>reply</button>
-            }
-
-            <div id="@("replyArea"+antallKommentarer)" class="replyarea">
-                <textarea id="@("replyFelt"+antallKommentarer)" name="w3review" rows="4" cols="70"></textarea>
-                <button onclick="Reply('@thisid' , '@antallKommentarer')">Reply</button>
-            </div>
-            antallReply = 0;
-            antallKommentarer += 1;
+            antallReply += 1;
         }
-    <div id="alleKommentarFelt">
-
-    </div>
-    <script>
-        function Kommentar(nyId) {
-            var url = '@Html.Raw(Url.Action("NyttKommentar", "Innlegg" , new { tekst = "_tekst_", innleggId = "_innleggId_" }))';
-            var tekst = $('#kommentarFelt').val();
-            var params = url.replace('_tekst_', tekst).replace('_innleggId_', nyId);
-            window.location.href = params;
-        }
-        function Reply(nyId, kommId) {
-            var url = '@Html.Raw(Url.Action("NyttReply", "Innlegg" , new { tekst = "_tekst_", innleggId = "_innleggId_", kommentId = "_kommentId_" }))';
-            var tekst = $('#replyFelt' + kommId).val();
-            var params = url.replace('_tekst_', tekst).replace('_innleggId_', nyId).replace('_kommentId_', kommId);
-            window.location.href = params;
-        }
-        function hideReply(kommId) {
-                $('#replyArea' + kommId).toggle();
-        }
-        function deleteKommentar(kommId, innId) {
-            var url = '@Html.Raw(Url.Action("DeleteKommentar", "Innlegg" , new {innleggId = "_innleggId_", kommentarId = "_kommentarId_" }))';
-            var params = url.replace('_innleggId_', innId).replace('_kommentarId_', kommId);
-            window.location.href = params;
-        }
-        function deleteReply(repId, kommId, innId) {
-            var url = '@Html.Raw(Url.Action("DeleteReply", "Innlegg" , new {innleggId = "_innleggId_", kommentarId = "_kommentarId_", replyId = "_replyId_" }))';
-            var params = url.replace('_innleggId_', innId).replace('_kommentarId_', kommId).replace('_replyId_', repId);
-            window.location.href = params;
-        }
-        function like(innId) {
-            var url = '@Html.Raw(Url.Action("LikeInnlegg", "Innlegg" , new {innleggId = "_innleggId_"}))';
-            var params = url.replace('_innleggId_', innId);
-            window.location.href = params;
-        }
-        function dislike(innId) {
-            var url = '@Html.Raw(Url.Action("DislikeInnlegg", "Innlegg" , new {innleggId = "_innleggId_"}))';
-            var params = url.replace('_innleggId_', innId);
-            window.location.href = params;
+        @if (ViewData["Token"] != null)
+        {
+            <button onclick="hideReply('@antallKommentarer')" style="margin-left: 300px" ;>reply</button>
         }
 
-    </script>
-    <script src="~/js/javaInnlegg.js?v=4">
-    </script>
+        <div id="@("replyArea"+antallKommentarer)" class="replyarea">
+            <textarea id="@("replyFelt"+antallKommentarer)" name="w3review" rows="4" cols="70"></textarea>
+            <button onclick="Reply('@thisid' , '@antallKommentarer')">Reply</button>
+        </div>
+        antallReply = 0;
+        antallKommentarer += 1;
+    }
+<div id="alleKommentarFelt">
 
-</body>
+</div>
+
+
+<div class="musikk_kontroller" id="test">
+    <span id="sangfelt"></span>
+    <span id="artistfelt"></span>
+
+    <span id="tracktime">00:00</span>
+    <progress id="seekbar" value="0" max="100"></progress>
+    <span id="trackduration">00:00</span>
+
+    <img class="stopper" src="~/resources/icons8-pause-96.png" onclick="stopAll()" />
+
+    <input type="range" id="volume-control" value="10" min="0" max="10" onload="volum(this.value)" onchange="volum(this.value)">
+</div>
+
+<svg height="0" xmlns="http://www.w3.org/2000/svg">
+    <filter id="drop-shadow">
+        <feGaussianBlur in="SourceAlpha" stdDeviation="4" />
+        <feOffset dx="4" dy="4" result="offsetblur" />
+        <feFlood flood-color="rgba(0,0,0,0.8)" />
+        <feComposite in2="offsetblur" operator="in" />
+        <feMerge>
+            <feMergeNode />
+            <feMergeNode in="SourceGraphic" />
+        </feMerge>
+    </filter>
+</svg>
+
+
 
 
