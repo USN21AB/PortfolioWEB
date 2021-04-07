@@ -415,6 +415,30 @@ namespace Portefolio_webApp.Controllers
 
             return Json(data);
         }
+
+
+        [HttpPost]
+        public JsonResult DeleteFolder(int index, string navn)
+        {
+
+            Debug.WriteLine("---------------------------------yo "  + index + " lol " + navn);
+            Bruker = firebase.HentEnkeltBruker(HttpContext.Session.GetString("_UserID"));
+            
+                
+            Bruker.Mapper.RemoveAt(index);
+            
+
+            firebase.OppdaterBruker(Bruker);
+
+            var str = JsonConvert.SerializeObject(Bruker);
+            HttpContext.Session.SetString("Innlogget_Bruker", str);
+
+            var resultat = "Jobberfaring oppdatert: " + navn + " " + index;
+            var data = new { status = "ok", result = resultat };
+
+            return Json(data);
+        }
+
     }
 
 }

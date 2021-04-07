@@ -1,5 +1,5 @@
 ﻿<link href="~/css/_browse.css" rel="stylesheet" />
-<script src="~/js/lyd.js"></script>
+<script src="~/js/lyd.js?v=1"></script>
 <link href="~/css/Musikkontroller.css?v=1" rel="stylesheet" />
 <link href="~/css/PorteføljeElementer.css?v=1" rel="stylesheet" />
 @model Portefolio_webApp.Models.Innlegg;
@@ -31,7 +31,7 @@
                 <img class="book_cover imge" src="@Innlegg.CoverURL" />
                 <div class="lit-tekst">
                     <h3 class="tittel">@Innlegg.Beskrivelse</h3>
-                    <h4 class="forfatter">@Innlegg.Eier</h4>
+                        <h4 class="forfatter">@Innlegg.Eier</h4>
                 </div>
                
             </a>
@@ -46,7 +46,7 @@
     <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id class="card-link">
         <div class="play_button_div">
             <h3 class="sangnavn" id="sangnavn-@Innlegg.Id">@Innlegg.Tittel</h3>
-            <p class="artist" id="artist-@Innlegg.Id">@Innlegg.Eier</p>
+                <p class="artist" id="artist-@Innlegg.Id">@Innlegg.Eier</p>
         </div>
 
 
@@ -74,7 +74,7 @@
                     <i class="far fa-image innlegg-ikon"></i>
                     <div class="awesome-info">
                         <h3>@Innlegg.Tittel</h3>
-                        <p>@Innlegg.Eier</p>
+                            <p>@Innlegg.Eier</p>
                     </div>
                     <img class="imge" src="@Innlegg.IkonURL" alt="">
                 </div>
