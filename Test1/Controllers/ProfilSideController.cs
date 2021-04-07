@@ -172,17 +172,18 @@ namespace Portefolio_webApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpsertBrukerAsync(Bruker oppBruker,string password ,string filename, IFormFile file, [FromServices] IHostingEnvironment oHostingEnvironment)
+        public async Task<IActionResult> UpsertBrukerAsync(Bruker oppBruker,string password, string passwordRetyp, string filename, IFormFile file, [FromServices] IHostingEnvironment oHostingEnvironment)
         {
 
-            Debug.WriteLine("--------------------------UPSERT BRUKER TEST CV: ");
+            Debug.WriteLine("--------------------------UPSERT BRUKER TEST CV: " + password + " " + passwordRetyp);
 
 
             if (string.IsNullOrEmpty(oppBruker.Id))
                     { //CREATE 
-                    
-                        
-                        string logginnID = logg.Register(oppBruker.Email, password).Result;
+
+                if (string.Equals(password, passwordRetyp)) {
+                    Debug.WriteLine("------inni is equal: " + string.Equals(password, passwordRetyp));
+                    string logginnID = logg.Register(oppBruker.Email, password).Result;
                         string[] splittArr = logginnID.Split("|");
 
                         oppBruker.Id = splittArr[0];
@@ -200,11 +201,29 @@ namespace Portefolio_webApp.Controllers
                             oppBruker.CV.BrukerID = oppBruker.Id;
                             
 
-                    oppBruker.Mapper = new List<Portfolio>();
-                             firebase.RegistrerBruker(oppBruker);
+                            oppBruker.Mapper = new List<Portfolio>();
+                            
+                        if (HttpContext.Session.GetString("CroppedPath") == "" || HttpContext.Session.GetString("CroppedPath") == null)
+                        {
+                            firebase.RegistrerBruker(oppBruker);
                         }
+                        else
+                        {
+                            await firebase.RegistrerBruker(oppBruker);
+                            await firebase.UploadProfilBilde(HttpContext.Session.GetString("CroppedPath"), oppBruker.Id);
+                            firebase.OppdaterBrukerBilde(oppBruker);
+                            HttpContext.Session.Remove("CroppedPath");
+                        }
+
                     }
-                    else
+                    }else
+                {
+                    Debug.WriteLine("------inni is NOT equal: " + string.Equals(password, passwordRetyp));
+                    ModelState.AddModelError(string.Empty, "Password must match in both password inputs");
+                    return View(oppBruker); 
+                }
+            }
+            else
             { //OPPDATERER
 
 
@@ -214,10 +233,22 @@ namespace Portefolio_webApp.Controllers
                 oppBruker.CV = innBruker.CV;
                 oppBruker.Mapper = innBruker.Mapper;
                 oppBruker.CVAdgang = innBruker.CVAdgang;
+                oppBruker.Profilbilde = innBruker.Profilbilde;
 
-                if (HttpContext.Session.GetString("CroppedPath") != null)
-                await firebase.UploadProfilBilde(HttpContext.Session.GetString("CroppedPath"), oppBruker.Id);
-                await firebase.OppdaterBrukerAsync(oppBruker);
+                Console.WriteLine("FEEE: " + HttpContext.Session.GetString("CroppedPath"));
+
+                if (HttpContext.Session.GetString("CroppedPath") == "" || HttpContext.Session.GetString("CroppedPath") == null)
+                {
+                    firebase.OppdaterBruker(oppBruker);
+                }
+                else
+                {
+                    await firebase.UploadProfilBilde(HttpContext.Session.GetString("CroppedPath"), oppBruker.Id);
+                    firebase.OppdaterBrukerBilde(oppBruker);
+                    HttpContext.Session.Remove("CroppedPath");
+                }
+
+
               
                 ModelState.AddModelError(string.Empty, "Oppdatert suksessfult!");
                     }

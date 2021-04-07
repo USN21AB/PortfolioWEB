@@ -160,6 +160,17 @@
         clear: left;
         color: white;
     }
+    p.notsolid {
+        display: block;
+        margin-top: 10px;
+        margin-left: 300px;
+        margin-right: 300px;
+        border-style: solid;
+        border-width: thin;
+        padding: 10px;
+        clear: left;
+        color: white;
+    }
     p.solidreply {
         display: block;
         margin-top: 10px;
@@ -246,17 +257,51 @@
 
         }
     }
-    @if (ViewData["Token"] != null)
+    @if (Model.Likes != null)
     {
+        var likes = Model.Likes.Antall;
+        <p class="solid">Likes: @likes</p>
+    }
+    @if (ViewData["Token"] != null)
+
+    {
+        var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
+        var i = 0;
+        var check = 0;
+        @if (Model.Likes != null)
+        {
+            
+
+            @while (i < Model.Likes.Brukere.Count)
+            {
+                @if (du.Id.Equals(Model.Likes.Brukere[i]))
+                {
+                    <button onclick="dislike('@thisid')">Dislike</button>
+                    check = 1;
+                    break;
+                }
+
+
+                i++;
+            }
+        }
+        if (check == 0)
+        {
+            <button onclick="like('@thisid')">Like</button>
+        }
+
+
+
         <div class="nyttKommentarFelt" style="margin-left: 300px" ;>
             <a asp-controller="Profilside" asp-action="Profilside">
-                <img src="~/lib/bilder/Mageh.png" height="60" width="60" id="imgikon" />
+                <img src=@du.Profilbilde height="60" width="60" id="imgikon" />
             </a>
             <textarea id="kommentarFelt" name="w3review" rows="4" cols="70"></textarea>
             <button onclick="Kommentar('@thisid')">Comment</button>
         </div>
     }
     @*Setter opp alle kommentarer som tilhører innlegget*@
+
     @{
         var antallReply = 0;
     }
@@ -286,7 +331,7 @@
                 var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
                 @if (du.Id.Equals(@komid))
                 {
-                    <button style="margin-left: 300px"  onclick="deleteKommentar('@antallKommentarer', '@thisid')">Delete Comment</button>
+                    <button style="margin-left: 300px" onclick="deleteKommentar('@antallKommentarer', '@thisid')">Delete Comment</button>
                 }
 
             }
@@ -311,7 +356,7 @@
                     var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
                     @if (du.Id.Equals(@replyid))
                     {
-                        <button style="margin-left: 300px"  onclick="deleteReply('@antallReply', '@antallKommentarer', '@thisid')">Delete Reply</button>
+                        <button style="margin-left: 300px" onclick="deleteReply('@antallReply', '@antallKommentarer', '@thisid')">Delete Reply</button>
                     }
 
                 }
@@ -358,6 +403,17 @@
             var params = url.replace('_innleggId_', innId).replace('_kommentarId_', kommId).replace('_replyId_', repId);
             window.location.href = params;
         }
+        function like(innId) {
+            var url = '@Html.Raw(Url.Action("LikeInnlegg", "Innlegg" , new {innleggId = "_innleggId_"}))';
+            var params = url.replace('_innleggId_', innId);
+            window.location.href = params;
+        }
+        function dislike(innId) {
+            var url = '@Html.Raw(Url.Action("DislikeInnlegg", "Innlegg" , new {innleggId = "_innleggId_"}))';
+            var params = url.replace('_innleggId_', innId);
+            window.location.href = params;
+        }
+
     </script>
     <script src="~/js/javaInnlegg.js?v=4">
     </script>

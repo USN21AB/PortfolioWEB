@@ -37,9 +37,13 @@
             data: data,
             success: function (path) {
                 $(".img").attr('src', path);
+<<<<<<< HEAD
                 $("#imge").attr('src', path);
                 $("#myprofilecrop").modal('hide');
                 //alert("Congrats this is how your bootiful picture looks :D");
+=======
+                alert("Congrats this is how your bootiful picture looks :D");
+>>>>>>> ab7fe66629d6f6109dc6f4eef337bff10baf45d6
             }
         });
     }

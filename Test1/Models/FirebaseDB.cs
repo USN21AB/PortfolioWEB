@@ -26,6 +26,7 @@ namespace Test1.Models
 
         private string croppedProfilImageUrl;
         private string CoverImageUrl;
+       
 
 
         [BindProperty]
@@ -62,6 +63,7 @@ namespace Test1.Models
                 list.Add(JsonConvert.DeserializeObject<Innlegg>(((JProperty)item).Value.ToString()));
             };
 
+            
             AlleInnlegg = list;
             return AlleInnlegg;
         }
@@ -254,7 +256,7 @@ namespace Test1.Models
             SetResponse setResponse = klient.Set("Portefolio/" + port.BrukerID, port);
         }
 
-        public void RegistrerBruker(Bruker bruker)
+        public async Task RegistrerBruker(Bruker bruker)
         {
             bruker.Profilbilde = "https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2Fdefault_account.jpg?alt=media&token=290b6907-f17e-4095-90a6-dca2c52563b9";
             //PushResponse respons = klient.Push("Bruker/"+bruker.Id, bruker);
@@ -267,10 +269,8 @@ namespace Test1.Models
             SetResponse respons = klient.Set("Bruker/" + bruker.Id, bruker);
         }
 
-        public async Task OppdaterBrukerAsync(Bruker bruker) 
+        public void OppdaterBrukerBilde(Bruker bruker) 
         {
-
-            Portefolio_webApp.Controllers.HomeController controller = new Portefolio_webApp.Controllers.HomeController();
 
             bruker.Profilbilde = croppedProfilImageUrl;
 
@@ -283,8 +283,10 @@ namespace Test1.Models
 
 
             SetResponse respons = klient.Set("Bruker/"+bruker.Id,bruker);
-           // dynamic data = JsonConvert.DeserializeObject<Bruker>(respons.Body);
+            // dynamic data = JsonConvert.DeserializeObject<Bruker>(respons.Body);
             //Bruker mellomBruker = JsonConvert.DeserializeObject<Bruker>(((JProperty)data).Value.ToString()); 
+
+           
         }
 
         public void OppdaterAuth(string gammelEmail, string Email, string Password, string GammelPassord)
