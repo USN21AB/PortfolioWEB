@@ -202,8 +202,14 @@ namespace Portefolio_webApp.Controllers
                             
 
                             oppBruker.Mapper = new List<Portfolio>();
-                             firebase.RegistrerBruker(oppBruker);
+                            await firebase.RegistrerBruker(oppBruker);
+                        if (file != null)
+                        {
+                            await firebase.UploadProfilBilde(HttpContext.Session.GetString("CroppedPath"), oppBruker.Id);
+                            firebase.OppdaterBrukerBilde(oppBruker);
                         }
+
+                    }
                     }else
                 {
                     Debug.WriteLine("------inni is NOT equal: " + string.Equals(password, passwordRetyp));
