@@ -35,6 +35,8 @@ namespace Portefolio_webApp.Models
 
         public List<Kommentar> Kommentar { get; set; }
 
+        public Like Likes { get; set; }
+
         public Innlegg()
         {
             Kommentar = new List<Kommentar>();
