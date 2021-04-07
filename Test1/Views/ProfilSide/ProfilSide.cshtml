@@ -16,15 +16,66 @@
     <link href="~/css/ProfilSide.css?v=1" rel="stylesheet" />
 </head>
 
+<script type="text/javascript">
+
+    $("input[type='image']").click(function () {
+        $("input[id='my_file']").click();
+    });
+
+
+
+    $(document).ready(function () {
+
+        document.getElementById("toastbtn").addEventListener('click', function (event) {
+            $('.toast').toast('show');
+            document.getElementById("toast").style.display = "inline";
+            document.getElementById("toast-body").innerHTML = "Something";
+        });
+    });
+
+    function onDelete(id, index, navn) {
+
+
+        document.getElementById(id).style.display = "none";
+
+        var json = {
+            "navn": navn,
+            "index": index,
+        };
+          $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("DeleteFolder", "ProfilSide")',
+                    data: json,
+                    dataType: "json",
+                    success: function (result) {
+                       // alert("Dette er resultatet " + result.result);
+                    }
+          });
+
+
+    }
+
+</script>
 
 <style>
+
+    .delete-folder {
+        
+        color: white;
+        font-size: 20px;
+        
+    }
+
+    .delete-folder-div {
+
+    }
 
     img {
         max-width: 100%; /* This rule is very important, please do not ignore this! */
     }
 
     .folder {
-        background: #212529;
+        background-color: #212529;
         margin: 20px;
     }
 
@@ -229,14 +280,18 @@
         var Mappe = BrukerInnhold.Mapper.ElementAt(antall);
 
 
-        <li class="nav-item">
-            <a class="nav-link folder " href="https://localhost:44344/ProfilSide/Portef%C3%B8lje#v-pills-@antall">
-                <div class="folder-design">
-                    <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190211472785468/Portfollowers_bilde.png" />
-                    <span class="folder-navn">@Mappe.MappeNavn</span>
-                </div>
-            </a>
-        </li>
+    <li class="nav-item" >
+        <button class="delete-folder-div" onclick="onDelete('mappe-@antall', @antall, '@Mappe.MappeNavn')">
+            <i class="far fa-trash-alt delete-folder"></i>
+        </button>
+        <a class="nav-link folder " href="https://localhost:44344/ProfilSide/Portef%C3%B8lje#v-pills-@antall">
+            <div class="folder-design" id="mappe-@antall">
+                
+                <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190211472785468/Portfollowers_bilde.png" />
+                <span class="folder-navn">@Mappe.MappeNavn</span>
+            </div>
+        </a>
+    </li>
         antall++;
     }
     </ul>
@@ -261,26 +316,7 @@
     <script src="https://cdn.jsdelivr.net/jquery.mixitup/latest/jquery.mixitup.min.js"></script>
 
 
-    <script type="text/javascript">
-
-        $("input[type='image']").click(function () {
-            $("input[id='my_file']").click();
-        });
-
-    </script>
-
-    <script type="text/javascript">
-
-        $(document).ready(function () {
-
-            document.getElementById("toastbtn").addEventListener('click', function (event) {
-                $('.toast').toast('show');
-                document.getElementById("toast").style.display = "inline";
-                document.getElementById("toast-body").innerHTML = "Something";
-            });
-        });
-
-    </script>
+    
 
 
     <!-- For later  <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">  -->

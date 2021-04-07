@@ -95,7 +95,7 @@ function stopAll() {
     var spiller = document.getElementById("test").style;
     var playpause = document.getElementsByClassName("play_button");
     i = lyd.length;
-    var footer = 
+    
 
     while (i--) {
 

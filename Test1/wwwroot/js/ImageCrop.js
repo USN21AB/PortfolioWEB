@@ -36,9 +36,10 @@
             processData: false,
             data: data,
             success: function (path) {
-              
                 $(".img").attr('src', path);
-                alert("Congrats this is how your bootiful picture looks :D");
+                $("#imge").attr('src', path);
+                $("#myprofilecrop").modal('hide');
+                //alert("Congrats this is how your bootiful picture looks :D");
             }
         });
     }
