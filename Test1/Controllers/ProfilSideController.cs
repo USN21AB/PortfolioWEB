@@ -202,11 +202,17 @@ namespace Portefolio_webApp.Controllers
                             
 
                             oppBruker.Mapper = new List<Portfolio>();
-                            await firebase.RegistrerBruker(oppBruker);
-                        if (file != null)
+                            
+                        if (HttpContext.Session.GetString("CroppedPath") == "" || HttpContext.Session.GetString("CroppedPath") == null)
                         {
+                            firebase.RegistrerBruker(oppBruker);
+                        }
+                        else
+                        {
+                            await firebase.RegistrerBruker(oppBruker);
                             await firebase.UploadProfilBilde(HttpContext.Session.GetString("CroppedPath"), oppBruker.Id);
                             firebase.OppdaterBrukerBilde(oppBruker);
+                            HttpContext.Session.Remove("CroppedPath");
                         }
 
                     }
@@ -227,10 +233,22 @@ namespace Portefolio_webApp.Controllers
                 oppBruker.CV = innBruker.CV;
                 oppBruker.Mapper = innBruker.Mapper;
                 oppBruker.CVAdgang = innBruker.CVAdgang;
+                oppBruker.Profilbilde = innBruker.Profilbilde;
 
-                if (HttpContext.Session.GetString("CroppedPath") != null)
-                await firebase.UploadProfilBilde(HttpContext.Session.GetString("CroppedPath"), oppBruker.Id);
-                firebase.OppdaterBrukerBilde(oppBruker);
+                Console.WriteLine("FEEE: " + HttpContext.Session.GetString("CroppedPath"));
+
+                if (HttpContext.Session.GetString("CroppedPath") == "" || HttpContext.Session.GetString("CroppedPath") == null)
+                {
+                    firebase.OppdaterBruker(oppBruker);
+                }
+                else
+                {
+                    await firebase.UploadProfilBilde(HttpContext.Session.GetString("CroppedPath"), oppBruker.Id);
+                    firebase.OppdaterBrukerBilde(oppBruker);
+                    HttpContext.Session.Remove("CroppedPath");
+                }
+
+
               
                 ModelState.AddModelError(string.Empty, "Oppdatert suksessfult!");
                     }

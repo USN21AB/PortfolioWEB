@@ -283,8 +283,10 @@ namespace Test1.Models
 
 
             SetResponse respons = klient.Set("Bruker/"+bruker.Id,bruker);
-           // dynamic data = JsonConvert.DeserializeObject<Bruker>(respons.Body);
+            // dynamic data = JsonConvert.DeserializeObject<Bruker>(respons.Body);
             //Bruker mellomBruker = JsonConvert.DeserializeObject<Bruker>(((JProperty)data).Value.ToString()); 
+
+           
         }
 
         public void OppdaterAuth(string gammelEmail, string Email, string Password, string GammelPassord)
