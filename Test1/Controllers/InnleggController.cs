@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Portefolio_webApp.Models;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Test1.Models;
 
@@ -66,21 +67,28 @@ namespace Portefolio_webApp.Controllers
             return View(Innlegg);
         }
 
-        [HttpPost]
-        public async System.Threading.Tasks.Task<IActionResult> Upsert_InnleggAsync(Microsoft.AspNetCore.Http.IFormFile file, Innlegg innlegg, [FromServices] IHostingEnvironment oHostingEnvironment, string mappenavn)
+        /*[HttpPost]
+        public async System.Threading.Tasks.Task<IActionResult> UploadCoverPhoto(Microsoft.AspNetCore.Http.IFormFile file, Innlegg innlegg, [FromServices] IHostingEnvironment oHostingEnvironment, string submit)
         {
+          
+                        if (file != null)
+                            await firebase.UploadCoverPhoto($"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{file.FileName}", file);
+                       
+
+            return View(Innlegg);
+        }*/
 
 
+        [HttpPost]
+        public async System.Threading.Tasks.Task<IActionResult> Upsert_InnleggAsync(IFormFile inputfile, IFormFile coverfile,Innlegg innlegg, [FromServices] IHostingEnvironment oHostingEnvironment, string mappenavn)
+        {
 
             innlegg.EierId = HttpContext.Session.GetString("_UserID");
 
-            Debug.WriteLine("------------------------------------upsert innlegg POST" + mappenavn);
-            Console.WriteLine("EYOOOOOOOOOOO BRUUUUH");
             DateTime today = DateTime.Today;
             DateTime l = today;
             innlegg.Dato = l.ToString("dd/MM/yyyy");
-            //Hent innlogget person innlegg.EierId = firebase.hentBruker();  
-
+    
 
             innlegg.Tagger[1].Split(",");
             var splitTag = innlegg.Tagger[1].Split(",");
@@ -126,56 +134,51 @@ namespace Portefolio_webApp.Controllers
                 }
 
                 if (string.IsNullOrEmpty(innlegg.Id))
-                {
+                { //REgistrer nytt innlegg siden id er null.
 
 
                     try
                     {
 
-                        ProfilSideController profilSideController = new ProfilSideController();
+                        if (coverfile != null)
+                            await firebase.UploadCoverPhoto($"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{coverfile.FileName}", coverfile);
 
-
-                        //logg.Register(oppBruker.Email, oppBruker.Password).Result;
-                        //innlegg.EierId = HttpContext.Session.GetString("_UserID");
-                        Console.WriteLine("EYOOOOOOOOOOO BRUUUUH");
-                        //profilSideController.UploadInnleggFile(file, oHostingEnvironment, innlegg);
-                        if (file != null)
+                        if (inputfile != null)
                         {
-                            await firebase.UploadInnleggFile($"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{file.FileName}", file, innlegg);
-                            firebase.OppdaterBrukerAsync(bruker);
+                            innlegg.antallLikes = 0;
+                            await firebase.RegistrerInnleggMedFil($"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{inputfile.FileName}", inputfile, innlegg);
+                          
+                            firebase.OppdaterBruker(bruker);
                         }
-                        else
-                        {
 
-                            firebase.RegistrerInnlegg(innlegg);
-                            firebase.OppdaterBrukerAsync(bruker);
-                        }
-                        Console.WriteLine("EYOOOOOOOOOOO BRUUUUH");
                         ModelState.AddModelError(string.Empty, "Registrering suksessfult!");
-
                     }
                     catch (Exception ex)
                     {
                         ModelState.AddModelError(string.Empty, ex.Message);
                     }
-                }
+                } // Oppdater innlegg siden id finnes!
                 else
                 {
+
+                    //MÅ LEGGE TIL UPDATE INNLEGG HER
                     innlegg.EierId = HttpContext.Session.GetString("_UserID"); 
                     firebase.OppdaterInnlegg(innlegg);
-                    firebase.OppdaterBrukerAsync(bruker);
+                    firebase.OppdaterBruker(bruker);
                 }
             }
 
             var str = JsonConvert.SerializeObject(bruker);
             HttpContext.Session.SetString("Innlogget_Bruker", str);
 
+            ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
+            ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
             ViewData["Innlogget_Bruker"] = bruker;
 
             return View(Innlegg);
         }
 
-        [HttpGet]
+        
         public IActionResult Nav_Innlegg(string id)
         {
             //Skjekker om bruker er logget inn
@@ -257,7 +260,168 @@ namespace Portefolio_webApp.Controllers
             return Redirect("~/Innlegg/Nav_Innlegg/" + innlegg.Id);
         }
 
-        
+        public IActionResult NyttReply(string tekst, string innleggId, int kommentId)
+        {
+            var str = HttpContext.Session.GetString("Innlogget_Bruker");
+            var innBruker = JsonConvert.DeserializeObject<Bruker>(str);
+            var brukerBilde = innBruker.Profilbilde;
+            var brukerId = innBruker.Id;
+            var brukerNavn = innBruker.Navn;
 
-    }
-}
+            Kommentar kommentar = new Kommentar();
+            DateTime today = DateTime.Today;
+            DateTime l = today;
+
+            kommentar.Tekst = tekst;
+            kommentar.InnleggId = innleggId;
+            kommentar.Dato = l.ToString("dd/MM/yyyy");
+
+            kommentar.EierId = brukerId;
+            kommentar.EierNavn = brukerNavn;
+            kommentar.EierBilde = brukerBilde;
+
+
+            var innlegg = new Innlegg();
+            innlegg = firebase.HentSpesifiktInnlegg(innleggId);
+            var baseKomment = innlegg.Kommentar[kommentId];
+            baseKomment.Kommentarer.Add(kommentar);
+            innlegg.Kommentar[kommentId] = baseKomment;
+            Debug.WriteLine("Oppdaterer innlegg1: " + innleggId + "Oppdaterer innlegg: ");
+            try
+            {
+                if (innlegg.Id != null)
+                {
+                    Debug.WriteLine("Oppdaterer innlegg2: " + innlegg.Kommentar[0].InnleggId);
+                    Debug.WriteLine("Oppdaterer innlegg3: " + innlegg.Kommentar[0].Kommentarer[0].Tekst);
+                    //firebase.RegistrerKommentar(kommentar);
+                    firebase.OppdaterInnlegg(innlegg);
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return Redirect("~/Innlegg/Nav_Innlegg/" + innlegg.Id);
+        }
+                                                                           
+        public IActionResult DeleteKommentar(string innleggId, int kommentarId)
+        {
+            var innlegg = new Innlegg();
+            innlegg = firebase.HentSpesifiktInnlegg(innleggId);
+            innlegg.Kommentar.RemoveAt(kommentarId);
+
+            try
+            {
+                if (innlegg.Id != null)
+                {
+                    Debug.WriteLine("Oppdaterer innlegg2: " + innlegg.Id);
+                    //firebase.RegistrerKommentar(kommentar);
+                    firebase.OppdaterInnlegg(innlegg);
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return Redirect("~/Innlegg/Nav_Innlegg/" + innlegg.Id);
+            
+        }
+
+        public IActionResult DeleteReply(string innleggId, int kommentarId, int replyId)
+        {
+            var innlegg = new Innlegg();
+            innlegg = firebase.HentSpesifiktInnlegg(innleggId);
+            innlegg.Kommentar[kommentarId].Kommentarer.RemoveAt(replyId);
+
+            try
+            {
+                if (innlegg.Id != null)
+                {
+                    Debug.WriteLine("Oppdaterer innlegg2: " + innlegg.Id);
+                    //firebase.RegistrerKommentar(kommentar);
+                    firebase.OppdaterInnlegg(innlegg);
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return Redirect("~/Innlegg/Nav_Innlegg/" + innlegg.Id);
+
+        }
+        public IActionResult LikeInnlegg(string innleggId)
+        {
+            var str = HttpContext.Session.GetString("Innlogget_Bruker");
+            var innBruker = JsonConvert.DeserializeObject<Bruker>(str);
+
+            var innlegg = firebase.HentSpesifiktInnlegg(innleggId);
+            if (innlegg.Likes != null)
+            {
+                innlegg.Likes.Antall += 1;
+                innlegg.Likes.Brukere.Add(innBruker.Id);
+            }
+            else
+            {
+                Debug.WriteLine("Noe: " + innBruker.Id);
+                Like like = new Like();
+                like.Antall = 1;
+                like.Brukere.Add(innBruker.Id);
+
+                innlegg.Likes = like;
+            }
+           
+
+            try
+            {
+                if (innlegg.Id != null)
+                {
+
+                    firebase.OppdaterInnlegg(innlegg);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+                    return Redirect("~/Innlegg/Nav_Innlegg/" + innlegg.Id);
+        }
+
+        public IActionResult DislikeInnlegg(string innleggId)
+        {
+            var str = HttpContext.Session.GetString("Innlogget_Bruker");
+            var innBruker = JsonConvert.DeserializeObject<Bruker>(str);
+
+            var innlegg = firebase.HentSpesifiktInnlegg(innleggId);
+
+            var i = 0;
+            while (i < innlegg.Likes.Brukere.Count)
+            {
+                if (innBruker.Id.Equals(innlegg.Likes.Brukere[i]))
+                {
+                    innlegg.Likes.Brukere.RemoveAt(i);
+                    innlegg.Likes.Antall -= 1;
+                }
+                i++;
+            }
+
+            try
+            {
+                if (innlegg.Id != null)
+                {
+
+                    firebase.OppdaterInnlegg(innlegg);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return Redirect("~/Innlegg/Nav_Innlegg/" + innlegg.Id);
+        }
+    }      
+}                                                         

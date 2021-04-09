@@ -11,7 +11,6 @@
     var beskrivelse = "";
     var innlegg = new Innlegg();
     var kommentar = new List<Kommentar>();
-    var i = 0;
 
     var bruker = (Portefolio_webApp.Models.Bruker)ViewData["bruker"];
 
@@ -20,6 +19,7 @@
     @model Portefolio_webApp.Models.Innlegg;
     if (Model.Kategori != null || Model.IkonURL != null)
     {
+
         thisid = Model.Id;
         eierId = Model.EierId;
         tittel = Model.Tittel;
@@ -33,36 +33,77 @@
     }
 }
 
+
+
+
+
 <style>
     .music_player {
+        margin: 2px;
+        width: 310px;
+        height: 310px;
+        overflow: hidden;
+        position: relative;
+        margin: auto;
+        display: block;
+        background-color: #212529
     }
 
-
-        .music_player img {
-            width: 300px;
-            height: 300px;
-        }
 
     .play_button_div {
-        background-color: #fff;
+        background-color: rgba(39,39,39,0);
+        height: 100%;
         position: absolute;
         top: 0;
-        width: 100px;
-        opacity: 0;
+        width: 100%;
+        padding-top: 220px;
         display: block;
+        text-align: center;
+        padding-left: 10px;
+        padding-right: 10px;
     }
+
+        .play_button_div h3 {
+            color: #fff;
+            font-size: 20px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .play_button_div p {
+            color: #fff;
+            font-size: 20px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
     .play_button {
         position: absolute;
+        margin-top: 105px;
+        margin-bottom: 105px;
+        margin-left: 105px;
+        margin-right: 105px;
         opacity: 0;
+        z-index: 1;
         width: 100px;
         height: 100px;
     }
 
-        .play_button:active {
-            transform: scale(.95);
-            filter: brightness(50%);
-        }
+    .shadowed {
+        -webkit-filter: drop-shadow(4px 4px 4px rgba(0,0,0,0.8));
+        filter: url(#drop-shadow);
+        -ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=4, OffY=4, Color='#444')";
+        filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=4, OffY=4, Color='#444')";
+    }
+
+
+
+    .play_button:active {
+        transform: scale(.95);
+        filter: brightness(50%);
+    }
 
     .music_player:hover .play_button {
         opacity: 1;
@@ -70,25 +111,79 @@
 
 
     .music_player:hover .play_button_div {
-        opacity: 0.6;
+        background-color: rgba(39,39,39,0.8);
     }
+
+    .artist, .sangnavn {
+        opacity: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+
+
+    .music_player:hover .artist {
+        opacity: 1;
+    }
+
+    .music_player:hover .sangnavn {
+        opacity: 1;
+    }
+
+    .imge {
+        min-width: 100%;
+        min-height: 100%;
+        max-width: 100%;
+        height: auto;
+        object-fit: cover;
+    }
+
+
+
+
 
     textarea {
         resize: none;
     }
-</style>
-
-<style>
-    body{
-        margin-top: 60px;
+    body {
+        background-color: #232426;
+        margin-top: 55px;
     }
 
 
     .hovedInnlegg {
-        text-align:center;
-        margin-left: auto;
-        margin-right: auto;
+        margin: auto;
+        box-shadow: 0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.06);
+        background-color: #384352;
+        background-clip: border-box;
+        border: 0 solid rgba(0,0,0,.125);
+        border-radius: .25rem;
+        
+        height: 660px;
+        padding: 10px;
+        margin-bottom: 20px;
+    }
 
+    
+
+    
+
+
+    .bildediv {
+        max-width: 100%;
+        bottom: 0;
+        
+        text-align: center;
+        max-height: 553px;
+        
+        
+    }
+
+    .bildeInnlegg {
+        max-height: 100%;
+        max-width: 100%;
+        border-radius: .25rem;
     }
 
     .tekstInnlegg{
@@ -96,10 +191,6 @@
         width: 100%;
     }
 
-    .bildeInnlegg{
-        height: 600px;
-        width: 600px;
-    }
 
     .hovedInnlegg h1 {
         color: white;
@@ -113,30 +204,93 @@
 
 
 
-    @* brukerikon og brukernavn sammen *@ .innleggProfil {
-        display: block;
-        margin-top: 20px;
-        margin-left: 300px;
-        margin-right: 300px;
-        margin-bottom: 20px;
+
+    @* brukerikon og brukernavn sammen *@
+
+    .innleggTop {
+        position: relative;
+        margin-top: 10px;
+        height: 90px;
+    }
+    .ikontxttop {
+        font-size: 25px;
+        position: absolute;
+        margin-left: 80px;
+        top: 50px;
+        
+        color: white;
+    }
+    .innleggProfil {
+        position: relative;
+        height: 90px;
     }
 
-    .innleggProfil img {
+        .innleggProfil img {
+            float: left;
+            border-radius: .25rem;
+            height: 80px;
+            width: 80px;
+            object-fit: cover;
+            margin-right: 10px;
+        }
+        .innleggProfil h1 {
+            font-size: 35px;
+            position: absolute;
+            left: 79px;
+        }
+
+    
+
+    .ikontxt {
+        font-size: 25px;
+        margin-top: -10px;
+        left: 45px;
+        color: white;
+    }
+
+    .kommentartext {
+        left:51px;
+        padding: 10px;
+        top: -30px;
+        color: white;
+    }
+
+    .kommentarProfil {
+        position: relative;
+        margin-bottom: 10px;
+    }
+
+    .kommentarProfil img {
         float: left;
+        border-radius: 50%;
+        position: absolute;
+        height: 50px;
+        width: 50px;
+        object-fit: cover;
         margin-right: 10px;
     }
+        
 
-    @*brukernavn ved siden av ikon*@
-    .innleggProfil p {
-        display: block;
-        padding-left: 20px;
-        margin-left: 20px;
-        color: white;
-
+    .kommentardiv {
+        margin: auto;
+        box-shadow: 0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.06);
+        background-color: #384352;
+        background-clip: border-box;
+        border: 0 solid rgba(0,0,0,.125);
+        border-radius: .25rem;        
+        padding: 10px;
     }
+
+   
+
+    
 
     hr.white {
         border-top: 1px solid white;
+    }
+
+    .nyttKommentarFelt {
+        margin: auto
     }
 
     .nyttKommentarFelt * {
@@ -146,10 +300,32 @@
         vertical-align: bottom;
     }
 
-    @* Beskrivelse tekst *@ p.solid {
+
+
+
+    @* Beskrivelse tekst *@
+    p.solid {
+        margin-left: 50px;
+        position: absolute;
+        padding: 10px;
+        top: 10px;
+        color: white;
+    }
+    p.notsolid {
         display: block;
         margin-top: 10px;
         margin-left: 300px;
+        margin-right: 300px;
+        border-style: solid;
+        border-width: thin;
+        padding: 10px;
+        clear: left;
+        color: white;
+    }
+    p.solidreply {
+        display: block;
+        margin-top: 10px;
+        margin-left: 350px;
         margin-right: 300px;
         border-style: solid;
         border-width: thin;
@@ -159,53 +335,126 @@
         color: white;
     }
 
+    .replyarea {
+        display: none;
+        margin-left:300px;
+    }
+
+    .innloggetprofilbilde {
+        float: left;
+        border-radius: 50%;
+        height: 50px;
+        width: 50px;
+        object-fit: cover;
+        margin-right: 10px;
+    }
+
+    .skrivKommentar {
+        outline: none;
+        height: 30px;
+    }
+
+    .skrivKommentar:focus {
+        height: 105px
+    }
+
+    
+
+    .replyProfil {
+        margin-top: 40px;
+        margin-left: 70px;
+    }
+
+    .singleKommentar {
+        margin-top: 40px;
+    }
 </style>
 
+<script>
+    
+
+function Kommentar(nyId) {
+    var url = '@Html.Raw(Url.Action("NyttKommentar", "Innlegg" , new { tekst = "_tekst_", innleggId = "_innleggId_" }))';
+    var tekst = $('#kommentarFelt').val();
+    var params = url.replace('_tekst_', tekst).replace('_innleggId_', nyId);
+    window.location.href = params;
+}
+function Reply(nyId, kommId) {
+    var url = '@Html.Raw(Url.Action("NyttReply", "Innlegg" , new { tekst = "_tekst_", innleggId = "_innleggId_", kommentId = "_kommentId_" }))';
+    var tekst = $('#replyFelt' + kommId).val();
+    var params = url.replace('_tekst_', tekst).replace('_innleggId_', nyId).replace('_kommentId_', kommId);
+    window.location.href = params;
+}
+function hideReply(kommId) {
+    $('#replyArea' + kommId).toggle();
+}
+function deleteKommentar(kommId, innId) {
+    var url = '@Html.Raw(Url.Action("DeleteKommentar", "Innlegg" , new {innleggId = "_innleggId_", kommentarId = "_kommentarId_" }))';
+    var params = url.replace('_innleggId_', innId).replace('_kommentarId_', kommId);
+    window.location.href = params;
+}
+function deleteReply(repId, kommId, innId) {
+    var url = '@Html.Raw(Url.Action("DeleteReply", "Innlegg" , new {innleggId = "_innleggId_", kommentarId = "_kommentarId_", replyId = "_replyId_" }))';
+    var params = url.replace('_innleggId_', innId).replace('_kommentarId_', kommId).replace('_replyId_', repId);
+    window.location.href = params;
+}
+function like(innId) {
+    var url = '@Html.Raw(Url.Action("LikeInnlegg", "Innlegg" , new {innleggId = "_innleggId_"}))';
+    var params = url.replace('_innleggId_', innId);
+    window.location.href = params;
+}
+function dislike(innId) {
+    var url = '@Html.Raw(Url.Action("DislikeInnlegg", "Innlegg" , new {innleggId = "_innleggId_"}))';
+    var params = url.replace('_innleggId_', innId);
+    window.location.href = params;
+    }
+
+    
+
+</script>
 
 
-<body style="background-color: rgb(46, 46, 46)">
+<link href="~/css/Musikkontroller.css" rel="stylesheet" />
+<script src="~/js/lyd.js?v=1"></script>
+@*Klassen inneholder Tittel, opplastingsdato, og hovedinnlegget (bilde eller pdf)*@
 
-    @*Klassen inneholder Tittel, opplastingsdato, og hovedinnlegget (bilde eller pdf)*@
+<div class="hovedInnlegg card container col-9">
+    @{
 
-    <div class="hovedInnlegg">
-        @{
+        if (kategori.Equals("Bilde"))
+        {
 
-            if (@ViewBag.Status.Equals(true))
-            {
-                <p>hei</p>
-            }
 
-            else if (kategori.Equals("Bilde"))
-            {
 
-                <h1 onclick="">@tittel</h1>
-                <p>@dato</p>
-                <img src="~/lib/bilder/yeetle_nen.png" class="small" alt="error" id="innlegg" />
+            <div class="bildediv ">
+                <img src='@url' class=" bildeInnlegg" alt="error" id="innlegg" />
+            </div>
+        }
+        else if (kategori.Equals("Tekst"))
+        {
+            <embed src='@url' class="tekstInnlegg" />
 
-            }
-            else if (kategori.Equals("Tekst"))
-            {
-                <embed src="~/lib/pdfs/prosjektbeskrivelse.pdf" class="tekstInnlegg" />
-                <p>@dato</p>
-            }
-            else if (kategori.Equals("Lyd"))
-            {
-                <h1 onclick="">@tittel </h1>
-                <p>@dato</p>
-                <div class="music_player">
-                    <div class="play_button_div"></div>
-                    <img id="sangi" class="play_button shadowed" src="https://www.clipartmax.com/png/middle/134-1347519_youtube-png-play-pictures-png-images-play-button-png.png" onclick='spillAv("sang", this.id); visSang("sangnavn", "artist")' />
-                    <audio id="sang" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2FPok%C3%A9mon%20Theme%20Song.mp3?alt=media&token=bccacd1c-ed6a-4050-8745-b1ee3bb50f96"></audio>
-                    <img src="~/lib/bilder/Maracoween_F.png" />
-                    <p id="sangnavn">Pokémon Theme</p>
-                    <p id="artist">IDFK</p>
+        }
+        else if (kategori.Equals("Lyd"))
+        {
+            <h1 onclick="">@tittel </h1>
+
+            <div class="music_player">
+                <div class="play_button_div">
+                    <h3 class="sangnavn" id="sangnavn">@tittel</h3>
+                    <p class="artist" id="artist">@bruker.Navn</p>
                 </div>
-            }
+                <img id="sangi" class="play_button shadowed" src='~/resources/icons8-play-96.png' onclick='spillAv("sang", "sangi"); visSang("sangnavn", "artist")' />
+                <audio id="sang" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="@url"></audio>
+                <img class="fuck imge" src="@Model.CoverURL" />
+            </div>
+        }
+        else
+        {
+            <p>Noe gikk galt</p>
         }
 
 
-    </div>
-    @{
         if (kategori.Equals(""))
         {
             <div class="hovedInnlegg">
@@ -214,66 +463,234 @@
         }
         else
         {
-            <div class="innleggProfil">
-                <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@bruker.Id">
-                    <img src="~/lib/bilder/Mageh.png" height="60" width="60" id="imgikon" />
-                </a>
-                <p class="ikontxt"><u>@bruker.Navn</u> <br> @bruker.Stilling </p>
-            </div>
-            <p class="solid">
-                @beskrivelse
-            </p>
+            <div class="innleggTop">
 
+                <div class="innleggProfil">
+                    <h1 class="col-11">@tittel er et spill som sikkert blir bra, men aldri kommer</h1>
+                    <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@bruker.Id">
+                        <img  src="@bruker.Profilbilde" id="@url" />
+                        <h3 class="ikontxttop col-4">@bruker.Navn</h3>
+
+                        <!-- @{
+            var antall = 0;
+            var tag = Model.Tagger;
+        }
+        @while (antall < tag.Count)
+        {
+            <p class="tag">@tag.ElementAt(antall)</p>
+            antall++;
+        }-->
+
+
+                    </a>
+                </div>
+                
+                <p>@dato</p>
+
+
+            </div>
 
 
         }
-    }
-    @if (ViewData["Token"] != null)
-    {
-        <div class="nyttKommentarFelt">
-            <a asp-controller="Profilside" asp-action="Profilside">
-                <img src="~/lib/bilder/Mageh.png" height="60" width="60" id="imgikon" />
-            </a>
-            <textarea id="kommentarFelt" name="w3review" rows="4" cols="70"></textarea>
-            <button>Cancel</button><button onclick="Kommentar('@thisid')">Comment</button>
-        </div>
+
+
+
+
+
     }
 
+</div>
+<!--
+@{
+    if (kategori.Equals(""))
+    {
+        <div class="hovedInnlegg">
+            <p>Beklager men denne siden eksisterer ikke </p>
+        </div>
+    }
+    else
+    {
+        <div class="innleggProfil">
+            <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@bruker.Id">
+                <img src="@bruker.Profilbilde" height="60" width="60" id="@url" />
+
+                <p class="ikontxt"><u>@bruker.Navn</u>  <br> @bruker.Stilling </p>
+            </a>
+        </div>
+        <p class="solid">
+            @beskrivelse
+        </p>
+
+
+
+    }
+}
+    -->
+@if (Model.Likes != null)
+{
+    var likes = Model.Likes.Antall;
+    <p class="solid">Likes: @likes</p>
+}
+<div class="kommentardiv container col-9">
+
+    @if (ViewData["Token"] != null)
+
+    {
+        var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
+        var i = 0;
+        var check = 0;
+        @if (Model.Likes != null)
+        {
+
+
+            @while (i < Model.Likes.Brukere.Count)
+            {
+                @if (du.Id.Equals(Model.Likes.Brukere[i]))
+                {
+                    <button onclick="dislike('@thisid')">Dislike</button>
+                    check = 1;
+                    break;
+                }
+
+
+                i++;
+            }
+        }
+        if (check == 0)
+        {
+            <button onclick="like('@thisid')">Like</button>
+        }
+
+
+
+        <div class="nyttKommentarFelt" ;>
+            <a asp-controller="Profilside" asp-action="Profilside">
+                <img src=@du.Profilbilde class="innloggetprofilbilde" id="imgikon" />
+            </a>
+            <textarea id="kommentarFelt" name="w3review" cols="90" rows="1" class="skrivKommentar" placeholder="What do you think..."></textarea>
+            <button onclick="Kommentar('@thisid')">Comment</button>
+        </div>
+    }
+    @*Setter opp alle kommentarer som tilhører innlegget*@
+
+    @{
+        var antallReply = 0;
+    }
     @{
         var antallKommentarer = 0;
     }
+
     @if (kommentar.Count != 0)
         @while (antallKommentarer < kommentar.Count)
         {
+            var kommentid = kommentar[antallKommentarer].Id;
             var tekst = kommentar[antallKommentarer].Tekst;
             var komid = kommentar[antallKommentarer].EierId;
             var bilde = kommentar[antallKommentarer].EierBilde;
             var nvn = kommentar[antallKommentarer].EierNavn;
-            <div class="innleggProfil">
-                <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@komid">
-                    <img src=@bilde height="30" width="30" id="imgikon" />
-                    <p class="ikontxt"><u>@nvn</u><br></p>
-                </a>
-            </div>
-            <p class="solid">@tekst</p>
-            antallKommentarer += 1;
+<div class="singleKommentar">
+
+
+    <div class="kommentarProfil">
+        <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@komid">
+            <img src=@bilde id="imgikon" />
+        </a>
+        <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@komid">
+            <p class="ikontxt col-10">@nvn </p>
+        </a>
+        <p class="kommentartext col-10">@tekst helvetes lang tekst eeller noe dritt hva sker med denne kommentaren og de andre under, håer det funker slik at jeg slipper å finjustere alt smile det ser ikke ut som om det flytter seg så jeg er fucked lol</p>
+        @if (ViewData["Token"] != null)
+        {
+            var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
+            @if (du.Id.Equals(@komid))
+            {
+                <button class="slettKommentar" onclick="deleteKommentar('@antallKommentarer', '@thisid')"><i class="far fa-trash-alt delete-folder"></i></button>
+            }
+
         }
-    <div id="alleKommentarFelt">
 
     </div>
-    <script>
-        function Kommentar(nyId) {
-        var url = '@Html.Raw(Url.Action("NyttKommentar", "Innlegg" , new { tekst = "_tekst_", innleggId = "_innleggId_" }))';
-            var tekst = $('#kommentarFelt').val();
-            var params = url.replace('_tekst_', tekst).replace('_innleggId_', nyId);
-            window.location.href = params;
+
+    @{
+        var divid = "replyFelt" + antallKommentarer;
         }
+    
+    
+    @while (antallReply < kommentar[antallKommentarer].Kommentarer.Count)
+    {
+        var replyid = kommentar[antallKommentarer].Kommentarer[antallReply].EierId;
+        var replytekst = kommentar[antallKommentarer].Kommentarer[antallReply].Tekst;
+        var replykomid = kommentar[antallKommentarer].Kommentarer[antallReply].EierId;
+        var replybilde = kommentar[antallKommentarer].Kommentarer[antallReply].EierBilde;
+        var replynvn = kommentar[antallKommentarer].Kommentarer[antallReply].EierNavn;
+
+        <div class="kommentarProfil replyProfil">
+            <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@replykomid">
+                <img src=@replybilde id="imgikon" />
+                <p class="reply">@replynvn</p>
+            </a>
+            <p class="solidreply">@replytekst</p>
+        </div>
+
+        
+        @if (ViewData["Token"] != null)
+        {
+            var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
+            @if (du.Id.Equals(@replyid))
+            {
+                <button style="margin-left: 300px" onclick="deleteReply('@antallReply', '@antallKommentarer', '@thisid')">Delete Reply</button>
+            }
+
+        }
+        antallReply += 1;
+
+    }
+    @if (ViewData["Token"] != null)
+    {
+        <button onclick="hideReply('@antallKommentarer')" style="margin-left: 300px" ;>reply</button>
+    }
+
+    <div id="@("replyArea" + antallKommentarer)" class="replyarea">
+        <textarea id="@("replyFelt" + antallKommentarer)" name="w3review" rows="4" cols="70"></textarea>
+        <button onclick="Reply('@thisid' , '@antallKommentarer')">Reply</button>
+    </div>
+    @{antallReply = 0;
+            antallKommentarer += 1;
+        }
+</div>
+        }
+</div>
+<div id="alleKommentarFelt">
+
+</div>
 
 
-    </script>
-    <script src="~/js/javaInnlegg.js?v=4">
-    </script>
+<div class="musikk_kontroller" id="test">
+    <span id="sangfelt"></span>
+    <span id="artistfelt"></span>
 
-</body>
+    <span id="tracktime">00:00</span>
+    <progress id="seekbar" value="0" max="100"></progress>
+    <span id="trackduration">00:00</span>
+
+    <img class="stopper" src="~/resources/icons8-pause-96.png" onclick="stopAll()" />
+
+    <input type="range" id="volume-control" value="10" min="0" max="10" onload="volum(this.value)" onchange="volum(this.value)">
+</div>
+
+<svg height="0" xmlns="http://www.w3.org/2000/svg">
+    <filter id="drop-shadow">
+        <feGaussianBlur in="SourceAlpha" stdDeviation="4" />
+        <feOffset dx="4" dy="4" result="offsetblur" />
+        <feFlood flood-color="rgba(0,0,0,0.8)" />
+        <feComposite in2="offsetblur" operator="in" />
+        <feMerge>
+            <feMergeNode />
+            <feMergeNode in="SourceGraphic" />
+        </feMerge>
+    </filter>
+</svg>
+
+
 
 

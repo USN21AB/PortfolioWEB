@@ -23,17 +23,19 @@ namespace Portefolio_webApp.Controllers
         private readonly FirebaseDB firebase;
         LoginController logg;
 
-        public ProfilSideController()
-        {
-            firebase = new FirebaseDB();
-            logg = new LoginController();
-        }
+    
 
         [BindProperty]
         public CV CirVit { get; set; }
 
         [BindProperty]
         public Bruker Bruker { get; set; }
+        public ProfilSideController()
+        {
+            firebase = new FirebaseDB();
+            logg = new LoginController();
+        }
+
 
 
 
@@ -147,6 +149,7 @@ namespace Portefolio_webApp.Controllers
         [HttpGet]
         public IActionResult UpsertBruker()
         {
+          
             Bruker nybruker = new Bruker();
             var token = HttpContext.Session.GetString("_UserToken");
             
@@ -172,17 +175,18 @@ namespace Portefolio_webApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpsertBrukerAsync(Bruker oppBruker,string password ,string filename, IFormFile file, [FromServices] IHostingEnvironment oHostingEnvironment)
+        public async Task<IActionResult> UpsertBrukerAsync(Bruker oppBruker,string password, string passwordRetyp, string filename, IFormFile file, [FromServices] IHostingEnvironment oHostingEnvironment)
         {
 
-            Debug.WriteLine("--------------------------UPSERT BRUKER TEST CV: ");
+            Debug.WriteLine("--------------------------UPSERT BRUKER TEST CV: " + password + " " + passwordRetyp);
 
 
             if (string.IsNullOrEmpty(oppBruker.Id))
                     { //CREATE 
-                    
-                        
-                        string logginnID = logg.Register(oppBruker.Email, password).Result;
+
+                if (string.Equals(password, passwordRetyp)) {
+                    Debug.WriteLine("------inni is equal: " + string.Equals(password, passwordRetyp));
+                    string logginnID = logg.Register(oppBruker.Email, password).Result;
                         string[] splittArr = logginnID.Split("|");
 
                         oppBruker.Id = splittArr[0];
@@ -198,12 +202,31 @@ namespace Portefolio_webApp.Controllers
                         else
                         {
                             oppBruker.CV.BrukerID = oppBruker.Id;
+                            
 
                             oppBruker.Mapper = new List<Portfolio>();
-                             firebase.RegistrerBruker(oppBruker);
+                            
+                        if (HttpContext.Session.GetString("CroppedPath") == "" || HttpContext.Session.GetString("CroppedPath") == null)
+                        {
+                            firebase.RegistrerBruker(oppBruker);
                         }
+                        else
+                        {
+                            await firebase.RegistrerBruker(oppBruker);
+                            await firebase.UploadProfilBilde(HttpContext.Session.GetString("CroppedPath"), oppBruker.Id);
+                            firebase.OppdaterBrukerBilde(oppBruker);
+                            HttpContext.Session.Remove("CroppedPath");
+                        }
+
                     }
-                    else
+                    }else
+                {
+                    Debug.WriteLine("------inni is NOT equal: " + string.Equals(password, passwordRetyp));
+                    ModelState.AddModelError(string.Empty, "Password must match in both password inputs");
+                    return View(oppBruker); 
+                }
+            }
+            else
             { //OPPDATERER
 
 
@@ -211,11 +234,24 @@ namespace Portefolio_webApp.Controllers
                 var innBruker = JsonConvert.DeserializeObject<Bruker>(str2);
               
                 oppBruker.CV = innBruker.CV;
+                oppBruker.Mapper = innBruker.Mapper;
+                oppBruker.CVAdgang = innBruker.CVAdgang;
+                oppBruker.Profilbilde = innBruker.Profilbilde;
 
-               
-                if (HttpContext.Session.GetString("CroppedPath") != null)
-                await firebase.UploadProfilBilde(HttpContext.Session.GetString("CroppedPath"), oppBruker.Id);
-                await firebase.OppdaterBrukerAsync(oppBruker);
+                Console.WriteLine("FEEE: " + HttpContext.Session.GetString("CroppedPath"));
+
+                if (HttpContext.Session.GetString("CroppedPath") == "" || HttpContext.Session.GetString("CroppedPath") == null)
+                {
+                    firebase.OppdaterBruker(oppBruker);
+                }
+                else
+                {
+                    await firebase.UploadProfilBilde(HttpContext.Session.GetString("CroppedPath"), oppBruker.Id);
+                    firebase.OppdaterBrukerBilde(oppBruker);
+                    HttpContext.Session.Remove("CroppedPath");
+                }
+
+
               
                 ModelState.AddModelError(string.Empty, "Oppdatert suksessfult!");
                     }
@@ -232,22 +268,24 @@ namespace Portefolio_webApp.Controllers
             HttpContext.Session.SetString("Innlogget_Bruker", str);
 
             ViewData["Innlogget_Bruker"] = oppBruker;
-           
+            ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
+            ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
 
             return RedirectToAction("BrowseSide", "Home");
         }
 
 
-        public IActionResult Portefølje()
+        public IActionResult Portefølje(string brukerid, int antall)
         {
             //Dummy bruker. Hent via session eller onclick senere...
-            Bruker = firebase.HentEnkeltBruker("-MTuNdX2ldnO73BCZwFp");
+            Bruker = firebase.HentEnkeltBruker(brukerid);
             //  Portfolio po = firebase.HentAlleMapper("");
 
             // Debug.WriteLine("url til bilde: " + (((Innlegg)po.MappeInnhold.ElementAt(0)).IkonURL)); 
 
 
             ViewData["Bruker_Innhold"] = Bruker;
+            ViewData["antall"] = antall;
             ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
             ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
 
@@ -259,6 +297,8 @@ namespace Portefolio_webApp.Controllers
                 ViewData["Innlogget_Bruker"] = innBruker;
             }
             // ViewData["Port"] = firebase.HentAlleMapper("");
+            Console.WriteLine(antall+"hold kjeft sondre");
+
             return View(Bruker);
 
         }
@@ -412,6 +452,30 @@ namespace Portefolio_webApp.Controllers
 
             return Json(data);
         }
+
+
+        [HttpPost]
+        public JsonResult DeleteFolder(int index, string navn)
+        {
+
+            Debug.WriteLine("---------------------------------yo "  + index + " lol " + navn);
+            Bruker = firebase.HentEnkeltBruker(HttpContext.Session.GetString("_UserID"));
+            
+                
+            Bruker.Mapper.RemoveAt(index);
+            
+
+            firebase.OppdaterBruker(Bruker);
+
+            var str = JsonConvert.SerializeObject(Bruker);
+            HttpContext.Session.SetString("Innlogget_Bruker", str);
+
+            var resultat = "Jobberfaring oppdatert: " + navn + " " + index;
+            var data = new { status = "ok", result = resultat };
+
+            return Json(data);
+        }
+
     }
 
 }

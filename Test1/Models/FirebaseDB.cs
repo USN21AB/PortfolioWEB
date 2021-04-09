@@ -24,7 +24,9 @@ namespace Test1.Models
         public readonly IFirebaseConfig db;
         public IFirebaseClient klient;
 
-        private string croppedImageUrl;
+        private string croppedProfilImageUrl;
+        private string CoverImageUrl;
+       
 
 
         [BindProperty]
@@ -41,15 +43,6 @@ namespace Test1.Models
             klient = new FireSharp.FirebaseClient(db);
         }
 
-        public void RegistrerInnlegg(Innlegg innlegg)
-        {
-            var data = innlegg;
-            PushResponse respons = klient.Push("Innlegg/", data);
-
-
-            data.Id = respons.Result.name;
-            SetResponse setResponse = klient.Set("Innlegg/" + data.Id, data);
-        }
 
         public Innlegg HentSpesifiktInnlegg(string Innlegg_id)
         {
@@ -70,11 +63,54 @@ namespace Test1.Models
                 list.Add(JsonConvert.DeserializeObject<Innlegg>(((JProperty)item).Value.ToString()));
             };
 
+            
             AlleInnlegg = list;
             return AlleInnlegg;
         }
 
-        public async Task UploadInnleggFile(string filename, IFormFile file, Innlegg innlegg)
+        public async Task UploadCoverPhoto(string filename, IFormFile file)
+        {
+
+
+            using (var stream = new FileStream(filename, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            var stream1 = File.Open(@filename, FileMode.Open);
+
+            // Constructr FirebaseStorage, path to where you want to upload the file and Put it there
+            var task = new FirebaseStorage("bachelor-it-97124.appspot.com")
+            .Child("Cover")
+            .Child(file.FileName)
+            .PutAsync(stream1);
+
+            // Track progress of the upload
+            task.Progress.ProgressChanged += (s, e) => Console.WriteLine($"Progress: {e.Percentage} %");
+
+            // await the task to wait until upload completes and get the download url
+            var downloadUrl = await task;
+
+
+            Console.WriteLine("Link " + downloadUrl);
+
+
+
+            CoverImageUrl = downloadUrl;
+
+            stream1.Close();
+
+
+            //Slett Lokal Fil etter opplastet
+
+            Console.WriteLine("File Location: " + filename);
+
+            System.IO.File.Delete(filename);
+
+
+        }
+
+        public async Task RegistrerInnleggMedFil(string filename, IFormFile file, Innlegg innlegg)
         {
 
 
@@ -101,9 +137,13 @@ namespace Test1.Models
             
             Console.WriteLine("Link " + downloadUrl);
 
-            
-
             data.IkonURL = downloadUrl;
+
+            Console.WriteLine("COVER URL: " + CoverImageUrl);
+
+            if(CoverImageUrl!="")
+            data.CoverURL = CoverImageUrl;
+
             PushResponse respons = klient.Push("Innlegg/", data);
             data.Id = respons.Result.name;
             SetResponse setResponse = klient.Set("Innlegg/" + data.Id, data);
@@ -119,8 +159,6 @@ namespace Test1.Models
 
 
         }
-
-
 
 
         public async Task UploadProfilBilde(string filename, string brukerId)
@@ -145,11 +183,11 @@ namespace Test1.Models
             // await the task to wait until upload completes and get the download url
             var downloadUrl = await task;
 
-            croppedImageUrl = downloadUrl;
+            croppedProfilImageUrl = downloadUrl;
             stream1.Close();
 
 
-            //Slett Lokal Fil etter opplaste
+            //Slett Lokal Fil etter opplastet
 
             System.IO.File.Delete(filename);
 
@@ -218,7 +256,7 @@ namespace Test1.Models
             SetResponse setResponse = klient.Set("Portefolio/" + port.BrukerID, port);
         }
 
-        public void RegistrerBruker(Bruker bruker)
+        public async Task RegistrerBruker(Bruker bruker)
         {
             bruker.Profilbilde = "https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2Fdefault_account.jpg?alt=media&token=290b6907-f17e-4095-90a6-dca2c52563b9";
             //PushResponse respons = klient.Push("Bruker/"+bruker.Id, bruker);
@@ -231,14 +269,10 @@ namespace Test1.Models
             SetResponse respons = klient.Set("Bruker/" + bruker.Id, bruker);
         }
 
-        public async Task OppdaterBrukerAsync(Bruker bruker) 
+        public void OppdaterBrukerBilde(Bruker bruker) 
         {
 
-          
-            Portefolio_webApp.Controllers.HomeController controller = new Portefolio_webApp.Controllers.HomeController();
-
-
-            bruker.Profilbilde = croppedImageUrl;
+            bruker.Profilbilde = croppedProfilImageUrl;
 
             if (bruker.Profilbilde == "")
             {
@@ -249,8 +283,10 @@ namespace Test1.Models
 
 
             SetResponse respons = klient.Set("Bruker/"+bruker.Id,bruker);
-           // dynamic data = JsonConvert.DeserializeObject<Bruker>(respons.Body);
+            // dynamic data = JsonConvert.DeserializeObject<Bruker>(respons.Body);
             //Bruker mellomBruker = JsonConvert.DeserializeObject<Bruker>(((JProperty)data).Value.ToString()); 
+
+           
         }
 
         public void OppdaterAuth(string gammelEmail, string Email, string Password, string GammelPassord)

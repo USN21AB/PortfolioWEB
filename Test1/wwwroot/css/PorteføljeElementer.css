@@ -12,6 +12,16 @@
     display: block;
 }
 
+.innlegg-ikon {
+    position: absolute;
+    margin: 5px;
+    z-index: 2;
+    color: #fff;
+    font-size: 20px;
+    opacity: 1;
+    text-shadow: 2px 2px 2px black
+}
+
 
 
 /*                                            BILDER                                               */
@@ -23,14 +33,11 @@
     overflow: hidden;
     position: relative;
     transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1) 0s;
-    z-index: 2;
+    z-index: 1;
     display: block
 }
 
-    .awesome-img img {
-        min-height: 100%;
-        min-width: 100%;
-    }
+    
 
 .awesome-info {
     background-color: #272727;
@@ -50,12 +57,20 @@
     .awesome-info h3 {
         color: #fff;
         font-size: 16px;
-        margin-bottom: 3px;
+        margin-bottom: 5px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .awesome-info p {
         color: #aaa;
         font-size: 12px;
+        bottom: 5px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        
     }
 
 /**/
@@ -76,7 +91,9 @@
 /**/
 
 .imge {
-    max-width: 100%;
+    min-width: 100%;
+    min-height: 100%;
+    max-width:100%;
     height: auto;
     object-fit: cover;
 }
@@ -94,27 +111,47 @@
     overflow: hidden;
     position: relative;
     display: block;
-    background-color: red;
+    background-color: #212529
 }
-
-
 
 
 
 .fuck {
-    min-height: 100%;
     min-width: 100%;
+    min-height: 100%;
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
 }
 
 .play_button_div {
-    background-color: #272727;
+    background-color: rgba(39,39,39,0);
     height: 100%;
     position: absolute;
     top: 0;
     width: 100%;
-    opacity: 0;
+    padding-top: 220px;
     display: block;
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
 }
+
+    .play_button_div h3 {
+        color: #fff;
+        font-size: 20px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .play_button_div p {
+        color: #fff;
+        font-size: 20px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 
 .play_button {
     position: absolute;
@@ -123,7 +160,7 @@
     margin-left: 105px;
     margin-right: 105px;
     opacity: 0;
-    z-index: 2;
+    z-index: 1;
     width: 100px;
     height: 100px;
 }
@@ -134,6 +171,8 @@
     -ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=4, OffY=4, Color='#444')";
     filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=4, OffY=4, Color='#444')";
 }
+
+
 
 .play_button:active {
     transform: scale(.95);
@@ -146,7 +185,24 @@
 
 
 .music_player:hover .play_button_div {
-    opacity: .6;
+    background-color: rgba(39,39,39,0.8);
+}
+
+.artist, .sangnavn {
+    opacity: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+
+.music_player:hover .artist {
+    opacity: 1;
+}
+
+.music_player:hover .sangnavn {
+    opacity: 1;
 }
 
 
@@ -155,10 +211,6 @@
 
 /*                                              LITTERATUR                                          */
 /*//////////////////////////////////////////////////////////////////////////////////////////////////*/
-
-
-
-
 .litteratur {
     margin: 2px;
     float: left;
@@ -170,28 +222,48 @@
     background: rgb(187, 201, 201);
 }
 
+.lit-tekst {
+    position: absolute;
+    height: 310px;
+    width: 310px;
+    top: 0;
+    z-index: 0;
+}
+
 .tittel {
     margin: 15px;
-    font-size: 45px;
+    font-size: 42px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
     -webkit-hyphens: auto;
     -moz-hyphens: auto;
     -ms-hyphens: auto;
     hyphens: auto;
+    height: 255px;
+    z-index: 0;
+    color: black;
 }
 
 .forfatter {
-    position: absolute;
-    bottom: 0;
+    margin-top: -10px;
     margin-left: 15px;
-    font-size: 23px;
+    font-size: 25px;
+    z-index: 0;
+    color: black;
+    
 }
 
 .book_cover {
-    
-    min-height: 100%;
+    position: absolute;
     min-width: 100%;
+    min-height: 100%;
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
     opacity: 1;
-    z-index: 2;
+    z-index: 1;
     transition: opacity .2s ease-out;
     -moz-transition: opacity .2s ease-out;
     -webkit-transition: opacity .2s ease-out;
@@ -199,6 +271,10 @@
 }
 
     .book_cover:hover {
+        opacity: 0;
+    }
+
+    .book_cover:hover .innlegg-ikon {
         opacity: 0;
     }
 

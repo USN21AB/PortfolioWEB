@@ -24,17 +24,17 @@ function spillAv(sang, toggle) {
     if (lyd.paused) {
         while (i--) {
             audio[i].pause();
-            playpause[i].src = "../resources/icons8-play-96.png"
+            playpause[i].src = "/resources/icons8-play-96.png"
         };
         spiller.transition = "all .5s ease";
         spiller.bottom = "0";
-        loggle.src = "../resources/icons8-pause-96.png"
+        loggle.src = "/resources/icons8-pause-96.png"
         lyd.play();
     }
     else {
         spiller.transition = "all .5s ease";
         spiller.bottom = "-70px";
-        loggle.src = "../resources/icons8-play-96.png"
+        loggle.src = "/resources/icons8-play-96.png"
         lyd.pause();
     }
 
@@ -95,11 +95,12 @@ function stopAll() {
     var spiller = document.getElementById("test").style;
     var playpause = document.getElementsByClassName("play_button");
     i = lyd.length;
+    
 
     while (i--) {
 
         lyd[i].pause();
-        playpause[i].src = "../resources/icons8-play-96.png"
+        playpause[i].src = "/resources/icons8-play-96.png"
     }
 
     spiller.transition = "all .5s ease";
@@ -112,7 +113,7 @@ var image = document.getElementsByClassName("single-awesome-portfolio");
 
 
 
-$(function () {
+/*$(function () {
     $('.awesome-portfolio-content').mixItUp({
         animation: {
             effects: 'rotateZ',
@@ -134,6 +135,7 @@ $(function () {
         }
     });
 });
+*/
 
 /*$(function timer2(sanger) {
     var lol = "#" + sanger;

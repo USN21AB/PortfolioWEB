@@ -1,8 +1,7 @@
 ﻿<link href="~/css/_browse.css" rel="stylesheet" />
+<script src="~/js/lyd.js?v=1"></script>
+<link href="~/css/Musikkontroller.css?v=1" rel="stylesheet" />
 <link href="~/css/PorteføljeElementer.css?v=1" rel="stylesheet" />
-<script src="~/js/lyd.js"></script>
-<link href="~/css/Musikkontroller.css" rel="stylesheet" />
-
 @model Portefolio_webApp.Models.Innlegg;
 @*
 
@@ -28,34 +27,41 @@
     {
         <div class="litteratur">
             <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id class="card-link">
-                <img class="book_cover imge" src="https://m.media-amazon.com/images/I/514FIoHpsmL.jpg" />
-                <h3 class="tittel">@Innlegg.Beskrivelse</h3>
-                <h4 class="forfatter">@Innlegg.Kategori</h4>
+                <i class="far fa-file-alt innlegg-ikon"></i>
+                <img class="book_cover imge" src="@Innlegg.CoverURL" />
+                <div class="lit-tekst">
+                    <h3 class="tittel">@Innlegg.Beskrivelse</h3>
+                        <h4 class="forfatter">@Innlegg.Eier</h4>
+                </div>
+               
             </a>
         </div>
     }
     else if (Innlegg.Kategori.Equals("Lyd"))
     {
 
-        <div class="music_player">
-            <img id="sang-@Innlegg.Id" class="play_button shadowed" src="../resources/icons8-play-96.png" onclick='spillAv("sangaudio-@Innlegg.Id", this.id); visSang("sangnavn-@Innlegg.Id", "artist-@Innlegg.Id")' />
-            <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id class="card-link">
-                <div class="play_button_div"></div>
-
-
-                <img class="fuck imge" src="#" alt=""/>
-
-            </a>
-
-
-            <audio id="sangaudio-@Innlegg.Id" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="@Innlegg.IkonURL"></audio>
-            <p id="sangnavn-@Innlegg.Id">@Innlegg.Tittel</p>
-            <p id="artist-@Innlegg.Id">@Innlegg.Kategori</p>
-
-
-
-
+<div class="music_player">
+    <i class="fas fa-music innlegg-ikon"></i>
+    <img id="sang-@Innlegg.Id" class="play_button shadowed" src="~/resources/icons8-play-96.png" onclick='spillAv("sangaudio-@Innlegg.Id", this.id); visSang("sangnavn-@Innlegg.Id", "artist-@Innlegg.Id")' />
+    <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id class="card-link">
+        <div class="play_button_div">
+            <h3 class="sangnavn" id="sangnavn-@Innlegg.Id">@Innlegg.Tittel</h3>
+                <p class="artist" id="artist-@Innlegg.Id">@Innlegg.Eier</p>
         </div>
+
+
+        <img class="fuck imge" src="@Innlegg.CoverURL" alt="" />
+
+    </a>
+
+
+    <audio id="sangaudio-@Innlegg.Id" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="@Innlegg.IkonURL"></audio>
+
+
+
+
+
+</div>
 
     }
 
@@ -65,9 +71,10 @@
         <div class="single-awesome-portfolio">
             <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id>
                 <div class="awesome-img">
+                    <i class="far fa-image innlegg-ikon"></i>
                     <div class="awesome-info">
                         <h3>@Innlegg.Tittel</h3>
-                        <p>@Innlegg.Beskrivelse</p>
+                            <p>@Innlegg.Eier</p>
                     </div>
                     <img class="imge" src="@Innlegg.IkonURL" alt="">
                 </div>
@@ -82,6 +89,8 @@
 
 
 
+
+
 <div class="musikk_kontroller" id="test">
     <span id="sangfelt"></span>
     <span id="artistfelt"></span>
@@ -92,7 +101,7 @@
 
     <img class="stopper" src="../resources/icons8-pause-96.png" onclick="stopAll()" />
 
-    <input type="range" id="volume-control" value="5" min="0" max="10" onload="volum(this.value)" onchange="volum(this.value)">
+    <input type="range" id="volume-control" value="10" min="0" max="10" onload="volum(this.value)" onchange="volum(this.value)">
 </div>
 
 <svg height="0" xmlns="http://www.w3.org/2000/svg">
