@@ -10,18 +10,21 @@ using System.Diagnostics;
 using System;
 using Newtonsoft.Json;
 
+
 namespace Test1.Controllers
 {
     public class LoginController : Controller
     {
         FirebaseAuthProvider auth;
         private readonly FirebaseDB firebase;
+
         public LoginController()
         {
             auth = new FirebaseAuthProvider(
                             new FirebaseConfig("AIzaSyAF3lsyJBHDwpdd2u9D0qW-m3c2TJftQvE"));
             firebase = new FirebaseDB();
 
+ 
         }
 
         [NonAction]
