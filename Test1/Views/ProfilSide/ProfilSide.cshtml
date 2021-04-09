@@ -229,9 +229,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                
-                                <p class="col-sm-9">@BrukerInnhold.Navn</p> 
-                               
+
+                                <p class="col-sm-9">@BrukerInnhold.Navn</p>
+
                             </div>
                             <hr>
                             <div class="rowinfo">
@@ -273,32 +273,33 @@
         var antall = 0;
     }
 
-<ul class="nav nav-pills nav-fill folder-nav tabs">
-    @while (antall < BrukerInnhold.Mapper.Count)
-    {
-        var Mappe = BrukerInnhold.Mapper.ElementAt(antall);
+    <ul class="nav nav-pills nav-fill folder-nav tabs">
+        @while (antall < BrukerInnhold.Mapper.Count)
+        {
+            var Mappe = BrukerInnhold.Mapper.ElementAt(antall);
 
 
-    <li class="nav-item" >
-        <button class="delete-folder-div" onclick="onDelete('mappe-@antall', @antall, '@Mappe.MappeNavn')">
-            <i class="far fa-trash-alt delete-folder"></i>
-        </button>
-        <a class="nav-link folder " href="https://localhost:44344/ProfilSide/Portef%C3%B8lje#v-pills-@antall">
-            <div class="folder-design" id="mappe-@antall">
-                
-                <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190211472785468/Portfollowers_bilde.png" />
-                <span class="folder-navn">@Mappe.MappeNavn</span>
-            </div>
-        </a>
-    </li>
-        antall++;
-    }
+            <li class="nav-item">
+                <button class="delete-folder-div" onclick="onDelete('mappe-@antall', @antall, '@Mappe.MappeNavn')">
+                    <i class="far fa-trash-alt delete-folder"></i>
+                </button>
+                <a class="nav-link folder " asp-action="Portefølje" asp-route-brukerID="@BrukerInnhold.Id" asp-route-antall="@antall">
+                    <div class="folder-design" id="mappe-@antall">
+                        <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190211472785468/Portfollowers_bilde.png" />
+                        <span class="folder-navn">@Mappe.MappeNavn</span>
+                    </div>
+                </a>
+            </li>
+            antall++;
+        }
     </ul>
     <div>
         <a asp-action="NyMappe" asp-route-brukerID="@BrukerInnhold.Id" id="nymappe">
             <p>ny mappe</p>
         </a>
     </div>
+
+    <!--href="https://localhost:44344/ProfilSide/Portef%C3%B8lje#v-pills-@antall"-->
 
 
 
@@ -315,7 +316,7 @@
     <script src="https://cdn.jsdelivr.net/jquery.mixitup/latest/jquery.mixitup.min.js"></script>
 
 
-    
+
 
 
     <!-- For later  <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">  -->
