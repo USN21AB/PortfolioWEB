@@ -2,13 +2,12 @@
 <link href="~/css/UpsertBruker.css" rel="stylesheet" />
 <link href="~/css/jquery.Jcrop.min.css" rel="stylesheet" />
 <link href="~/css/jquery.Jcrop.min.css" rel="stylesheet" />
+<link href="~/css/Buttons.css" rel="stylesheet" />
 
 @{
     var BrukerInnhold = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
 
 }
-
-
 
 <div class="container">
     <div class="main-body">
@@ -51,10 +50,10 @@
                             <div class="d-flex flex-column align-items-center text-center">
                                 <div class="mt-3">
                                     <div class="form-group row">
-
-                                        <div class="container">
+                                        <div class="container pimgholder">
                                             <label for="imgInp">
-                                                <img id="imge" src="@BrukerInnhold.Profilbilde" alt="Admin" class="rounded-circle profilimg" width="150">
+                                              <img id="imge" src="@BrukerInnhold.Profilbilde" alt="Admin" class="rounded-circle profilimg" width="150">
+                                                <img src="~/resources/upload_21028.png" class="rounded-circle img-top" width="200">
                                             </label>
                                             <input type="file" class="img" id="imgInp" name="files" accept="image/*" style="display: none">
                                         </div>
@@ -79,21 +78,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card mt-2">
-                        <div class="card-body">
-                            <div class="form-group row mt-2 mb-2">
-                                <div class="col-8 offset-2">
-                                    <div>
-
-                                        <button type="submit" value="Upload" class="btn btn-primary form-control">
-                                            @(ViewData["Token"] == null? "Create new user" : "Update profile" )
-
-                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -220,6 +204,14 @@
                                                                     <textarea asp-for="Bio" rows="4" cols="50" class="form-control" style="height:150px; margin-top: 5px"></textarea>
                                                                     <span asp-validation-for="Bio" class="text-danger"></span>
                                                                 </div>
+                                                            </div>
+                                                            <hr />
+                                                            <div style="text-align: center;">
+
+                                                                <button type="submit" value="Upload" class="buttons btn btn-primary form-control" style="width: 300px;">
+                                                                    @(ViewData["Token"] == null? "Create new user" : "Update profile" )
+
+                                                                </button>
                                                             </div>
                                                         </div>
                                                     </div>

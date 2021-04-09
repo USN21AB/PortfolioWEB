@@ -1,12 +1,11 @@
 ﻿body {
-    color: #6c757d;
+    color: #fff;
     margin-top: 80px;
 }
 
 .card-box {
-    background-color: #fff;
+    background-color: #384352;
     background-clip: border-box;
-    border: 1px solid #e7eaed;
     padding: 1.5rem;
     margin-bottom: 24px;
     border-radius: .25rem;
@@ -79,4 +78,8 @@
 }
 .buttons {
     background-color: #1abc9c;
+}
+.img-thumbnail {
+    background-color: #384352;
+    border: 1px solid #6c757d;
 }
