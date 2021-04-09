@@ -23,17 +23,19 @@ namespace Portefolio_webApp.Controllers
         private readonly FirebaseDB firebase;
         LoginController logg;
 
-        public ProfilSideController()
-        {
-            firebase = new FirebaseDB();
-            logg = new LoginController();
-        }
+    
 
         [BindProperty]
         public CV CirVit { get; set; }
 
         [BindProperty]
         public Bruker Bruker { get; set; }
+        public ProfilSideController()
+        {
+            firebase = new FirebaseDB();
+            logg = new LoginController();
+        }
+
 
 
 
@@ -147,6 +149,7 @@ namespace Portefolio_webApp.Controllers
         [HttpGet]
         public IActionResult UpsertBruker()
         {
+          
             Bruker nybruker = new Bruker();
             var token = HttpContext.Session.GetString("_UserToken");
             
