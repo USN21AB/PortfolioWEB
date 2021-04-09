@@ -272,16 +272,17 @@ namespace Portefolio_webApp.Controllers
         }
 
 
-        public IActionResult Portefølje()
+        public IActionResult Portefølje(string brukerid, int antall)
         {
             //Dummy bruker. Hent via session eller onclick senere...
-            Bruker = firebase.HentEnkeltBruker("-MTuNdX2ldnO73BCZwFp");
+            Bruker = firebase.HentEnkeltBruker(brukerid);
             //  Portfolio po = firebase.HentAlleMapper("");
 
             // Debug.WriteLine("url til bilde: " + (((Innlegg)po.MappeInnhold.ElementAt(0)).IkonURL)); 
 
 
             ViewData["Bruker_Innhold"] = Bruker;
+            ViewData["antall"] = antall;
             ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
             ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
 
@@ -293,6 +294,8 @@ namespace Portefolio_webApp.Controllers
                 ViewData["Innlogget_Bruker"] = innBruker;
             }
             // ViewData["Port"] = firebase.HentAlleMapper("");
+            Console.WriteLine(antall+"hold kjeft sondre");
+
             return View(Bruker);
 
         }
