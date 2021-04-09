@@ -180,10 +180,11 @@
 
 <h2 style="color:white; text-align:center;">@(liste.Count == 0 ? "There are no results!" : "")</h2>
 
+
 <div style="        height: 100px;
         background-color: #232426;
         bottom: 0">
-
+    <button id="meldingKnapp" class="btn btn-primary">Send melding!</button>
 </div>
 
 
@@ -198,11 +199,11 @@
                 var _valgtKnapp = "#" + '@TempData["valgtKnapp"]' + "Knapp";
 
                 if (_valgtKnapp == "#altKnapp") {
-        
+
                     document.getElementById("søkefelt").setAttribute("Placeholder", "Search all categories");
                     $("#altValg").removeClass("kategoriVelger");
                     $("#altValg").addClass("valgtKategori");
-                   
+
                 } else if (_valgtKnapp == "#BildeKnapp") {
                     document.getElementById("søkefelt").setAttribute("Placeholder", "Image search");
                     $("#bildeValg").removeClass("kategoriVelger");
@@ -223,18 +224,15 @@
             });
 
 
+            document.getElementById("meldingKnapp").addEventListener('click', function (event) {
 
-            document.getElementById("test2").addEventListener('mouseover', function (event) {
-               // alert("hey fra hover");
-                //document.getElementById("testing").style.backgroundColor = "black";
-                document.getElementById("testing").classList.add("editClass");
+                $.ajax({
+                       type: "GET",
+                       url: '@Url.Action("Test", "Home")',
+                  });
             });
 
-            document.getElementById("test2").addEventListener('mouseleave', function (event) {
-                // alert("hey fra hover");
-                //document.getElementById("testing").style.backgroundColor = "white";
-                document.getElementById("testing").classList.remove("editClass");
-            });
+
 
             document.getElementById("søkefelt").addEventListener('keydown', function (event) {
                 // alert("hey fra hover");
@@ -257,7 +255,7 @@
                 } else {
                     console.log("Nå er jeg inni Tekst");
                 }
-            
+
                 $("#altKnapp").removeClass("active");
                 $(_valgtKnapp).addClass("active");
             });
@@ -266,6 +264,9 @@
 
         })
 
+        function ajaxTest() {
+
+        }
 
         /*
         $.ajax({

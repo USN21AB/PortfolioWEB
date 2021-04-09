@@ -16,9 +16,11 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/Ajax/jquery.unobtrusive-ajax.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/Message.js"></script>
+
     @RenderSection("css", required: false)
 </head>
+
 <body>
     <header>
         <div class="navcontainer" id="navcontainer">
@@ -71,10 +73,10 @@
 
                                     <div class="dropdown">
                                         <a class="btn btn-outline-light" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="far fa-bell"></i>
+                                            <i class="far fa-bell"> <span id="badge_counter" class="badge bg-danger"></span></i>
                                         </a>
 
-                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                                        <div id="dropdownItems" class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
                                             <a class="dropdown-item" href="#">Action</a>
                                             <a class="dropdown-item" href="#">Another action</a>
                                             <a class="dropdown-item" href="#">Something else here</a>
@@ -110,11 +112,11 @@
 
     @RenderSection("Scripts", required: false)
 
-    <script src="https://www.gstatic.com/firebasejs/6.4.2/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/6.4.2/firebase-messaging.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-messaging.js"></script>
 
     <script>
-     //   $(function () {
+       $(function () {
         // TODO: Replace the following with your app's Firebase project configuration
         // For Firebase JavaScript SDK v7.20.0 and later, `measurementId` is an optional field
 
@@ -148,36 +150,38 @@
         }
        */
   
-        messaging.requestPermission()
-            .then(function () {
-                console.log("GRANTED");
-                console.log(messaging.getToken());
-                return messaging.getToken();
-            })
-            .then(function (token) {
-                console.log(token);
-            })
-            .catch(function (err) {
-                console.log('Error Occurred.' + err)
-            });
+      
             
         //messaging.getToken({ vapidKey: "BO-JbWwQGJCcXjWDqbqaIdovw-CqNwkiDpzqWqtzUp2XEFWpvozx_QoSAgJ7Bz9zww9R52kAO7sMf5UzBzXALDk" });
-      /*
+
         messaging.getToken({ vapidKey: "BO-JbWwQGJCcXjWDqbqaIdovw-CqNwkiDpzqWqtzUp2XEFWpvozx_QoSAgJ7Bz9zww9R52kAO7sMf5UzBzXALDk" }).then((currentToken) => {
             if (currentToken) {
                 // Send the token to your server and update the UI if necessary
                 // ...
-                console.log('Well, something happened and its sending to server?');
+                console.log('Well, something happened and its sending to server? ' + currentToken );
             } else {
                 // Show permission request UI
                 console.log('No registration token available. Request permission to generate one.');
+                messaging.requestPermission()
+                    .then(function () {
+                        console.log("GRANTED");
+                        console.log(messaging.getToken());
+                        return messaging.getToken();
+                    })
+                    .then(function (token) {
+                        console.log(token);
+                    })
+                    .catch(function (err) {
+                        console.log('Error Occurred.' + err)
+                    });
                 // ...
             }
         }).catch((err) => {
             console.log('An error occurred while retrieving token. ', err);
             // ...
         });
-        */
+
+      
    /*
             // Handle incoming messages. Called when:
             // - a message is received while the app has focus
@@ -224,22 +228,45 @@
         function isTokenSentToServer() {
             return window.localStorage.getItem('sentToServer') === '1';
         }
+                */
         messaging.onMessage(function (payload) {
             console.log('Message received. ', payload);
 
-            notificationTitle = payload.notification.title;
+            var antallNot = document.getElementById("badge_counter").innerHTML; 
+
+            if (antallNot == "") {
+                document.getElementById("badge_counter").innerHTML = 1;
+            } else {
+                var nyNot = parseInt(antallNot) + 1;
+                document.getElementById("badge_counter").innerHTML = nyNot;
+            };
+            /*
+            var node = document.createElement("a");
+            var textnode = document.createTextNode("Dette er appenda");
+            node.className = "dropdown-item test";
+            
+            node.href = "#";
+            node.title = "Dette er appenda"
+          
+           // node.appendChild(textnode);
+            document.getElementById("dropdownItems").appendChild(node);
+            */
+
+            document.getElementById("dropdownItems").innerHTML += "<a class='dropdown-item' href='#'><p><b>" + payload.data.title + "</b><br>" + payload.data.body + "<br></p></a>";
+           
+            notificationTitle = payload.data.title;
             notificationOptions = {
-                body: payload.notification.body,
-                icon: payload.notification.icon
+                body: payload.data.body,
+                icon: payload.data.icon
             };
 
             var notification = new Notification(notificationTitle, notificationOptions);
+            
 
         });
       
 
-        });
-        */
+       });
 
     </script>
 </body>
