@@ -33,7 +33,7 @@ namespace Portefolio_webApp.Controllers
 
         [BindProperty]
         public List<Innlegg> AlleInnlegg { get; set; }
-     
+
 
         public HomeController()
         {

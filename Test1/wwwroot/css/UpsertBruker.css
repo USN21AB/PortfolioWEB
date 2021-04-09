@@ -7,6 +7,7 @@
 }
 body {
     margin-top: 80px;
+    color: #fff;
 }
 
 .card {
@@ -15,7 +16,7 @@ body {
     flex-direction: column;
     min-width: 0;
     word-wrap: break-word;
-    background-color: #fff;
+    background-color: #384352;
     background-clip: border-box;
     border: 0 solid rgba(0,0,0,.125);
     border-radius: .25rem;
@@ -48,16 +49,18 @@ body {
     margin-bottom: 20px;
 }
 
-.img-top {
-    display: none;
-    position: absolute;
-    z-index: 99;
-    cursor: pointer;
+.pimgholder .img-top {
     object-fit: cover;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+    cursor: pointer;
+    display: none;
+    z-index: 99;
 }
 
-.img-top:hover {
+.card:hover .img-top {
     display: inline;
 }

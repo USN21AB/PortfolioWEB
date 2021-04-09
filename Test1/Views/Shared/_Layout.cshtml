@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Test1</title>
 
+    <link href="~/css/Buttons.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css?v=2" />
     <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
@@ -43,7 +44,7 @@
 
                             @if (ViewData["Token"] == null)
                             {
-                                <button class="topnav-right vl btn btn-primary" onclick="location.href='@Url.Action("SignIn", "Login")'"><i class="fas fa-sign-in-alt">  Log in</i></button>
+                                <button class="topnav-right vl btn btn-primary buttons" onclick="location.href='@Url.Action("SignIn", "Login")'"><i class="fas fa-sign-in-alt">  Log in</i></button>
                             }
                             else
                             {
@@ -63,9 +64,17 @@
                                                 <div><i class="fas fa-user-circle ikon"></i><p class="ikontekst">My Profile</p></div>
                                             </a>
                                             <hr class="hrdropdown" />
-                                            <a class="dropdown-item" asp-area="" asp-controller="Innlegg" asp-action="Upsert_Innlegg" asp-route-innleggID=""> <i class="fas fa-plus ikon">  Nytt innlegg</i></a>
+                                            <a class="dropdown-item" style="margin-top: 5px;" asp-area="" asp-controller="ProfilSide" asp-action="CV" asp-route-brukerID="@ViewData["Innlogget_ID"]">
+                                                <div><i class="fas fa-user-graduate ikon"></i><p class="ikontekst">My CV</p></div>
+                                            </a>
                                             <hr class="hrdropdown" />
-                                            <a class="dropdown-item" style="margin-bottom: 5px;" asp-area="" asp-controller="Login" asp-action="LogOut"><i class="fas fa-sign-out-alt ikon">  Log out</i></a>
+                                            <a class="dropdown-item" asp-area="" asp-controller="Innlegg" asp-action="Upsert_Innlegg" asp-route-innleggID="">
+                                                <div><i class="fas fa-plus ikon"></i><p class="ikontekst">Nytt innlegg</p></div>
+                                            </a>
+                                            <hr class="hrdropdown" />
+                                            <a class="dropdown-item" style="margin-bottom: 5px;" asp-area="" asp-controller="Login" asp-action="LogOut">
+                                                <div><i class="fas fa-sign-out-alt ikon"></i><p class="ikontekst">Log out</p></div>
+                                            </a>
                                         </div>
                                     </div>
                                 </li>
@@ -106,7 +115,7 @@
     <footer class="borderfooter footer">
         <div class="container">
 
-            &copy; 2021 - Test1 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            Copyright &copy; 2021 CreativeBox Studios - <a href="mailto: portefolje.web@gmail.com">Contact us!</a>
         </div>
     </footer>
 
@@ -116,165 +125,143 @@
     <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-messaging.js"></script>
 
     <script>
-       $(function () {
-        // TODO: Replace the following with your app's Firebase project configuration
-        // For Firebase JavaScript SDK v7.20.0 and later, `measurementId` is an optional field
-
-    
+        $(function () {
+            // TODO: Replace the following with your app's Firebase project configuration
+            // For Firebase JavaScript SDK v7.20.0 and later, `measurementId` is an optional field
 
             var token = null;
-        var firebaseConfig = {
-            apiKey: "AIzaSyAF3lsyJBHDwpdd2u9D0qW-m3c2TJftQvE",
-            authDomain: "bachelor-it-97124.firebaseapp.com",
-            databaseURL: "https://bachelor-it-97124-default-rtdb.europe-west1.firebasedatabase.app",
-            projectId: "bachelor-it-97124",
-            storageBucket: "bachelor-it-97124.appspot.com",
-            messagingSenderId: "56089551498",
-            appId: "1:56089551498:web:e88b4bd832bf7cd49a8373",
-            measurementId: "G-73VFZE16YG"
-        };
-
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-
-        const messaging = firebase.messaging();
-
-        /*
-        if ('serviceWorker' in navigator) {
-            console.log("Er inni service worker")
-            navigator.serviceWorker.register('../firebase-messaging-sw.js')
-                .then(function (registration) {
-                    console.log("Service Worker Registered");
-                    messaging.useServiceWorker(registration);
-                });
-        }
-       */
-  
-      
-            
-        //messaging.getToken({ vapidKey: "BO-JbWwQGJCcXjWDqbqaIdovw-CqNwkiDpzqWqtzUp2XEFWpvozx_QoSAgJ7Bz9zww9R52kAO7sMf5UzBzXALDk" });
-
-        messaging.getToken({ vapidKey: "BO-JbWwQGJCcXjWDqbqaIdovw-CqNwkiDpzqWqtzUp2XEFWpvozx_QoSAgJ7Bz9zww9R52kAO7sMf5UzBzXALDk" }).then((currentToken) => {
-            if (currentToken) {
-                // Send the token to your server and update the UI if necessary
-                // ...
-                console.log('Well, something happened and its sending to server? ' + currentToken );
-            } else {
-                // Show permission request UI
-                console.log('No registration token available. Request permission to generate one.');
-                messaging.requestPermission()
-                    .then(function () {
-                        console.log("GRANTED");
-                        console.log(messaging.getToken());
-                        return messaging.getToken();
-                    })
-                    .then(function (token) {
-                        console.log(token);
-                    })
-                    .catch(function (err) {
-                        console.log('Error Occurred.' + err)
+            var firebaseConfig = {
+                apiKey: "AIzaSyAF3lsyJBHDwpdd2u9D0qW-m3c2TJftQvE",
+                authDomain: "bachelor-it-97124.firebaseapp.com",
+                databaseURL: "https://bachelor-it-97124-default-rtdb.europe-west1.firebasedatabase.app",
+                projectId: "bachelor-it-97124",
+                storageBucket: "bachelor-it-97124.appspot.com",
+                messagingSenderId: "56089551498",
+                appId: "1:56089551498:web:e88b4bd832bf7cd49a8373",
+                measurementId: "G-73VFZE16YG"
+            };
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+            const messaging = firebase.messaging();
+            /*
+            if ('serviceWorker' in navigator) {
+                console.log("Er inni service worker")
+                navigator.serviceWorker.register('../firebase-messaging-sw.js')
+                    .then(function (registration) {
+                        console.log("Service Worker Registered");
+                        messaging.useServiceWorker(registration);
                     });
-                // ...
             }
-        }).catch((err) => {
-            console.log('An error occurred while retrieving token. ', err);
-            // ...
-        });
-
-      
-   /*
-            // Handle incoming messages. Called when:
-            // - a message is received while the app has focus
-            // - the user clicks on an app notification created by a service worker
-            //   `messaging.onBackgroundMessage` handler.
-            messaging.onMessage((payload) => {
-                console.log('Message received. ', payload);
-                // ...
-            });
+           */
 
 
 
-        messaging.requestPermission()
-            .then(function () {
-                console.log("granted");
-                if (isTokenSentToServer()) {
-                    console.log("already granted");
-                } else {
-                    getRegtoken();
-                }
-            });
-
-
-        function getRegtoken() {
-            messaging.getToken().then((currentToken) => {
+            //messaging.getToken({ vapidKey: "BO-JbWwQGJCcXjWDqbqaIdovw-CqNwkiDpzqWqtzUp2XEFWpvozx_QoSAgJ7Bz9zww9R52kAO7sMf5UzBzXALDk" });
+            messaging.getToken({ vapidKey: "BO-JbWwQGJCcXjWDqbqaIdovw-CqNwkiDpzqWqtzUp2XEFWpvozx_QoSAgJ7Bz9zww9R52kAO7sMf5UzBzXALDk" }).then((currentToken) => {
                 if (currentToken) {
-                    console.log(currentToken);
-                    setTokenSentToServer(true);
-                    saveToken(currentToken)
-                    //   updateUIForPushEnabled(currentToken);
+                    // Send the token to your server and update the UI if necessary
+                    // ...
+                    console.log('Well, something happened and its sending to server? ' + currentToken);
                 } else {
-                    console.log('No Instance ID token available. Request permission to generate one.');
-                    setTokenSentToServer(false);
+                    // Show permission request UI
+                    console.log('No registration token available. Request permission to generate one.');
+                    messaging.requestPermission()
+                        .then(function () {
+                            console.log("GRANTED");
+                            console.log(messaging.getToken());
+                            return messaging.getToken();
+                        })
+                        .then(function (token) {
+                            console.log(token);
+                        })
+                        .catch(function (err) {
+                            console.log('Error Occurred.' + err)
+                        });
+                    // ...
                 }
             }).catch((err) => {
                 console.log('An error occurred while retrieving token. ', err);
-                setTokenSentToServer(false);
+                // ...
             });
 
-        }
-        function setTokenSentToServer(sent) {
-            window.localStorage.setItem('sentToServer', sent ? 1 : 0);
-        }
-        function isTokenSentToServer() {
-            return window.localStorage.getItem('sentToServer') === '1';
-        }
-                */
-        messaging.onMessage(function (payload) {
-            console.log('Message received. ', payload);
-
-            var antallNot = document.getElementById("badge_counter").innerHTML; 
-
-            if (antallNot == "") {
-                document.getElementById("badge_counter").innerHTML = 1;
-            } else {
-                var nyNot = parseInt(antallNot) + 1;
-                document.getElementById("badge_counter").innerHTML = nyNot;
-            };
             /*
-            var node = document.createElement("a");
-            var textnode = document.createTextNode("Dette er appenda");
-            node.className = "dropdown-item test";
-            
-            node.href = "#";
-            node.title = "Dette er appenda"
-          
-           // node.appendChild(textnode);
-            document.getElementById("dropdownItems").appendChild(node);
-            */
+                     // Handle incoming messages. Called when:
+                     // - a message is received while the app has focus
+                     // - the user clicks on an app notification created by a service worker
+                     //   `messaging.onBackgroundMessage` handler.
+                     messaging.onMessage((payload) => {
+                         console.log('Message received. ', payload);
+                         // ...
+                     });
+                 messaging.requestPermission()
+                     .then(function () {
+                         console.log("granted");
+                         if (isTokenSentToServer()) {
+                             console.log("already granted");
+                         } else {
+                             getRegtoken();
+                         }
+                     });
+                 function getRegtoken() {
+                     messaging.getToken().then((currentToken) => {
+                         if (currentToken) {
+                             console.log(currentToken);
+                             setTokenSentToServer(true);
+                             saveToken(currentToken)
+                             //   updateUIForPushEnabled(currentToken);
+                         } else {
+                             console.log('No Instance ID token available. Request permission to generate one.');
+                             setTokenSentToServer(false);
+                         }
+                     }).catch((err) => {
+                         console.log('An error occurred while retrieving token. ', err);
+                         setTokenSentToServer(false);
+                     });
+                 }
+                 function setTokenSentToServer(sent) {
+                     window.localStorage.setItem('sentToServer', sent ? 1 : 0);
+                 }
+                 function isTokenSentToServer() {
+                     return window.localStorage.getItem('sentToServer') === '1';
+                 }
+                         */
+            messaging.onMessage(function (payload) {
+                console.log('Message received. ', payload);
+                var antallNot = document.getElementById("badge_counter").innerHTML;
+                if (antallNot == "") {
+                    document.getElementById("badge_counter").innerHTML = 1;
+                } else {
+                    var nyNot = parseInt(antallNot) + 1;
+                    document.getElementById("badge_counter").innerHTML = nyNot;
+                };
+                /*
+                var node = document.createElement("a");
+                var textnode = document.createTextNode("Dette er appenda");
+                node.className = "dropdown-item test";
 
-            document.getElementById("dropdownItems").innerHTML += "<a class='dropdown-item' href='#'><p><b>" + payload.data.title + "</b><br>" + payload.data.body + "<br></p></a>";
-           
-            notificationTitle = payload.data.title;
-            notificationOptions = {
-                body: payload.data.body,
-                icon: payload.data.icon
-            };
+                node.href = "#";
+                node.title = "Dette er appenda"
 
-            var notification = new Notification(notificationTitle, notificationOptions);
-            
+               // node.appendChild(textnode);
+                document.getElementById("dropdownItems").appendChild(node);
+                */
+                document.getElementById("dropdownItems").innerHTML += "<a class='dropdown-item' href='#'><p><b>" + payload.data.title + "</b><br>" + payload.data.body + "<br></p></a>";
+
+                notificationTitle = payload.data.title;
+                notificationOptions = {
+                    body: payload.data.body,
+                    icon: payload.data.icon
+                };
+                var notification = new Notification(notificationTitle, notificationOptions);
+
+            });
 
         });
-      
-
-       });
-
     </script>
 </body>
 </html>
 
 <script>
-
-
     var prevScrollpos = window.pageYOffset;
     window.onscroll = function () {
         var currentScrollPos = window.pageYOffset;
@@ -291,10 +278,8 @@
     $('.dropdown').on('show.bs.dropdown', function () {
         $(this).find('.dropdown-menu').first().stop(true, true).slideDown();
     });
-
     // Add slideUp animation to Bootstrap dropdown when collapsing.
     $('.dropdown').on('hide.bs.dropdown', function () {
         $(this).find('.dropdown-menu').first().stop(true, true).slideUp();
     });
 </script>
-

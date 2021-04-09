@@ -132,9 +132,5 @@ messaging.setBackgroundMessageHandler(function (payload) {
     return self.registration.showNotification(notificationTitle,
         notificationOptions);
 
-    $.ajax({
-        type: "GET",
-        url: '@Url.Action("Test", "Home")',
-    });
-}
+})
 // [END background_handler]
