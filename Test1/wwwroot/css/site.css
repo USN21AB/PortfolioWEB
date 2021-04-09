@@ -135,6 +135,10 @@ body {
     border-left: 1px solid #232426;
     padding-left: 15px;
 }
+.vr {
+    border-right: 1px solid #232426;
+    padding-right: 30px;
+}
 .navcontainer {
     top: 0;
     position: fixed;
@@ -182,7 +186,7 @@ body {
     padding: 0;
 }
 .hrdropdown {
-    width: 80px;
+    width: 110px;
     margin-top: 5px;
     margin-bottom: 5px;
 }
