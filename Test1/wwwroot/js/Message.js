@@ -1,4 +1,8 @@
 ﻿
 function fn() {
-    alert("Hello! Uncle Namaste...Chalo Kaaam ki Baat p Aate h...");
+    alert("Inni message");
+    $.ajax({
+        type: "GET",
+        url: '@Url.Action("SendMelding", "Home")',
+    });
 }
