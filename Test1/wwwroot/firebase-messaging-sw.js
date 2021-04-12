@@ -108,10 +108,15 @@ self.addEventListener('notificationclick', function (event) {
 // background (Web app is closed or not in browser focus) then you should
 // implement this optional method.
 // [START background_handler]
+
 messaging.setBackgroundMessageHandler(function (payload) {
     console.log('[firebase-messaging-sw.js] Received background message her? LOLOL', payload);
     // Customize notification here
 
+   // var url = $(this).data('request-url');
+   // alert(url);
+
+    
     /*
     var antallNot = document.getElementById("badge_counter").innerHTML;
 
@@ -129,8 +134,29 @@ messaging.setBackgroundMessageHandler(function (payload) {
         icon: '/resources/Portfollowers.png'
     };
 
+    console.log(window.location.href);
+    /*
+    $.ajax({
+        type: "GET",
+        url: window.location.href + "Home/Test",
+    });
+    */
     return self.registration.showNotification(notificationTitle,
         notificationOptions);
 
 })
+
+messaging.onBackgroundMessage(function (payload) {
+    const notificationTitle = payload.data.title;
+
+    console.log("Inni mjau " +window.location.href);
+    console.log("Inni background MJAU: " + payload.body + " " + payload.title)
+    const notificationOptions = {
+        body: payload.data.body,
+        icon: payload.data.icon
+    };
+
+    return self.registration.showNotification(notificationTitle,
+        notificationOptions);
+});
 // [END background_handler]

@@ -1,264 +1,465 @@
 ﻿@{
     var innloggetBruker = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
+    var numberOfUnread = 0;
+
+    if(ViewData["Token"] != null)
+        for (int i =0; i < innloggetBruker.notifications.Count; i++)
+        {
+        
+            if (!innloggetBruker.notifications[i].erLest)
+            {
+               
+                numberOfUnread++;
+            }
+        }
 }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Test1</title>
+<style>
 
-    <link href="~/css/Buttons.css" rel="stylesheet" />
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css?v=2" />
-    <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/lib/Ajax/jquery.unobtrusive-ajax.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
-    <script src="~/js/Message.js"></script>
+    .dropdown-menu {
+        width: 300px !important;
+    }
+</style>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>@ViewData["Title"] - Test1</title>
 
-    @RenderSection("css", required: false)
-</head>
+        <link href="~/css/Buttons.css" rel="stylesheet" />
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/css/site.css?v=2" />
+        <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/lib/Ajax/jquery.unobtrusive-ajax.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+        <script src="~/js/Message.js"></script>
 
-<body>
-    <header>
-        <div class="navcontainer" id="navcontainer">
-            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light borderbot box-shadow">
-                <div class="container-fluid">
-                    <div class="headerlogocontainer">
-                        <a class="navbar-brand headerting" asp-area="" asp-controller="Home" asp-action="BrowseSide">
-                            <img class="topimg" src="~/resources/Portfollowers.png" alt="logo" width="25px" height="25px" />CreationHub
-                        </a>
-                    </div>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
+        @RenderSection("css", required: false)
+    </head>
 
-                    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+    <body>
+        <header>
+            <div class="navcontainer" id="navcontainer">
+                <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light borderbot box-shadow">
+                    <div class="container-fluid">
+                        <div class="headerlogocontainer">
+                            <a class="navbar-brand headerting" asp-area="" asp-controller="Home" asp-action="BrowseSide">
+                                <img class="topimg" src="~/resources/Portfollowers.png" alt="logo" width="25px" height="25px" />CreationHub
+                            </a>
+                        </div>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
 
-                        <ul class="navbar-nav flex-grow-1">
+                        <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+
+                            <ul class="navbar-nav flex-grow-1">
 
 
-                            @if (ViewData["Token"] == null)
-                            {
-                                <button class="topnav-right vl btn btn-primary buttons" onclick="location.href='@Url.Action("SignIn", "Login")'"><i class="fas fa-sign-in-alt">  Log in</i></button>
-                            }
-                            else
-                            {
-                                <li class="topnav-right vl">
-                                    <div class="dropdown">
+                                @if (ViewData["Token"] == null)
+                                {
+                                    <button class="topnav-right vl btn btn-primary buttons" onclick="location.href='@Url.Action("SignIn", "Login")'"><i class="fas fa-sign-in-alt">  Log in</i></button>
+                                }
+                                else
+                                {
+                                    <li class="topnav-right vl">
+                                        <div class="dropdown">
 
-                                        <button class="btn btn-sm profilbtn" type="button" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <div class="profilbtn profilbtndiv">
-                                                <p class="bruker-navn">@(innloggetBruker == null? "": innloggetBruker.Navn)</p>&nbsp;
+                                            <button class="btn btn-sm profilbtn" type="button" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <div class="profilbtn profilbtndiv">
+                                                    <p class="bruker-navn">@(innloggetBruker == null? "": innloggetBruker.Navn)</p>&nbsp;
+                                                </div>
+                                            </button>
+                                            <a asp-area="" asp-controller="ProfilSide" asp-action="ProfilSide" asp-route-brukerID="@ViewData["Innlogget_ID"]">
+                                                <img src="@innloggetBruker.Profilbilde" alt="" class="profilbtnbilde rounded-circle" />
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a class="dropdown-item" style="margin-top: 5px;" asp-area="" asp-controller="ProfilSide" asp-action="ProfilSide" asp-route-brukerID="@ViewData["Innlogget_ID"]">
+                                                    <div><i class="fas fa-user-circle ikon"></i><p class="ikontekst">My Profile</p></div>
+                                                </a>
+                                                <hr class="hrdropdown" />
+                                                <a class="dropdown-item" style="margin-top: 5px;" asp-area="" asp-controller="ProfilSide" asp-action="CV" asp-route-brukerID="@ViewData["Innlogget_ID"]">
+                                                    <div><i class="fas fa-user-graduate ikon"></i><p class="ikontekst">My CV</p></div>
+                                                </a>
+                                                <hr class="hrdropdown" />
+                                                <a class="dropdown-item" asp-area="" asp-controller="Innlegg" asp-action="Upsert_Innlegg" asp-route-innleggID="">
+                                                    <div><i class="fas fa-plus ikon"></i><p class="ikontekst">Nytt innlegg</p></div>
+                                                </a>
+                                                <hr class="hrdropdown" />
+                                                <a class="dropdown-item" style="margin-bottom: 5px;" asp-area="" asp-controller="Login" asp-action="LogOut">
+                                                    <div><i class="fas fa-sign-out-alt ikon"></i><p class="ikontekst">Log out</p></div>
+                                                </a>
                                             </div>
-                                        </button>
-                                        <a asp-area="" asp-controller="ProfilSide" asp-action="ProfilSide" asp-route-brukerID="@ViewData["Innlogget_ID"]">
-                                            <img src="@innloggetBruker.Profilbilde" alt="" class="profilbtnbilde rounded-circle" />
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <a class="dropdown-item" style="margin-top: 5px;" asp-area="" asp-controller="ProfilSide" asp-action="ProfilSide" asp-route-brukerID="@ViewData["Innlogget_ID"]">
-                                                <div><i class="fas fa-user-circle ikon"></i><p class="ikontekst">My Profile</p></div>
-                                            </a>
-                                            <hr class="hrdropdown" />
-                                            <a class="dropdown-item" style="margin-top: 5px;" asp-area="" asp-controller="ProfilSide" asp-action="CV" asp-route-brukerID="@ViewData["Innlogget_ID"]">
-                                                <div><i class="fas fa-user-graduate ikon"></i><p class="ikontekst">My CV</p></div>
-                                            </a>
-                                            <hr class="hrdropdown" />
-                                            <a class="dropdown-item" asp-area="" asp-controller="Innlegg" asp-action="Upsert_Innlegg" asp-route-innleggID="">
-                                                <div><i class="fas fa-plus ikon"></i><p class="ikontekst">Nytt innlegg</p></div>
-                                            </a>
-                                            <hr class="hrdropdown" />
-                                            <a class="dropdown-item" style="margin-bottom: 5px;" asp-area="" asp-controller="Login" asp-action="LogOut">
-                                                <div><i class="fas fa-sign-out-alt ikon"></i><p class="ikontekst">Log out</p></div>
-                                            </a>
                                         </div>
-                                    </div>
-                                </li>
-                                <li class="topnav-right2">
+                                    </li>
+                                    <li class="topnav-right2">
 
-                                    <div class="dropdown">
-                                        <a class="btn btn-outline-light" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="far fa-bell"> <span id="badge_counter" class="badge bg-danger"></span></i>
-                                        </a>
+                                        @{
+                                            var antall = 0;
+                                            var notListe = innloggetBruker.notifications;
 
-                                        <div id="dropdownItems" class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <a class="dropdown-item" href="#">Something else here</a>
+                                        }
+
+                                        <div class="dropdown">
+                                            <a class="btn btn-outline-light" id="notBar" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="far fa-bell">
+                                                    @if (numberOfUnread == 0) {
+                                                    <span id="badge_counter" style="display:none;" class="badge bg-danger"></span> 
+                                                        }
+                                                    else
+                                                    {<span id="badge_counter" class="badge bg-danger">
+                                                            @numberOfUnread
+                                                        </span>
+                                                    }
+                                                </i>
+                                            </a>
+
+                                            <div id="dropdownItems" class="dropdown-menu dropdown-menu-right p-4 text-muted" aria-labelledby="dropdownMenuLink">
+
+
+                                                @while (antall < notListe.Count)
+                                                {
+
+                                                    if (notListe[antall].type == "Like")
+                                                    {
+                                                        <a class="dropdown-item" href="@Url.Action("ProfilSide", "ProfilSide", new { brukerID = notListe[antall].FraHvemID })">
+                                                            <div class="row">
+                                                                <div class="col-sm">
+                                                                    <i class="far fa-thumbs-up"></i>
+                                                                </div>
+                                                                <div class="col-sm">
+                                                                    <p class="mb-0">
+                                                                        @notListe[antall].FraHvemNavn liked you post
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                    }
+                                                    else if (notListe[antall].type == "Kommentar")
+                                                    {
+                                                        <a class="dropdown-item" href="@Url.Action("Nav_Innlegg", "Innlegg", new { id = notListe[antall].innleggID })">
+                                                            <div class="row">
+                                                                <div class="col-sm">
+                                                                    <i class="far fa-comment"></i>
+                                                                </div>
+                                                                <div class="col-sm">
+                                                                    <p class="mb-0">
+                                                                        @notListe[antall].FraHvemNavn commented on your post
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+
+
+                                                        </a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a class="dropdown-item" href="@Url.Action("ProfilSide", "ProfilSide", new { brukerID = notListe[antall].FraHvemID })">
+
+
+
+                                                            <div class="row">
+                                                                <div class="col-sm">
+                                                                    <i class="fas fa-user-graduate ikon"></i>
+
+                                                                </div>
+                                                                <div id="1Request@(antall)" class="col-sm">
+                                                                    <p class="mb-0">
+                                                                        @notListe[antall].FraHvemNavn is interested in your resume.<br> Do you want to give him access?
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                        <div id="2Request@(antall)" class="row">
+                                                            <div class="col-sm">
+                                                                <button onClick="acceptCV('@(notListe[antall].FraHvemID)', @(antall), '@(notListe[antall].FraHvemNavn)', true)" class="btn btn-primary">Accept</button>
+                                                            </div>
+                                                            <div class="col-sm">
+                                                                <button onClick="acceptCV('@(notListe[antall].FraHvemID)', @(antall), '@(notListe[antall].FraHvemNavn)', false)" class="btn btn-primary">Decline</button>
+                                                            </div>
+                                                        </div>
+                                                    }
+
+                                                    antall++;
+                                                }
+                                            </div>
                                         </div>
-                                    </div>
 
-                                </li>
+                                    </li>
 
-                            }
-
+                                }
 
 
 
 
-                        </ul>
+
+                            </ul>
+                        </div>
                     </div>
-                </div>
-            </nav>
+                </nav>
+            </div>
+        </header>
+        <div class="container-fluid">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
         </div>
-    </header>
-    <div class="container-fluid">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="borderfooter footer">
-        <div class="container">
+        <footer class="borderfooter footer">
+            <div class="container">
 
-            Copyright &copy; 2021 CreativeBox Studios - <a href="mailto: portefolje.web@gmail.com">Contact us!</a>
-        </div>
-    </footer>
+                Copyright &copy; 2021 CreativeBox Studios - <a href="mailto: portefolje.web@gmail.com">Contact us!</a>
+            </div>
+        </footer>
 
-    @RenderSection("Scripts", required: false)
+        @RenderSection("Scripts", required: false)
 
-    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-messaging.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-messaging.js"></script>
 
-    <script>
-        $(function () {
-            // TODO: Replace the following with your app's Firebase project configuration
-            // For Firebase JavaScript SDK v7.20.0 and later, `measurementId` is an optional field
+        <script>
+            $(function () {
+                // TODO: Replace the following with your app's Firebase project configuration
+                // For Firebase JavaScript SDK v7.20.0 and later, `measurementId` is an optional field
 
-            var token = null;
-            var firebaseConfig = {
-                apiKey: "AIzaSyAF3lsyJBHDwpdd2u9D0qW-m3c2TJftQvE",
-                authDomain: "bachelor-it-97124.firebaseapp.com",
-                databaseURL: "https://bachelor-it-97124-default-rtdb.europe-west1.firebasedatabase.app",
-                projectId: "bachelor-it-97124",
-                storageBucket: "bachelor-it-97124.appspot.com",
-                messagingSenderId: "56089551498",
-                appId: "1:56089551498:web:e88b4bd832bf7cd49a8373",
-                measurementId: "G-73VFZE16YG"
-            };
-            // Initialize Firebase
-            firebase.initializeApp(firebaseConfig);
-            const messaging = firebase.messaging();
-            /*
-            if ('serviceWorker' in navigator) {
-                console.log("Er inni service worker")
-                navigator.serviceWorker.register('../firebase-messaging-sw.js')
-                    .then(function (registration) {
-                        console.log("Service Worker Registered");
-                        messaging.useServiceWorker(registration);
-                    });
-            }
-           */
+                //notBar
+                document.getElementById("notBar").addEventListener('click', function (event) {
 
+                    if (document.getElementById("badge_counter").innerHTML != "") {
+                    document.getElementById("badge_counter").style.display = "none";
 
+                     $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("NotificationRead", "Home")',
 
-            //messaging.getToken({ vapidKey: "BO-JbWwQGJCcXjWDqbqaIdovw-CqNwkiDpzqWqtzUp2XEFWpvozx_QoSAgJ7Bz9zww9R52kAO7sMf5UzBzXALDk" });
-            messaging.getToken({ vapidKey: "BO-JbWwQGJCcXjWDqbqaIdovw-CqNwkiDpzqWqtzUp2XEFWpvozx_QoSAgJ7Bz9zww9R52kAO7sMf5UzBzXALDk" }).then((currentToken) => {
-                if (currentToken) {
-                    // Send the token to your server and update the UI if necessary
-                    // ...
-                    console.log('Well, something happened and its sending to server? ' + currentToken);
-                } else {
-                    // Show permission request UI
-                    console.log('No registration token available. Request permission to generate one.');
-                    messaging.requestPermission()
-                        .then(function () {
-                            console.log("GRANTED");
-                            console.log(messaging.getToken());
-                            return messaging.getToken();
-                        })
-                        .then(function (token) {
-                            console.log(token);
-                        })
-                        .catch(function (err) {
-                            console.log('Error Occurred.' + err)
-                        });
-                    // ...
-                }
-            }).catch((err) => {
-                console.log('An error occurred while retrieving token. ', err);
-                // ...
-            });
-
-            /*
-                     // Handle incoming messages. Called when:
-                     // - a message is received while the app has focus
-                     // - the user clicks on an app notification created by a service worker
-                     //   `messaging.onBackgroundMessage` handler.
-                     messaging.onMessage((payload) => {
-                         console.log('Message received. ', payload);
-                         // ...
+                    success: function (result) {
+                       // alert("Notification er lest! " + result);
+                        }
                      });
-                 messaging.requestPermission()
-                     .then(function () {
-                         console.log("granted");
-                         if (isTokenSentToServer()) {
-                             console.log("already granted");
-                         } else {
-                             getRegtoken();
-                         }
-                     });
-                 function getRegtoken() {
-                     messaging.getToken().then((currentToken) => {
-                         if (currentToken) {
-                             console.log(currentToken);
-                             setTokenSentToServer(true);
-                             saveToken(currentToken)
-                             //   updateUIForPushEnabled(currentToken);
-                         } else {
-                             console.log('No Instance ID token available. Request permission to generate one.');
-                             setTokenSentToServer(false);
-                         }
-                     }).catch((err) => {
-                         console.log('An error occurred while retrieving token. ', err);
-                         setTokenSentToServer(false);
-                     });
-                 }
-                 function setTokenSentToServer(sent) {
-                     window.localStorage.setItem('sentToServer', sent ? 1 : 0);
-                 }
-                 function isTokenSentToServer() {
-                     return window.localStorage.getItem('sentToServer') === '1';
-                 }
-                         */
-            messaging.onMessage(function (payload) {
-                console.log('Message received. ', payload);
-                var antallNot = document.getElementById("badge_counter").innerHTML;
-                if (antallNot == "") {
-                    document.getElementById("badge_counter").innerHTML = 1;
-                } else {
-                    var nyNot = parseInt(antallNot) + 1;
-                    document.getElementById("badge_counter").innerHTML = nyNot;
+                    }
+                });
+
+                var token = null;
+                var firebaseConfig = {
+                    apiKey: "AIzaSyAF3lsyJBHDwpdd2u9D0qW-m3c2TJftQvE",
+                    authDomain: "bachelor-it-97124.firebaseapp.com",
+                    databaseURL: "https://bachelor-it-97124-default-rtdb.europe-west1.firebasedatabase.app",
+                    projectId: "bachelor-it-97124",
+                    storageBucket: "bachelor-it-97124.appspot.com",
+                    messagingSenderId: "56089551498",
+                    appId: "1:56089551498:web:e88b4bd832bf7cd49a8373",
+                    measurementId: "G-73VFZE16YG"
                 };
+                // Initialize Firebase
+                firebase.initializeApp(firebaseConfig);
+                const messaging = firebase.messaging();
                 /*
-                var node = document.createElement("a");
-                var textnode = document.createTextNode("Dette er appenda");
-                node.className = "dropdown-item test";
+                if ('serviceWorker' in navigator) {
+                    console.log("Er inni service worker")
+                    navigator.serviceWorker.register('../firebase-messaging-sw.js')
+                        .then(function (registration) {
+                            console.log("Service Worker Registered");
+                            messaging.useServiceWorker(registration);
+                        });
+                }
+               */
 
-                node.href = "#";
-                node.title = "Dette er appenda"
 
-               // node.appendChild(textnode);
-                document.getElementById("dropdownItems").appendChild(node);
-                */
-                document.getElementById("dropdownItems").innerHTML += "<a class='dropdown-item' href='#'><p><b>" + payload.data.title + "</b><br>" + payload.data.body + "<br></p></a>";
 
-                notificationTitle = payload.data.title;
-                notificationOptions = {
-                    body: payload.data.body,
-                    icon: payload.data.icon
-                };
-                var notification = new Notification(notificationTitle, notificationOptions);
+                //messaging.getToken({ vapidKey: "BO-JbWwQGJCcXjWDqbqaIdovw-CqNwkiDpzqWqtzUp2XEFWpvozx_QoSAgJ7Bz9zww9R52kAO7sMf5UzBzXALDk" });
+                messaging.getToken({ vapidKey: "BO-JbWwQGJCcXjWDqbqaIdovw-CqNwkiDpzqWqtzUp2XEFWpvozx_QoSAgJ7Bz9zww9R52kAO7sMf5UzBzXALDk" }).then((currentToken) => {
+                    if (currentToken) {
+                        // Send the token to your server and update the UI if necessary
+                        // ...
+                        console.log('Eksisterende registerToken: ' + currentToken);
 
+                    } else {
+                        // Show permission request UI
+                        console.log('Ingen registrertoken funnet');
+                        messaging.requestPermission()
+                            .then(function () {
+                                console.log("GRANTED");
+                                console.log(messaging.getToken());
+
+                                regToken(messaging.getToken());
+
+                                return messaging.getToken();
+                            })
+                            .then(function (token) {
+                                console.log(token);
+                            })
+                            .catch(function (err) {
+                                console.log('Error Occurred.' + err)
+                            });
+                        // ...
+                    }
+                }).catch((err) => {
+                    console.log('An error occurred while retrieving token. ', err);
+                    // ...
+                });
+
+                /*
+                         // Handle incoming messages. Called when:
+                         // - a message is received while the app has focus
+                         // - the user clicks on an app notification created by a service worker
+                         //   `messaging.onBackgroundMessage` handler.
+                         messaging.onMessage((payload) => {
+                             console.log('Message received. ', payload);
+                             // ...
+                         });
+                     messaging.requestPermission()
+                         .then(function () {
+                             console.log("granted");
+                             if (isTokenSentToServer()) {
+                                 console.log("already granted");
+                             } else {
+                                 getRegtoken();
+                             }
+                         });
+                     function getRegtoken() {
+                         messaging.getToken().then((currentToken) => {
+                             if (currentToken) {
+                                 console.log(currentToken);
+                                 setTokenSentToServer(true);
+                                 saveToken(currentToken)
+                                 //   updateUIForPushEnabled(currentToken);
+                             } else {
+                                 console.log('No Instance ID token available. Request permission to generate one.');
+                                 setTokenSentToServer(false);
+                             }
+                         }).catch((err) => {
+                             console.log('An error occurred while retrieving token. ', err);
+                             setTokenSentToServer(false);
+                         });
+                     }
+                     function setTokenSentToServer(sent) {
+                         window.localStorage.setItem('sentToServer', sent ? 1 : 0);
+                     }
+                     function isTokenSentToServer() {
+                         return window.localStorage.getItem('sentToServer') === '1';
+                     }
+                             */
+                messaging.onMessage(function (payload) {
+                    console.log('Message received. ', payload);
+
+                    var antallNot = document.getElementById("badge_counter").innerHTML;
+                    if (antallNot == "") {
+
+                        document.getElementById("badge_counter").style.display = "inline";
+                        document.getElementById("badge_counter").innerHTML = 1;
+                    } else {
+                        var nyNot = parseInt(antallNot) + 1;
+                        document.getElementById("badge_counter").innerHTML = nyNot;
+                    };
+
+
+
+                   $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("MottatNotification", "Home")',
+
+                    success: function (result) {
+                       // alert("Din bruker har blitt refresha! " + result);
+                        }
+                   });
+
+                    /*
+                    var node = document.createElement("a");
+                    var textnode = document.createTextNode("Dette er appenda");
+                    node.className = "dropdown-item test";
+
+                    node.href = "#";
+                    node.title = "Dette er appenda"
+
+                   // node.appendChild(textnode);
+                    document.getElementById("dropdownItems").appendChild(node);
+                        */
+
+                    if (payload.data.type == "Like") {
+                        var hvemURL = "/ProfilSide/ProfilSide?brukerID="+payload.data.FraHvemID;
+
+                        document.getElementById("dropdownItems").innerHTML += " <a class='dropdown-item' href='"+hvemURL+"'>" +
+                            "<i class='far fa-thumbs-up'></i>" +
+                            "<p>" + payload.data.FraHvemNavn + " Liked your post </p>" +
+                            "</a>";
+                    } else if (payload.data.type == "Kommentar") {
+                        var hvilketInnlegg = "/Innlegg/Nav_Innlegg/" + payload.data.innleggID;
+                        document.getElementById("dropdownItems").innerHTML += " <a class='dropdown-item' href='" + hvilketInnlegg +"'>" +
+                            "<i class='far fa-thumbs-up'></i>" +
+                            "<p>" + payload.data.FraHvemNavn + " Commented on your post </p>" +
+                            "</a>";
+                    } else {
+                        var hvemURL = "/ProfilSide/ProfilSide?brukerID=" + payload.data.FraHvemID;
+                        document.getElementById("dropdownItems").innerHTML += " <a class='dropdown-item' href='" + hvemURL +"'>" +
+                            "<i class='far fa-thumbs-up'></i>" +
+                            "<p>" + payload.data.FraHvemNavn + " wishes to see your resume.<br> Do you want to give him access? </p>" +
+                            "</a>";
+                    }
+
+
+                    //
+
+                    notificationTitle = payload.data.title;
+                    notificationOptions = {
+                        body: payload.data.body,
+                        icon: payload.data.icon
+                    };
+                    var notification = new Notification(notificationTitle, notificationOptions);
+
+                });
+               // }
             });
 
-        });
-    </script>
-</body>
+            function regToken(token) {
+
+                    var jsonToken = {
+                                    "registreringsToken": token
+                                }
+
+                                   $.ajax({
+                                      type: "POST",
+                                      url: '@Url.Action("UpdateRegisterToken", "Home")',
+                                         data: jsonToken,
+                                         dataType: "json",
+                                     success: function (result) {
+                                         // alert("Notfication har blitt sendt! " + result);
+                                     }
+                                    });
+
+            }
+
+            function acceptCV(fraHvemID, index, navn, accepted) {
+
+                if (accepted) {
+                    document.getElementById("1Request" + index).innerHTML = "<p> Request accepted for " + navn + " </p>"
+                } else document.getElementById("1Request" + index).innerHTML = "<p> Request declined for " + navn + " </p>"
+                
+                document.getElementById("2Request" + index).style.display = "none";
+                var json = {
+                    "fraHvemID": fraHvemID,
+                    "notIndex": index,
+                    "isAccepted": accepted
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("AcceptReadCV", "Home")',
+                    data: json,
+                    dataType: "json",
+                    success: function (result) {
+                        // alert("Notfication har blitt sendt! " + result);
+                    }
+
+                });
+            }
+
+        
+        </script>
+    </body>
 </html>
 
 <script>

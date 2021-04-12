@@ -24,10 +24,12 @@ namespace Portefolio_webApp.Models
 
         public string Profilbilde { get; set; }
 
-        [Range(10,100)]
+        [Range(10, 100)]
         public int Alder { get; set; }
 
         public string Stilling { get; set; }
+
+        public string MessageToken { get; set; }
 
         public string Bosted { get; set; }
 
@@ -38,6 +40,10 @@ namespace Portefolio_webApp.Models
 
         public List<string> CVAdgang { get; set; }
 
+        public List<Notifications> notifications { get; set; }
+
+        public List<string> kommentertPå { get; set; }
+
         public CV CV { get; set; }
         public List<Portfolio> Mapper { get; set; }
 
@@ -45,6 +51,7 @@ namespace Portefolio_webApp.Models
         {
             CV = new CV(); 
             Mapper = new List<Portfolio>();
+            notifications = new List<Notifications>(); 
         }
 
     }
