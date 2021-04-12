@@ -160,7 +160,7 @@
         border: 0 solid rgba(0,0,0,.125);
         border-radius: .25rem;
         
-        height: 660px;
+        max-height: 660px;
         padding: 10px;
         margin-bottom: 20px;
     }
@@ -244,20 +244,32 @@
     .ikontxt {
         font-size: 25px;
         margin-top: -10px;
+        margin-left: 60px;
         left: 45px;
         color: white;
+        max-width: 80%;
+        display: inline;
     }
 
     .kommentartext {
         left:51px;
         padding: 10px;
-        top: -30px;
+        top: -15px;
         color: white;
+        
+    }
+
+    .row {
+        margin-left: 0px;
     }
 
     .kommentarProfil {
         position: relative;
-        margin-bottom: 10px;
+        margin-bottom: 0px;
+    }
+
+    .kommentarProfilbottom {
+        margin-bottom: -20px
     }
 
     .kommentarProfil img {
@@ -278,7 +290,7 @@
         background-clip: border-box;
         border: 0 solid rgba(0,0,0,.125);
         border-radius: .25rem;        
-        padding: 10px;
+        padding: 30px;
     }
 
    
@@ -289,16 +301,10 @@
         border-top: 1px solid white;
     }
 
-    .nyttKommentarFelt {
-        margin: auto
-    }
+    
 
-    .nyttKommentarFelt * {
-        vertical-align: top;
-    }
-    .nyttKommentarFelt button {
-        vertical-align: bottom;
-    }
+    
+    
 
 
 
@@ -336,8 +342,8 @@
     }
 
     .replyarea {
-        display: none;
-        margin-left:300px;
+        
+        margin-left:60px;
     }
 
     .innloggetprofilbilde {
@@ -351,23 +357,73 @@
 
     .skrivKommentar {
         outline: none;
-        height: 30px;
+        display: block;
     }
 
-    .skrivKommentar:focus {
-        height: 105px
-    }
 
-    
+
+
 
     .replyProfil {
-        margin-top: 40px;
+        margin-top: 0px;
         margin-left: 70px;
+        border-left: 2px solid white;
+        padding-left: 10px;
+        
+    }
+
+    .reply {
+        font-size: 20px;
+        margin-top: -20px;
+        margin-left: 45px;
+        color: white;
+        display: inline;
     }
 
     .singleKommentar {
         margin-top: 40px;
+        border-top: 2px solid white;
+        border-left: 2px solid white;
+        padding-top: 20px;
+        padding-left: 10px;
     }
+
+    .slettKommentar {
+        height: 30px;
+        color: white;
+        background-color: transparent;
+        border: none;
+        margin-left: 40px;
+        margin-top: -20px;
+    }
+
+    .replyButton {
+        margin-left: 60px;
+        color: white;
+        background-color: transparent;
+        border: none;
+        margin-top: 15px;
+        display: block
+    }
+
+    .replyButton:hover {
+        text-decoration: underline;
+    }
+
+    .postKommentarButton {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+    }
+
+
+
+    .nyttKommentarFelt {
+        position: relative;
+    }
+    
+    
+
 </style>
 
 <script>
@@ -375,7 +431,7 @@
 
 function Kommentar(nyId) {
     var url = '@Html.Raw(Url.Action("NyttKommentar", "Innlegg" , new { tekst = "_tekst_", innleggId = "_innleggId_" }))';
-    var tekst = $('#kommentarFelt').val();
+    var tekst = $('textarea#kommentarFelt').val();
     var params = url.replace('_tekst_', tekst).replace('_innleggId_', nyId);
     window.location.href = params;
 }
@@ -567,8 +623,8 @@ function dislike(innId) {
             <a asp-controller="Profilside" asp-action="Profilside">
                 <img src=@du.Profilbilde class="innloggetprofilbilde" id="imgikon" />
             </a>
-            <textarea id="kommentarFelt" name="w3review" cols="90" rows="1" class="skrivKommentar" placeholder="What do you think..."></textarea>
-            <button onclick="Kommentar('@thisid')">Comment</button>
+            <textarea id="kommentarFelt" name="w3review" rows="3" class="skrivKommentar col-9" placeholder="What do you think..."></textarea>
+            <button class="postKommentarButton" onclick="Kommentar('@thisid')">Comment</button>
         </div>
     }
     @*Setter opp alle kommentarer som tilhører innlegget*@
@@ -591,23 +647,29 @@ function dislike(innId) {
 <div class="singleKommentar">
 
 
-    <div class="kommentarProfil">
+    <div class="kommentarProfil kommentarProfilbottom">
         <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@komid">
             <img src=@bilde id="imgikon" />
         </a>
-        <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@komid">
-            <p class="ikontxt col-10">@nvn </p>
-        </a>
-        <p class="kommentartext col-10">@tekst helvetes lang tekst eeller noe dritt hva sker med denne kommentaren og de andre under, håer det funker slik at jeg slipper å finjustere alt smile det ser ikke ut som om det flytter seg så jeg er fucked lol</p>
-        @if (ViewData["Token"] != null)
-        {
-            var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
-            @if (du.Id.Equals(@komid))
-            {
-                <button class="slettKommentar" onclick="deleteKommentar('@antallKommentarer', '@thisid')"><i class="far fa-trash-alt delete-folder"></i></button>
-            }
+        
+            <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@komid">
+                <p class="ikontxt">@nvn </p>
+            </a>
+        
+            <div class="row">
+                <p class="kommentartext col-9">@tekst</p>
+                @if (ViewData["Token"] != null)
+                {
+                    var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
+                    @if (du.Id.Equals(@komid))
+                    {
+                        <button class="slettKommentar " onclick="deleteKommentar('@antallKommentarer', '@thisid')"><i class="far fa-trash-alt delete-folder"></i></button>
+                    }
 
-        }
+                }
+
+
+            </div>
 
     </div>
 
@@ -624,34 +686,45 @@ function dislike(innId) {
         var replybilde = kommentar[antallKommentarer].Kommentarer[antallReply].EierBilde;
         var replynvn = kommentar[antallKommentarer].Kommentarer[antallReply].EierNavn;
 
-        <div class="kommentarProfil replyProfil">
-            <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@replykomid">
-                <img src=@replybilde id="imgikon" />
-                <p class="reply">@replynvn</p>
-            </a>
-            <p class="solidreply">@replytekst</p>
-        </div>
+<div class="kommentarProfil replyProfil">
+    <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@replykomid">
+        <img src=@replybilde id="imgikon" />
 
-        
+    </a>
+    <a class="col-auto" asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@replykomid">
+        <p class="reply">@replynvn</p>
+
+    </a>
+    <div class="row">
+
+        <p class="kommentartext col-8">@replytekst</p>
+
         @if (ViewData["Token"] != null)
         {
             var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
             @if (du.Id.Equals(@replyid))
             {
-                <button style="margin-left: 300px" onclick="deleteReply('@antallReply', '@antallKommentarer', '@thisid')">Delete Reply</button>
+                <button class="slettKommentar " onclick="deleteReply('@antallReply', '@antallKommentarer', '@thisid')"><i class="far fa-trash-alt delete-folder"></i></button>
             }
 
         }
+
+    </div>
+
+</div>
+
+        
+        
         antallReply += 1;
 
     }
     @if (ViewData["Token"] != null)
     {
-        <button onclick="hideReply('@antallKommentarer')" style="margin-left: 300px" ;>reply</button>
+        <button onclick="hideReply('@antallKommentarer')" class="replyButton">Reply</button>
     }
 
     <div id="@("replyArea" + antallKommentarer)" class="replyarea">
-        <textarea id="@("replyFelt" + antallKommentarer)" name="w3review" rows="4" cols="70"></textarea>
+        <textarea id="@("replyFelt" + antallKommentarer)" name="w3review" rows="4" class="skrivKommentar col-5" placeholder="Write a reply..."></textarea>
         <button onclick="Reply('@thisid' , '@antallKommentarer')">Reply</button>
     </div>
     @{antallReply = 0;
@@ -660,7 +733,7 @@ function dislike(innId) {
 </div>
         }
 </div>
-<div id="alleKommentarFelt">
+<div id="alleKommentarFelt" >
 
 </div>
 
