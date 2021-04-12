@@ -16,6 +16,9 @@ using Firebase.Database.Query;
 using Test1.Models;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using FirebaseAdmin.Messaging;
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
 
 namespace Portefolio_webApp.Controllers
 {
@@ -189,6 +192,55 @@ namespace Portefolio_webApp.Controllers
 
         }
 
+        public void Test()
+        {
+            Debug.WriteLine("----------- JEG ER INNI CONTROLLER: MESSAGE TEST");
+            Debug.WriteLine("----------- JEG ER INNI CONTROLLER: MESSAGE TEST");
+        }
+
+        public async Task<IActionResult> SendMelding()
+        {
+
+            if (FirebaseApp.DefaultInstance == null) { 
+                var defaultApp = FirebaseApp.Create(new AppOptions()
+            {
+                Credential = GoogleCredential.FromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "key.json")),
+            });
+
+                Debug.WriteLine(defaultApp.Name); // "[DEFAULT]"
+            }
+
+        
+            var registrationToken = "fRD3Yaa0Q3DiAYY3OH35qI:APA91bGD4zOO_-P8IR5rPNbJKvIt9Ig17qCYzDW-Qotahsx_Qr5R6-4BHCvYqFVkftozTNL6xDEmECEplzTH7Gx-TE0ucJ4-JSU2wbqSkQU2xPkEBrh5d53_iLDeA-mJ5Usiy91y3JDJ";
+
+            // See documentation on defining a message payload.
+            var message = new Message()
+            {
+                Data = new Dictionary<string, string>()
+                {
+                    ["FirstName"] = "John",
+                    ["LastName"] = "Doe"
+                },
+                Notification = new Notification
+                {
+                    Title = "FirebaseTest",
+                    Body = "Dette er en beskjed til deg!"
+                },
+
+                Token = registrationToken
+               
+            };
+
+            // Send a message to the device corresponding to the provided
+            // registration token.
+            var messaging = FirebaseMessaging.DefaultInstance;
+            var result = await messaging.SendAsync(message);
+            // Response is a message ID string.
+            Debug.WriteLine("Successfully sent message: " + result);
+            var data = new { status = "suksess" };
+            return Json(data); 
+        }
+
         public IActionResult LoggInnSide()
         {
             return View();
@@ -257,17 +309,6 @@ namespace Portefolio_webApp.Controllers
                 ViewData["Innlogget_Bruker"] = innBruker;
             }
 
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-
-        public IActionResult ProfilSide()
-        {
             return View();
         }
 

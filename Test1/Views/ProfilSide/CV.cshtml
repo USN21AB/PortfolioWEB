@@ -19,6 +19,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css" integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc=" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
 <link href="~/css/CV.css" rel="stylesheet" />
+<link href="~/css/Buttons.css" rel="stylesheet" />
+
+
 
 <div style="display: flex; justify-content: flex-end">
     <div class="toast" id="toast" role="alert" aria-live="assertive" aria-atomic="true" style="display:none; position: fixed; z-index: 1; color:white; width: 199px; right: 3px;">
@@ -52,8 +55,7 @@
 
             <div class="card-box">
                 <h4 class="header-title">Skills</h4>
-                <div class="pt-1">
-                    @{
+                <div class="pt-1">                 @{
                         var antallFerdigheter = 0;
                     }
                     @if (CvInnhold.Ferdigheter.Count != 0)
@@ -293,7 +295,7 @@
                         </div> <!-- end row -->
                         <div class="text-right">
                             <span id="danger_arbeid" class="text-danger"></span>
-                                <button id="submitArbeid" class="btn btn-success buttons mt-1 mb-3" data-toggle="modal" data-target="#exampleModal"><i class="mdi mdi-content-save"></i> Add</button>
+                                <button id="submitArbeid" class="btn btn-primary buttons mt-1 mb-3"><i class="mdi mdi-content-save"></i> Add</button>
                         </div>
 
 
@@ -349,7 +351,7 @@
                         </div> <!-- end row -->
                         <div class="text-right">
                             <span id="danger_skole" class="text-danger"></span>
-                            <button type="submit" id="submitSkole" class="btn btn-success buttons waves-effect waves-light mt-1 mb-3"><i class="mdi mdi-content-save"></i> Add</button>
+                            <button type="submit" id="submitSkole" class="btn btn-primary buttons mt-1 mb-3"><i class="mdi mdi-content-save"></i> Add</button>
                         </div>
                         <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-format-list-checkbox mr-1"></i>Add / Edit Skills</h5>
 
@@ -399,8 +401,8 @@
                             </div> <!-- end row -->
                         <div class="text-right">
                             <span id="danger_skills" class="text-danger"></span>
-                            <button id="addSkillButton" class="btn btn-success buttons waves-effect waves-light mt-2 mb-3" onclick="addSlider('skillsEdit')"><i class="fas fa-plus"></i> Add</button>
-                            <button id="submitSkillButton" class="btn btn-success buttons waves-effect waves-light mt-2 mb-3" onclick="registrerSliders('@BrukerInnhold.Id','skillsEdit')"><i class="mdi mdi-content-save"></i> Save</button>
+                            <button id="addSkillButton" class="btn btn-primary buttons mt-2 mb-3" onclick="addSlider('skillsEdit')"><i class="fas fa-plus"></i> Add</button>
+                            <button id="submitSkillButton" class="btn btn-primary buttons mt-2 mb-3" onclick="registrerSliders('@BrukerInnhold.Id','skillsEdit')"><i class="mdi mdi-content-save"></i> Save</button>
                         </div>
 
 
@@ -453,8 +455,8 @@
 
                         <div class="text-right">
                             <span id="danger_språk" class="text-danger"></span>
-                            <button id="addSkillButton" class="btn btn-success buttons waves-effect waves-light mt-2" onclick="addSlider('språkEdit')"><i class="fas fa-plus"></i> Add</button>
-                            <button id="submitSkillButton" class="btn btn-success buttons waves-effect waves-light mt-2" onclick="registrerSliders('@BrukerInnhold.Id', 'språkEdit')"><i class="mdi mdi-content-save"></i> Save</button>
+                            <button id="addSkillButton" class="btn btn-primary buttons mt-2" onclick="addSlider('språkEdit')"><i class="fas fa-plus"></i> Add</button>
+                            <button id="submitSkillButton" class="btn btn-primary buttons mt-2" onclick="registrerSliders('@BrukerInnhold.Id', 'språkEdit')"><i class="mdi mdi-content-save"></i> Save</button>
                         </div>
 
                         <!-- end settings content-->
@@ -520,7 +522,7 @@
                                                   " <input class='slider-general' id='" + slider + "' data-slider-id='ex1Slider' value='50'" +
                                                      " type='range' data-slider-min='0' data-slider-max='20' data-slider-step='1' data-slider-value='14' " +
             " />" +
-            " <button id='"+skillButton+"' style='position:absolute; right:6%; bottom:110%'><i class='fas fa-window-close fa-sm'></i></button> " +
+            " <button id='" + skillButton + "' style='position:absolute; right:6%; bottom:110%'><i class='fas fa-window-close fa-sm'></i></button> " +
                                                      "<p id='" + tekst + "'>50%</p>" +
                                           "</div>" +
                              "</div>" +
@@ -532,6 +534,7 @@
         };
         document.getElementById(skillButton).onclick = function () {
             onDelete(skill, 0, 'slider')
+            $("#exampleModal").modal()
         }
     }
     function testResponse() {
