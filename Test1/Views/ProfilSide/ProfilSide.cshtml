@@ -98,7 +98,7 @@
 
     .folder-navn {
         color: white;
-        font-size: 25px;
+        font-size: 16px;
         top: 70%;
         left: 48%;
         transform: translate(-50%, -50%);
@@ -111,14 +111,12 @@
         -ms-hyphens: auto;
         hyphens: auto;
         position: absolute;
+        width: 100px;
     }
-
     .folder-bilde {
-        width: 200px;
+        width: 100px;
         position: relative;
     }
-
-
     .devider {
         width: 90%;
         margin-top: 25px;
@@ -213,8 +211,9 @@
                                         <button class="cvbtn btn btn-primary" onclick="location.href='@Url.Action("UpsertBruker", "ProfilSide")'"><i class="fas fa-edit">  Edit profile</i></button>
                                     </div>
                                 }
-                                else {
-                                <a asp-action="CV" asp-route-brukerID="@BrukerInnhold.Id"><button class="cvbtn btn btn-primary">Request CV</button></a>
+                                else
+                                {
+                                    <a asp-action="CV" asp-route-brukerID="@BrukerInnhold.Id"><button class="cvbtn btn btn-primary">Request CV</button></a>
                                 }
                             </div>
                         </div>
@@ -260,6 +259,39 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-8">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="rowinfo">
+                                @{
+                                    var antall = 0;
+                                }
+
+
+                                <ul class="nav nav-pills nav-fill folder-nav tabs">
+                                    @while (antall < BrukerInnhold.Mapper.Count)
+                                    {
+                                        var Mappe = BrukerInnhold.Mapper.ElementAt(antall);
+
+
+                                        <li class="nav-item">
+                                            <button class="delete-folder-div" onclick="onDelete('mappe-@antall', @antall, '@Mappe.MappeNavn')">
+                                                <i class="far fa-trash-alt delete-folder"></i>
+                                            </button>
+                                            <a class="nav-link folder " asp-action="Portefølje" asp-route-brukerID="@BrukerInnhold.Id" asp-route-antall="@antall">
+                                                <div class="folder-design" id="mappe-@antall">
+                                                    <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190211472785468/Portfollowers_bilde.png" />
+                                                    <span class="folder-navn">@Mappe.MappeNavn</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        antall++;
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -272,9 +304,7 @@
     </div>
 
 
-    @{
-        var antall = 0;
-    }
+
 
     <ul class="nav nav-pills nav-fill folder-nav tabs">
         @while (antall < BrukerInnhold.Mapper.Count)

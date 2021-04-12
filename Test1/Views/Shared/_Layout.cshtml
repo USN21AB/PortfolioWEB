@@ -44,7 +44,7 @@
 
                             @if (ViewData["Token"] == null)
                             {
-                                <button class="topnav-right vl btn btn-primary buttons" onclick="location.href='@Url.Action("SignIn", "Login")'"><i class="fas fa-sign-in-alt">  Log in</i></button>
+                                <button class="topnav-right btn btn-primary buttons loginbtn" onclick="location.href='@Url.Action("SignIn", "Login")'"><i class="fas fa-sign-in-alt">  Login</i></button>
                             }
                             else
                             {
@@ -78,7 +78,7 @@
                                         </div>
                                     </div>
                                 </li>
-                                <li class="topnav-right2">
+                                <li class="topnav-right2 vl">
 
                                     <div class="dropdown">
                                         <a class="btn btn-outline-light" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
