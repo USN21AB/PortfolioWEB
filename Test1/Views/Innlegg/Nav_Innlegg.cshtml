@@ -145,10 +145,11 @@
 
     textarea {
         resize: none;
+        border-radius: .25rem;
     }
     body {
         background-color: #232426;
-        margin-top: 55px;
+        margin-top: 60px;
     }
 
 
@@ -159,36 +160,32 @@
         background-clip: border-box;
         border: 0 solid rgba(0,0,0,.125);
         border-radius: .25rem;
-        
-        height: 660px;
         padding: 10px;
+        overflow: hidden;
         margin-bottom: 20px;
+        max-height: 635px;
     }
 
-    
 
-    
+
+
 
 
     .bildediv {
-        max-width: 100%;
-        bottom: 0;
-        
+       
         text-align: center;
-        max-height: 553px;
-        
-        
     }
 
     .bildeInnlegg {
-        max-height: 100%;
         max-width: 100%;
+        max-height: 615px;
+        object-fit: contain;
         border-radius: .25rem;
     }
 
     .tekstInnlegg{
         height: 95vh;
-        width: 100%;
+        width: 60%;
     }
 
 
@@ -213,19 +210,25 @@
         height: 90px;
     }
     .ikontxttop {
-        font-size: 25px;
-        position: absolute;
-        margin-left: 80px;
-        top: 50px;
-        
+        font-size: 20px;
+        width: 50%;
+        margin-top: 15px;
+        margin-bottom: 10px;
         color: white;
+        display: inline;
     }
     .innleggProfil {
-        position: relative;
+        
         height: 90px;
     }
 
-        .innleggProfil img {
+    .uploaddato {
+        position: absolute;
+        margin-top: 3px;
+    }
+
+
+        .infodiv img {
             float: left;
             border-radius: .25rem;
             height: 80px;
@@ -233,31 +236,50 @@
             object-fit: cover;
             margin-right: 10px;
         }
-        .innleggProfil h1 {
-            font-size: 35px;
-            position: absolute;
-            left: 79px;
+        .infodiv h1 {
+            margin-top: -5px;
+            font-size: 39px;
+            color: white;
+            width: 100%;
         }
+
+    .beskrivelse {
+        margin-top: 30px;
+    }
+
+        
 
     
 
     .ikontxt {
         font-size: 25px;
         margin-top: -10px;
+        margin-left: 60px;
         left: 45px;
         color: white;
+        max-width: 80%;
+        display: inline;
     }
 
     .kommentartext {
         left:51px;
         padding: 10px;
-        top: -30px;
+        top: -15px;
         color: white;
+        
+    }
+
+    .row {
+        margin-left: 0px;
     }
 
     .kommentarProfil {
         position: relative;
-        margin-bottom: 10px;
+        margin-bottom: 0px;
+    }
+
+    .kommentarProfilbottom {
+        margin-bottom: -20px
     }
 
     .kommentarProfil img {
@@ -281,6 +303,22 @@
         padding: 10px;
     }
 
+    .infodiv {
+        margin: auto;
+        margin-bottom: 20px;
+        box-shadow: 0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.06);
+        background-color: #384352;
+        background-clip: border-box;
+        border: 0 solid rgba(0,0,0,.125);
+        border-radius: .25rem;
+        padding: 10px;
+
+    }
+
+    .infodiv p {
+        color: white;
+    }
+
    
 
     
@@ -289,16 +327,10 @@
         border-top: 1px solid white;
     }
 
-    .nyttKommentarFelt {
-        margin: auto
-    }
+    
 
-    .nyttKommentarFelt * {
-        vertical-align: top;
-    }
-    .nyttKommentarFelt button {
-        vertical-align: bottom;
-    }
+    
+    
 
 
 
@@ -337,7 +369,7 @@
 
     .replyarea {
         display: none;
-        margin-left:300px;
+        margin-left:60px;
     }
 
     .innloggetprofilbilde {
@@ -351,23 +383,127 @@
 
     .skrivKommentar {
         outline: none;
-        height: 30px;
+        display: block;
     }
 
-    .skrivKommentar:focus {
-        height: 105px
-    }
 
-    
+
+
 
     .replyProfil {
-        margin-top: 40px;
+        margin-top: 0px;
         margin-left: 70px;
+        border-left: 2px solid white;
+        padding-left: 10px;
+        
+    }
+
+    .reply {
+        font-size: 20px;
+        margin-top: -20px;
+        margin-left: 45px;
+        color: white;
+        display: inline;
     }
 
     .singleKommentar {
         margin-top: 40px;
+        border-top: 0px solid white;
+        border-left: 0px solid white;
+        padding-top: 20px;
+        padding-left: 10px;
     }
+
+    .slettKommentar {
+        height: 30px;
+        color: white;
+        background-color: transparent;
+        border: none;
+        margin-left: 46px;
+        margin-top: -20px;
+    }
+
+    .replyButton {
+        margin-left: 60px;
+        color: white;
+        background-color: transparent;
+        border: none;
+        margin-top: 15px;
+        display: block
+    }
+
+    .replyButton:hover {
+        text-decoration: underline;
+    }
+
+    .postKommentarButton {
+        margin-left: 60px;
+        border-radius: .25rem;
+        outline: none;
+        border: none;
+        background-color: rgb(2, 117, 216);
+        color: white;
+    }
+
+    .postReplyButton {
+        border-radius: .25rem;
+        outline: none;
+        border: none;
+        background-color: rgb(2, 117, 216);
+        color: white;
+    }
+
+    .dislikebutton {
+        color: white;
+        background-color: transparent;
+        border: none;
+        display: block
+    }
+
+    .likebutton {
+        color: white;
+        background-color: transparent;
+        border: none;
+        display: block
+    }
+
+    .likes{
+        display: inline-block;
+        position: relative;
+    }
+    .likes p {
+        position: absolute;
+        left: 30px;
+        top: 0;
+    }
+
+    .tagGrid {
+        width: 100%;
+        margin-left: -45px;
+        margin-bottom: 10px;
+    }
+
+    .tagGrid li {
+        display: inline-block;
+    }
+
+        .tagGrid p {
+            
+            margin: 5px;
+            border: 1px solid #232426;
+            background-color: #232426;
+            padding-left: 10px;
+            padding-right: 10px;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+
+
+
+    
+    
+    
+
 </style>
 
 <script>
@@ -375,7 +511,7 @@
 
 function Kommentar(nyId) {
     var url = '@Html.Raw(Url.Action("NyttKommentar", "Innlegg" , new { tekst = "_tekst_", innleggId = "_innleggId_" }))';
-    var tekst = $('#kommentarFelt').val();
+    var tekst = $('textarea#kommentarFelt').val();
     var params = url.replace('_tekst_', tekst).replace('_innleggId_', nyId);
     window.location.href = params;
 }
@@ -425,10 +561,10 @@ function dislike(innId) {
         {
 
 
+        <div class="bildediv ">
+            <img src='@url' class="bildeInnlegg" alt="error" id="innlegg" />
 
-            <div class="bildediv ">
-                <img src='@url' class=" bildeInnlegg" alt="error" id="innlegg" />
-            </div>
+        </div>
         }
         else if (kategori.Equals("Tekst"))
         {
@@ -461,37 +597,21 @@ function dislike(innId) {
                 <p>Beklager men denne siden eksisterer ikke </p>
             </div>
         }
-        else
-        {
-            <div class="innleggTop">
+        <!-- else
+         {
 
-                <div class="innleggProfil">
-                    <h1 class="col-11">@tittel er et spill som sikkert blir bra, men aldri kommer</h1>
-                    <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@bruker.Id">
-                        <img  src="@bruker.Profilbilde" id="@url" />
-                        <h3 class="ikontxttop col-4">@bruker.Navn</h3>
-
-                        <!-- @{
-            var antall = 0;
-            var tag = Model.Tagger;
-        }
-        @while (antall < tag.Count)
-        {
-            <p class="tag">@tag.ElementAt(antall)</p>
-            antall++;
-        }-->
+             <div class="innleggTop">
 
 
-                    </a>
-                </div>
-                
-                <p>@dato</p>
+
+                 
 
 
-            </div>
+             </div>
 
 
-        }
+
+             }-->
 
 
 
@@ -526,40 +646,102 @@ function dislike(innId) {
     }
 }
     -->
+
+
+
+<div class="infodiv col-9">
+
+    <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@bruker.Id">
+        <img src="@bruker.Profilbilde" id="@url" />
+
+    </a>
+
+    <h1 class="">@tittel</h1>
+    <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@bruker.Id">
+        <h3 class="ikontxttop">@bruker.Navn</h3>
+    </a>
+
+
+
+    <p class="uploaddato">@dato</p>
+    <p class="beskrivelse">@beskrivelse</p>
+
+    <ul class="tagGrid">
+
+         @{
+            var antall = 0;
+            var tag = Model.Tagger;
+        }
+        @while (antall < tag.Count)
+        {
+        <li>
+            <p class="tag">@tag.ElementAt(antall)</p>
+        </li>
+            antall++;
+        }
+    </ul>
+
+
+
+
+
+    @if (ViewData["Token"] != null)
+
+    {
+
+
+    <div class="likes">
+
+            @{
+                var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
+                var i = 0;
+                var check = 0;
+            }
+
+            @if (Model.Likes != null)
+            {
+
+
+                @while (i < Model.Likes.Brukere.Count)
+                {
+                    @if (du.Id.Equals(Model.Likes.Brukere[i]))
+                    {
+        <button class="dislikebutton" onclick="dislike('@thisid')">
+            <i class="fas fa-thumbs-up"></i>
+
+        </button>
+        check = 1;
+        break;
+    }
+
+
+i++;
+}
+}
+@if (check == 0)
+{
+    <button class="likebutton" onclick="like('@thisid')">
+        <i class="far fa-thumbs-up"></i>
+    </button>
+}
 @if (Model.Likes != null)
 {
     var likes = Model.Likes.Antall;
-    <p class="solid">Likes: @likes</p>
+    <p class="">@likes</p>
 }
+</div>
+}
+</div>
+
+
+
 <div class="kommentardiv container col-9">
 
     @if (ViewData["Token"] != null)
 
     {
+
         var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
-        var i = 0;
-        var check = 0;
-        @if (Model.Likes != null)
-        {
-
-
-            @while (i < Model.Likes.Brukere.Count)
-            {
-                @if (du.Id.Equals(Model.Likes.Brukere[i]))
-                {
-                    <button onclick="dislike('@thisid')">Dislike</button>
-                    check = 1;
-                    break;
-                }
-
-
-                i++;
-            }
-        }
-        if (check == 0)
-        {
-            <button onclick="like('@thisid')">Like</button>
-        }
 
 
 
@@ -567,8 +749,10 @@ function dislike(innId) {
             <a asp-controller="Profilside" asp-action="Profilside">
                 <img src=@du.Profilbilde class="innloggetprofilbilde" id="imgikon" />
             </a>
-            <textarea id="kommentarFelt" name="w3review" cols="90" rows="1" class="skrivKommentar" placeholder="What do you think..."></textarea>
-            <button onclick="Kommentar('@thisid')">Comment</button>
+            <div class="textareadiv">
+                <textarea id="kommentarFelt" name="w3review" rows="3" class="skrivKommentar col-9" placeholder="What do you think..."></textarea>
+                <button class="postKommentarButton" onclick="Kommentar('@thisid')">Comment</button>
+            </div>
         </div>
     }
     @*Setter opp alle kommentarer som tilhører innlegget*@
@@ -591,23 +775,29 @@ function dislike(innId) {
 <div class="singleKommentar">
 
 
-    <div class="kommentarProfil">
+    <div class="kommentarProfil kommentarProfilbottom">
         <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@komid">
             <img src=@bilde id="imgikon" />
         </a>
-        <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@komid">
-            <p class="ikontxt col-10">@nvn </p>
-        </a>
-        <p class="kommentartext col-10">@tekst helvetes lang tekst eeller noe dritt hva sker med denne kommentaren og de andre under, håer det funker slik at jeg slipper å finjustere alt smile det ser ikke ut som om det flytter seg så jeg er fucked lol</p>
-        @if (ViewData["Token"] != null)
-        {
-            var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
-            @if (du.Id.Equals(@komid))
-            {
-                <button class="slettKommentar" onclick="deleteKommentar('@antallKommentarer', '@thisid')"><i class="far fa-trash-alt delete-folder"></i></button>
-            }
+        
+            <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@komid">
+                <p class="ikontxt">@nvn</p>
+            </a>
+        
+            <div class="row">
+                <p class="kommentartext col-9">@tekst</p>
+                @if (ViewData["Token"] != null)
+                {
+                    var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
+                    @if (du.Id.Equals(@komid))
+                    {
+                        <button class="slettKommentar " onclick="deleteKommentar('@antallKommentarer', '@thisid')"><i class="far fa-trash-alt delete-folder"></i></button>
+                    }
 
-        }
+                }
+
+
+            </div>
 
     </div>
 
@@ -624,35 +814,46 @@ function dislike(innId) {
         var replybilde = kommentar[antallKommentarer].Kommentarer[antallReply].EierBilde;
         var replynvn = kommentar[antallKommentarer].Kommentarer[antallReply].EierNavn;
 
-        <div class="kommentarProfil replyProfil">
-            <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@replykomid">
-                <img src=@replybilde id="imgikon" />
-                <p class="reply">@replynvn</p>
-            </a>
-            <p class="solidreply">@replytekst</p>
-        </div>
+<div class="kommentarProfil replyProfil">
+    <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@replykomid">
+        <img src=@replybilde id="imgikon" />
 
-        
+    </a>
+    <a class="col-auto" asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@replykomid">
+        <p class="reply">@replynvn</p>
+
+    </a>
+    <div class="row">
+
+        <p class="kommentartext col-8">@replytekst</p>
+
         @if (ViewData["Token"] != null)
         {
             var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
             @if (du.Id.Equals(@replyid))
             {
-                <button style="margin-left: 300px" onclick="deleteReply('@antallReply', '@antallKommentarer', '@thisid')">Delete Reply</button>
+                <button class="slettKommentar " onclick="deleteReply('@antallReply', '@antallKommentarer', '@thisid')"><i class="far fa-trash-alt delete-folder"></i></button>
             }
 
         }
+
+    </div>
+
+</div>
+
+        
+        
         antallReply += 1;
 
     }
     @if (ViewData["Token"] != null)
     {
-        <button onclick="hideReply('@antallKommentarer')" style="margin-left: 300px" ;>reply</button>
+        <button onclick="hideReply('@antallKommentarer')" class="replyButton">Reply</button>
     }
 
     <div id="@("replyArea" + antallKommentarer)" class="replyarea">
-        <textarea id="@("replyFelt" + antallKommentarer)" name="w3review" rows="4" cols="70"></textarea>
-        <button onclick="Reply('@thisid' , '@antallKommentarer')">Reply</button>
+        <textarea id="@("replyFelt" + antallKommentarer)" name="w3review" rows="4" class="skrivKommentar col-5" placeholder="Write a reply..."></textarea>
+        <button class="postReplyButton" onclick="Reply('@thisid' , '@antallKommentarer')">Reply</button>
     </div>
     @{antallReply = 0;
             antallKommentarer += 1;
@@ -660,7 +861,7 @@ function dislike(innId) {
 </div>
         }
 </div>
-<div id="alleKommentarFelt">
+<div id="alleKommentarFelt" >
 
 </div>
 
