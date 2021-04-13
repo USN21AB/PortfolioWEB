@@ -250,6 +250,9 @@ namespace Portefolio_webApp.Controllers
                     Debug.WriteLine("Oppdaterer innlegg: " + innlegg.Kommentar[0].InnleggId);
                     //firebase.RegistrerKommentar(kommentar);
                     firebase.OppdaterInnlegg(innlegg);
+
+                    Notifications not = new Notifications("Kommentar", false, innBruker.Id, innBruker.Navn, innlegg.EierId, innlegg.Id, l.ToString("dd/MM/yyyy"));
+                    firebase.SendNotification(not);
                 }
                 
             }
@@ -382,6 +385,12 @@ namespace Portefolio_webApp.Controllers
                 {
 
                     firebase.OppdaterInnlegg(innlegg);
+
+                    DateTime today = DateTime.Today;
+                    DateTime l = today;
+                   
+                    Notifications not = new Notifications("Like", false, innBruker.Id, innBruker.Navn, innlegg.EierId, innlegg.Id, l.ToString("dd/MM/yyyy"));
+                    firebase.SendNotification(not);
                 }
             }
             catch (Exception ex)

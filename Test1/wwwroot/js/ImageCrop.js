@@ -36,8 +36,9 @@
             processData: false,
             data: data,
             success: function (path) {
-              
                 $(".img").attr('src', path);
+                $("#imge").attr('src', path);
+                $("#myprofilecrop").modal('hide');
                 //alert("Congrats this is how your bootiful picture looks :D");
             }
         });
@@ -53,7 +54,9 @@
         var isImage = input.value;
         isImage = isImage.split('.');
         isImage = isImage[isImage.length - 1];
-        if (isImage === 'png' || isImage === 'jpg' || isImage === 'jpeg') {
+
+
+     
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
                 canvas = null;
@@ -65,7 +68,7 @@
                 reader.readAsDataURL(input.files[0]);
                 $("#loader").addClass("hide");
             }
-        }
+        
         else {
             alert("something wrong.");
         }
@@ -74,7 +77,7 @@
         if (canvas != null) {
             image = new Image();
             image.onload = restartJcrop;
-            image.src = canvas.toDataURL('image/png');
+            image.src = canvas.toDataURL('image/jpg');
         } else restartJcrop();
     }
     function restartJcrop() {

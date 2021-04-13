@@ -2,24 +2,20 @@
 @model Portefolio_webApp.Models.Bruker;
 
 @{
-    var BrukerInnhold = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
+    var BrukerInnhold = Model;
 }
 
-<link href="~/css/PortefølgeBody.css" rel="stylesheet" />
+<link href="~/css/PortefølgeBody.css?v=1" rel="stylesheet" />
 <link href="~/css/PorteføljeElementer.css?v=1" rel="stylesheet" />
-<link href="~/css/Musikkontroller.css?v=1" rel="stylesheet" />
-<script src="~/js/lyd.js"></script>
-
+<link href="~/css/Musikkontroller.css?v=2" rel="stylesheet" />
+<script src="~/js/lyd.js?v=1"></script>
 <script>
 
     $(document).ready(function () {
-        var hash = window.location.hash;
-        hash && $('#v-pills-tab a[href="' + hash + '"]').tab('show');
+        var tab = '#v-pills-@ViewData["antall"]';
+        $('#v-pills-tab a[href="' + tab + '"]').tab('show');
     });
-
 </script>
-
-
 
 
 
@@ -76,7 +72,7 @@
 
                                         <div class="awesome-info">
                                             <h3>@Innlegg.Beskrivelse</h3>
-                                            <p>@BrukerInnhold.Navn</p>
+                                            <p>@Innlegg.Eier</p>
                                         </div>
                                         <img class="imge" src="@Innlegg.IkonURL" alt="" data-adaptive-background>
                                     </div>
@@ -95,9 +91,9 @@
                     <div class="play_button_div">
 
                         <h3 class="sangnavn" id="sangnavn-@Innlegg.Id">@Innlegg.Tittel</h3>
-                        <p class="artist" id="artist-@Innlegg.Id">@BrukerInnhold.Navn</p>
+                        <p class="artist" id="artist-@Innlegg.Id">@Innlegg.Eier</p>
                     </div>
-                    <img id="sang-@antall" class="play_button shadowed" src="../resources/icons8-play-96.png" onclick='spillAv("sang-a-@antall", this.id); visSang("sangnavn", "artist")' />
+                    <img id="sang-@antall" class="play_button shadowed" src="../resources/icons8-play-96.png" onclick='spillAv("sang-a-@antall", this.id); visSang("sangnavn-@Innlegg.Id", "artist-@Innlegg.Id")' />
                     <audio id="sang-a-@antall" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="@Innlegg.IkonURL"></audio>
                     <img class="fuck imge" src="@Innlegg.CoverURL" />
 
@@ -114,7 +110,7 @@
                     <img class="book_cover" src="@Innlegg.CoverURL" alt="" />
                     <div class="lit-tekst">
                         <h3 class="tittel">Det var en gang en mann som døre å en gender reveal party lol @Innlegg.Tittel</h3>
-                        <h4 class="forfatter">@BrukerInnhold.Navn</h4>
+                        <h4 class="forfatter">@Innlegg.Eier</h4>
                     </div>
 
                 </div>

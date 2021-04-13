@@ -2,8 +2,12 @@
 <link href="~/css/UpsertBruker.css" rel="stylesheet" />
 <link href="~/css/jquery.Jcrop.min.css" rel="stylesheet" />
 <link href="~/css/jquery.Jcrop.min.css" rel="stylesheet" />
+<link href="~/css/Buttons.css" rel="stylesheet" />
 
+@{
+    var BrukerInnhold = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
 
+}
 
 <div class="container">
     <div class="main-body">
@@ -46,11 +50,20 @@
                             <div class="d-flex flex-column align-items-center text-center">
                                 <div class="mt-3">
                                     <div class="form-group row">
-
-                                        <div class="container">
+                                        <div class="container pimgholder">
                                             <label for="imgInp">
-                                                <img src="~/resources/writer-blogger-author.png" alt="Admin" class="rounded-circle profilimg" width="150">
-                                                <img src="~/resources/pexels-andrea-piacquadio-774909.jpg" class="rounded-circle img-top" width="150">
+
+                                                @if (Model.Id == null)
+                                                {
+                                                    <img id="imge" src="~/resources/writer-blogger-author.png" alt="Admin" class="rounded-circle profilimg" width="150">
+                                                }
+                                                else
+                                                {
+                                                    <img id="imge" src="@BrukerInnhold.Profilbilde" alt="Admin" class="rounded-circle profilimg" width="150">
+                                                }
+
+
+                                                <img src="~/resources/upload_21028.png" class="rounded-circle img-top" width="200">
                                             </label>
                                             <input type="file" class="img" id="imgInp" name="files" accept="image/*" style="display: none">
                                         </div>
@@ -80,28 +93,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card mt-2">
-                        <div class="card-body">
-                            <div class="form-group row mt-2 mb-2">
-                                <div class="col-8 offset-2">
-                                    <div>
-
-                                        <button type="submit" value="Upload" class="btn btn-primary form-control">
-                                            @(ViewData["Token"] == null? "Create new user" : "Update profile" )
-
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 @if (Model.Id != null)
                 {
                     <input type="hidden" asp-for="Id" />
-
+                    <input type="hidden" asp-for="Email" />
+                    <input type="hidden" asp-for="MessageToken" />
                 }
-                <input type="hidden" asp-for="Email" />
+
 
                 <div class="col-md-8">
                     <div class="card mb-3">
@@ -120,42 +119,42 @@
                                     </div>
                                 </div>
 
-                                <div>
-                                    <!--
-                            <div class="form-group row">
-                                <div class="col-2">
-                                    <label class="fattext" class="control-label" style="margin-top: 4px">Old Password</label>
-                                </div>
-                                <div class="col-9">
-                                    <input name="Gammelpassword" class="form-control" style="height:30px; margin-top: 15px" />
-                                    <span class="text-danger"></span>
-                                </div>
-                            </div>
+                                @if (Model.Id == null)
+                                {
+                                    <hr>
+                                    <div class="form-group row">
+                                        <div class="col-2">
+                                            <label asp-for="Email" class="fattext" class="control-label" style="margin-top: 4px">Email</label>
+                                        </div>
+                                        <div class="col-9">
+                                            <input asp-for="Email" class="form-control" style="height:30px; margin-top: 15px" />
+                                            <span asp-validation-for="Email" class="text-danger"></span>
+                                        </div>
+                                    </div>
 
-                        <div class="form-group row">
-                            <div class="col-2">
-                                <label class="fattext" class="control-label" style="margin-top: 4px">New Password</label>
-                            </div>
-                            <div class="col-9">
-                                <input name="password" class="form-control" style="height:30px; margin-top: 15px" />
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-2">
-                                <label class="fattext" class="control-label" style="margin-top: 4px">Retype new Password</label>
-                            </div>
-                            <div class="col-9">
-                                <input name="password" class="form-control" style="height:30px; margin-top: 15px" />
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                          -->
+                                    <div class="form-group row">
+                                        <div class="col-2">
+                                            <label class="fattext" class="control-label" style="margin-top: 4px">Password</label>
+                                        </div>
+                                        <div class="col-9">
+                                            <input name="password" class="form-control" style="height:30px; margin-top: 15px" />
+                                            <span class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-2">
+                                            <label class="fattext" class="control-label" style="margin-top: 4px">Retype new Password</label>
+                                        </div>
+                                        <div class="col-9">
+                                            <input name="passwordRetyp" class="form-control" style="height:30px; margin-top: 15px" />
+                                            <span class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                }
 
-                                </div>
                                 <hr>
                                 <div>
-                                    <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+
                                     <div class="form-group row">
                                         <div class="col-2">
                                             <label asp-for="Alder" class="fattext" style="margin-top: 4px">Age</label>
@@ -168,7 +167,7 @@
                                 </div>
                                 <hr />
                                 <div>
-                                    <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+
                                     <div class="form-group row">
                                         <div class="col-2">
                                             <label asp-for="Stilling" class="fattext" style="margin-top: 4px">Trade</label>
@@ -181,7 +180,7 @@
                                     <div>
                                         <hr />
                                         <div>
-                                            <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+
                                             <div class="form-group row">
                                                 <div class="col-2">
                                                     <label asp-for="Bosted" class="fattext" style="margin-top: 4px">Location</label>
@@ -194,7 +193,7 @@
                                             <div>
                                                 <hr />
                                                 <div>
-                                                    <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+
                                                     <div class="form-group row">
                                                         <div class="col-2">
                                                             <label asp-for="Tlf" class="fattext" style="margin-top: 4px">Phone</label>
@@ -207,7 +206,7 @@
                                                     <div>
                                                         <hr />
                                                         <div>
-                                                            <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+
                                                             <div class="form-group row">
                                                                 <div class="col-2">
                                                                     <label asp-for="Bio" class="fattext" style="margin-top: 5px">About Me</label>
@@ -216,6 +215,14 @@
                                                                     <textarea asp-for="Bio" rows="4" cols="50" class="form-control" style="height:150px; margin-top: 5px"></textarea>
                                                                     <span asp-validation-for="Bio" class="text-danger"></span>
                                                                 </div>
+                                                            </div>
+                                                            <hr />
+                                                            <div style="text-align: center;">
+
+                                                                <button type="submit" value="Upload" class="buttons btn btn-primary form-control" style="width: 300px;">
+                                                                    @(ViewData["Token"] == null? "Create new user" : "Update profile" )
+
+                                                                </button>
                                                             </div>
                                                         </div>
                                                     </div>
