@@ -81,6 +81,7 @@ namespace Test1.Controllers
                     var str = JsonConvert.SerializeObject(bruker2);
                     HttpContext.Session.SetString("Innlogget_Bruker", str);
 
+                    TempData["LoggetInn"] = true;
                     return Redirect("~/Home/BrowseSide");
                 }
                 else
