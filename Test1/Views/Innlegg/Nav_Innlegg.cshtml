@@ -276,18 +276,16 @@
             {
                 @if (du.Id.Equals(Model.Likes.Brukere[i]))
                 {
-                    <button onclick="dislike('@thisid')">Dislike</button>
+                    <button style="margin-left: 300px" onclick="dislike('@thisid')">Dislike</button>
                     check = 1;
                     break;
                 }
-
-
                 i++;
             }
         }
         if (check == 0)
         {
-            <button onclick="like('@thisid')">Like</button>
+            <button style="margin-left: 300px" onclick="like('@thisid')">Like</button>
         }
 
 
