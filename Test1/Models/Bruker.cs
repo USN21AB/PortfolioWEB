@@ -39,6 +39,7 @@ namespace Portefolio_webApp.Models
         public double likeRatio { get; set; }
 
         public List<string> CVAdgang { get; set; }
+        public int NumberOfNotifications { get; set; }
 
         public List<Notifications> notifications { get; set; }
 

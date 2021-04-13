@@ -213,7 +213,6 @@ namespace Test1.Models
 
         public void UpdateSingleUserValue(string brukerid, string rad,string value)
         {
-            Debug.WriteLine("update single: " + brukerid + rad + value);
             klient.Set("Bruker/" + brukerid + "/"+rad, value);
         } 
 
@@ -270,6 +269,8 @@ namespace Test1.Models
         public void SendNotification(Notifications notification)
         {
             Bruker bruker = HentEnkeltBruker(notification.TilHvemID);
+            bruker.NumberOfNotifications += 1;
+
             bruker.notifications.Add(notification);
             SetResponse setResponse = klient.Set("Bruker/" + notification.TilHvemID, bruker);
         }
@@ -283,6 +284,17 @@ namespace Test1.Models
         public void OppdaterRegisterToken(Bruker bruker)
         {
             SetResponse respons = klient.Set("Bruker/" + bruker.Id, bruker);
+        }
+
+        public int TellAntallRader(string brukerID)
+        {
+            FirebaseResponse respons = klient.Get("Bruker/" + brukerID + "/NumberOfNotifications");
+            Debug.WriteLine("lengde firebase: " + respons.Body);
+            if (respons.Body == null)
+                return -1;
+            int length = JsonConvert.DeserializeObject<int>(respons.Body); 
+            Debug.WriteLine("lengde firebase: " + length);
+            return length;
         }
 
         public void OppdaterBrukerBilde(Bruker bruker) 

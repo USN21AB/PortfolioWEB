@@ -90,7 +90,7 @@
                                                     <div><i class="fas fa-plus ikon"></i><p class="ikontekst">Nytt innlegg</p></div>
                                                 </a>
                                                 <hr class="hrdropdown" />
-                                                <a class="dropdown-item" style="margin-bottom: 5px;" asp-area="" asp-controller="Login" asp-action="LogOut">
+                                                <a class="dropdown-item" style="margin-bottom: 5px;" onClick="logUt()" asp-area="" asp-controller="Login" asp-action="LogOut">
                                                     <div><i class="fas fa-sign-out-alt ikon"></i><p class="ikontekst">Log out</p></div>
                                                 </a>
                                             </div>
@@ -126,68 +126,78 @@
 
                                                     if (notListe[antall].type == "Like")
                                                     {
-                                                        <a class="dropdown-item" href="@Url.Action("ProfilSide", "ProfilSide", new { brukerID = notListe[antall].FraHvemID })">
-                                                            <div class="row">
-                                                                <div class="col-sm">
-                                                                    <i class="far fa-thumbs-up"></i>
+                                                        <div>
+                                                            <a class="dropdown-item" href="@Url.Action("ProfilSide", "ProfilSide", new { brukerID = notListe[antall].FraHvemID })">
+                                                                <div class="row">
+                                                                    <div class="col-sm">
+                                                                        <i class="far fa-thumbs-up"></i>
+                                                                    </div>
+                                                                    <div class="col-sm">
+                                                                        <p class="mb-0">
+                                                                            @notListe[antall].FraHvemNavn liked you post
+                                                                        </p>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-sm">
-                                                                    <p class="mb-0">
-                                                                        @notListe[antall].FraHvemNavn liked you post
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                        </a>
+                                                            </a>
+                                                            <br />
+                                                        </div>
                                                     }
                                                     else if (notListe[antall].type == "Kommentar")
                                                     {
-                                                        <a class="dropdown-item" href="@Url.Action("Nav_Innlegg", "Innlegg", new { id = notListe[antall].innleggID })">
-                                                            <div class="row">
-                                                                <div class="col-sm">
-                                                                    <i class="far fa-comment"></i>
+                                                        <div>
+                                                            <a class="dropdown-item" href="@Url.Action("Nav_Innlegg", "Innlegg", new { id = notListe[antall].innleggID })">
+                                                                <div class="row">
+                                                                    <div class="col-sm">
+                                                                        <i class="far fa-comment"></i>
+                                                                    </div>
+                                                                    <div class="col-sm">
+                                                                        <p class="mb-0">
+                                                                            @notListe[antall].FraHvemNavn commented on your post
+                                                                        </p>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-sm">
-                                                                    <p class="mb-0">
-                                                                        @notListe[antall].FraHvemNavn commented on your post
-                                                                    </p>
-                                                                </div>
-                                                            </div>
 
 
-                                                        </a>
+                                                            </a>
+                                                            <br />
+                                                        </div>
                                                     }
                                                     else
                                                     {
-                                                        <a class="dropdown-item" href="@Url.Action("ProfilSide", "ProfilSide", new { brukerID = notListe[antall].FraHvemID })">
+                                            <div>
+                                                <a class="dropdown-item" href="@Url.Action("ProfilSide", "ProfilSide", new { brukerID = notListe[antall].FraHvemID })">
 
 
 
-                                                            <div class="row">
-                                                                <div class="col-sm">
-                                                                    <i class="fas fa-user-graduate ikon"></i>
+                                                    <div class="row">
+                                                        <div class="col-sm">
+                                                            <i class="fas fa-user-graduate ikon"></i>
 
-                                                                </div>
-                                                                <div id="1Request@(antall)" class="col-sm">
-                                                                    <p class="mb-0">
-                                                                        @notListe[antall].FraHvemNavn is interested in your resume.<br> Do you want to give him access?
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                        </a>
-                                                        <div id="2Request@(antall)" class="row">
-                                                            <div class="col-sm">
-                                                                <button onClick="acceptCV('@(notListe[antall].FraHvemID)', @(antall), '@(notListe[antall].FraHvemNavn)', true)" class="btn btn-primary">Accept</button>
-                                                            </div>
-                                                            <div class="col-sm">
-                                                                <button onClick="acceptCV('@(notListe[antall].FraHvemID)', @(antall), '@(notListe[antall].FraHvemNavn)', false)" class="btn btn-primary">Decline</button>
-                                                            </div>
                                                         </div>
-                                                    }
+                                                        <div id="1Request@(antall)" class="col-sm">
+                                                            <p class="mb-0">
+                                                                @notListe[antall].FraHvemNavn is interested in your resume.<br> Do you want to give him access?
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                                <div id="2Request@(antall)" class="row">
+                                                    <div class="col-sm">
+                                                        <button onClick="acceptCV('@(notListe[antall].FraHvemID)', @(antall), '@(notListe[antall].FraHvemNavn)', true)" class="btn btn-primary">Accept</button>
+                                                    </div>
+                                                    <div class="col-sm">
+                                                        <button onClick="acceptCV('@(notListe[antall].FraHvemID)', @(antall), '@(notListe[antall].FraHvemNavn)', false)" class="btn btn-primary">Decline</button>
+                                                    </div>
+                                                </div>
 
-                                                    antall++;
-                                                }
+                                                <br />
                                             </div>
-                                        </div>
+                                                            }
+
+                                                            antall++;
+                                                            }
+                                                        </div>
+                                                    </div>
 
                                     </li>
 
@@ -225,6 +235,71 @@
             $(function () {
                 // TODO: Replace the following with your app's Firebase project configuration
                 // For Firebase JavaScript SDK v7.20.0 and later, `measurementId` is an optional field
+                              setInterval(function () {
+
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("CheckFirebaseCount", "Home")',
+
+                        success: function (result) {
+
+                            // if (result.resultat)
+                            if (result.resultat != -1)
+                                if (result.resultat != document.getElementById("dropdownItems").childElementCount) {
+                                    alert(result.resultat + " " + document.getElementById("dropdownItems").childElementCount)
+                            $.ajax({
+                                type: "POST",
+                                url: '@Url.Action("RefreshUser", "Home")',
+
+                                success: function (result) {
+
+
+                                    //var liste = JSON.parse(result.liste);
+                                    //result.notific
+
+
+                                    var antallNot = document.getElementById("badge_counter").innerHTML;
+                                    if (antallNot == "") {
+
+                                        document.getElementById("badge_counter").style.display = "inline";
+                                        document.getElementById("badge_counter").innerHTML = 1;
+                                    } else {
+                                        var nyNot = parseInt(antallNot) + 1;
+                                        document.getElementById("badge_counter").innerHTML = nyNot;
+                                    };
+
+
+                                    if (result.notific.type == "Like") {
+                                        var hvemURL = "/ProfilSide/ProfilSide?brukerID=" + result.notific.FraHvemID;
+
+                                        document.getElementById("dropdownItems").innerHTML += "<div><a class='dropdown-item' href='" + hvemURL + "'>" +
+                                            "<i class='far fa-thumbs-up'></i>" +
+                                            "<p>" + result.notific.FraHvemNavn + " Liked your post " + result.status +" </p>" +
+                                            "</a></div> ";
+                                    } else if (result.notific.type == "Kommentar") {
+                                        var hvilketInnlegg = "/Innlegg/Nav_Innlegg/" + result.notific.innleggID;
+                                        document.getElementById("dropdownItems").innerHTML += "<div> <a class='dropdown-item' href='" + hvilketInnlegg + "'>" +
+                                            "<i class='far fa-thumbs-up'></i>" +
+                                            "<p>" + result.notific.FraHvemNavn + " Commented on your post " + result.status +" </p>" +
+                                            "</a></div>";
+                                    } else {
+                                        var hvemURL = "/ProfilSide/ProfilSide?brukerID=" + result.notific.FraHvemID;
+                                        document.getElementById("dropdownItems").innerHTML += "<div>  <a class='dropdown-item' href='" + hvemURL + "'>" +
+                                            "<i class='far fa-thumbs-up'></i>" +
+                                            "<p>" + result.notific.FraHvemNavn + " wishes to see your resume.<br> Do you want to give him access? " + result.status +" </p>" +
+                                            "</a></div> ";
+                                    }
+
+
+                                }
+
+                            });
+                                }
+                          }
+
+                    });
+                    }, 10000);
+
 
                 //notBar
                 document.getElementById("notBar").addEventListener('click', function (event) {
@@ -275,26 +350,34 @@
                     if (currentToken) {
                         // Send the token to your server and update the UI if necessary
                         // ...
+
+                        if ('@(TempData["LoggetInn"])' != "") {
+                            regToken(currentToken);
+                            alert("Inni logget inn");
+                        }
+
                         console.log('Eksisterende registerToken: ' + currentToken);
 
                     } else {
                         // Show permission request UI
                         console.log('Ingen registrertoken funnet');
-                        messaging.requestPermission()
-                            .then(function () {
-                                console.log("GRANTED");
-                                console.log(messaging.getToken());
+                        if ('@(TempData["LoggetInn"])' != "") {
+                            messaging.requestPermission()
+                                .then(function () {
+                                    console.log("GRANTED");
+                                    console.log(messaging.getToken());
 
-                                regToken(messaging.getToken());
+                                    regToken(messaging.getToken());
 
-                                return messaging.getToken();
-                            })
-                            .then(function (token) {
-                                console.log(token);
-                            })
-                            .catch(function (err) {
-                                console.log('Error Occurred.' + err)
-                            });
+                                    return messaging.getToken();
+                                })
+                                .then(function (token) {
+                                    console.log(token);
+                                })
+                                .catch(function (err) {
+                                    console.log('Error Occurred.' + err)
+                                });
+                        } //Slutt på tempdataTest
                         // ...
                     }
                 }).catch((err) => {
@@ -437,7 +520,7 @@
                 if (accepted) {
                     document.getElementById("1Request" + index).innerHTML = "<p> Request accepted for " + navn + " </p>"
                 } else document.getElementById("1Request" + index).innerHTML = "<p> Request declined for " + navn + " </p>"
-                
+
                 document.getElementById("2Request" + index).style.display = "none";
                 var json = {
                     "fraHvemID": fraHvemID,
@@ -457,7 +540,22 @@
                 });
             }
 
-        
+
+            function logUt() {
+                firebase.messaging().deleteToken();
+
+                      $.ajax({
+                                      type: "POST",
+                                      url: '@Url.Action("LogOut", "Login")',
+                                    success: function (result) {
+
+                                         location.reload();
+                                     }
+                      });
+
+
+
+            }
         </script>
     </body>
 </html>

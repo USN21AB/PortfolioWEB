@@ -179,7 +179,7 @@ namespace Portefolio_webApp.Controllers
         {
 
             Debug.WriteLine("--------------------------UPSERT BRUKER TEST CV: " + password + " " + passwordRetyp);
-
+         
 
             if (string.IsNullOrEmpty(oppBruker.Id))
                     { //CREATE 
@@ -190,9 +190,9 @@ namespace Portefolio_webApp.Controllers
                         string[] splittArr = logginnID.Split("|");
 
                         oppBruker.Id = splittArr[0];
-                        
+                        oppBruker.NumberOfNotifications = 0;
 
-                        HttpContext.Session.SetString("_UserID", splittArr[0]);
+                    HttpContext.Session.SetString("_UserID", splittArr[0]);
                         HttpContext.Session.SetString("_UserToken", splittArr[1]);
 
                         if (oppBruker.Id == "")

@@ -198,33 +198,58 @@ namespace Portefolio_webApp.Controllers
             Debug.WriteLine("----------- JEG ER INNI CONTROLLER: MESSAGE TEST");
         }
 
+        public JsonResult CheckFirebaseCount()
+        {
+
+            if(HttpContext.Session.GetString("_UserID") != null)
+            {
+                int lengde = firebase.TellAntallRader(HttpContext.Session.GetString("_UserID"));
+
+                Debug.WriteLine("lengde controller: " + lengde);
+                
+                var data = new { status = "ok", resultat = lengde };
+                return Json(data);
+            }
+
+            var data2 = new { status = "ok", resultat = -1 };
+            return Json(data2);
+        }
+
         public JsonResult UpdateRegisterToken(string registreringsToken)
         {
             Debug.WriteLine("update token");
             var str = HttpContext.Session.GetString("Innlogget_Bruker");
             var innBruker = JsonConvert.DeserializeObject<Bruker>(str);
 
-            if (string.IsNullOrEmpty(innBruker.MessageToken))
-            {
                 firebase.UpdateSingleUserValue(innBruker.Id, "MessageToken", registreringsToken);
                 innBruker.MessageToken = registreringsToken;
 
                 var str2 = JsonConvert.SerializeObject(innBruker);
                 HttpContext.Session.SetString("Innlogget_Bruker", str2);
-            }
             
-        
-
             var resultat = "message token updatet ";
             var data = new { status = "ok", result = resultat };
 
             return Json(data);
         }
 
+        public JsonResult RefreshUser()
+        {
+            Bruker refresBruker = firebase.HentEnkeltBruker(HttpContext.Session.GetString("_UserID"));
+
+            var str2 = JsonConvert.SerializeObject(refresBruker);
+            HttpContext.Session.SetString("Innlogget_Bruker", str2);
+            Debug.WriteLine("notific: " + refresBruker.notifications[refresBruker.NumberOfNotifications-1].FraHvemNavn + " " + refresBruker.notifications[refresBruker.NumberOfNotifications - 1].type);
+            var data = new { status = refresBruker.NumberOfNotifications, notific = refresBruker.notifications[refresBruker.NumberOfNotifications-1] };
+
+            return Json(data);
+        }
+
         public async Task<IActionResult> SendMelding(string type, Boolean erLest, string FraHvemID, string FraHvemNavn, string TilHvemID, string innleggID, string Tidspunkt)
         {
-            Bruker bruker = firebase.HentEnkeltBruker(TilHvemID);
 
+            Bruker bruker = firebase.HentEnkeltBruker(TilHvemID);
+            Debug.WriteLine("Hey, im here in sendMelding! ");
             if (FirebaseApp.DefaultInstance == null)
             {
                 var defaultApp = FirebaseApp.Create(new AppOptions()
@@ -279,7 +304,7 @@ namespace Portefolio_webApp.Controllers
         public IActionResult BrowseSide(string kategori, string søketekst)
         {
 
-            TempData["LoggetInn"] = "nei";
+            
             if (string.IsNullOrEmpty(kategori))
             {
           
@@ -331,13 +356,14 @@ namespace Portefolio_webApp.Controllers
 
             ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
             ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
-
+            
 
             if (HttpContext.Session.GetString("Innlogget_Bruker") != null){
                 var str = HttpContext.Session.GetString("Innlogget_Bruker");
                 var innBruker = JsonConvert.DeserializeObject<Bruker>(str);
 
                 ViewData["Innlogget_Bruker"] = innBruker;
+
             }
 
             return View();
@@ -417,6 +443,8 @@ namespace Portefolio_webApp.Controllers
 
             return Json(data);
         }
+
+      
 
       [HttpGet]
         public IActionResult SorterListe()

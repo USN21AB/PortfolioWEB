@@ -185,7 +185,7 @@
 <h2 style="color:white; text-align:center;">@(liste.Count == 0 ? "There are no results!" : "")</h2>
 
 
-<div style="        height: 100px;
+<div style="height: 100px;
         background-color: #232426;
         bottom: 0">
     <button id="meldingKnapp" class="btn btn-primary buttons">Send melding!</button>
@@ -200,6 +200,8 @@
 
 
             $(function () {
+               
+                
                 var _valgtKnapp = "#" + '@TempData["valgtKnapp"]' + "Knapp";
 
                 if (_valgtKnapp == "#altKnapp") {
@@ -303,9 +305,6 @@
 
         })
 
-        function ajaxTest() {
-
-        }
 
         /*
         $.ajax({

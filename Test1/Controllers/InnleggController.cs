@@ -15,12 +15,14 @@ namespace Portefolio_webApp.Controllers
     {
         public readonly IFirebaseConfig db;
         public IFirebaseClient klient;
+        HomeController home;
 
         private readonly FirebaseDB firebase;
 
         public InnleggController()
         {
             firebase = new FirebaseDB();
+            home = new HomeController();
         }
 
         [BindProperty]
@@ -37,10 +39,6 @@ namespace Portefolio_webApp.Controllers
         {
             Innlegg = new Innlegg();
             Debug.WriteLine("------------------------------------upsert innlegg GET: " + innleggID);
-
-            
-            
-
 
             ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
             ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
@@ -253,6 +251,7 @@ namespace Portefolio_webApp.Controllers
 
                     Notifications not = new Notifications("Kommentar", false, innBruker.Id, innBruker.Navn, innlegg.EierId, innlegg.Id, l.ToString("dd/MM/yyyy"));
                     firebase.SendNotification(not);
+                    home.SendMelding("Kommentar", false, innBruker.Id, innBruker.Navn, innlegg.EierId, innlegg.Id, l.ToString("dd/MM/yyyy"));
                 }
                 
             }

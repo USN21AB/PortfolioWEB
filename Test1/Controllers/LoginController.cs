@@ -104,7 +104,8 @@ namespace Test1.Controllers
         {
             HttpContext.Session.Remove("_UserToken");
             HttpContext.Session.Remove("_UserID");
-            HttpContext.Session.Remove("Innlogget_Bruker"); 
+            HttpContext.Session.Remove("Innlogget_Bruker");
+            TempData["LoggetInn"] = false;
             return Redirect("SignIn");
         }
     }

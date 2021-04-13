@@ -14,6 +14,9 @@
 
     var bruker = (Portefolio_webApp.Models.Bruker)ViewData["bruker"];
 
+    var innlogget_bruker = new Bruker();
+    if (ViewData["Innlogget_Bruker"] != null)
+        innlogget_bruker = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
 
 
     @model Portefolio_webApp.Models.Innlegg;
@@ -172,7 +175,7 @@
 
 
     .bildediv {
-       
+
         text-align: center;
     }
 
@@ -218,7 +221,7 @@
         display: inline;
     }
     .innleggProfil {
-        
+
         height: 90px;
     }
 
@@ -247,9 +250,9 @@
         margin-top: 30px;
     }
 
-        
 
-    
+
+
 
     .ikontxt {
         font-size: 25px;
@@ -266,7 +269,7 @@
         padding: 10px;
         top: -15px;
         color: white;
-        
+
     }
 
     .row {
@@ -291,7 +294,7 @@
         object-fit: cover;
         margin-right: 10px;
     }
-        
+
 
     .kommentardiv {
         margin: auto;
@@ -299,7 +302,7 @@
         background-color: #384352;
         background-clip: border-box;
         border: 0 solid rgba(0,0,0,.125);
-        border-radius: .25rem;        
+        border-radius: .25rem;
         padding: 10px;
     }
 
@@ -319,18 +322,18 @@
         color: white;
     }
 
-   
 
-    
+
+
 
     hr.white {
         border-top: 1px solid white;
     }
 
-    
 
-    
-    
+
+
+
 
 
 
@@ -395,7 +398,7 @@
         margin-left: 70px;
         border-left: 2px solid white;
         padding-left: 10px;
-        
+
     }
 
     .reply {
@@ -488,7 +491,7 @@
     }
 
         .tagGrid p {
-            
+
             margin: 5px;
             border: 1px solid #232426;
             background-color: #232426;
@@ -500,20 +503,38 @@
 
 
 
-    
-    
-    
+
+
+
 
 </style>
 
 <script>
-    
 
-function Kommentar(nyId) {
+
+    function Kommentar(nyId, FraHvemID, FraHvemNavn, TilHvemID,  innleggID) {
     var url = '@Html.Raw(Url.Action("NyttKommentar", "Innlegg" , new { tekst = "_tekst_", innleggId = "_innleggId_" }))';
     var tekst = $('textarea#kommentarFelt').val();
     var params = url.replace('_tekst_', tekst).replace('_innleggId_', nyId);
     window.location.href = params;
+          /*
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+
+        today = mm + '/' + dd + '/' + yyyy;
+      
+    var jsonNotfic = {
+        "type": "Kommentar",
+        "erLest": false,
+        "FraHvemID": FraHvemID,
+        "FraHvemNavn": FraHvemNavn,
+        "TilHvemID": TilHvemID,
+        "innleggID":  innleggID,
+        "Tidspunkt": today
+    };
+   */
 }
 function Reply(nyId, kommId) {
     var url = '@Html.Raw(Url.Action("NyttReply", "Innlegg" , new { tekst = "_tekst_", innleggId = "_innleggId_", kommentId = "_kommentId_" }))';
@@ -545,7 +566,7 @@ function dislike(innId) {
     window.location.href = params;
     }
 
-    
+
 
 </script>
 
@@ -561,10 +582,10 @@ function dislike(innId) {
         {
 
 
-        <div class="bildediv ">
-            <img src='@url' class="bildeInnlegg" alt="error" id="innlegg" />
+            <div class="bildediv ">
+                <img src='@url' class="bildeInnlegg" alt="error" id="innlegg" />
 
-        </div>
+            </div>
         }
         else if (kategori.Equals("Tekst"))
         {
@@ -604,7 +625,7 @@ function dislike(innId) {
 
 
 
-                 
+
 
 
              </div>
@@ -668,15 +689,15 @@ function dislike(innId) {
 
     <ul class="tagGrid">
 
-         @{
+        @{
             var antall = 0;
             var tag = Model.Tagger;
         }
         @while (antall < tag.Count)
         {
-        <li>
-            <p class="tag">@tag.ElementAt(antall)</p>
-        </li>
+            <li>
+                <p class="tag">@tag.ElementAt(antall)</p>
+            </li>
             antall++;
         }
     </ul>
@@ -690,7 +711,7 @@ function dislike(innId) {
     {
 
 
-    <div class="likes">
+        <div class="likes">
 
             @{
                 var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
@@ -706,31 +727,31 @@ function dislike(innId) {
                 {
                     @if (du.Id.Equals(Model.Likes.Brukere[i]))
                     {
-        <button class="dislikebutton" onclick="dislike('@thisid')">
-            <i class="fas fa-thumbs-up"></i>
+                        <button class="dislikebutton" onclick="dislike('@thisid')">
+                            <i class="fas fa-thumbs-up"></i>
 
-        </button>
-        check = 1;
-        break;
+                        </button>
+                        check = 1;
+                        break;
+                    }
+
+
+                    i++;
+                }
+            }
+            @if (check == 0)
+            {
+                <button class="likebutton" onclick="like('@thisid')">
+                    <i class="far fa-thumbs-up"></i>
+                </button>
+            }
+            @if (Model.Likes != null)
+            {
+                var likes = Model.Likes.Antall;
+                <p class="">@likes</p>
+            }
+        </div>
     }
-
-
-i++;
-}
-}
-@if (check == 0)
-{
-    <button class="likebutton" onclick="like('@thisid')">
-        <i class="far fa-thumbs-up"></i>
-    </button>
-}
-@if (Model.Likes != null)
-{
-    var likes = Model.Likes.Antall;
-    <p class="">@likes</p>
-}
-</div>
-}
 </div>
 
 
@@ -751,7 +772,7 @@ i++;
             </a>
             <div class="textareadiv">
                 <textarea id="kommentarFelt" name="w3review" rows="3" class="skrivKommentar col-9" placeholder="What do you think..."></textarea>
-                <button class="postKommentarButton" onclick="Kommentar('@thisid')">Comment</button>
+                <button class="postKommentarButton" onclick="Kommentar('@thisid',  '@innlogget_bruker.Id', '@innlogget_bruker.Navn', '@bruker.Id',  '@Model.Id')">Comment</button>
             </div>
         </div>
     }
@@ -772,96 +793,96 @@ i++;
             var komid = kommentar[antallKommentarer].EierId;
             var bilde = kommentar[antallKommentarer].EierBilde;
             var nvn = kommentar[antallKommentarer].EierNavn;
-<div class="singleKommentar">
+            <div class="singleKommentar">
 
 
-    <div class="kommentarProfil kommentarProfilbottom">
-        <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@komid">
-            <img src=@bilde id="imgikon" />
-        </a>
-        
-            <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@komid">
-                <p class="ikontxt">@nvn</p>
-            </a>
-        
-            <div class="row">
-                <p class="kommentartext col-9">@tekst</p>
-                @if (ViewData["Token"] != null)
-                {
-                    var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
-                    @if (du.Id.Equals(@komid))
-                    {
-                        <button class="slettKommentar " onclick="deleteKommentar('@antallKommentarer', '@thisid')"><i class="far fa-trash-alt delete-folder"></i></button>
-                    }
+                <div class="kommentarProfil kommentarProfilbottom">
+                    <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@komid">
+                        <img src=@bilde id="imgikon" />
+                    </a>
 
+                    <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@komid">
+                        <p class="ikontxt">@nvn</p>
+                    </a>
+
+                    <div class="row">
+                        <p class="kommentartext col-9">@tekst</p>
+                        @if (ViewData["Token"] != null)
+                        {
+                            var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
+                            @if (du.Id.Equals(@komid))
+                            {
+                                <button class="slettKommentar " onclick="deleteKommentar('@antallKommentarer', '@thisid')"><i class="far fa-trash-alt delete-folder"></i></button>
+                            }
+
+                        }
+
+
+                    </div>
+
+                </div>
+
+                @{
+                    var divid = "replyFelt" + antallKommentarer;
                 }
 
 
+                @while (antallReply < kommentar[antallKommentarer].Kommentarer.Count)
+                {
+                    var replyid = kommentar[antallKommentarer].Kommentarer[antallReply].EierId;
+                    var replytekst = kommentar[antallKommentarer].Kommentarer[antallReply].Tekst;
+                    var replykomid = kommentar[antallKommentarer].Kommentarer[antallReply].EierId;
+                    var replybilde = kommentar[antallKommentarer].Kommentarer[antallReply].EierBilde;
+                    var replynvn = kommentar[antallKommentarer].Kommentarer[antallReply].EierNavn;
+
+                    <div class="kommentarProfil replyProfil">
+                        <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@replykomid">
+                            <img src=@replybilde id="imgikon" />
+
+                        </a>
+                        <a class="col-auto" asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@replykomid">
+                            <p class="reply">@replynvn</p>
+
+                        </a>
+                        <div class="row">
+
+                            <p class="kommentartext col-8">@replytekst</p>
+
+                            @if (ViewData["Token"] != null)
+                            {
+                                var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
+                                @if (du.Id.Equals(@replyid))
+                                {
+                                    <button class="slettKommentar " onclick="deleteReply('@antallReply', '@antallKommentarer', '@thisid')"><i class="far fa-trash-alt delete-folder"></i></button>
+                                }
+
+                            }
+
+                        </div>
+
+                    </div>
+
+
+
+                    antallReply += 1;
+
+                }
+                @if (ViewData["Token"] != null)
+                {
+                    <button onclick="hideReply('@antallKommentarer')" class="replyButton">Reply</button>
+                }
+
+                <div id="@("replyArea" + antallKommentarer)" class="replyarea">
+                    <textarea id="@("replyFelt" + antallKommentarer)" name="w3review" rows="4" class="skrivKommentar col-5" placeholder="Write a reply..."></textarea>
+                    <button class="postReplyButton" onclick="Reply('@thisid' , '@antallKommentarer')">Reply</button>
+                </div>
+                @{antallReply = 0;
+                    antallKommentarer += 1;
+                }
             </div>
-
-    </div>
-
-    @{
-        var divid = "replyFelt" + antallKommentarer;
-        }
-    
-    
-    @while (antallReply < kommentar[antallKommentarer].Kommentarer.Count)
-    {
-        var replyid = kommentar[antallKommentarer].Kommentarer[antallReply].EierId;
-        var replytekst = kommentar[antallKommentarer].Kommentarer[antallReply].Tekst;
-        var replykomid = kommentar[antallKommentarer].Kommentarer[antallReply].EierId;
-        var replybilde = kommentar[antallKommentarer].Kommentarer[antallReply].EierBilde;
-        var replynvn = kommentar[antallKommentarer].Kommentarer[antallReply].EierNavn;
-
-<div class="kommentarProfil replyProfil">
-    <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@replykomid">
-        <img src=@replybilde id="imgikon" />
-
-    </a>
-    <a class="col-auto" asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@replykomid">
-        <p class="reply">@replynvn</p>
-
-    </a>
-    <div class="row">
-
-        <p class="kommentartext col-8">@replytekst</p>
-
-        @if (ViewData["Token"] != null)
-        {
-            var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
-            @if (du.Id.Equals(@replyid))
-            {
-                <button class="slettKommentar " onclick="deleteReply('@antallReply', '@antallKommentarer', '@thisid')"><i class="far fa-trash-alt delete-folder"></i></button>
-            }
-
-        }
-
-    </div>
-
-</div>
-
-        
-        
-        antallReply += 1;
-
-    }
-    @if (ViewData["Token"] != null)
-    {
-        <button onclick="hideReply('@antallKommentarer')" class="replyButton">Reply</button>
-    }
-
-    <div id="@("replyArea" + antallKommentarer)" class="replyarea">
-        <textarea id="@("replyFelt" + antallKommentarer)" name="w3review" rows="4" class="skrivKommentar col-5" placeholder="Write a reply..."></textarea>
-        <button class="postReplyButton" onclick="Reply('@thisid' , '@antallKommentarer')">Reply</button>
-    </div>
-    @{antallReply = 0;
-            antallKommentarer += 1;
         }
 </div>
-        }
-</div>
-<div id="alleKommentarFelt" >
+<div id="alleKommentarFelt">
 
 </div>
 
