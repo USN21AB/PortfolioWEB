@@ -71,53 +71,47 @@ namespace Test1.Models
         public async Task UploadCoverPhoto(string filename, IFormFile file)
         {
 
+                using (var stream = new FileStream(filename, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
 
-            using (var stream = new FileStream(filename, FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
-            }
+                var stream1 = File.Open(@filename, FileMode.Open);
 
-            var stream1 = File.Open(@filename, FileMode.Open);
+                // Constructr FirebaseStorage, path to where you want to upload the file and Put it there
+                var task = new FirebaseStorage("bachelor-it-97124.appspot.com")
+                .Child("Cover")
+                .Child(file.FileName)
+                .PutAsync(stream1);
 
-            // Constructr FirebaseStorage, path to where you want to upload the file and Put it there
-            var task = new FirebaseStorage("bachelor-it-97124.appspot.com")
-            .Child("Cover")
-            .Child(file.FileName)
-            .PutAsync(stream1);
+                // Track progress of the upload
+                task.Progress.ProgressChanged += (s, e) => Console.WriteLine($"Progress: {e.Percentage} %");
 
-            // Track progress of the upload
-            task.Progress.ProgressChanged += (s, e) => Console.WriteLine($"Progress: {e.Percentage} %");
+                // await the task to wait until upload completes and get the download url
+                var downloadUrl = await task;
 
-            // await the task to wait until upload completes and get the download url
-            var downloadUrl = await task;
+                Console.WriteLine("Link " + downloadUrl);
 
+                CoverImageUrl = downloadUrl;
 
-            Console.WriteLine("Link " + downloadUrl);
+                stream1.Close();
 
+                //Slett Lokal Fil etter opplastet
 
+                Console.WriteLine("File Location: " + filename);
 
-            CoverImageUrl = downloadUrl;
-
-            stream1.Close();
-
-
-            //Slett Lokal Fil etter opplastet
-
-            Console.WriteLine("File Location: " + filename);
-
-            System.IO.File.Delete(filename);
-
+                System.IO.File.Delete(filename);
 
         }
 
         public async Task RegistrerInnleggMedFil(string filename, IFormFile file, Innlegg innlegg)
         {
-
-
-            using (var stream = new FileStream(filename, FileMode.Create))
+                using (var stream = new FileStream(filename, FileMode.Create))
             {
                 await file.CopyToAsync(stream);
             }
+
+           
 
             var stream1 = File.Open(@filename, FileMode.Open);
             var data = innlegg;
@@ -127,6 +121,8 @@ namespace Test1.Models
             .Child(data.Kategori)
             .Child(file.FileName)
             .PutAsync(stream1);
+
+
 
             // Track progress of the upload
             task.Progress.ProgressChanged += (s, e) => Console.WriteLine($"Progress: {e.Percentage} %");
@@ -161,21 +157,18 @@ namespace Test1.Models
         }
 
 
-        public async Task UploadProfilBilde(string filename, string brukerId)
+        public async Task UploadProfilBilde(string filename, string brukerId, string previousprofilepic)
         {
 
 
             var stream1 = File.Open(filename, FileMode.Open);
-
-            Console.WriteLine("FILEPAAATH: " + filename);
-
         
-
             // Constructr FirebaseStorage, path to where you want to upload the file and Put it there
             var task = new FirebaseStorage("bachelor-it-97124.appspot.com")
-            .Child("images")
-            .Child(stream1.Name)
+            .Child("TestOverWrite/"+previousprofilepic)
             .PutAsync(stream1);
+            
+
 
             // Track progress of the upload
             task.Progress.ProgressChanged += (s, e) => Console.WriteLine($"Progress: {e.Percentage} %");
@@ -183,9 +176,12 @@ namespace Test1.Models
             // await the task to wait until upload completes and get the download url
             var downloadUrl = await task;
 
+
             croppedProfilImageUrl = downloadUrl;
             stream1.Close();
 
+
+            Console.WriteLine("Previous File Name: " + previousprofilepic + "\n" + "ProfileName Now: " + stream1.Name);
 
             //Slett Lokal Fil etter opplastet
 

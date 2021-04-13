@@ -170,6 +170,8 @@ namespace Portefolio_webApp.Controllers
                 ViewData["Innlogget_Bruker"] = innBruker;
             }
 
+
+
             return View(nybruker); 
         }
 
@@ -189,7 +191,9 @@ namespace Portefolio_webApp.Controllers
                     string logginnID = logg.Register(oppBruker.Email, password).Result;
                         string[] splittArr = logginnID.Split("|");
 
-                        oppBruker.Id = splittArr[0];
+                    string FBFileToRemoveName = "";
+
+                    oppBruker.Id = splittArr[0];
                         
 
                         HttpContext.Session.SetString("_UserID", splittArr[0]);
@@ -212,10 +216,25 @@ namespace Portefolio_webApp.Controllers
                         }
                         else
                         {
+
+                            string hello;
+
+                            if (oppBruker.Profilbilde == "")
+                                hello = "EMPTY";
+                            else
+                            {
+                                var spliturl = oppBruker.Profilbilde.Split("%5C");
+                                hello = spliturl[spliturl.Length - 1].Split("?alt=")[0];
+                            }
+
+
+
                             await firebase.RegistrerBruker(oppBruker);
-                            await firebase.UploadProfilBilde(HttpContext.Session.GetString("CroppedPath"), oppBruker.Id);
+                            await firebase.UploadProfilBilde(HttpContext.Session.GetString("CroppedPath"), oppBruker.Id, hello);
                             firebase.OppdaterBrukerBilde(oppBruker);
                             HttpContext.Session.Remove("CroppedPath");
+
+                            Console.WriteLine("Previous Profilepic link: " + FBFileToRemoveName);
                         }
 
                     }
@@ -246,7 +265,22 @@ namespace Portefolio_webApp.Controllers
                 }
                 else
                 {
-                    await firebase.UploadProfilBilde(HttpContext.Session.GetString("CroppedPath"), oppBruker.Id);
+
+
+                    string hello;
+
+                    if (oppBruker.Profilbilde == "")
+                        hello = "EMPTY";
+                    else
+                    {
+                        var spliturl = oppBruker.Profilbilde.Split("%2F");
+                        hello = spliturl[spliturl.Length - 1].Split("?alt=")[0];
+                    }
+
+
+                   
+
+                    await firebase.UploadProfilBilde(HttpContext.Session.GetString("CroppedPath"), oppBruker.Id, hello);
                     firebase.OppdaterBrukerBilde(oppBruker);
                     HttpContext.Session.Remove("CroppedPath");
                 }

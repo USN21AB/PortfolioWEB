@@ -131,6 +131,7 @@ namespace Portefolio_webApp.Controllers
                     portfolio.MappeInnhold.Add(innlegg);
                     bruker.Mapper.Add(portfolio);
 
+
                 }
 
                 if (string.IsNullOrEmpty(innlegg.Id))

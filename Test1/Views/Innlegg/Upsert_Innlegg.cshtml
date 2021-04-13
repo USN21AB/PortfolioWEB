@@ -169,7 +169,7 @@
         visibility: hidden;
     }
 
-    
+
 
     #ny-mappe-valgt {
         display: none
@@ -206,7 +206,7 @@
         left: 48%;
         transform: translate(-45%, -50%);
         max-width: 75px;
-        max-height:40px;
+        max-height: 40px;
         overflow: hidden;
         text-overflow: ellipsis;
         -webkit-hyphens: auto;
@@ -263,9 +263,41 @@
     });
 
 
+    function CoverValidation() {
+
+        var file = document.getElementById("cover-input-file").value;
+        var validImage = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+
+        if (validImage.exec(file)) {
+
+            document.getElementById('submit-btn').style.display = "block";
+
+
+        }
+        else {
+
+
+            $("#validatemsg").modal('show');
+            document.getElementById('submit-btn').style.display = "none";
+
+
+
+
+        }
+
+
+    }
+
+    function closeModal() {
+
+        $("#validatemsg").modal('hide');
+
+
+    }
+
+
     function fileValidation() {
         var file = document.getElementById("input-file").value;
-
 
         var validImage = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
         var validAudio = /(\.mp3)$/i;
@@ -419,8 +451,9 @@
         var yes = document.getElementById("mappe").hasAttribute("readonly");
         navn = document.getElementById("mappe").value;
         if (yes == false) {
-            document.getElementById("mappeny").innerHTML = navn;}
-        
+            document.getElementById("mappeny").innerHTML = navn;
+        }
+
     }
 
     function readonly() {
@@ -430,30 +463,52 @@
     function readonlyOff() {
         $("#mappe").attr("readonly", false);
     }
-    
+
 
 
 </script>
 
+
+<!-- Modal -->
+<div class="modal fade" id="validatemsg" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Wrong File Type!</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p> Choose an image for your cover please! Types: png or jpg</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal();">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <div class="round">
     <form class="whitetext" method="post" , new enctype="multipart/form-data">
         @if (Model.Id == null)
         {
-<input type="hidden" asp-for="Id" />
-                <input type="hidden" asp-for="Klokkeslett" />
-                                <input type="hidden" asp-for="EierId" />
-                                                <input type="hidden" asp-for="Tagger" />
-                                                                <input type="hidden" asp-for="FilStørrelse" />
-                                                                                <input type="hidden" asp-for="IkonURL" />
-                                                                                       <input type="hidden" asp-for="Eier" value="@BrukerInnhold.Navn"/>}
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="Klokkeslett" />
+            <input type="hidden" asp-for="EierId" />
+            <input type="hidden" asp-for="Tagger" />
+            <input type="hidden" asp-for="FilStørrelse" />
+            <input type="hidden" asp-for="IkonURL" />
+            <input type="hidden" asp-for="Eier" value="@BrukerInnhold.Navn" />}
         <input type="hidden" asp-for="antallLikes" />
 
 
         <div class="form-group row">
             <div class="col-3">
-                @Html.TextBox("inputfile", "inputfile", new { type = "file", name = "inputfile", id="input-file", accept = "image/png|image/jpeg|image/jpg|image/gif|audio/mp3|application/pdf", oninput = "fileValidation(); readURL(this);" }) <br />
+
+                @Html.TextBox("inputfile", "inputfile", new { type = "file", name = "inputfile", id = "input-file", accept = "image/png|image/jpeg|image/jpg|image/gif|audio/mp3|application/pdf", oninput = "fileValidation(); readURL(this);" }) <br />
 
             </div>
 
@@ -498,9 +553,9 @@
 
         <div id="cover-image" class="form-group row">
             <div class="col-3">
-              
-                    @Html.TextBox("coverfile", "coverfile", new { type = "file", name = "coverfile", id="cover-input-file", accept = "image/png|image/jpeg|image/jpg", oninput = "readURL2(this);" }) <br />
-                    
+
+                @Html.TextBox("coverfile", "coverfile", new { type = "file", name = "coverfile", id = "cover-input-file", accept = "image/png|image/jpeg|image/jpg", oninput = "CoverValidation(); readURL2(this);" }) <br />
+
 
             </div>
         </div>
@@ -519,43 +574,44 @@
 
 
 
-           
-            @{ 
+
+            @{
                 var antall = 0;
             }
 
-        <ul class="nav nav-pills nav-fill folder-nav tabs col-8">
+            <ul class="nav nav-pills nav-fill folder-nav tabs col-8">
 
-            <li class="nav-item">
-                <div class="folder-design chosen" id="dummy-folder" style="display: none">
-                </div>
-            </li>
-
-            @while (antall < BrukerInnhold.Mapper.Count)
-            {
-                var Mappe = BrukerInnhold.Mapper.ElementAt(antall);
-
-
-        <li class="nav-item">
-            <div class="folder-design chosen" onclick='mappeValg("mappe-@antall"); readonly()'>
-                <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190271077646336/Portfollowers_tekst.png" />
-                <span id="mappe-@antall" class="folder-navn">@Mappe.MappeNavn</span>
-            </div>
-        </li>antall++;
-                    }
-           
-            <li class="nav-item">
-                <div class="folder-design" id="ny-mappe" onclick="nyMappe()">
-                    <i class="fas fa-folder-plus fa-4x add-folder"></i>
-                </div>
-                <div class="folder-design chosen" id="ny-mappe-valgt" onclick='mappeValg("mappeny"); readonlyOff()'>
-                    <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190271077646336/Portfollowers_tekst.png" />
-                    <span id="mappeny" class="folder-navn"></span>
-                </div>
-            </li>
-        </ul>
-
+                <li class="nav-item">
+                    <div class="folder-design chosen" id="dummy-folder" style="display: none">
                     </div>
+                </li>
+
+                @while (antall < BrukerInnhold.Mapper.Count)
+                {
+                    var Mappe = BrukerInnhold.Mapper.ElementAt(antall);
+
+
+                    <li class="nav-item">
+                        <div class="folder-design chosen" onclick='mappeValg("mappe-@antall"); readonly()'>
+                            <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190271077646336/Portfollowers_tekst.png" />
+                            <span id="mappe-@antall" class="folder-navn">@Mappe.MappeNavn</span>
+                        </div>
+                    </li>
+antall++;
+                }
+
+                <li class="nav-item">
+                    <div class="folder-design" id="ny-mappe" onclick="nyMappe()">
+                        <i class="fas fa-folder-plus fa-4x add-folder"></i>
+                    </div>
+                    <div class="folder-design chosen" id="ny-mappe-valgt" onclick='mappeValg("mappeny"); readonlyOff()'>
+                        <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190271077646336/Portfollowers_tekst.png" />
+                        <span id="mappeny" class="folder-navn"></span>
+                    </div>
+                </li>
+            </ul>
+
+        </div>
 
 
 
@@ -569,7 +625,7 @@
                 <label>Navn på mappe</label>
             </div>
             <div class="col-8">
-                <input type="text" name="mappenavn" class="form-control" id="mappe" placeholder="Mappenavn" onkeyup="mappeNavn()" required/>
+                <input type="text" name="mappenavn" class="form-control" id="mappe" placeholder="Mappenavn" onkeyup="mappeNavn()" required />
             </div>
         </div>
 
@@ -621,8 +677,8 @@
                 </button>
             </div>
             <!--<div class="col-3">
-        <a asp-controller="Home" asp-action="BrowseSide" class="btn btn-success form-control">Back to List</a>
-    </div>-->
+                <a asp-controller="Home" asp-action="BrowseSide" class="btn btn-success form-control">Back to List</a>
+            </div>-->
         </div>
     </form>
 </div>
@@ -653,7 +709,7 @@
             <img id="sangi" class="play_button shadowed" src="../resources/icons8-play-96.png" onclick='spillAv("sang", this.id); visSang("sangnavn", "artist")' />
             <audio id="sang" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2FPok%C3%A9mon%20Theme%20Song.mp3?alt=media&token=bccacd1c-ed6a-4050-8745-b1ee3bb50f96"></audio>
             <img class="fuck imge idmge" id="lyd-imge" src="#" alt="" />
-            
+
 
         </div>
 

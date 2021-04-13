@@ -60,14 +60,14 @@
                             <ul class="navbar-nav flex-grow-1">
 
 
-                                @if (ViewData["Token"] == null)
-                                {
-                                    <button class="topnav-right vl btn btn-primary buttons" onclick="location.href='@Url.Action("SignIn", "Login")'"><i class="fas fa-sign-in-alt">  Log in</i></button>
-                                }
-                                else
-                                {
-                                    <li class="topnav-right vl">
-                                        <div class="dropdown">
+                            @if (ViewData["Token"] == null)
+                            {
+                                <button class="topnav-right btn btn-primary buttons loginbtn" onclick="location.href='@Url.Action("SignIn", "Login")'"><i class="fas fa-sign-in-alt">  Login</i></button>
+                            }
+                            else
+                            {
+                                <li class="topnav-right vl">
+                                    <div class="dropdown">
 
                                             <button class="btn btn-sm profilbtn" type="button" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <div class="profilbtn profilbtndiv">
