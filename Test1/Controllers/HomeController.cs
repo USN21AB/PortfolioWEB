@@ -16,6 +16,9 @@ using Firebase.Database.Query;
 using Test1.Models;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using FirebaseAdmin.Messaging;
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
 
 namespace Portefolio_webApp.Controllers
 {
@@ -189,6 +192,84 @@ namespace Portefolio_webApp.Controllers
 
         }
 
+        public void Test()
+        {
+            Debug.WriteLine("----------- JEG ER INNI CONTROLLER: MESSAGE TEST");
+            Debug.WriteLine("----------- JEG ER INNI CONTROLLER: MESSAGE TEST");
+        }
+
+        public JsonResult UpdateRegisterToken(string registreringsToken)
+        {
+            Debug.WriteLine("update token");
+            var str = HttpContext.Session.GetString("Innlogget_Bruker");
+            var innBruker = JsonConvert.DeserializeObject<Bruker>(str);
+
+            if (string.IsNullOrEmpty(innBruker.MessageToken))
+            {
+                firebase.UpdateSingleUserValue(innBruker.Id, "MessageToken", registreringsToken);
+                innBruker.MessageToken = registreringsToken;
+
+                var str2 = JsonConvert.SerializeObject(innBruker);
+                HttpContext.Session.SetString("Innlogget_Bruker", str2);
+            }
+            
+        
+
+            var resultat = "message token updatet ";
+            var data = new { status = "ok", result = resultat };
+
+            return Json(data);
+        }
+
+        public async Task<IActionResult> SendMelding(string type, Boolean erLest, string FraHvemID, string FraHvemNavn, string TilHvemID, string innleggID, string Tidspunkt)
+        {
+            Bruker bruker = firebase.HentEnkeltBruker(TilHvemID);
+
+            if (FirebaseApp.DefaultInstance == null)
+            {
+                var defaultApp = FirebaseApp.Create(new AppOptions()
+                {
+                    Credential = GoogleCredential.FromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "key.json")),
+                });
+
+                Debug.WriteLine(defaultApp.Name); // "[DEFAULT]"
+            }
+
+            // See documentation on defining a message payload.
+            var message = new Message()
+            {
+                Data = new Dictionary<string, string>()
+                {
+                    ["type"] = type,
+                    ["erLest"] = erLest.ToString(),
+                    ["FraHvemID"] = FraHvemID,
+                    ["FraHvemNavn"] = FraHvemNavn,
+                    ["TilHvemID"] = TilHvemID,
+                    ["innleggID"] = innleggID,
+                    ["Tidspunkt"] = Tidspunkt
+                },
+                Notification = new Notification
+                {
+                    Title = "Mottat melding",
+                    Body = "Du har en melding!"
+                },
+
+
+                Token = bruker.MessageToken
+
+            };
+
+            // Send a message to the device corresponding to the provided
+            // registration token.
+            var messaging = FirebaseMessaging.DefaultInstance;
+            var result = await messaging.SendAsync(message);
+
+            // Response is a message ID string.
+            Debug.WriteLine("Successfully sent message: " + result);
+            var data = new { status = "suksess" };
+            return Json(data); 
+        }
+
         public IActionResult LoggInnSide()
         {
             return View();
@@ -197,8 +278,8 @@ namespace Portefolio_webApp.Controllers
         [HttpGet]
         public IActionResult BrowseSide(string kategori, string søketekst)
         {
-           
-            Debug.WriteLine("SØK: " + søketekst); 
+
+            TempData["LoggetInn"] = "nei";
             if (string.IsNullOrEmpty(kategori))
             {
           
@@ -243,14 +324,16 @@ namespace Portefolio_webApp.Controllers
                 ViewData["liste"] = katListe; 
                 TempData["valgtKnapp"] = kategori;
                 ViewData["Kategori"] = kategori;
-                ViewData["Søk"] = søketekst; 
+                ViewData["Søk"] = søketekst;
+
+              
             }
 
             ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
             ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
 
-           
-            if(HttpContext.Session.GetString("Innlogget_Bruker") != null){
+
+            if (HttpContext.Session.GetString("Innlogget_Bruker") != null){
                 var str = HttpContext.Session.GetString("Innlogget_Bruker");
                 var innBruker = JsonConvert.DeserializeObject<Bruker>(str);
 
@@ -260,18 +343,82 @@ namespace Portefolio_webApp.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public JsonResult SendNotification(string type, Boolean erLest, string FraHvemID, string FraHvemNavn, string TilHvemID, string innleggID, string Tidspunkt)
         {
-            return View();
+
+            Notifications not = new Notifications(type, erLest, FraHvemID, FraHvemNavn, TilHvemID, innleggID, Tidspunkt); 
+
+            firebase.SendNotification(not);
+
+            var resultat = "Jobberfaring oppdatert: " + type + " " + FraHvemNavn;
+            var data = new { status = "ok", result = resultat };
+
+            return Json(data);
         }
 
-
-        public IActionResult ProfilSide()
+        public JsonResult NotificationRead()
         {
-            return View();
+            var str = HttpContext.Session.GetString("Innlogget_Bruker");
+            var innBruker = JsonConvert.DeserializeObject<Bruker>(str);
+
+            
+            for(int i = 0; i< innBruker.notifications.Count; i++)
+            {
+                innBruker.notifications[i].erLest = true;
+            }
+
+            var str2 = JsonConvert.SerializeObject(innBruker);
+            HttpContext.Session.SetString("Innlogget_Bruker", str2);
+
+            firebase.OppdaterBruker(innBruker);
+
+            var resultat = "Notifications er lest";
+            var data = new { status = "ok", result = resultat };
+            return Json(data);
         }
 
-        [HttpGet]
+        public JsonResult AcceptReadCV(string fraHvemID, int notIndex, Boolean isAccepted)
+        {
+            var str = HttpContext.Session.GetString("Innlogget_Bruker");
+            var innBruker = JsonConvert.DeserializeObject<Bruker>(str);
+
+            if (isAccepted)
+            {
+                if (innBruker.CVAdgang == null)
+                {
+                    innBruker.CVAdgang = new List<string>();
+                }
+
+                innBruker.CVAdgang.Add(fraHvemID);
+
+            }
+
+            innBruker.notifications.RemoveAt(notIndex);
+            firebase.OppdaterBruker(innBruker);
+
+            var str2 = JsonConvert.SerializeObject(innBruker);
+            HttpContext.Session.SetString("Innlogget_Bruker", str2);
+
+            var resultat = "Accepted read CV";
+            var data = new { status = "ok", result = resultat };
+            return Json(data);
+        }
+
+        public JsonResult MottatNotification()
+        {
+           
+            Bruker refreshBruker = firebase.HentEnkeltBruker(HttpContext.Session.GetString("_UserID"));
+
+            var str = JsonConvert.SerializeObject(refreshBruker);
+            HttpContext.Session.SetString("Innlogget_Bruker", str);
+
+            var resultat = "Jobberfaring oppdatert: ";
+            var data = new { status = "ok", result = resultat };
+
+            return Json(data);
+        }
+
+      [HttpGet]
         public IActionResult SorterListe()
         {
             //asp-route-Type="Kunst" 

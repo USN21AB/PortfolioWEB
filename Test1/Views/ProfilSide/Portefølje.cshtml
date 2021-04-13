@@ -2,7 +2,7 @@
 @model Portefolio_webApp.Models.Bruker;
 
 @{
-    var BrukerInnhold = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
+    var BrukerInnhold = Model;
 }
 
 <link href="~/css/PortefølgeBody.css?v=1" rel="stylesheet" />
@@ -12,13 +12,10 @@
 <script>
 
     $(document).ready(function () {
-        var hash = window.location.hash;
-        hash && $('#v-pills-tab a[href="' + hash + '"]').tab('show');
+        var tab = '#v-pills-@ViewData["antall"]';
+        $('#v-pills-tab a[href="' + tab + '"]').tab('show');
     });
-
 </script>
-
-
 
 
 

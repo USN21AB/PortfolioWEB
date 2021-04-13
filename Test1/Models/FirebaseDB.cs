@@ -208,7 +208,10 @@ namespace Test1.Models
         }
 
         public void UpdateSingleUserValue(string brukerid, string rad,string value)
-        {klient.Set("Bruker/" + brukerid + "/"+rad, value);} 
+        {
+            Debug.WriteLine("update single: " + brukerid + rad + value);
+            klient.Set("Bruker/" + brukerid + "/"+rad, value);
+        } 
 
         public Bruker HentEnkeltBruker(string bruker_id)
         {
@@ -260,7 +263,20 @@ namespace Test1.Models
             SetResponse setResponse = klient.Set("Bruker/" + bruker.Id, bruker);
         }
 
+        public void SendNotification(Notifications notification)
+        {
+            Bruker bruker = HentEnkeltBruker(notification.TilHvemID);
+            bruker.notifications.Add(notification);
+            SetResponse setResponse = klient.Set("Bruker/" + notification.TilHvemID, bruker);
+        }
+
+
         public void OppdaterBruker(Bruker bruker)
+        {
+            SetResponse respons = klient.Set("Bruker/" + bruker.Id, bruker);
+        }
+
+        public void OppdaterRegisterToken(Bruker bruker)
         {
             SetResponse respons = klient.Set("Bruker/" + bruker.Id, bruker);
         }
