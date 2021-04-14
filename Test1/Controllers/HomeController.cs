@@ -205,7 +205,7 @@ namespace Portefolio_webApp.Controllers
             {
                 int lengde = firebase.TellAntallRader(HttpContext.Session.GetString("_UserID"));
 
-                Debug.WriteLine("lengde controller: " + lengde);
+             
                 
                 var data = new { status = "ok", resultat = lengde };
                 return Json(data);
@@ -215,85 +215,19 @@ namespace Portefolio_webApp.Controllers
             return Json(data2);
         }
 
-        public JsonResult UpdateRegisterToken(string registreringsToken)
-        {
-            Debug.WriteLine("update token");
-            var str = HttpContext.Session.GetString("Innlogget_Bruker");
-            var innBruker = JsonConvert.DeserializeObject<Bruker>(str);
-
-                firebase.UpdateSingleUserValue(innBruker.Id, "MessageToken", registreringsToken);
-                innBruker.MessageToken = registreringsToken;
-
-                var str2 = JsonConvert.SerializeObject(innBruker);
-                HttpContext.Session.SetString("Innlogget_Bruker", str2);
-            
-            var resultat = "message token updatet ";
-            var data = new { status = "ok", result = resultat };
-
-            return Json(data);
-        }
-
         public JsonResult RefreshUser()
         {
             Bruker refresBruker = firebase.HentEnkeltBruker(HttpContext.Session.GetString("_UserID"));
 
             var str2 = JsonConvert.SerializeObject(refresBruker);
             HttpContext.Session.SetString("Innlogget_Bruker", str2);
-            Debug.WriteLine("notific: " + refresBruker.notifications[refresBruker.NumberOfNotifications-1].FraHvemNavn + " " + refresBruker.notifications[refresBruker.NumberOfNotifications - 1].type);
-            var data = new { status = refresBruker.NumberOfNotifications, notific = refresBruker.notifications[refresBruker.NumberOfNotifications-1] };
+           
+            var notific = JsonConvert.SerializeObject(refresBruker.notifications[refresBruker.NumberOfNotifications - 1]);
+            var data = new { status = refresBruker.NumberOfNotifications, notific = notific };
 
             return Json(data);
         }
 
-        public async Task<IActionResult> SendMelding(string type, Boolean erLest, string FraHvemID, string FraHvemNavn, string TilHvemID, string innleggID, string Tidspunkt)
-        {
-
-            Bruker bruker = firebase.HentEnkeltBruker(TilHvemID);
-            Debug.WriteLine("Hey, im here in sendMelding! ");
-            if (FirebaseApp.DefaultInstance == null)
-            {
-                var defaultApp = FirebaseApp.Create(new AppOptions()
-                {
-                    Credential = GoogleCredential.FromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "key.json")),
-                });
-
-                Debug.WriteLine(defaultApp.Name); // "[DEFAULT]"
-            }
-
-            // See documentation on defining a message payload.
-            var message = new Message()
-            {
-                Data = new Dictionary<string, string>()
-                {
-                    ["type"] = type,
-                    ["erLest"] = erLest.ToString(),
-                    ["FraHvemID"] = FraHvemID,
-                    ["FraHvemNavn"] = FraHvemNavn,
-                    ["TilHvemID"] = TilHvemID,
-                    ["innleggID"] = innleggID,
-                    ["Tidspunkt"] = Tidspunkt
-                },
-                Notification = new Notification
-                {
-                    Title = "Mottat melding",
-                    Body = "Du har en melding!"
-                },
-
-
-                Token = bruker.MessageToken
-
-            };
-
-            // Send a message to the device corresponding to the provided
-            // registration token.
-            var messaging = FirebaseMessaging.DefaultInstance;
-            var result = await messaging.SendAsync(message);
-
-            // Response is a message ID string.
-            Debug.WriteLine("Successfully sent message: " + result);
-            var data = new { status = "suksess" };
-            return Json(data); 
-        }
 
         public IActionResult LoggInnSide()
         {
@@ -419,6 +353,7 @@ namespace Portefolio_webApp.Controllers
 
             }
 
+            innBruker.NumberOfNotifications = innBruker.NumberOfNotifications - 1; 
             innBruker.notifications.RemoveAt(notIndex);
             firebase.OppdaterBruker(innBruker);
 

@@ -2,7 +2,15 @@
 
 @{
     var BrukerInnhold = (Portefolio_webApp.Models.Bruker)ViewData["Bruker"];
-    
+    var innloggetBruker = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
+
+    Boolean CVAdgang = false;
+    if (BrukerInnhold.CVAdgang != null)
+        for (int i = 0; i < BrukerInnhold.CVAdgang.Count; i++)
+        {
+            if ((string)ViewData["Innlogget_ID"] == BrukerInnhold.CVAdgang[i])
+                CVAdgang = true;
+        }
 }
 
 <html lang="en">
@@ -60,14 +68,11 @@
 <style>
 
     .delete-folder {
-        
         color: white;
         font-size: 20px;
-        
     }
 
     .delete-folder-div {
-
     }
 
     .folder {
@@ -98,7 +103,7 @@
 
     .folder-navn {
         color: white;
-        font-size: 25px;
+        font-size: 16px;
         top: 70%;
         left: 48%;
         transform: translate(-50%, -50%);
@@ -111,13 +116,13 @@
         -ms-hyphens: auto;
         hyphens: auto;
         position: absolute;
+        width: 100px;
     }
 
     .folder-bilde {
-        width: 200px;
+        width: 70px;
         position: relative;
     }
-
 
     .devider {
         width: 90%;
@@ -155,17 +160,17 @@
     .container {
         color: white;
     }
+
     .rowinfo {
         color: white;
         text-decoration-color: white;
         font-size: 20px;
     }
-
 </style>
 
 <div style="display: flex; justify-content: flex-end">
-    <div class="toast" id="toast" role="alert" aria-live="assertive" aria-atomic="true" 
-        style="
+    <div class="toast" id="toast" role="alert" aria-live="assertive" aria-atomic="true"
+         style="
         display: none;
         position: fixed;
         z-index: 1;
@@ -176,7 +181,7 @@
             <i class="fas fa-bell" style="color: #1abc9c;"></i>
             <strong class="mr-auto" style="color: #1abc9c;"> &nbsp; Notification</strong>
         </div>
-        <div class="toast-body" id="toast-body" style="        
+        <div class="toast-body" id="toast-body" style="
         color: pink;
         background-color: white;">
         </div>
@@ -213,8 +218,17 @@
                                         <button class="cvbtn btn btn-primary" onclick="location.href='@Url.Action("UpsertBruker", "ProfilSide")'"><i class="fas fa-edit">  Edit profile</i></button>
                                     </div>
                                 }
-                                else {
-                                <a asp-action="CV" asp-route-brukerID="@BrukerInnhold.Id"><button class="cvbtn btn btn-primary">Request CV</button></a>
+                                else
+                                {
+                                    @if (CVAdgang)
+                                    {
+                                        <a asp-action="CV" asp-route-brukerID="@BrukerInnhold.Id"><button class="cvbtn btn btn-primary">Enter CV</button></a>
+                                    }
+                                    else
+                                    {
+                                        <a onclick="requestCV('@BrukerInnhold.Id', '@ViewData["Innlogget_ID"]', '@innloggetBruker.Navn')"><button class="cvbtn btn btn-primary">Request CV</button></a>
+                                    }
+
                                 }
                             </div>
                         </div>
@@ -246,9 +260,9 @@
                             <hr>
                             <div class="rowinfo">
                                 <div class="col-sm-3">
-                                    <h6 class="mb-0">Phone</h6>
+                                    <h6 class="mb-0">Bio</h6>
                                 </div>
-                                <p class="col-sm-9">@BrukerInnhold.Tlf</pclass="col-sm-9>
+                                <p class="col-sm-9">@BrukerInnhold.Tlf</p>
                             </div>
                             <hr>
                             <div class="rowinfo">
@@ -260,68 +274,144 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+                <div class="col-md-4">
+                    <div class="card mb-3 pt-3" style="text-align: center">
+                        @if (BrukerInnhold.Navn.EndsWith("s") == true)
+                        {
+                            <h2>@BrukerInnhold.Navn' Folders</h2>
+                        }
+                        else
+                        {
+                            <h2>@BrukerInnhold.Navn's Folders</h2>
+                        }
+                        <hr />
+                        <div class="card-body row">
 
-    <div class="devider">
-        <hr class="line left-line">
-        <hr class="line right-line">
-        <h2 class="portfolio-folders">Portfolio folders</h2>
-
-    </div>
-
-
-    @{
-        var antall = 0;
-    }
-
-    <ul class="nav nav-pills nav-fill folder-nav tabs">
-        @while (antall < BrukerInnhold.Mapper.Count)
-        {
-            var Mappe = BrukerInnhold.Mapper.ElementAt(antall);
+                            @{
+                                var antall = 0;
+                            }
+                            @while (antall < BrukerInnhold.Mapper.Count)
+                            {
+                                var Mappe = BrukerInnhold.Mapper.ElementAt(antall);
+                                <div class="rowinfo col-sm">
+                                    <ul class="nav nav-pills nav-fill folder-nav tabs">
 
 
-            <li class="nav-item">
-                <button class="delete-folder-div" onclick="onDelete('mappe-@antall', @antall, '@Mappe.MappeNavn')">
-                    <i class="far fa-trash-alt delete-folder"></i>
-                </button>
-                <a class="nav-link folder " asp-action="Portefølje" asp-route-brukerID="@BrukerInnhold.Id" asp-route-antall="@antall">
-                    <div class="folder-design" id="mappe-@antall">
-                        <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190211472785468/Portfollowers_bilde.png" />
-                        <span class="folder-navn">@Mappe.MappeNavn</span>
+
+                                        <li class="nav-item">
+                                            <button class="delete-folder-div" onclick="onDelete('mappe-@antall', @antall, '@Mappe.MappeNavn')">
+                                                <i class="far fa-trash-alt delete-folder"></i>
+                                            </button>
+                                            <a class="nav-link folder " asp-action="Portefølje" asp-route-brukerID="@BrukerInnhold.Id" asp-route-antall="@antall">
+                                                <div class="folder-design" id="mappe-@antall">
+                                                    <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190211472785468/Portfollowers_bilde.png" />
+                                                    <span class="folder-navn">@Mappe.MappeNavn</span>
+                                                </div>
+                                            </a>
+                                        </li>
+
+
+                                    </ul>
+                                </div>
+                                antall++;
+                            }
+                        </div>
                     </div>
-                </a>
-            </li>
-            antall++;
-        }
-    </ul>
-    <div>
-        <a asp-action="NyMappe" asp-route-brukerID="@BrukerInnhold.Id" id="nymappe">
-            <p>ny mappe</p>
-        </a>
-    </div>
-
-    <!--href="https://localhost:44344/ProfilSide/Portef%C3%B8lje#v-pills-@antall"-->
+                </div>
+                <div class="col-md-8">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="rowinfo">
+                                <p>ASDHJKASKJD</p>
 
 
 
-
-    <div class="center">
-        <div class="center2">
-            <a asp-action="CV"><button class="btn btn-primary">CV</button></a>
-            <a asp-action="Portefølje"><button class="btn btn-primary">Portfolio</button></a>
-        </div>
-    </div>
-
-    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="http://netdna.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/jquery.mixitup/latest/jquery.mixitup.min.js"></script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
 
 
 
-    <!-- For later  <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">  -->
+
+
+
+                <ul class="nav nav-pills nav-fill folder-nav tabs">
+                    @while (antall < BrukerInnhold.Mapper.Count)
+                    {
+                        var Mappe = BrukerInnhold.Mapper.ElementAt(antall);
+
+
+                        <li class="nav-item">
+                            <button class="delete-folder-div" onclick="onDelete('mappe-@antall', @antall, '@Mappe.MappeNavn')">
+                                <i class="far fa-trash-alt delete-folder"></i>
+                            </button>
+                            <a class="nav-link folder " asp-action="Portefølje" asp-route-brukerID="@BrukerInnhold.Id" asp-route-antall="@antall">
+                                <div class="folder-design" id="mappe-@antall">
+                                    <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190211472785468/Portfollowers_bilde.png" />
+                                    <span class="folder-navn">@Mappe.MappeNavn</span>
+                                </div>
+                            </a>
+                        </li>
+                        antall++;
+                    }
+                </ul>
+
+                <!--href="https://localhost:44344/ProfilSide/Portef%C3%B8lje#v-pills-@antall"-->
+
+
+
+
+                <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+                <script src="http://netdna.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/jquery.mixitup/latest/jquery.mixitup.min.js"></script>
+
+
+
+                <!-- For later  <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">  -->
 </body>
 </html>
+
+
+<script>
+                
+
+                        function requestCV(eierID, senderID, navn) {
+
+                        var today = new Date();
+                        var dd = String(today.getDate()).padStart(2, '0');
+                        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                        var yyyy = today.getFullYear();
+
+                        today = mm + '/' + dd + '/' + yyyy;
+
+                        var jsonNotfic = {
+                            "type": "CV",
+                            "erLest": false,
+                            "FraHvemID": senderID,
+                            "FraHvemNavn": navn,
+                            "TilHvemID": eierID,
+                            "innleggID": "",
+                            "Tidspunkt": today
+                        };
+
+
+                              $.ajax({
+                                      type: "POST",
+                                      url: '@Url.Action("RequestCV", "ProfilSide")',
+                                         data: jsonNotfic,
+                                         dataType: "json",
+                                     success: function (result) {
+                                         alert("Notfication har blitt sendt! ");
+                                     }
+                                    });
+
+                        }
+
+
+
+                    
+
+</script>

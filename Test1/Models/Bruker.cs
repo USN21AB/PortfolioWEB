@@ -28,9 +28,6 @@ namespace Portefolio_webApp.Models
         public int Alder { get; set; }
 
         public string Stilling { get; set; }
-
-        public string MessageToken { get; set; }
-
         public string Bosted { get; set; }
 
         [Phone]

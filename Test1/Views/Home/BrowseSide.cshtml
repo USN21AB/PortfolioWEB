@@ -185,11 +185,6 @@
 <h2 style="color:white; text-align:center;">@(liste.Count == 0 ? "There are no results!" : "")</h2>
 
 
-<div style="height: 100px;
-        background-color: #232426;
-        bottom: 0">
-    <button id="meldingKnapp" class="btn btn-primary buttons">Send melding!</button>
-</div>
 
 
 @section Scripts
@@ -230,51 +225,6 @@
             });
 
 
-            document.getElementById("meldingKnapp").addEventListener('click', function (event) {
-
-                var jsonNotfic = {
-                    "type": "CV",
-                    "erLest": false,
-                    "FraHvemID": "m9qHyf7FkOOq24BYglgLVO7UgND3",
-                    "FraHvemNavn": "Mike",
-                    "TilHvemID": "fMMxGHaKvYW6UoZKFSmYRD4cA4j1",
-                    "innleggID": "-MXndhQRiMkV8azsZZWd",
-                    "Tidspunkt": "21.09.2021"
-                };
-
-                   $.ajax({
-                    type: "POST",
-                    url: '@Url.Action("SendNotification", "Home")',
-                    data: jsonNotfic,
-                    dataType: "json",
-                    success: function (result) {
-                        alert("Notfication har blitt uploauda! " + result);
-                        }
-                   });
-
-                  $.ajax({
-                    type: "POST",
-                    url: '@Url.Action("SendMelding", "Home")',
-                    data: jsonNotfic,
-                    dataType: "json",
-                    success: function (result) {
-                        alert("Melding er sendt! " + result);
-                        }
-                   });
-
-                /*
-                alert(window.location.href + "/Home/Test");
-
-                 $.ajax({
-                    type: "GET",
-                     url: window.location.href + "Home/Test",
-            });
-                //fn();
-                */
-            });
-
-
-
             document.getElementById("søkefelt").addEventListener('keydown', function (event) {
                 // alert("hey fra hover");
                 //document.getElementById("testing").style.backgroundColor = "white";
@@ -286,16 +236,6 @@
 
             $(function () {
                 var _valgtKnapp = "#" + '@TempData["valgtKnapp"]' + "Knapp";
-
-                if (_valgtKnapp == "#altKnapp") {
-                    console.log("Hei. Nå er du inni alt");
-                } else if (_valgtKnapp == "#BildeKnapp") {
-                    console.log("Hei. Nå er du inni #BildeKnapp");
-                } else if (_valgtKnapp == "#LydKnapp") {
-                    console.log("Nå er jeg inni lyd");
-                } else {
-                    console.log("Nå er jeg inni Tekst");
-                }
 
                 $("#altKnapp").removeClass("active");
                 $(_valgtKnapp).addClass("active");

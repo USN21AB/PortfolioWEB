@@ -98,7 +98,7 @@ namespace Portefolio_webApp.Controllers
         {
           
             //Dummy bruker med id. 
-            Bruker = firebase.HentEnkeltBruker(brukerID); 
+            Bruker = firebase.HentEnkeltBruker(brukerID);
 
             ViewData["Bruker"] = Bruker;
 
@@ -170,6 +170,8 @@ namespace Portefolio_webApp.Controllers
                 ViewData["Innlogget_Bruker"] = innBruker;
             }
 
+
+
             return View(nybruker); 
         }
 
@@ -189,6 +191,10 @@ namespace Portefolio_webApp.Controllers
                     string logginnID = logg.Register(oppBruker.Email, password).Result;
                         string[] splittArr = logginnID.Split("|");
 
+                    string FBFileToRemoveName = "";
+
+                    oppBruker.Id = splittArr[0];
+                        
                         oppBruker.Id = splittArr[0];
                         oppBruker.NumberOfNotifications = 0;
 
@@ -212,10 +218,25 @@ namespace Portefolio_webApp.Controllers
                         }
                         else
                         {
+
+                            string hello;
+
+                            if (oppBruker.Profilbilde == "")
+                                hello = "EMPTY";
+                            else
+                            {
+                                var spliturl = oppBruker.Profilbilde.Split("%5C");
+                                hello = spliturl[spliturl.Length - 1].Split("?alt=")[0];
+                            }
+
+
+
                             await firebase.RegistrerBruker(oppBruker);
-                            await firebase.UploadProfilBilde(HttpContext.Session.GetString("CroppedPath"), oppBruker.Id);
+                            await firebase.UploadProfilBilde(HttpContext.Session.GetString("CroppedPath"), oppBruker.Id, hello);
                             firebase.OppdaterBrukerBilde(oppBruker);
                             HttpContext.Session.Remove("CroppedPath");
+
+                            Console.WriteLine("Previous Profilepic link: " + FBFileToRemoveName);
                         }
 
                     }
@@ -246,7 +267,22 @@ namespace Portefolio_webApp.Controllers
                 }
                 else
                 {
-                    await firebase.UploadProfilBilde(HttpContext.Session.GetString("CroppedPath"), oppBruker.Id);
+
+
+                    string hello;
+
+                    if (oppBruker.Profilbilde == "")
+                        hello = "EMPTY";
+                    else
+                    {
+                        var spliturl = oppBruker.Profilbilde.Split("%2F");
+                        hello = spliturl[spliturl.Length - 1].Split("?alt=")[0];
+                    }
+
+
+                   
+
+                    await firebase.UploadProfilBilde(HttpContext.Session.GetString("CroppedPath"), oppBruker.Id, hello);
                     firebase.OppdaterBrukerBilde(oppBruker);
                     HttpContext.Session.Remove("CroppedPath");
                 }
@@ -303,7 +339,18 @@ namespace Portefolio_webApp.Controllers
 
         }
 
-        [HttpPost]
+        public JsonResult RequestCV(string type, Boolean erLest, string FraHvemID, string FraHvemNavn, string TilHvemID, string innleggID, string Tidspunkt)
+        {
+            
+            Notifications not = new Notifications(type, erLest, FraHvemID, FraHvemNavn, TilHvemID, innleggID, Tidspunkt);
+            firebase.SendNotification(not);
+            var resultat = "'";
+            var data = new { status = "ok", result = resultat };
+
+            return Json(data);
+        }
+
+       [HttpPost]
         public JsonResult LeggTilCV(string felt, string par1, string par2, string par3, string par4, string par5)
         {
             

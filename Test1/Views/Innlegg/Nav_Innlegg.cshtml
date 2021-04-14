@@ -566,13 +566,56 @@ function dislike(innId) {
     window.location.href = params;
     }
 
+    function ajaxLike(innId) {
+             var json = {
+                "innleggId": innId
+        };
+        $('#realLikeButton').toggle();
+        $('#fakeLikeButton').toggle();
+        $('#realLikes').toggle();
+        $('#fakeLikes').toggle();
+             $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("LikeInnlegg", "Innlegg")',
+                    data: json,
+                    dataType: "json",
+                 success: function (result) {
+                 },
+                 error: function (result) {
+                 }
+             });
 
+
+    }
+
+    function ajaxDislike(innId) {
+             var json = {
+                "innleggId": innId
+        };
+        $('#realLikeButton').toggle();
+        $('#fakeLikeButton').toggle();
+        $('#realLikes').toggle();
+        $('#fakeLikes').toggle();
+             $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("DislikeInnlegg", "Innlegg")',
+                    data: json,
+                    dataType: "json",
+                 success: function (result) {
+                 },
+                 error: function (result) {
+                 }
+             });
+
+
+    }
 
 </script>
 
 
 <link href="~/css/Musikkontroller.css" rel="stylesheet" />
-<script src="~/js/lyd.js?v=1"></script>
+<script src="~/js/lyd.js?v=2"></script>
+
 @*Klassen inneholder Tittel, opplastingsdato, og hovedinnlegget (bilde eller pdf)*@
 
 <div class="hovedInnlegg card container col-9">
@@ -703,7 +746,9 @@ function dislike(innId) {
     </ul>
 
 
-
+    @{ 
+        var likeNr = 1;
+    }
 
 
     @if (ViewData["Token"] != null)
@@ -717,19 +762,24 @@ function dislike(innId) {
                 var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
                 var i = 0;
                 var check = 0;
+                
             }
 
             @if (Model.Likes != null)
             {
 
 
+
                 @while (i < Model.Likes.Brukere.Count)
                 {
                     @if (du.Id.Equals(Model.Likes.Brukere[i]))
                     {
-                        <button class="dislikebutton" onclick="dislike('@thisid')">
+                        likeNr = -1;
+                        <button id="realLikeButton" class="dislikebutton" onclick="ajaxDislike('@thisid')">
                             <i class="fas fa-thumbs-up"></i>
-
+                        </button>
+                        <button id="fakeLikeButton" class="dislikebutton" style="display: none" onclick="ajaxLike('@thisid')">
+                            <i class="far fa-thumbs-up"></i>
                         </button>
                         check = 1;
                         break;
@@ -741,16 +791,23 @@ function dislike(innId) {
             }
             @if (check == 0)
             {
-                <button class="likebutton" onclick="like('@thisid')">
+                <button id="realLikeButton" class="likebutton" onclick="ajaxLike('@thisid')">
                     <i class="far fa-thumbs-up"></i>
                 </button>
+                <button id="fakeLikeButton" class="likebutton" style="display: none" onclick="ajaxDislike('@thisid')">
+                    <i class="fas fa-thumbs-up"></i>
+                </button>
             }
-            @if (Model.Likes != null)
-            {
-                var likes = Model.Likes.Antall;
-                <p class="">@likes</p>
-            }
+
         </div>
+    }
+                @if (Model.Likes != null)
+    {
+        var likes = Model.Likes.Antall;
+        <p class="" id="realLikes">@likes</p>
+        var plusLikes = Model.Likes.Antall + @likeNr;
+        <p class="" id="fakeLikes" style="display: none">@plusLikes</p>
+
     }
 </div>
 

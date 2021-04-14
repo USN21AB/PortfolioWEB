@@ -15,14 +15,14 @@ namespace Portefolio_webApp.Controllers
     {
         public readonly IFirebaseConfig db;
         public IFirebaseClient klient;
-        HomeController home;
+       
 
         private readonly FirebaseDB firebase;
 
         public InnleggController()
         {
             firebase = new FirebaseDB();
-            home = new HomeController();
+         
         }
 
         [BindProperty]
@@ -128,6 +128,7 @@ namespace Portefolio_webApp.Controllers
                     Portfolio portfolio = new Portfolio(bruker.Id, mappenavn);
                     portfolio.MappeInnhold.Add(innlegg);
                     bruker.Mapper.Add(portfolio);
+
 
                 }
 
@@ -251,7 +252,7 @@ namespace Portefolio_webApp.Controllers
 
                     Notifications not = new Notifications("Kommentar", false, innBruker.Id, innBruker.Navn, innlegg.EierId, innlegg.Id, l.ToString("dd/MM/yyyy"));
                     firebase.SendNotification(not);
-                    home.SendMelding("Kommentar", false, innBruker.Id, innBruker.Navn, innlegg.EierId, innlegg.Id, l.ToString("dd/MM/yyyy"));
+                  
                 }
                 
             }
@@ -356,7 +357,9 @@ namespace Portefolio_webApp.Controllers
             return Redirect("~/Innlegg/Nav_Innlegg/" + innlegg.Id);
 
         }
-        public IActionResult LikeInnlegg(string innleggId)
+
+        [HttpPost]
+        public JsonResult LikeInnlegg(string innleggId)
         {
             var str = HttpContext.Session.GetString("Innlogget_Bruker");
             var innBruker = JsonConvert.DeserializeObject<Bruker>(str);
@@ -396,10 +399,14 @@ namespace Portefolio_webApp.Controllers
             {
 
             }
-                    return Redirect("~/Innlegg/Nav_Innlegg/" + innlegg.Id);
+
+            var resultat = "Jobberfaring oppdatert: Like";
+            var data = new { status = "ok", result = resultat };
+
+            return Json(data);
         }
 
-        public IActionResult DislikeInnlegg(string innleggId)
+        public JsonResult DislikeInnlegg(string innleggId)
         {
             var str = HttpContext.Session.GetString("Innlogget_Bruker");
             var innBruker = JsonConvert.DeserializeObject<Bruker>(str);
@@ -429,7 +436,12 @@ namespace Portefolio_webApp.Controllers
             {
 
             }
-            return Redirect("~/Innlegg/Nav_Innlegg/" + innlegg.Id);
+            var resultat = "Jobberfaring oppdatert: Like";
+            var data = new { status = "ok", result = resultat };
+
+            return Json(data);
+
+
         }
     }      
 }                                                         
