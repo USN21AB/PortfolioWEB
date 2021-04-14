@@ -98,7 +98,7 @@ namespace Portefolio_webApp.Controllers
         {
           
             //Dummy bruker med id. 
-            Bruker = firebase.HentEnkeltBruker(brukerID); 
+            Bruker = firebase.HentEnkeltBruker(brukerID);
 
             ViewData["Bruker"] = Bruker;
 
@@ -181,7 +181,7 @@ namespace Portefolio_webApp.Controllers
         {
 
             Debug.WriteLine("--------------------------UPSERT BRUKER TEST CV: " + password + " " + passwordRetyp);
-
+         
 
             if (string.IsNullOrEmpty(oppBruker.Id))
                     { //CREATE 
@@ -195,8 +195,10 @@ namespace Portefolio_webApp.Controllers
 
                     oppBruker.Id = splittArr[0];
                         
+                        oppBruker.Id = splittArr[0];
+                        oppBruker.NumberOfNotifications = 0;
 
-                        HttpContext.Session.SetString("_UserID", splittArr[0]);
+                    HttpContext.Session.SetString("_UserID", splittArr[0]);
                         HttpContext.Session.SetString("_UserToken", splittArr[1]);
 
                         if (oppBruker.Id == "")
@@ -337,7 +339,18 @@ namespace Portefolio_webApp.Controllers
 
         }
 
-        [HttpPost]
+        public JsonResult RequestCV(string type, Boolean erLest, string FraHvemID, string FraHvemNavn, string TilHvemID, string innleggID, string Tidspunkt)
+        {
+            
+            Notifications not = new Notifications(type, erLest, FraHvemID, FraHvemNavn, TilHvemID, innleggID, Tidspunkt);
+            firebase.SendNotification(not);
+            var resultat = "'";
+            var data = new { status = "ok", result = resultat };
+
+            return Json(data);
+        }
+
+       [HttpPost]
         public JsonResult LeggTilCV(string felt, string par1, string par2, string par3, string par4, string par5)
         {
             

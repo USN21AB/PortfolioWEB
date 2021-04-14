@@ -2,7 +2,15 @@
 
 @{
     var BrukerInnhold = (Portefolio_webApp.Models.Bruker)ViewData["Bruker"];
+    var innloggetBruker = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
 
+    Boolean CVAdgang = false;
+    if (BrukerInnhold.CVAdgang != null)
+        for (int i = 0; i < BrukerInnhold.CVAdgang.Count; i++)
+        {
+            if ((string)ViewData["Innlogget_ID"] == BrukerInnhold.CVAdgang[i])
+                CVAdgang = true;
+        }
 }
 
 <html lang="en">
@@ -158,7 +166,6 @@
         text-decoration-color: white;
         font-size: 20px;
     }
-
 </style>
 
 <div style="display: flex; justify-content: flex-end">
@@ -213,7 +220,15 @@
                                 }
                                 else
                                 {
-                                    <a asp-action="CV" asp-route-brukerID="@BrukerInnhold.Id"><button class="cvbtn btn btn-primary">Request CV</button></a>
+                                    @if (CVAdgang)
+                                    {
+                                        <a asp-action="CV" asp-route-brukerID="@BrukerInnhold.Id"><button class="cvbtn btn btn-primary">Enter CV</button></a>
+                                    }
+                                    else
+                                    {
+                                        <a onclick="requestCV('@BrukerInnhold.Id', '@ViewData["Innlogget_ID"]', '@innloggetBruker.Navn')"><button class="cvbtn btn btn-primary">Request CV</button></a>
+                                    }
+
                                 }
                             </div>
                         </div>
@@ -297,20 +312,20 @@
 
 
                                     </ul>
-                                    </div>
-                                    antall++;
-                                    }
-                            </div>
+                                </div>
+                                antall++;
+                            }
+                        </div>
                     </div>
-                    </div>
+                </div>
                 <div class="col-md-8">
                     <div class="card mb-3">
                         <div class="card-body">
                             <div class="rowinfo">
                                 <p>ASDHJKASKJD</p>
-                                       
-                                    
-                                
+
+
+
                             </div>
                         </div>
                     </div>
@@ -355,8 +370,48 @@
 
 
 
-
-
                 <!-- For later  <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">  -->
 </body>
 </html>
+
+
+<script>
+                
+
+                        function requestCV(eierID, senderID, navn) {
+
+                        var today = new Date();
+                        var dd = String(today.getDate()).padStart(2, '0');
+                        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                        var yyyy = today.getFullYear();
+
+                        today = mm + '/' + dd + '/' + yyyy;
+
+                        var jsonNotfic = {
+                            "type": "CV",
+                            "erLest": false,
+                            "FraHvemID": senderID,
+                            "FraHvemNavn": navn,
+                            "TilHvemID": eierID,
+                            "innleggID": "",
+                            "Tidspunkt": today
+                        };
+
+
+                              $.ajax({
+                                      type: "POST",
+                                      url: '@Url.Action("RequestCV", "ProfilSide")',
+                                         data: jsonNotfic,
+                                         dataType: "json",
+                                     success: function (result) {
+                                         alert("Notfication har blitt sendt! ");
+                                     }
+                                    });
+
+                        }
+
+
+
+                    
+
+</script>

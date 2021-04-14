@@ -28,9 +28,6 @@ namespace Portefolio_webApp.Models
         public int Alder { get; set; }
 
         public string Stilling { get; set; }
-
-        public string MessageToken { get; set; }
-
         public string Bosted { get; set; }
 
         [Phone]
@@ -39,6 +36,7 @@ namespace Portefolio_webApp.Models
         public double likeRatio { get; set; }
 
         public List<string> CVAdgang { get; set; }
+        public int NumberOfNotifications { get; set; }
 
         public List<Notifications> notifications { get; set; }
 

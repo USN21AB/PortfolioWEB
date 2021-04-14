@@ -81,7 +81,7 @@ namespace Test1.Controllers
                     var str = JsonConvert.SerializeObject(bruker2);
                     HttpContext.Session.SetString("Innlogget_Bruker", str);
 
-                    TempData["LoggetInn"] = true;
+                    
                     return Redirect("~/Home/BrowseSide");
                 }
                 else
@@ -104,7 +104,8 @@ namespace Test1.Controllers
         {
             HttpContext.Session.Remove("_UserToken");
             HttpContext.Session.Remove("_UserID");
-            HttpContext.Session.Remove("Innlogget_Bruker"); 
+            HttpContext.Session.Remove("Innlogget_Bruker");
+
             return Redirect("SignIn");
         }
     }
