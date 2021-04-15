@@ -82,19 +82,22 @@ namespace Portefolio_webApp.Controllers
         {
 
             innlegg.EierId = HttpContext.Session.GetString("_UserID");
-
+          
             DateTime today = DateTime.Today;
             DateTime l = today;
             innlegg.Dato = l.ToString("dd/MM/yyyy");
     
 
-            innlegg.Tagger[1].Split(",");
-            var splitTag = innlegg.Tagger[1].Split(",");
+            innlegg.Tagger[0].Split(",");
+            var splitTag = innlegg.Tagger[0].Split(",");
+
+            
             
             innlegg.Tagger.Clear();
             for (var i = 0; i < splitTag.Length; i++)
             {
-                innlegg.Tagger.Add(splitTag[i].Trim());
+                
+                    innlegg.Tagger.Add(splitTag[i].Trim());
             }
 
             var bruker = firebase.HentEnkeltBruker(innlegg.EierId);
@@ -164,6 +167,7 @@ namespace Portefolio_webApp.Controllers
                     innlegg.EierId = HttpContext.Session.GetString("_UserID"); 
                     firebase.OppdaterInnlegg(innlegg);
                     firebase.OppdaterBruker(bruker);
+
                 }
             }
 

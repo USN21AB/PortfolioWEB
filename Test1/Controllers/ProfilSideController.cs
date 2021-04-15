@@ -500,6 +500,8 @@ namespace Portefolio_webApp.Controllers
             return Json(data);
         }
 
+        
+
 
         [HttpPost]
         public JsonResult DeleteFolder(int index, string navn)
@@ -507,6 +509,24 @@ namespace Portefolio_webApp.Controllers
 
             Debug.WriteLine("---------------------------------yo "  + index + " lol " + navn);
             Bruker = firebase.HentEnkeltBruker(HttpContext.Session.GetString("_UserID"));
+
+
+            var mappeinnlegg = Bruker.Mapper[index].MappeInnhold;
+            var i = 0;
+            List<string> innleggIDer = new List<string>();
+            while(i < mappeinnlegg.Count)
+            {
+                innleggIDer.Add(mappeinnlegg[i].Id);
+                i++;
+            }
+
+            var x = 0;
+            while(x < innleggIDer.Count)
+            {
+                firebase.SlettInnlegg(innleggIDer[x]);
+                x++;
+            }
+
             
                 
             Bruker.Mapper.RemoveAt(index);
