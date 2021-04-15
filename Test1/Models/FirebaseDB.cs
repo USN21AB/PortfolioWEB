@@ -338,5 +338,10 @@ namespace Test1.Models
         {
             FirebaseResponse respons = klient.Delete("Innlegg/" + innleggID);
         }
+
+        public void SlettMappeInnlegg(string brukerID, int mappeIndex, int innleggIndex)
+        {
+            FirebaseResponse respons = klient.Delete("Bruker/" + brukerID + "/Mapper/" + mappeIndex + "/MappeInnhold/" + innleggIndex);
+        }
     }
 }

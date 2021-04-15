@@ -561,7 +561,7 @@
 
         <div class="form-group row">
             <div class="col-3 offset-3">
-                <button type="submit" id="submit-btn" class="btn btn-primary form-control">
+                <button type="submit" id="submit-btn" class="btn btn-primary form-control" asp-action="Upsert_Innlegg">
                     @(Model.Id == null ? "Registrer" : "Oppdater")
                 </button>
             </div>

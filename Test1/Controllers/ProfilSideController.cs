@@ -543,6 +543,31 @@ namespace Portefolio_webApp.Controllers
             return Json(data);
         }
 
+        [HttpPost]
+        public JsonResult DeleteInnlegg(string id, int mindex,  int iindex)
+        {
+
+            Debug.WriteLine("---------------------------------yo " + mindex + " lol " + iindex);
+            Bruker = firebase.HentEnkeltBruker(HttpContext.Session.GetString("_UserID"));
+
+            
+
+            firebase.SlettInnlegg(id);
+
+            firebase.SlettMappeInnlegg(Bruker.Id, mindex, iindex);
+
+
+            firebase.OppdaterBruker(Bruker);
+
+            var str = JsonConvert.SerializeObject(Bruker);
+            HttpContext.Session.SetString("Innlogget_Bruker", str);
+
+            var resultat = "Jobberfaring oppdatert: " + iindex + " " + mindex;
+            var data = new { status = "ok", result = resultat };
+
+            return Json(data);
+        }
+
     }
 
 }
