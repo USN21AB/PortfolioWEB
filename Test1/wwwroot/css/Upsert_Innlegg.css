@@ -1,6 +1,170 @@
-﻿body {
-    margin-top: 80px;
+﻿.preview-label {
+    position: absolute;
+    right: 119px;
+    padding: 15px;
+    top: 70px;
 }
-.whitetext {
-    color: #fff;
+    @media screen and (max-width: 1460px) {
+        .preview-label {
+            position: absolute;
+            visibility: hidden;
+        }
+    }
+
+.preview {
+    position: absolute;
+    right: 20px;
+    padding: 18px;
+    top: 150px;
+}
+
+@media screen and (max-width: 1460px) {
+    .preview {
+        position: absolute;
+        visibility: hidden;
+    }
+}
+
+
+.round {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #384352;
+    background-clip: border-box;
+    border: 0 solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+    width: 1050px;
+    padding: 41px;
+    display: inline-block;
+}
+
+.round-preview {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #384352;
+    background-clip: border-box;
+    border: 0 solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+    width: 350px;
+    height: 350px;
+}
+
+.radio-buttons {
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+}
+
+#bildekategori {
+    display: none;
+}
+
+#musikkategori {
+    display: none
+}
+
+#tekstkategori {
+    display: none;
+}
+
+#bilde-innlegg {
+    display: none;
+}
+
+#lyd-innlegg {
+    display: none;
+}
+
+#tekst-innlegg {
+    display: none;
+}
+
+#cover-image {
+    display: none;
+}
+
+#subkat {
+}
+
+#subkatdiv {
+    visibility: hidden;
+    position: absolute;
+}
+
+#mappefelt {
+    position: absolute;
+    visibility: hidden;
+}
+
+
+
+#ny-mappe-valgt {
+    display: none
+}
+
+
+.radio {
+    display: inline-block;
+    width: 141px;
+    height: 70px;
+    background-color: white;
+    border-radius: .25rem;
+    cursor: pointer;
+    margin-left: 4px;
+    margin-right: 4px;
+    cursor: pointer;
+}
+
+    .radio.active, .radio:active {
+        background-color: #0275d8;
+        color: white;
+    }
+
+.folder-bilde {
+    width: 80px;
+    margin: 20px;
+    position: relative;
+}
+
+.folder-navn {
+    color: white;
+    font-size: 13px;
+    top: 63%;
+    left: 48%;
+    transform: translate(-45%, -50%);
+    max-width: 75px;
+    max-height: 40px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
+    position: absolute;
+}
+
+.folder-design {
+    position: relative;
+}
+
+.add-folder {
+    position: relative;
+    margin: 44px 20px 20px 20px;
+}
+
+.nav-item {
+    cursor: pointer
+}
+
+.activefolder {
+    border: 1px solid white;
+}
+
+.filknapp {
+    color: red;
 }
