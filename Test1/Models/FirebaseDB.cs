@@ -209,7 +209,6 @@ namespace Test1.Models
 
         public void UpdateSingleUserValue(string brukerid, string rad,string value)
         {
-            Debug.WriteLine("update single: " + brukerid + rad + value);
             klient.Set("Bruker/" + brukerid + "/"+rad, value);
         } 
 
@@ -257,7 +256,7 @@ namespace Test1.Models
 
         public async Task RegistrerBruker(Bruker bruker)
         {
-            bruker.Profilbilde = "https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2Fdefault_account.jpg?alt=media&token=290b6907-f17e-4095-90a6-dca2c52563b9";
+            bruker.Profilbilde = "~/resources/default_account.jpg";
             //PushResponse respons = klient.Push("Bruker/"+bruker.Id, bruker);
             // bruker.Id = respons.Result.name;
             SetResponse setResponse = klient.Set("Bruker/" + bruker.Id, bruker);
@@ -266,6 +265,8 @@ namespace Test1.Models
         public void SendNotification(Notifications notification)
         {
             Bruker bruker = HentEnkeltBruker(notification.TilHvemID);
+            bruker.NumberOfNotifications += 1;
+
             bruker.notifications.Add(notification);
             SetResponse setResponse = klient.Set("Bruker/" + notification.TilHvemID, bruker);
         }
@@ -276,9 +277,15 @@ namespace Test1.Models
             SetResponse respons = klient.Set("Bruker/" + bruker.Id, bruker);
         }
 
-        public void OppdaterRegisterToken(Bruker bruker)
+        public int TellAntallRader(string brukerID)
         {
-            SetResponse respons = klient.Set("Bruker/" + bruker.Id, bruker);
+            FirebaseResponse respons = klient.Get("Bruker/" + brukerID + "/NumberOfNotifications");
+           
+            if (respons.Body == null)
+                return -1;
+            int length = JsonConvert.DeserializeObject<int>(respons.Body); 
+        
+            return length;
         }
 
         public void OppdaterBrukerBilde(Bruker bruker) 

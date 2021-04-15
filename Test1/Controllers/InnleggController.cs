@@ -15,12 +15,14 @@ namespace Portefolio_webApp.Controllers
     {
         public readonly IFirebaseConfig db;
         public IFirebaseClient klient;
+       
 
         private readonly FirebaseDB firebase;
 
         public InnleggController()
         {
             firebase = new FirebaseDB();
+         
         }
 
         [BindProperty]
@@ -37,10 +39,6 @@ namespace Portefolio_webApp.Controllers
         {
             Innlegg = new Innlegg();
             Debug.WriteLine("------------------------------------upsert innlegg GET: " + innleggID);
-
-            
-            
-
 
             ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
             ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
@@ -254,6 +252,7 @@ namespace Portefolio_webApp.Controllers
 
                     Notifications not = new Notifications("Kommentar", false, innBruker.Id, innBruker.Navn, innlegg.EierId, innlegg.Id, l.ToString("dd/MM/yyyy"));
                     firebase.SendNotification(not);
+                  
                 }
                 
             }
@@ -358,7 +357,9 @@ namespace Portefolio_webApp.Controllers
             return Redirect("~/Innlegg/Nav_Innlegg/" + innlegg.Id);
 
         }
-        public IActionResult LikeInnlegg(string innleggId)
+
+        [HttpPost]
+        public JsonResult LikeInnlegg(string innleggId)
         {
             var str = HttpContext.Session.GetString("Innlogget_Bruker");
             var innBruker = JsonConvert.DeserializeObject<Bruker>(str);
@@ -398,10 +399,14 @@ namespace Portefolio_webApp.Controllers
             {
 
             }
-                    return Redirect("~/Innlegg/Nav_Innlegg/" + innlegg.Id);
+
+            var resultat = "Jobberfaring oppdatert: Like";
+            var data = new { status = "ok", result = resultat };
+
+            return Json(data);
         }
 
-        public IActionResult DislikeInnlegg(string innleggId)
+        public JsonResult DislikeInnlegg(string innleggId)
         {
             var str = HttpContext.Session.GetString("Innlogget_Bruker");
             var innBruker = JsonConvert.DeserializeObject<Bruker>(str);
@@ -431,7 +436,12 @@ namespace Portefolio_webApp.Controllers
             {
 
             }
-            return Redirect("~/Innlegg/Nav_Innlegg/" + innlegg.Id);
+            var resultat = "Jobberfaring oppdatert: Like";
+            var data = new { status = "ok", result = resultat };
+
+            return Json(data);
+
+
         }
     }      
 }                                                         

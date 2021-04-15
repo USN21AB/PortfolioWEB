@@ -146,18 +146,6 @@ body {
     z-index: 4;
     transition: top 0.8s;
 }
-.profilbtn {
-    height: 35px;
-    max-width: 350px;
-    text-align: right;
-    font-family:'Modern No. 20';
-    font-size: 18px;
-    color: white;
-    right: 12px;
-    display: inline;
-    
-
-}
 .profilbtnbilde {
     object-fit: cover;
     display: inline;
@@ -165,6 +153,8 @@ body {
     right: 0;
     width: 35px;
     height: 35px;
+    margin-left: 20px;
+    margin-right: 10px;
 }
 .dropdown-menu {
     padding: 0;
@@ -172,7 +162,6 @@ body {
     right: 50px;
     margin-top: 12px;
     background-color: #384352;
-    font-family: 'Modern No. 20';
     font-weight: 100;
 }
 .dropdown-item {
@@ -210,12 +199,18 @@ body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-size: 20px;
 }
 
 .profilbtndiv {
     display: inline;
 }
-
+.profilbtn {
+    height: 35px;
+    max-width: 350px;
+    font-family: 'Modern No. 20';
+    color: white;
+}
 .dropdown-toggle {
     display: inline;
     right: 0;
@@ -229,4 +224,6 @@ body {
     width: 40%;
     margin-top: 20px;
 }
-
+.loginbtn {
+    width: 150px;
+}
