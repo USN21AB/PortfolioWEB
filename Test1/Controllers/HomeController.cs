@@ -247,6 +247,7 @@ namespace Portefolio_webApp.Controllers
                 ViewData["Kategori"] = "alt";
 
                ViewData["liste"] = AlleInnlegg;
+              
             }
             else {
 
@@ -279,7 +280,7 @@ namespace Portefolio_webApp.Controllers
                     katListe = filterListe; 
                 }
 
-
+              
                 ViewData["liste"] = katListe; 
                 TempData["valgtKnapp"] = kategori;
                 ViewData["Kategori"] = kategori;
@@ -297,9 +298,10 @@ namespace Portefolio_webApp.Controllers
                 var innBruker = JsonConvert.DeserializeObject<Bruker>(str);
 
                 ViewData["Innlogget_Bruker"] = innBruker;
-
+                
             }
 
+            ViewData["BrukerListe"] = firebase.updateAlgorithm();
             return View();
         }
 
@@ -353,7 +355,7 @@ namespace Portefolio_webApp.Controllers
 
             }
 
-            innBruker.NumberOfNotifications = innBruker.NumberOfNotifications - 1; 
+            innBruker.NumberOfNotifications -= 1; 
             innBruker.notifications.RemoveAt(notIndex);
             firebase.OppdaterBruker(innBruker);
 

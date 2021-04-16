@@ -20,6 +20,8 @@ namespace Portefolio_webApp.Models
         [EmailAddress]
         public string Email { get; set; }
 
+        public string SlagOrd { get; set; }
+
         public string Bio { get; set; }
 
         public string Profilbilde { get; set; }
@@ -33,7 +35,7 @@ namespace Portefolio_webApp.Models
         [Phone]
         public string Tlf { get; set; }
 
-        public double likeRatio { get; set; }
+        public int likeRatio { get; set; }
 
         public List<string> CVAdgang { get; set; }
         public int NumberOfNotifications { get; set; }
