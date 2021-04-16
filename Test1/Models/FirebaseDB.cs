@@ -334,10 +334,38 @@ namespace Test1.Models
             kommentar.Id = respons.Result.name;
             SetResponse setResponse = klient.Set(link + kommentar.Id, kommentar);
         }
-
         public void SlettInnlegg(string innleggID)
         {
             FirebaseResponse respons = klient.Delete("Innlegg/" + innleggID);
+        }
+
+        public void SlettMappeInnlegg(string brukerID, int mappeIndex, int innleggId)
+        {
+            FirebaseResponse respons = klient.Delete("Bruker/" + brukerID + "/Mapper/" + mappeIndex + "/MappeInnhold/" + innleggId);
+        }
+
+
+
+        public List<Bruker> updateAlgorithm()
+        {
+            FirebaseResponse respons = klient.Get("Bruker");
+            dynamic data = JsonConvert.DeserializeObject<dynamic>(respons.Body);
+            var list = new List<Bruker>();
+            if (data != null)
+                foreach (var item in data)
+                {
+                    list.Add(JsonConvert.DeserializeObject<Bruker>(((JProperty)item).Value.ToString()));
+                };
+
+            List<Bruker> SortedList = list.OrderBy(o => o.likeRatio).ToList();
+
+            SortedList.RemoveRange(0, (SortedList.Count - 5));
+
+            foreach (var item in SortedList)
+            {
+                Debug.WriteLine(item.Navn + " har " + item.likeRatio);
+            };
+            return SortedList;
         }
     }
 }

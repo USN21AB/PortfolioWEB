@@ -57,7 +57,7 @@ namespace Portefolio_webApp.Controllers
 
                 if (Innlegg == null)
                     Innlegg = new Innlegg(); 
-                Debug.WriteLine("------------------------------------upsert innlegg GET INNI IF TOM: " + innleggID);
+                Debug.WriteLine("------------------------------------upsert innlegg GET INNI IF TOM: " + Innlegg.Tittel);
                 return View(Innlegg);
             }
 
@@ -78,23 +78,27 @@ namespace Portefolio_webApp.Controllers
 
 
         [HttpPost]
-        public async System.Threading.Tasks.Task<IActionResult> Upsert_InnleggAsync(IFormFile inputfile, IFormFile coverfile,Innlegg innlegg, [FromServices] IHostingEnvironment oHostingEnvironment, string mappenavn)
+        public async System.Threading.Tasks.Task<IActionResult> Upsert_InnleggAsync(IFormFile inputfile, IFormFile coverfile,Innlegg innlegg, [FromServices] IHostingEnvironment oHostingEnvironment, string mappenavn, string innleggid)
         {
 
             innlegg.EierId = HttpContext.Session.GetString("_UserID");
-
+            innlegg.Id = innleggid;
+          
             DateTime today = DateTime.Today;
             DateTime l = today;
             innlegg.Dato = l.ToString("dd/MM/yyyy");
     
 
-            innlegg.Tagger[1].Split(",");
-            var splitTag = innlegg.Tagger[1].Split(",");
+            innlegg.Tagger[0].Split(",");
+            var splitTag = innlegg.Tagger[0].Split(",");
+
+            
             
             innlegg.Tagger.Clear();
             for (var i = 0; i < splitTag.Length; i++)
             {
-                innlegg.Tagger.Add(splitTag[i].Trim());
+                
+                    innlegg.Tagger.Add(splitTag[i].Trim());
             }
 
             var bruker = firebase.HentEnkeltBruker(innlegg.EierId);
@@ -103,37 +107,43 @@ namespace Portefolio_webApp.Controllers
 
             if (ModelState.IsValid)
             {
-                
-                Boolean mappefinnes = false;
-
-                Debug.WriteLine("lol" + innlegg.EierId);
-                for (var i = 0; i < bruker.Mapper.Count; i++)
-                {
-                    Debug.WriteLine("for runde: " + i);
-                    if (bruker.Mapper[i].MappeNavn == mappenavn)
-                    {
-                        Portfolio portfolio = bruker.Mapper[i];
-                        portfolio.MappeInnhold.Add(innlegg);
-
-                        //bruker.Mapper[i].MappeInnhold.Add(innlegg);
-                        mappefinnes = true;
-                        Debug.WriteLine("Mappen finnes");
-                       
-                    }
-                }
-
-                if (mappefinnes ==  false)
-                {
-                    Debug.WriteLine("Mappen finnes ikke");
-                    Portfolio portfolio = new Portfolio(bruker.Id, mappenavn);
-                    portfolio.MappeInnhold.Add(innlegg);
-                    bruker.Mapper.Add(portfolio);
 
 
-                }
+                Debug.WriteLine("dwdwadada" + innlegg.Id);
+                Debug.WriteLine("dwdwadada" + innleggid);
+
 
                 if (string.IsNullOrEmpty(innlegg.Id))
                 { //REgistrer nytt innlegg siden id er null.
+
+                    Boolean mappefinnes = false;
+
+                    Debug.WriteLine("lol" + innlegg.EierId);
+                    for (var i = 0; i < bruker.Mapper.Count; i++)
+                    {
+                        Debug.WriteLine("for runde: " + i);
+                        if (bruker.Mapper[i].MappeNavn == mappenavn)
+                        {
+                            Portfolio portfolio = bruker.Mapper[i];
+                            portfolio.MappeInnhold.Add(innlegg);
+
+                            //bruker.Mapper[i].MappeInnhold.Add(innlegg);
+                            mappefinnes = true;
+                            Debug.WriteLine("Mappen finnes");
+
+                        }
+                    }
+
+                    if (mappefinnes == false)
+                    {
+                        Debug.WriteLine("Mappen finnes ikke");
+                        Portfolio portfolio = new Portfolio(bruker.Id, mappenavn);
+                        portfolio.MappeInnhold.Add(innlegg);
+                        bruker.Mapper.Add(portfolio);
+
+
+                    }
+
 
 
                     try
@@ -160,10 +170,36 @@ namespace Portefolio_webApp.Controllers
                 else
                 {
 
+                    
+                    Debug.WriteLine("lol   oppdatert      " + innlegg.EierId);
+                    for (var i = 0; i < bruker.Mapper.Count; i++)
+                    {
+                        Debug.WriteLine("oppfdater for runde mappe : " + i);
+
+
+                        for (var y = 0; y < bruker.Mapper[i].MappeInnhold.Count; y++)
+                        {
+                            Debug.WriteLine("oppfdater for runde innlegg: " + y);
+                            if (bruker.Mapper[i].MappeInnhold[y].Id == innleggid)
+                            {
+                                bruker.Mapper[i].MappeInnhold[y] = innlegg;
+                                //bruker.Mapper[i].MappeInnhold.Add(innlegg);
+                                Debug.WriteLine("oppdatert Mappen finnes");
+
+                        }
+
+                        }
+
+                       
+                    }
+
+                    
+
                     //MÅ LEGGE TIL UPDATE INNLEGG HER
                     innlegg.EierId = HttpContext.Session.GetString("_UserID"); 
                     firebase.OppdaterInnlegg(innlegg);
                     firebase.OppdaterBruker(bruker);
+
                 }
             }
 
