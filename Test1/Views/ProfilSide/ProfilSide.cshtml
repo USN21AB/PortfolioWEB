@@ -41,14 +41,28 @@
         });
     });
 
-    function onDelete(id, index, navn) {
+    function onDelete(id) {
 
+        console.log("--------" + id + mindex + "---------")
 
-        document.getElementById(id).style.display = "none";
+        var mappe = document.getElementsByClassName("mappeindex"),
+            i = mappe.length;
+        var y = 0;
+        var mindex = 0;
+        while (y < i) {
+            var mappeid = mappe[y].id;
+
+            if (mappeid == id)
+                break;
+            mindex++;
+            y++;
+        }
+        document.getElementById(id).remove();
+        console.log(mindex);
 
         var json = {
-            "navn": navn,
-            "index": index,
+            "mindex": mindex
+
         };
           $.ajax({
                     type: "POST",
@@ -292,32 +306,32 @@
                             @{
                                 var antall = 0;
                             }
-                            @while (antall < BrukerInnhold.Mapper.Count)
-                            {
-                                var Mappe = BrukerInnhold.Mapper.ElementAt(antall);
+                           
                                 <div class="rowinfo col-sm">
                                     <ul class="nav nav-pills nav-fill folder-nav tabs">
 
+                                        @while (antall < BrukerInnhold.Mapper.Count)
+                                        {
+                                            var Mappe = BrukerInnhold.Mapper.ElementAt(antall);
 
+                                            <li class="nav-item mappeindex" id="mappe-@antall">
 
-                                        <li class="nav-item">
+                                                <a class="nav-link folder " asp-action="Portefølje" asp-route-brukerID="@BrukerInnhold.Id" asp-route-antall="@antall">
+                                                    <div class="folder-design" >
+                                                        <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190211472785468/Portfollowers_bilde.png" />
+                                                        <span class="folder-navn">@Mappe.MappeNavn</span>
+                                                    </div>
+                                                </a>
+                                                <button class="delete-folder-div" onclick="onDelete('mappe-@antall')">
+                                                    <i class="far fa-trash-alt delete-folder"></i>
+                                                </button>
+                                            </li>
+                                            antall++;
+                                        }
 
-                                            <a class="nav-link folder " asp-action="Portefølje" asp-route-brukerID="@BrukerInnhold.Id" asp-route-antall="@antall">
-                                                <div class="folder-design" id="mappe-@antall">
-                                                    <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190211472785468/Portfollowers_bilde.png" />
-                                                    <span class="folder-navn">@Mappe.MappeNavn</span>
-                                                </div>
-                                            </a>
-                                            <button class="delete-folder-div" onclick="onDelete('mappe-@antall', @antall, '@Mappe.MappeNavn')">
-                                                <i class="far fa-trash-alt delete-folder"></i>
-                                            </button>
-                                        </li>
-
-
-                                    </ul>
+                                        </ul>
                                 </div>
-                                antall++;
-                            }
+                              
                         </div>
                     </div>
                 </div>
