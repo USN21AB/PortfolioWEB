@@ -197,6 +197,7 @@ namespace Portefolio_webApp.Controllers
                         
                         oppBruker.Id = splittArr[0];
                         oppBruker.NumberOfNotifications = 0;
+                        oppBruker.likeRatio = 0;
 
                     HttpContext.Session.SetString("_UserID", splittArr[0]);
                         HttpContext.Session.SetString("_UserToken", splittArr[1]);
@@ -259,6 +260,7 @@ namespace Portefolio_webApp.Controllers
                 oppBruker.CV = innBruker.CV;
                 oppBruker.Mapper = innBruker.Mapper;
                 oppBruker.CVAdgang = innBruker.CVAdgang;
+                oppBruker.notifications = innBruker.notifications;
                 oppBruker.Profilbilde = innBruker.Profilbilde;
 
                 Console.WriteLine("FEEE: " + HttpContext.Session.GetString("CroppedPath"));
@@ -495,14 +497,14 @@ namespace Portefolio_webApp.Controllers
 
 
         [HttpPost]
-        public JsonResult DeleteFolder(int index, string navn)
+        public JsonResult DeleteFolder(int mindex)
         {
 
-            Debug.WriteLine("---------------------------------yo "  + index + " lol " + navn);
+            Debug.WriteLine("---------------------------------yo "  + mindex + " lol ");
             Bruker = firebase.HentEnkeltBruker(HttpContext.Session.GetString("_UserID"));
 
 
-            var mappeinnlegg = Bruker.Mapper[index].MappeInnhold;
+            var mappeinnlegg = Bruker.Mapper[mindex].MappeInnhold;
             var i = 0;
             List<string> innleggIDer = new List<string>();
             while(i < mappeinnlegg.Count)
@@ -519,8 +521,8 @@ namespace Portefolio_webApp.Controllers
             }
 
             
-                
-            Bruker.Mapper.RemoveAt(index);
+            
+            Bruker.Mapper.RemoveAt(mindex);
             
 
             firebase.OppdaterBruker(Bruker);
@@ -528,7 +530,33 @@ namespace Portefolio_webApp.Controllers
             var str = JsonConvert.SerializeObject(Bruker);
             HttpContext.Session.SetString("Innlogget_Bruker", str);
 
-            var resultat = "Jobberfaring oppdatert: " + navn + " " + index;
+            var resultat = "Jobberfaring oppdatert: "  + " " + mindex;
+            var data = new { status = "ok", result = resultat };
+
+            return Json(data);
+        }
+
+        [HttpPost]
+        public JsonResult DeleteInnlegg(string id, int mindex, int index)
+        {
+
+            Debug.WriteLine("---------------------------------yo " + mindex + " lol " + id);
+            Bruker = firebase.HentEnkeltBruker(HttpContext.Session.GetString("_UserID"));
+
+            
+
+            firebase.SlettInnlegg(id);
+
+            //firebase.SlettMappeInnlegg(Bruker.Id, mindex, index);
+
+            Bruker.Mapper[mindex].MappeInnhold.RemoveAt(index);
+
+            firebase.OppdaterBruker(Bruker);
+
+            var str = JsonConvert.SerializeObject(Bruker);
+            HttpContext.Session.SetString("Innlogget_Bruker", str);
+
+            var resultat = "Jobberfaring oppdatert: " + id + " " + mindex;
             var data = new { status = "ok", result = resultat };
 
             return Json(data);

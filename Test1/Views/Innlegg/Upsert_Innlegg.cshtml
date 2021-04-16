@@ -341,14 +341,18 @@
     <form class="whitetext" method="post" , new enctype="multipart/form-data">
         @if (Model.Id == null)
         {
+            <input type="hidden" asp-for="Id" />
             <input type="hidden" asp-for="Klokkeslett" />
             <input type="hidden" asp-for="EierId" />
             <input type="hidden" asp-for="FilStørrelse" />
             <input type="hidden" asp-for="Eier" value="@BrukerInnhold.Navn" />}
         else
         {
-            <input type="hidden" asp-for="Id"/>
-
+            <input type="hidden" asp-for="Id" name="innleggid" />
+            <input type="hidden" asp-for="Klokkeslett" />
+            <input type="hidden" asp-for="EierId" />
+            <input type="hidden" asp-for="FilStørrelse" />
+            <input type="hidden" asp-for="Eier" />
         }
 
 
@@ -365,6 +369,13 @@
 
             </div>
         }
+        else
+        {
+            <input type="hidden" asp-for="IkonURL" />
+        }
+
+
+
         <div class="form-group row">
             <div class="col-3">
                 <label asp-for="Kategori"></label>
@@ -402,14 +413,23 @@
 
         <input asp-for="SubKategori" id="kategori-value" style="display: none" required />
 
-        <div id="cover-image" class="form-group row">
-            <div class="col-3">
+        @if (Model.Id == null)
+        {
+            <div id="cover-image" class="form-group row">
+                <div class="col-3">
 
-                @Html.TextBox("coverfile", "coverfile", new { type = "file", name = "coverfile", id = "cover-input-file", accept = "image/png|image/jpeg|image/jpg", oninput = "CoverValidation(); readURL2(this);" }) <br />
+                    @Html.TextBox("coverfile", "coverfile", new { type = "file", name = "coverfile", id = "cover-input-file", accept = "image/png|image/jpeg|image/jpg", oninput = "CoverValidation(); readURL2(this);" }) <br />
 
 
+                </div>
             </div>
-        </div>
+        }
+        else
+        {
+            <input type="hidden" asp-for="CoverURL" />
+        }
+
+
 
         <div class="text-danger" asp-validation-summary="ModelOnly"></div>
 
