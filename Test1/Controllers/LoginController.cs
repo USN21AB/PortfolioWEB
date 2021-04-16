@@ -80,8 +80,8 @@ namespace Test1.Controllers
 
                     var str = JsonConvert.SerializeObject(bruker2);
                     HttpContext.Session.SetString("Innlogget_Bruker", str);
+                    Debug.WriteLine("Rekker jeg hit? " + bruker2.Navn);
 
-                    
                     return Redirect("~/Home/BrowseSide");
                 }
                 else

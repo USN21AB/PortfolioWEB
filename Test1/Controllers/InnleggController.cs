@@ -361,13 +361,19 @@ namespace Portefolio_webApp.Controllers
         [HttpPost]
         public JsonResult LikeInnlegg(string innleggId)
         {
+            
             var str = HttpContext.Session.GetString("Innlogget_Bruker");
             var innBruker = JsonConvert.DeserializeObject<Bruker>(str);
+         
 
             var innlegg = firebase.HentSpesifiktInnlegg(innleggId);
+            var bruker = firebase.HentEnkeltBruker(innlegg.EierId);
+
+           
             if (innlegg.Likes != null)
             {
                 innlegg.Likes.Antall += 1;
+              
                 innlegg.Likes.Brukere.Add(innBruker.Id);
             }
             else
@@ -385,9 +391,10 @@ namespace Portefolio_webApp.Controllers
             {
                 if (innlegg.Id != null)
                 {
-
+                    string antLike = (bruker.likeRatio + 1).ToString(); 
+                    
                     firebase.OppdaterInnlegg(innlegg);
-
+                    firebase.UpdateSingleUserValue(innlegg.EierId, "likeRatio", antLike);
                     DateTime today = DateTime.Today;
                     DateTime l = today;
                    
@@ -412,7 +419,7 @@ namespace Portefolio_webApp.Controllers
             var innBruker = JsonConvert.DeserializeObject<Bruker>(str);
 
             var innlegg = firebase.HentSpesifiktInnlegg(innleggId);
-
+            var bruker = firebase.HentEnkeltBruker(innlegg.EierId);
             var i = 0;
             while (i < innlegg.Likes.Brukere.Count)
             {
@@ -428,7 +435,8 @@ namespace Portefolio_webApp.Controllers
             {
                 if (innlegg.Id != null)
                 {
-
+                    string antLike = (bruker.likeRatio - 1).ToString();
+                    firebase.UpdateSingleUserValue(innlegg.EierId, "likeRatio", antLike);
                     firebase.OppdaterInnlegg(innlegg);
                 }
             }

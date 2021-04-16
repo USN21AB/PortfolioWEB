@@ -353,7 +353,7 @@ namespace Portefolio_webApp.Controllers
 
             }
 
-            innBruker.NumberOfNotifications = innBruker.NumberOfNotifications - 1; 
+            innBruker.NumberOfNotifications -= 1; 
             innBruker.notifications.RemoveAt(notIndex);
             firebase.OppdaterBruker(innBruker);
 

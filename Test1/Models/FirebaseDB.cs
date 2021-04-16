@@ -334,5 +334,10 @@ namespace Test1.Models
             kommentar.Id = respons.Result.name;
             SetResponse setResponse = klient.Set(link + kommentar.Id, kommentar);
         }
+
+        public void SlettInnlegg(string innleggID)
+        {
+            FirebaseResponse respons = klient.Delete("Innlegg/" + innleggID);
+        }
     }
 }

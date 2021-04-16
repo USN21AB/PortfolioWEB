@@ -257,6 +257,7 @@ namespace Portefolio_webApp.Controllers
                 oppBruker.CV = innBruker.CV;
                 oppBruker.Mapper = innBruker.Mapper;
                 oppBruker.CVAdgang = innBruker.CVAdgang;
+                oppBruker.notifications = innBruker.notifications;
                 oppBruker.Profilbilde = innBruker.Profilbilde;
 
                 Console.WriteLine("FEEE: " + HttpContext.Session.GetString("CroppedPath"));
