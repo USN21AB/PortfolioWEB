@@ -660,9 +660,10 @@ function dislike(innId) {
     window.location.href = params;
     }
 
-    function ajaxLike(innId) {
+    function ajaxLike(innId, likeRatio) {
              var json = {
-                "innleggId": innId
+                 "innleggId": innId,
+                  "likeRatio": likeRatio
         };
         $('#realLikeButton').toggle();
         $('#fakeLikeButton').toggle();

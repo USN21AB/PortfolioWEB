@@ -343,5 +343,29 @@ namespace Test1.Models
         {
             FirebaseResponse respons = klient.Delete("Bruker/" + brukerID + "/Mapper/" + mappeIndex + "/MappeInnhold/" + innleggId);
         }
+
+
+
+        public List<Bruker> updateAlgorithm()
+        {
+            FirebaseResponse respons = klient.Get("Bruker");
+            dynamic data = JsonConvert.DeserializeObject<dynamic>(respons.Body);
+            var list = new List<Bruker>();
+            if (data != null)
+                foreach (var item in data)
+                {
+                    list.Add(JsonConvert.DeserializeObject<Bruker>(((JProperty)item).Value.ToString()));
+                };
+
+            List<Bruker> SortedList = list.OrderBy(o => o.likeRatio).ToList();
+
+            SortedList.RemoveRange(0, (SortedList.Count - 5));
+
+            foreach (var item in SortedList)
+            {
+                Debug.WriteLine(item.Navn + " har " + item.likeRatio);
+            };
+            return SortedList;
+        }
     }
 }

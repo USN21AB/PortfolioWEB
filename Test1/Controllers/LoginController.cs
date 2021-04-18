@@ -77,11 +77,11 @@ namespace Test1.Controllers
                     HttpContext.Session.SetString("_UserID", fbAuthLink.User.LocalId);
                     
                     Bruker bruker2 = firebase.HentEnkeltBruker(fbAuthLink.User.LocalId);
-
+                   
                     var str = JsonConvert.SerializeObject(bruker2);
                     HttpContext.Session.SetString("Innlogget_Bruker", str);
+                    Debug.WriteLine("Rekker jeg hit? " + bruker2.Navn);
 
-                    
                     return Redirect("~/Home/BrowseSide");
                 }
                 else
