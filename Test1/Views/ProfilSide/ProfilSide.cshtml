@@ -13,17 +13,6 @@
         }
 }
 
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <!--  All snippets are MIT license http://bootdey.com/license -->
-    <title>profile with data and skills - Bootdey.com</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="http://netdna.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
-    <link href="~/css/ProfilSide.css?v=1" rel="stylesheet" />
-</head>
-
 <script type="text/javascript">
 
     $("input[type='image']").click(function () {
@@ -84,7 +73,24 @@
     .delete-folder {
         color: white;
         font-size: 20px;
+        opacity: 0;
+        position: absolute;
+        right: 20px;
+        top: 20px;
     }
+
+        .delete-folder:hover {
+            color: #1b6ec2;
+        }
+
+    .nav-item {
+        position: relative;
+        width: 120px;
+    }
+
+        .nav-item:hover .delete-folder {
+            opacity: 1;
+        }
 
     .delete-folder-div {
         background-color: transparent;
@@ -92,15 +98,11 @@
     }
 
     .folder {
-        background-color: #212529;
-        margin: 20px;
+        background-color: #384352;
+        margin: 0px;
     }
 
-    .folder-nav {
-        text-align: center;
-        width: 95%;
-        margin: 0 auto;
-    }
+    
 
     .shadowed {
         -webkit-filter: drop-shadow(4px 4px 4px rgba(0,0,0,0.8));
@@ -109,9 +111,7 @@
         filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=4, OffY=4, Color='#444')";
     }
 
-    .folder-nav a {
-        display: inline-block;
-    }
+
 
     .folder-design {
         position: relative;
@@ -119,14 +119,16 @@
 
     .folder-navn {
         color: white;
-        font-size: 16px;
+        font-size: 14px;
         top: 70%;
-        left: 48%;
+        left: 49%;
         transform: translate(-50%, -50%);
-        max-width: 300px;
+        max-width: 100px;
         max-height: 115px;
         overflow: hidden;
-        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
         -webkit-hyphens: auto;
         -moz-hyphens: auto;
         -ms-hyphens: auto;
@@ -136,35 +138,7 @@
     }
 
     .folder-bilde {
-        width: 70px;
-        position: relative;
-    }
-
-    .devider {
-        width: 90%;
-        margin-top: 25px;
-        margin-bottom: -15px;
-        margin-left: auto;
-        margin-right: auto;
-        position: relative;
-    }
-
-    .line {
-        position: absolute;
-        width: 40%;
-        height: 0;
-        color: #ffffff;
-        border-color: white;
-        border-top: 2px solid;
-    }
-
-    .right-line {
-        top: 3px;
-        right: 0;
-    }
-
-    .left-line {
-        top: 3px;
+        width: 110px;
     }
 
 
@@ -183,6 +157,19 @@
         font-size: 20px;
     }
 </style>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <!--  All snippets are MIT license http://bootdey.com/license -->
+    <title>profile with data and skills - Bootdey.com</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/css/ProfilSide.css?v=1" rel="stylesheet" />
+</head>
+
+
 
 <div style="display: flex; justify-content: flex-end">
     <div class="toast" id="toast" role="alert" aria-live="assertive" aria-atomic="true"
@@ -306,32 +293,38 @@
                             @{
                                 var antall = 0;
                             }
-                           
-                                <div class="rowinfo col-sm">
-                                    <ul class="nav nav-pills nav-fill folder-nav tabs">
 
-                                        @while (antall < BrukerInnhold.Mapper.Count)
-                                        {
-                                            var Mappe = BrukerInnhold.Mapper.ElementAt(antall);
+                            <div class="rowinfo col-sm">
+                                <ul class="nav nav-pills nav-fill folder-nav tabs">
 
-                                            <li class="nav-item mappeindex" id="mappe-@antall">
+                                    @while (antall < BrukerInnhold.Mapper.Count)
+                                    {
+                                        var Mappe = BrukerInnhold.Mapper.ElementAt(antall);
 
-                                                <a class="nav-link folder " asp-action="Portefølje" asp-route-brukerID="@BrukerInnhold.Id" asp-route-antall="@antall">
-                                                    <div class="folder-design" >
-                                                        <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190211472785468/Portfollowers_bilde.png" />
-                                                        <span class="folder-navn">@Mappe.MappeNavn</span>
-                                                    </div>
-                                                </a>
-                                                <button class="delete-folder-div" onclick="onDelete('mappe-@antall')">
-                                                    <i class="far fa-trash-alt delete-folder"></i>
-                                                </button>
-                                            </li>
-                                            antall++;
-                                        }
+                                        <li class="nav-item mappeindex" id="mappe-@antall">
 
-                                        </ul>
-                                </div>
-                              
+                                            <a class="nav-link folder " asp-action="Portefølje" asp-route-brukerID="@BrukerInnhold.Id" asp-route-antall="@antall">
+                                                <div class="folder-design">
+                                                    <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190211472785468/Portfollowers_bilde.png" />
+                                                    <span class="folder-navn">@Mappe.MappeNavn</span>
+                                                </div>
+                                            </a>
+
+                                            @if(BrukerInnhold.Id == innloggetBruker.Id) { 
+
+                                            <button class="delete-folder-div" onclick="onDelete('mappe-@antall')">
+                                                <i class="far fa-trash-alt delete-folder"></i>
+                                            </button>
+                                            }
+
+
+                                        </li>
+                                        antall++;
+                                    }
+
+                                </ul>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -362,8 +355,8 @@
 
 
                         <li class="nav-item">
-                            <button class="delete-folder-div" onclick="onDelete('mappe-@antall', @antall, '@Mappe.MappeNavn')">
-                                <i class="far fa-trash-alt delete-folder"></i>
+                            <button class="delete-folder-div delete-folder" onclick="onDelete('mappe-@antall', @antall, '@Mappe.MappeNavn')">
+                                <i class="far fa-trash-alt"></i>
                             </button>
                             <a class="nav-link folder " asp-action="Portefølje" asp-route-brukerID="@BrukerInnhold.Id" asp-route-antall="@antall">
                                 <div class="folder-design" id="mappe-@antall">
@@ -393,7 +386,7 @@
 
 
 <script>
-                
+
 
                         function requestCV(eierID, senderID, navn) {
 
@@ -429,6 +422,6 @@
 
 
 
-                    
+
 
 </script>

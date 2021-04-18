@@ -166,7 +166,7 @@
         padding: 10px;
         overflow: hidden;
         margin-bottom: 20px;
-        max-height: 635px;
+        max-height: 805px;
     }
 
 
@@ -181,14 +181,14 @@
 
     .bildeInnlegg {
         max-width: 100%;
-        max-height: 615px;
+        max-height: 785px;
         object-fit: contain;
         border-radius: .25rem;
     }
 
     .tekstInnlegg{
-        height: 95vh;
-        width: 60%;
+        height: 785px;
+        width: 100%;
     }
 
 
@@ -227,7 +227,7 @@
 
     .uploaddato {
         position: absolute;
-        margin-top: 3px;
+        margin-top: 7px;
     }
 
 
@@ -249,9 +249,6 @@
     .beskrivelse {
         margin-top: 30px;
     }
-
-
-
 
 
     .ikontxt {
@@ -441,19 +438,28 @@
 
     .postKommentarButton {
         margin-left: 60px;
+        margin-top: 5px;
         border-radius: .25rem;
         outline: none;
         border: none;
-        background-color: rgb(2, 117, 216);
+        background-color: #1abc9c;
         color: white;
     }
 
     .postReplyButton {
+        margin-top: 5px;
         border-radius: .25rem;
         outline: none;
         border: none;
-        background-color: rgb(2, 117, 216);
+        background-color: #1abc9c;
         color: white;
+    }
+    .postKommentarButton:hover {
+        background-color: #0275d8;
+    }
+
+    .postKommentarButton:hover {
+        background-color: #0275d8;
     }
 
     .dislikebutton {
@@ -500,6 +506,94 @@
             border-radius: 20px;
             white-space: nowrap;
         }
+
+
+
+
+
+
+
+
+
+    /*//////////////////////////////////////////////////////////////////////////*/
+    .musikk_kontroller {
+        
+        
+       
+    }
+
+
+
+    .stopper {
+        position: absolute;
+        height: 100px;
+        width: 100px;
+        left: calc(30% - 50px);
+        top: calc(45% - 50px);
+    }
+
+        .stopper:active {
+            transform: scale(0.9);
+        }
+
+    #tracktime {
+        position: absolute;
+        bottom: 27px;
+        left: 2%;
+        color: white;
+    }
+
+    #trackduration {
+        position: absolute;
+        bottom: 27px;
+        right: 42%;
+        color: white;
+    }
+
+    #sangfelt {
+        position: absolute;
+        margin-left: 19px;
+        width: 170px;
+        color: white;
+    }
+
+    #artistfelt {
+        position: absolute;
+        margin-left: 19px;
+        margin-top: 18px;
+        width: 170px;
+        color: white;
+    }
+
+    #volume-control {
+        position: absolute;
+        
+        left: 2%;
+    }
+
+    #seekbar {
+        position: absolute;
+        width: 56%;
+        bottom: 10px;
+        left: 2%;
+    }
+    .fuck {
+        width: 40%;
+        margin-left: 60%;
+        float: right;
+        padding-top: 40%;
+        background-image: url('@Model.CoverURL');
+        background-position: center; /* Center the image */
+        background-repeat: no-repeat; /* Do not repeat the image */
+        background-size: cover;
+    }
+
+    input[type=range][orient=vertical] {
+        writing-mode: bt-lr; /* IE */
+        -webkit-appearance: slider-vertical; /* WebKit */
+        width: 8px;
+        height: 50%;
+    }
 
 
 
@@ -610,11 +704,85 @@ function dislike(innId) {
 
     }
 
+
+    function spillAv(sang, toggle) {
+        var lyd = document.getElementById(sang);
+        var loggle = document.getElementById(toggle);
+
+        if (lyd.paused) {
+            
+            loggle.src = "/resources/icons8-pause-96.png"
+            lyd.play();
+        }
+        else {
+            
+            loggle.src = "/resources/icons8-play-96.png"
+            lyd.pause();
+        }
+
+
+    };
+
+    function volum(verdi) {
+
+
+        var audio = document.getElementsByClassName('lydspor'),
+            i = audio.length;
+
+
+        while (i--) {
+            var lyd = audio[i].id;
+            var luld = document.getElementById(lyd);
+            luld.volume = verdi / 10;
+        };
+
+    }
+
+    function visSang(sang, artist) {
+        var sang = document.getElementById(sang).textContent;
+        var artist = document.getElementById(artist).textContent;
+        var sangfelt = document.getElementById("sangfelt");
+        var artistfelt = document.getElementById("artistfelt");
+
+        sangfelt.innerHTML = sang + " - ";
+        artistfelt.innerHTML = artist;
+    }
+
+
+
+    function timer(lydId) {
+        var lyd = document.getElementById(lydId);
+        lyd = document.getElementById("seekbar").value = (lyd.currentTime * 100) / lyd.duration;
+
+        /*var time = lyd.currentTime;
+        var minutes = Math.floor(time / 60);
+        var seconds = Math.floor(time);
+    
+        minutes = parseFloat(minutes);
+        seconds = parseFloat(seconds);*/
+
+        var tid = lyd.currentTime;
+        var lengde = lyd.duration;
+
+
+
+        //document.getElementById('tracktime').innerHTML = Math.floor(lyd.currentTime) + ' / ' + Math.floor(lyd.duration);
+        // + " / " +
+
+    }
+
+
+    
+
+    var info = document.getElementsByClassName("awesome-info");
+    var image = document.getElementsByClassName("single-awesome-portfolio");
+
+
+
+
 </script>
 
 
-<link href="~/css/Musikkontroller.css" rel="stylesheet" />
-<script src="~/js/lyd.js?v=2"></script>
 
 @*Klassen inneholder Tittel, opplastingsdato, og hovedinnlegget (bilde eller pdf)*@
 
@@ -637,17 +805,31 @@ function dislike(innId) {
         }
         else if (kategori.Equals("Lyd"))
         {
-            <h1 onclick="">@tittel </h1>
+<div class="musikk_kontroller ">
 
-            <div class="music_player">
-                <div class="play_button_div">
-                    <h3 class="sangnavn" id="sangnavn">@tittel</h3>
-                    <p class="artist" id="artist">@bruker.Navn</p>
+    <span id="sangfelt"></span>
+    <span id="artistfelt"></span>
+
+    <span id="tracktime">0:00</span>
+    <progress id="seekbar" value="0" max="100"></progress>
+    <span id="trackduration">0:00</span>
+
+    <img class="stopper" id="playstop" src="~/resources/icons8-play-96.png" onclick='spillAv("sang", "playstop")' />
+
+    <input type="range" id="volume-control" orient=vertical value="10" min="0" max="10"  onload="volum(this.value)" onchange="volum(this.value)">
+
+</div>
+
+                <!--<img id="sangi" class=" shadowed" src='~/resources/icons8-play-96.png' onclick='spillAv("sang", "sangi"); visSang("sangnavn", "artist")' />
+                -->
+                <audio id="sang" class="lydspor" preload="metadata" src="@url"
+                       ontimeupdate="var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60);
+                                     document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2);" 
+                        onloadeddata="var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); 
+                                      document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);"></audio>
+                <div class="fuck"> 
+                    
                 </div>
-                <img id="sangi" class="play_button shadowed" src='~/resources/icons8-play-96.png' onclick='spillAv("sang", "sangi"); visSang("sangnavn", "artist")' />
-                <audio id="sang" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="@url"></audio>
-                <img class="fuck imge" src="@Model.CoverURL" />
-            </div>
         }
         else
         {
@@ -944,18 +1126,6 @@ function dislike(innId) {
 </div>
 
 
-<div class="musikk_kontroller" id="test">
-    <span id="sangfelt"></span>
-    <span id="artistfelt"></span>
-
-    <span id="tracktime">00:00</span>
-    <progress id="seekbar" value="0" max="100"></progress>
-    <span id="trackduration">00:00</span>
-
-    <img class="stopper" src="~/resources/icons8-pause-96.png" onclick="stopAll()" />
-
-    <input type="range" id="volume-control" value="10" min="0" max="10" onload="volum(this.value)" onchange="volum(this.value)">
-</div>
 
 <svg height="0" xmlns="http://www.w3.org/2000/svg">
     <filter id="drop-shadow">
