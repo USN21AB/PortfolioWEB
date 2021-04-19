@@ -166,9 +166,14 @@
         padding: 10px;
         overflow: hidden;
         margin-bottom: 20px;
-        max-height: 805px;
     }
 
+    .tekstogbilde {
+        max-height: 705px;
+    }
+    .musikk {
+        max-height: 950px;
+    }
 
 
 
@@ -528,8 +533,9 @@
         position: absolute;
         height: 100px;
         width: 100px;
-        left: calc(30% - 50px);
-        top: calc(45% - 50px);
+        z-index:2;
+        left: calc(54% - 50px);
+        top: calc(47% - 50px);
     }
 
         .stopper:active {
@@ -546,7 +552,7 @@
     #trackduration {
         position: absolute;
         bottom: 27px;
-        right: 42%;
+        right: 2%;
         color: white;
     }
 
@@ -573,7 +579,7 @@
 
     #seekbar {
         position: absolute;
-        width: 56%;
+        width: 96%;
         bottom: 10px;
         left: 2%;
     }
@@ -594,14 +600,14 @@
 
     .fuck {
         border-radius: 50%;
-        width: 40%;
-        margin-left: 60%;
-        float: right;
-        padding-top: 40%;
+        width: 95%;
+        margin-left: 5%;
+        padding-top: 95%;
         background-image: url('@Model.CoverURL');
         background-position: center; /* Center the image */
         background-repeat: no-repeat; /* Do not repeat the image */
         background-size: cover;
+        margin-bottom: 10%;
     }
 
     input[type=range][orient=vertical] {
@@ -612,9 +618,21 @@
     }
 
 
- 
+    .musikkdiv {
+        margin: auto;
+    }
 
-
+    
+    .left-grid{
+        margin-right:10px;
+    }
+    .right-grid{
+        margin-left:10px;
+    }
+    .musikkbeskrivelse{
+        font-size: 20px;
+        height: 50%;
+    }
 
 
 </style>
@@ -623,7 +641,7 @@
 
 
     function Kommentar(nyId, FraHvemID, FraHvemNavn, TilHvemID,  innleggID) {
-    var url = '@Html.Raw(Url.Action("NyttKommentar", "Innlegg" , new { tekst = "_tekst_", innleggId = "_innleggId_" }))';
+    var url = '@Html.Raw(Url.Action("NyttKommentar", "Innlegg", new { tekst = "_tekst_", innleggId = "_innleggId_" }))';
     var tekst = $('textarea#kommentarFelt').val();
     var params = url.replace('_tekst_', tekst).replace('_innleggId_', nyId);
     window.location.href = params;
@@ -634,7 +652,7 @@
         var yyyy = today.getFullYear();
 
         today = mm + '/' + dd + '/' + yyyy;
-      
+
     var jsonNotfic = {
         "type": "Kommentar",
         "erLest": false,
@@ -647,7 +665,7 @@
    */
 }
 function Reply(nyId, kommId) {
-    var url = '@Html.Raw(Url.Action("NyttReply", "Innlegg" , new { tekst = "_tekst_", innleggId = "_innleggId_", kommentId = "_kommentId_" }))';
+    var url = '@Html.Raw(Url.Action("NyttReply", "Innlegg", new { tekst = "_tekst_", innleggId = "_innleggId_", kommentId = "_kommentId_" }))';
     var tekst = $('#replyFelt' + kommId).val();
     var params = url.replace('_tekst_', tekst).replace('_innleggId_', nyId).replace('_kommentId_', kommId);
     window.location.href = params;
@@ -656,22 +674,22 @@ function hideReply(kommId) {
     $('#replyArea' + kommId).toggle();
 }
 function deleteKommentar(kommId, innId) {
-    var url = '@Html.Raw(Url.Action("DeleteKommentar", "Innlegg" , new {innleggId = "_innleggId_", kommentarId = "_kommentarId_" }))';
+    var url = '@Html.Raw(Url.Action("DeleteKommentar", "Innlegg", new { innleggId = "_innleggId_", kommentarId = "_kommentarId_" }))';
     var params = url.replace('_innleggId_', innId).replace('_kommentarId_', kommId);
     window.location.href = params;
 }
 function deleteReply(repId, kommId, innId) {
-    var url = '@Html.Raw(Url.Action("DeleteReply", "Innlegg" , new {innleggId = "_innleggId_", kommentarId = "_kommentarId_", replyId = "_replyId_" }))';
+    var url = '@Html.Raw(Url.Action("DeleteReply", "Innlegg", new { innleggId = "_innleggId_", kommentarId = "_kommentarId_", replyId = "_replyId_" }))';
     var params = url.replace('_innleggId_', innId).replace('_kommentarId_', kommId).replace('_replyId_', repId);
     window.location.href = params;
 }
 function like(innId) {
-    var url = '@Html.Raw(Url.Action("LikeInnlegg", "Innlegg" , new {innleggId = "_innleggId_"}))';
+    var url = '@Html.Raw(Url.Action("LikeInnlegg", "Innlegg", new { innleggId = "_innleggId_" }))';
     var params = url.replace('_innleggId_', innId);
     window.location.href = params;
 }
 function dislike(innId) {
-    var url = '@Html.Raw(Url.Action("DislikeInnlegg", "Innlegg" , new {innleggId = "_innleggId_"}))';
+    var url = '@Html.Raw(Url.Action("DislikeInnlegg", "Innlegg", new { innleggId = "_innleggId_" }))';
     var params = url.replace('_innleggId_', innId);
     window.location.href = params;
     }
@@ -727,29 +745,29 @@ function dislike(innId) {
         var loggle = document.getElementById(toggle);
         var animation = document.getElementById("albumcover");
 
-       
+
 
         if (lyd.paused) {
-            
+
             loggle.src = "/resources/icons8-pause-96.png"
             lyd.play();
             animation.style.animationPlayState = 'running';
 
-            
+
         }
         else {
-            
+
             loggle.src = "/resources/icons8-play-96.png"
             lyd.pause();
             animation.style.animationPlayState = 'paused';
 
         }
 
-       
 
-       
-           
-        
+
+
+
+
 
 
     };
@@ -788,7 +806,7 @@ function dislike(innId) {
         /*var time = lyd.currentTime;
         var minutes = Math.floor(time / 60);
         var seconds = Math.floor(time);
-    
+
         minutes = parseFloat(minutes);
         seconds = parseFloat(seconds);*/
 
@@ -803,12 +821,22 @@ function dislike(innId) {
     }
 
 
-    
+
 
     var info = document.getElementsByClassName("awesome-info");
     var image = document.getElementsByClassName("single-awesome-portfolio");
 
+    $(document).ready(function () {
+        var heightInfo = document.getElementById("musikkplayercard").clientHeight;
 
+        document.getElementById('infocard').style.height = heightInfo + 'px';
+    });
+
+    window.onresize = function () {
+        var heightInfo = document.getElementById("musikkplayercard").clientHeight;
+
+        document.getElementById('infocard').style.height = heightInfo + 'px';
+    }
 
 
 </script>
@@ -817,212 +845,370 @@ function dislike(innId) {
 
 @*Klassen inneholder Tittel, opplastingsdato, og hovedinnlegget (bilde eller pdf)*@
 
-<div class="hovedInnlegg card container col-9">
-    @{
 
-        if (kategori.Equals("Bilde"))
-        {
+@{
 
+    if (kategori.Equals("Bilde"))
+    {
+        <div class="hovedInnlegg tekstogbilde card container col-9">
 
             <div class="bildediv ">
                 <img src='@url' class="bildeInnlegg" alt="error" id="innlegg" />
 
             </div>
-        }
-        else if (kategori.Equals("Tekst"))
-        {
-            <embed src='@url' class="tekstInnlegg" />
+        </div>
+        <div class="infodiv col-9">
 
-        }
-        else if (kategori.Equals("Lyd"))
-        {
-<div class="musikk_kontroller ">
+            <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@bruker.Id">
+                <img src="@bruker.Profilbilde" id="@url" />
 
-    <span id="sangfelt"></span>
-    <span id="artistfelt"></span>
+            </a>
 
-    <span id="tracktime">0:00</span>
-    <progress id="seekbar" value="0" max="100"></progress>
-    <span id="trackduration">0:00</span>
+            <h1 class="">@tittel</h1>
+            <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@bruker.Id">
+                <h3 class="ikontxttop">@bruker.Navn</h3>
+            </a>
 
-    <img class="stopper" id="playstop" src="~/resources/icons8-play-96.png" onclick='spillAv("sang", "playstop"); timer("sang")' />
 
-    <input type="range" id="volume-control" orient=vertical value="10" min="0" max="10" onload="volum(this.value)" onchange="volum(this.value)">
 
-</div>
+            <p class="uploaddato">@dato</p>
+            <p class="beskrivelse">@beskrivelse</p>
 
-                <!--<img id="sangi" class=" shadowed" src='~/resources/icons8-play-96.png' onclick='spillAv("sang", "sangi"); visSang("sangnavn", "artist")' />
-                -->
-                <audio id="sang" class="lydspor" preload="metadata" src="@url"
-                       ontimeupdate="timer('sang'); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60);
-                                     document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2);" 
-                        onloadeddata="var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); 
-                                      document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);"></audio>
-                <div class="fuck rotate" id="albumcover"> 
-                    
+            <ul class="tagGrid">
+
+                @{
+                    var antall = 0;
+                    var tag = Model.Tagger;
+                }
+                @while (antall < tag.Count)
+                {
+                    <li>
+                        <p class="tag">@tag.ElementAt(antall)</p>
+                    </li>
+                    antall++;
+                }
+            </ul>
+
+
+            @{
+                var likeNr = 1;
+            }
+
+
+            @if (ViewData["Token"] != null)
+
+            {
+
+
+                <div class="likes">
+
+                    @{
+                        var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
+                        var i = 0;
+                        var check = 0;
+
+                    }
+
+                    @if (Model.Likes != null)
+                    {
+
+
+
+                        @while (i < Model.Likes.Brukere.Count)
+                        {
+                            @if (du.Id.Equals(Model.Likes.Brukere[i]))
+                            {
+                                likeNr = -1;
+                                <button id="realLikeButton" class="dislikebutton" onclick="ajaxDislike('@thisid')">
+                                    <i class="fas fa-thumbs-up"></i>
+                                </button>
+                                <button id="fakeLikeButton" class="dislikebutton" style="display: none" onclick="ajaxLike('@thisid')">
+                                    <i class="far fa-thumbs-up"></i>
+                                </button>
+                                check = 1;
+                                break;
+                            }
+
+
+                            i++;
+                        }
+                    }
+                    @if (check == 0)
+                    {
+                        <button id="realLikeButton" class="likebutton" onclick="ajaxLike('@thisid')">
+                            <i class="far fa-thumbs-up"></i>
+                        </button>
+                        <button id="fakeLikeButton" class="likebutton" style="display: none" onclick="ajaxDislike('@thisid')">
+                            <i class="fas fa-thumbs-up"></i>
+                        </button>
+                    }
+
                 </div>
-        }
-        else
-        {
-            <p>Noe gikk galt</p>
-        }
+            }
+            @if (Model.Likes != null)
+            {
+                var likes = Model.Likes.Antall;
+                <p class="" id="realLikes">@likes</p>
+                var plusLikes = Model.Likes.Antall + @likeNr;
+                <p class="" id="fakeLikes" style="display: none">@plusLikes</p>
 
-
-        if (kategori.Equals(""))
-        {
-            <div class="hovedInnlegg">
-                <p>Beklager men denne siden eksisterer ikke </p>
-            </div>
-        }
-        <!-- else
-         {
-
-             <div class="innleggTop">
-
-
-
-
-
-
-             </div>
-
-
-
-             }-->
-
-
-
+            }
+        </div>
 
 
     }
-
-</div>
-<!--
-@{
-    if (kategori.Equals(""))
+    else if (kategori.Equals("Tekst"))
     {
-        <div class="hovedInnlegg">
+        <div class="infodiv col-9">
+
+            <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@bruker.Id">
+                <img src="@bruker.Profilbilde" id="@url" />
+
+            </a>
+
+            <h1 class="">@tittel</h1>
+            <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@bruker.Id">
+                <h3 class="ikontxttop">@bruker.Navn</h3>
+            </a>
+
+
+
+            <p class="uploaddato">@dato</p>
+            <p class="beskrivelse">@beskrivelse</p>
+
+            <ul class="tagGrid">
+
+                @{
+                    var antall = 0;
+                    var tag = Model.Tagger;
+                }
+                @while (antall < tag.Count)
+                {
+                    <li>
+                        <p class="tag">@tag.ElementAt(antall)</p>
+                    </li>
+                    antall++;
+                }
+            </ul>
+
+
+            @{
+                var likeNr = 1;
+            }
+
+
+            @if (ViewData["Token"] != null)
+
+            {
+
+
+                <div class="likes">
+
+                    @{
+                        var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
+                        var i = 0;
+                        var check = 0;
+
+                    }
+
+                    @if (Model.Likes != null)
+                    {
+
+
+
+                        @while (i < Model.Likes.Brukere.Count)
+                        {
+                            @if (du.Id.Equals(Model.Likes.Brukere[i]))
+                            {
+                                likeNr = -1;
+                                <button id="realLikeButton" class="dislikebutton" onclick="ajaxDislike('@thisid')">
+                                    <i class="fas fa-thumbs-up"></i>
+                                </button>
+                                <button id="fakeLikeButton" class="dislikebutton" style="display: none" onclick="ajaxLike('@thisid')">
+                                    <i class="far fa-thumbs-up"></i>
+                                </button>
+                                check = 1;
+                                break;
+                            }
+
+
+                            i++;
+                        }
+                    }
+                    @if (check == 0)
+                    {
+                        <button id="realLikeButton" class="likebutton" onclick="ajaxLike('@thisid')">
+                            <i class="far fa-thumbs-up"></i>
+                        </button>
+                        <button id="fakeLikeButton" class="likebutton" style="display: none" onclick="ajaxDislike('@thisid')">
+                            <i class="fas fa-thumbs-up"></i>
+                        </button>
+                    }
+
+                </div>
+            }
+            @if (Model.Likes != null)
+            {
+                var likes = Model.Likes.Antall;
+                <p class="" id="realLikes">@likes</p>
+                var plusLikes = Model.Likes.Antall + @likeNr;
+                <p class="" id="fakeLikes" style="display: none">@plusLikes</p>
+
+            }
+        </div>
+        <div class="hovedInnlegg tekstogbilde card container col-9">
+            <embed src='@url' class="tekstInnlegg" />
+        </div>
+    }
+    else if (kategori.Equals("Lyd"))
+    {
+    <div class="musikkdiv row col-9 px-0 gx-5">
+    <div class="hovedInnlegg musikk card col-6 left-grid" id="musikkplayercard">
+        <div class="musikk_kontroller">
+
+            <span id="sangfelt"></span>
+            <span id="artistfelt"></span>
+
+            <span id="tracktime">0:00</span>
+            <progress id="seekbar" value="0" max="100"></progress>
+            <span id="trackduration">0:00</span>
+
+            <img class="stopper" id="playstop" src="~/resources/icons8-play-96.png" onclick='spillAv("sang", "playstop"); timer("sang")' />
+
+            <input type="range" id="volume-control" orient=vertical value="10" min="0" max="10" onload="volum(this.value)" onchange="volum(this.value)">
+
+        </div>
+
+        <!--<img id="sangi" class=" shadowed" src='~/resources/icons8-play-96.png' onclick='spillAv("sang", "sangi"); visSang("sangnavn", "artist")' />
+        -->
+        <audio id="sang" class="lydspor" preload="metadata" src="@url"
+               ontimeupdate="timer('sang'); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60);
+                                     document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2);"
+               onloadeddata="var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60);
+                                      document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);"></audio>
+        <div class="fuck rotate" id="albumcover">
+
+        </div>
+    </div>
+
+    <div class="infodiv musikk col gx-5 right-grid" id="infocard">
+
+        <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@bruker.Id">
+            <img src="@bruker.Profilbilde" id="@url" />
+
+        </a>
+
+        <h1 class="">@tittel</h1>
+        <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@bruker.Id">
+            <h3 class="ikontxttop">@bruker.Navn</h3>
+        </a>
+
+
+
+        <p class="uploaddato">@dato</p>
+        <p class="beskrivelse musikkbeskrivelse">@beskrivelse</p>
+
+        <ul class="tagGrid">
+
+            @{
+                var antall = 0;
+                var tag = Model.Tagger;
+            }
+            @while (antall < tag.Count)
+            {
+                <li>
+                    <p class="tag">@tag.ElementAt(antall)</p>
+                </li>
+                antall++;
+            }
+        </ul>
+
+
+        @{
+            var likeNr = 1;
+        }
+
+
+        @if (ViewData["Token"] != null)
+
+        {
+
+
+            <div class="likes">
+
+                @{
+                    var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
+                    var i = 0;
+                    var check = 0;
+
+                }
+
+                @if (Model.Likes != null)
+                {
+
+
+
+                    @while (i < Model.Likes.Brukere.Count)
+                    {
+                        @if (du.Id.Equals(Model.Likes.Brukere[i]))
+                        {
+                            likeNr = -1;
+                            <button id="realLikeButton" class="dislikebutton" onclick="ajaxDislike('@thisid')">
+                                <i class="fas fa-thumbs-up"></i>
+                            </button>
+                            <button id="fakeLikeButton" class="dislikebutton" style="display: none" onclick="ajaxLike('@thisid')">
+                                <i class="far fa-thumbs-up"></i>
+                            </button>
+                            check = 1;
+                            break;
+                        }
+
+
+                        i++;
+                    }
+                }
+                @if (check == 0)
+                {
+                    <button id="realLikeButton" class="likebutton" onclick="ajaxLike('@thisid')">
+                        <i class="far fa-thumbs-up"></i>
+                    </button>
+                    <button id="fakeLikeButton" class="likebutton" style="display: none" onclick="ajaxDislike('@thisid')">
+                        <i class="fas fa-thumbs-up"></i>
+                    </button>
+                }
+
+            </div>
+        }
+        @if (Model.Likes != null)
+        {
+            var likes = Model.Likes.Antall;
+            <p class="" id="realLikes">@likes</p>
+            var plusLikes = Model.Likes.Antall + @likeNr;
+            <p class="" id="fakeLikes" style="display: none">@plusLikes</p>
+
+        }
+    </div>
+</div>
+    }
+    else if (kategori.Equals(""))
+    {
+        <div class="hovedInnlegg ">
             <p>Beklager men denne siden eksisterer ikke </p>
         </div>
     }
     else
     {
-        <div class="innleggProfil">
-            <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@bruker.Id">
-                <img src="@bruker.Profilbilde" height="60" width="60" id="@url" />
-
-                <p class="ikontxt"><u>@bruker.Navn</u>  <br> @bruker.Stilling </p>
-            </a>
-        </div>
-        <p class="solid">
-            @beskrivelse
-        </p>
-
-
-
+        <p>Noe gikk galt</p>
     }
+
+
+
 }
-    -->
 
 
 
-<div class="infodiv col-9">
-
-    <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@bruker.Id">
-        <img src="@bruker.Profilbilde" id="@url" />
-
-    </a>
-
-    <h1 class="">@tittel</h1>
-    <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@bruker.Id">
-        <h3 class="ikontxttop">@bruker.Navn</h3>
-    </a>
 
 
-
-    <p class="uploaddato">@dato</p>
-    <p class="beskrivelse">@beskrivelse</p>
-
-    <ul class="tagGrid">
-
-        @{
-            var antall = 0;
-            var tag = Model.Tagger;
-        }
-        @while (antall < tag.Count)
-        {
-            <li>
-                <p class="tag">@tag.ElementAt(antall)</p>
-            </li>
-            antall++;
-        }
-    </ul>
-
-
-    @{ 
-        var likeNr = 1;
-    }
-
-
-    @if (ViewData["Token"] != null)
-
-    {
-
-
-        <div class="likes">
-
-            @{
-                var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
-                var i = 0;
-                var check = 0;
-                
-            }
-
-            @if (Model.Likes != null)
-            {
-
-
-
-                @while (i < Model.Likes.Brukere.Count)
-                {
-                    @if (du.Id.Equals(Model.Likes.Brukere[i]))
-                    {
-                        likeNr = -1;
-                        <button id="realLikeButton" class="dislikebutton" onclick="ajaxDislike('@thisid')">
-                            <i class="fas fa-thumbs-up"></i>
-                        </button>
-                        <button id="fakeLikeButton" class="dislikebutton" style="display: none" onclick="ajaxLike('@thisid')">
-                            <i class="far fa-thumbs-up"></i>
-                        </button>
-                        check = 1;
-                        break;
-                    }
-
-
-                    i++;
-                }
-            }
-            @if (check == 0)
-            {
-                <button id="realLikeButton" class="likebutton" onclick="ajaxLike('@thisid')">
-                    <i class="far fa-thumbs-up"></i>
-                </button>
-                <button id="fakeLikeButton" class="likebutton" style="display: none" onclick="ajaxDislike('@thisid')">
-                    <i class="fas fa-thumbs-up"></i>
-                </button>
-            }
-
-        </div>
-    }
-                @if (Model.Likes != null)
-    {
-        var likes = Model.Likes.Antall;
-        <p class="" id="realLikes">@likes</p>
-        var plusLikes = Model.Likes.Antall + @likeNr;
-        <p class="" id="fakeLikes" style="display: none">@plusLikes</p>
-
-    }
-</div>
 
 
 
@@ -1042,7 +1228,7 @@ function dislike(innId) {
             </a>
             <div class="textareadiv">
                 <textarea id="kommentarFelt" name="w3review" rows="3" class="skrivKommentar col-9" placeholder="What do you think..."></textarea>
-      
+
                 <button style="margin-top: 10px;" class="postKommentarButton" onclick="Kommentar('@thisid',  '@innlogget_bruker.Id', '@innlogget_bruker.Navn', '@bruker.Id',  '@Model.Id')">Comment</button>
             </div>
         </div>
