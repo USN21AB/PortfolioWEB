@@ -168,3 +168,8 @@
 .filknapp {
     color: red;
 }
+.form-control-plaintext {
+    color: #fff;
+    outline: none;
+    cursor: default;
+}

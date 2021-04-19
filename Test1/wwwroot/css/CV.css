@@ -70,7 +70,7 @@
 }
 
 .slider-general {
-    width: 200px;
+    width: 183px;
 }
 
 .editClass {
@@ -82,4 +82,17 @@
 .img-thumbnail {
     background-color: #384352;
     border: 1px solid #6c757d;
+}
+.sliderstyle {
+    padding: 1px;
+    position: absolute;
+    right: 30%;
+    bottom: 110%;
+    background-color: #384352;
+    border-color: #384352;
+    color: #fff
+}
+.slidertextstyle {
+    margin-top: 12px;
+    margin-left: 20px;
 }
