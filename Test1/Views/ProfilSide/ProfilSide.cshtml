@@ -74,7 +74,24 @@
     .delete-folder {
         color: white;
         font-size: 20px;
+        opacity: 0;
+        position: absolute;
+        right: 20px;
+        top: 20px;
     }
+
+        .delete-folder:hover {
+            color: #1b6ec2;
+        }
+
+    .nav-item {
+        position: relative;
+        width: 120px;
+    }
+
+        .nav-item:hover .delete-folder {
+            opacity: 1;
+        }
 
     .delete-folder-div {
         background-color: transparent;
@@ -82,14 +99,8 @@
     }
 
     .folder {
-        background-color: #212529;
-        margin: 20px;
-    }
-
-    .folder-nav {
-        text-align: center;
-        width: 95%;
-        margin: 0 auto;
+        background-color: #384352;
+        margin: 0px;
     }
 
     .shadowed {
@@ -99,24 +110,19 @@
         filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=4, OffY=4, Color='#444')";
     }
 
-    .folder-nav a {
-        display: inline-block;
-    }
-
-    .folder-design {
-        position: relative;
-    }
-
+    
     .folder-navn {
         color: white;
-        font-size: 16px;
+        font-size: 14px;
         top: 70%;
-        left: 48%;
+        left: 49%;
         transform: translate(-50%, -50%);
-        max-width: 300px;
+        max-width: 100px;
         max-height: 115px;
         overflow: hidden;
-        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
         -webkit-hyphens: auto;
         -moz-hyphens: auto;
         -ms-hyphens: auto;
@@ -126,36 +132,10 @@
     }
 
     .folder-bilde {
-        width: 70px;
-        position: relative;
+        width: 110px;
     }
 
-    .devider {
-        width: 90%;
-        margin-top: 25px;
-        margin-bottom: -15px;
-        margin-left: auto;
-        margin-right: auto;
-        position: relative;
-    }
-
-    .line {
-        position: absolute;
-        width: 40%;
-        height: 0;
-        color: #ffffff;
-        border-color: white;
-        border-top: 2px solid;
-    }
-
-    .right-line {
-        top: 3px;
-        right: 0;
-    }
-
-    .left-line {
-        top: 3px;
-    }
+    
 
     .portfolio-folders {
         text-align: center;
