@@ -13,6 +13,7 @@
         }
 }
 
+
 <html lang="en">
 
 <head>
@@ -22,36 +23,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="http://netdna.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="~/css/ProfilSide.css?v=1" rel="stylesheet" />
+    <link href="~/css/ProfilTopElementer.css" rel="stylesheet" />
+    <script src="~/js/lyd.js"></script>
+    <link href="~/css/Musikkontroller.css" rel="stylesheet" />
 </head>
 
-<script type="text/javascript">
 
+<script type="text/javascript">
     $("input[type='image']").click(function () {
         $("input[id='my_file']").click();
     });
-
-
-
     $(document).ready(function () {
-
         document.getElementById("toastbtn").addEventListener('click', function (event) {
             $('.toast').toast('show');
             document.getElementById("toast").style.display = "inline";
             document.getElementById("toast-body").innerHTML = "Something";
         });
     });
-
     function onDelete(id) {
-
         console.log("--------" + id + mindex + "---------")
-
         var mappe = document.getElementsByClassName("mappeindex"),
             i = mappe.length;
         var y = 0;
         var mindex = 0;
         while (y < i) {
             var mappeid = mappe[y].id;
-
             if (mappeid == id)
                 break;
             mindex++;
@@ -59,10 +55,8 @@
         }
         document.getElementById(id).remove();
         console.log(mindex);
-
         var json = {
             "mindex": mindex
-
         };
           $.ajax({
                     type: "POST",
@@ -73,35 +67,14 @@
                        // alert("Dette er resultatet " + result.result);
                     }
           });
-
-
     }
-
 </script>
 
 <style>
-
     .delete-folder {
         color: white;
         font-size: 20px;
-        opacity: 0;
-        position: absolute;
-        right: 20px;
-        top: 20px;
     }
-
-        .delete-folder:hover {
-            color: #1b6ec2;
-        }
-
-    .nav-item {
-        position: relative;
-        width: 120px;
-    }
-
-        .nav-item:hover .delete-folder {
-            opacity: 1;
-        }
 
     .delete-folder-div {
         background-color: transparent;
@@ -109,11 +82,15 @@
     }
 
     .folder {
-        background-color: #384352;
-        margin: 0px;
+        background-color: #212529;
+        margin: 20px;
     }
 
-    
+    .folder-nav {
+        text-align: center;
+        width: 95%;
+        margin: 0 auto;
+    }
 
     .shadowed {
         -webkit-filter: drop-shadow(4px 4px 4px rgba(0,0,0,0.8));
@@ -122,7 +99,9 @@
         filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=4, OffY=4, Color='#444')";
     }
 
-
+    .folder-nav a {
+        display: inline-block;
+    }
 
     .folder-design {
         position: relative;
@@ -130,16 +109,14 @@
 
     .folder-navn {
         color: white;
-        font-size: 14px;
+        font-size: 16px;
         top: 70%;
-        left: 49%;
+        left: 48%;
         transform: translate(-50%, -50%);
-        max-width: 100px;
+        max-width: 300px;
         max-height: 115px;
         overflow: hidden;
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
+        text-overflow: ellipsis;
         -webkit-hyphens: auto;
         -moz-hyphens: auto;
         -ms-hyphens: auto;
@@ -149,9 +126,36 @@
     }
 
     .folder-bilde {
-        width: 110px;
+        width: 70px;
+        position: relative;
     }
 
+    .devider {
+        width: 90%;
+        margin-top: 25px;
+        margin-bottom: -15px;
+        margin-left: auto;
+        margin-right: auto;
+        position: relative;
+    }
+
+    .line {
+        position: absolute;
+        width: 40%;
+        height: 0;
+        color: #ffffff;
+        border-color: white;
+        border-top: 2px solid;
+    }
+
+    .right-line {
+        top: 3px;
+        right: 0;
+    }
+
+    .left-line {
+        top: 3px;
+    }
 
     .portfolio-folders {
         text-align: center;
@@ -168,19 +172,6 @@
         font-size: 20px;
     }
 </style>
-
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <!--  All snippets are MIT license http://bootdey.com/license -->
-    <title>profile with data and skills - Bootdey.com</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="http://netdna.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
-    <link href="~/css/ProfilSide.css?v=1" rel="stylesheet" />
-</head>
-
-
 
 <div style="display: flex; justify-content: flex-end">
     <div class="toast" id="toast" role="alert" aria-live="assertive" aria-atomic="true"
@@ -313,15 +304,9 @@
                                                     <span class="folder-navn">@Mappe.MappeNavn</span>
                                                 </div>
                                             </a>
-
-                                            @if(BrukerInnhold.Id == innloggetBruker.Id) { 
-
                                             <button class="delete-folder-div" onclick="onDelete('mappe-@antall')">
                                                 <i class="far fa-trash-alt delete-folder"></i>
                                             </button>
-                                            }
-
-
                                         </li>
                                         antall++;
                                     }
@@ -349,7 +334,7 @@
 
                                     List<string> RecentList = new List<string>();
 
-                                    var antall2 = (Mappe.MappeInnhold.Count -1);
+                                    var antall2 = (Mappe.MappeInnhold.Count - 1);
                                     var antall3 = 0;
 
                                     @while (antall2 > -1)
@@ -366,21 +351,21 @@
                                         {
 
                                             <!-- single-awesome-portfolio start -->
-                                <div class="single-awesome-portfolio">
-                                    <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id class="card-link">
-                                        <div class="awesome-img">
-                                            <i class="far fa-image innlegg-ikon"></i>
+                                            <div class="single-awesome-portfolio">
+                                                <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id class="card-link">
+                                                    <div class="awesome-img">
+                                                        <i class="far fa-image innlegg-ikon"></i>
 
 
-                                            <div class="awesome-info">
-                                                <h3>@Innlegg.Beskrivelse</h3>
-                                                <p>@Innlegg.Eier</p>
+                                                        <div class="awesome-info">
+                                                            <h3>@Innlegg.Beskrivelse</h3>
+                                                            <p>@Innlegg.Eier</p>
+                                                        </div>
+                                                        <img class="imge" src="@Innlegg.IkonURL" alt="" data-adaptive-background>
+                                                    </div>
+
+                                                </a>
                                             </div>
-                                            <img class="imge" src="@Innlegg.IkonURL" alt="" data-adaptive-background>
-                                        </div>
-
-                                    </a>
-                                </div>
                                             <!-- single-awesome-portfolio end -->
                                         }
 
@@ -405,27 +390,45 @@
 
                                         else if (Innlegg.Kategori.Equals("Tekst"))
                                         {
-                            <div class="litteratur">
+                                            <div class="litteratur">
 
-                                <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id>
+                                                <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id>
 
-                                    <i class="far fa-file-alt innlegg-ikon"></i>
+                                                    <i class="far fa-file-alt innlegg-ikon"></i>
 
 
-                        <li class="nav-item">
-                            <button class="delete-folder-div" onclick="onDelete('mappe-@antall', @antall, '@Mappe.MappeNavn')">
-                                <i class="far fa-trash-alt delete-folder"></i>
-                            </button>
-                            <a class="nav-link folder " asp-action="Portefølje" asp-route-brukerID="@BrukerInnhold.Id" asp-route-antall="@antall">
-                                <div class="folder-design" id="mappe-@antall">
-                                    <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190211472785468/Portfollowers_bilde.png" />
-                                    <span class="folder-navn">@Mappe.MappeNavn</span>
-                                </div>
-                            </a>
-                        </li>
-                        antall++;
-                    }
-                </ul>
+                                                    <img class="book_cover" src="@Innlegg.CoverURL" alt="" />
+                                                    <div class="lit-tekst">
+                                                        <h3 class="tittel">Det var en gang en mann som døre å en gender reveal party lol @Innlegg.Tittel</h3>
+                                                        <h4 class="forfatter">@Innlegg.Eier</h4>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        }
+                                        var lol = Innlegg.Tittel;
+                                        Console.WriteLine(lol);
+
+                                        antall2--;
+                                        antall3++;
+
+                                    }
+                                    mappeNr++;
+                                }
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
 
                 <!--href="https://localhost:44344/ProfilSide/Portef%C3%B8lje#v-pills-@antall"-->
 
@@ -473,16 +476,12 @@
 
 <script>
 
-
                         function requestCV(eierID, senderID, navn) {
-
                         var today = new Date();
                         var dd = String(today.getDate()).padStart(2, '0');
                         var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
                         var yyyy = today.getFullYear();
-
                         today = mm + '/' + dd + '/' + yyyy;
-
                         var jsonNotfic = {
                             "type": "CV",
                             "erLest": false,
@@ -492,8 +491,6 @@
                             "innleggID": "",
                             "Tidspunkt": today
                         };
-
-
                               $.ajax({
                                       type: "POST",
                                       url: '@Url.Action("RequestCV", "ProfilSide")',
@@ -503,15 +500,9 @@
                                          alert("Notfication har blitt sendt! ");
                                      }
                                     });
-
                         }
-
     $(document).ready(function () {
         var heightInfo = document.getElementById("pinfocard").clientHeight;
-
         document.getElementById('pimgcard').style.height = heightInfo + 'px';
     });
-
-
-
 </script>
