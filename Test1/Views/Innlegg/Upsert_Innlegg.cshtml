@@ -2,7 +2,7 @@
 @{
     var BrukerInnhold = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
 }
-<link href="~/css/Upsert_Innlegg.css?v=1" rel="stylesheet" />
+<link href="~/css/Upsert_Innlegg.css" rel="stylesheet" />
 <link href="~/css/PorteføljeElementer.css" rel="stylesheet" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="~/js/bootstrap-tagsinput.js?v=1"></script>
@@ -152,6 +152,7 @@
             document.getElementById('kategoriVerdi').value = "Bilde";
             document.getElementById("kategori-value").value = "";
 
+            console.log("");
             //Gjør elemeter synlig
             document.getElementById('bildekategori').style.display = "inline-block";
             document.getElementById('bilde-innlegg').style.display = "block";
@@ -188,21 +189,20 @@
             //Endrer verider
             document.getElementById('kategoriVerdi').value = "Tekst";
             document.getElementById("kategori-value").value = "";
-
+            console.log("kommer den hit 1");
             //Gjør elemeter synlig
             document.getElementById('tekstkategori').style.display = "inline-block";
             document.getElementById('tekst-innlegg').style.display = "block";
-            document.getElementById('subkat').style.display = "block";
             document.getElementById('subkatdiv').style.visibility = "visible";
             document.getElementById('subkatdiv').style.position = "relative";
             document.getElementById('cover-image').style.display = "block";
-
+            console.log("kommer den hit 2");
             //Gjør elementer usynlig
             document.getElementById('bildekategori').style.display = "none";
             document.getElementById('musikkategori').style.display = "none";
             document.getElementById('lyd-innlegg').style.display = "none";
             document.getElementById('bilde-innlegg').style.display = "none";
-
+            console.log("kommer den hit 3");
 
 
 
@@ -242,8 +242,13 @@
         tittel = document.getElementById("tittel").value;
         document.getElementById("bilde-tittel-preview").innerHTML = tittel;
         document.getElementById("sangnavn").innerHTML = tittel;
-        document.getElementById("lit-tittel").innerHTML = tittel;
+        document.getElementById("teksttittel").innerHTML = tittel;
     }
+    function beskrivelsePreview() {
+        tittel = document.getElementById("beskrivelse").value;
+        document.getElementById("tekstbeskrivelse").innerHTML = tittel;
+    }
+    
 
     function readURL(input) {
         if (input.files && input.files[0]) {
@@ -267,6 +272,7 @@
 
             reader.onload = function (e) {
                 $('.idmge').attr('src', e.target.result);
+               
             }
 
             reader.readAsDataURL(input.files[0]); // convert to base64 string
@@ -276,6 +282,8 @@
     $("#cover-input-file").change(function () {
         readURL(this);
     });
+
+
 
     function mappeValg(mappe) {
         var valgt = document.getElementById(mappe).innerText;
@@ -337,7 +345,7 @@
 </div>
 
 
-<div class="round">
+<div class="round col-5">
     <form class="whitetext" method="post" , new enctype="multipart/form-data">
         @if (Model.Id == null)
         {
@@ -521,7 +529,7 @@
                 <label asp-for="Beskrivelse"></label>
             </div>
             <div class="col-8">
-                <textarea asp-for="Beskrivelse" rows="4" cols="50" class="form-control" style="height:100px; margin-top: 5px" placeholder="Beskrivelse" required></textarea>
+                <textarea asp-for="Beskrivelse" id="beskrivelse" rows="4" cols="50" class="form-control" onkeyup="beskrivelsePreview()" style="height:100px; margin-top: 5px" placeholder="Beskrivelse" required></textarea>
 
                 <span asp-validation-for="Beskrivelse" class="text-danger"></span>
             </div>
@@ -593,7 +601,6 @@
     </form>
 </div>
 
-<h2 class="text-info preview-label">Forhåndsvisning</h2>
 
 <div class="preview round-preview">
     <div class="preview-div">
@@ -604,7 +611,7 @@
                         <h3 id="bilde-tittel-preview">    </h3>
                         <p class="bruker-preview">@BrukerInnhold.Navn</p>
                     </div>
-                    <img class="imge" id="idmge" src="#" alt="">
+                    <img class="imge" id="idmge" src="@Model.IkonURL" alt="">
                 </div>
 
             </a>
@@ -617,19 +624,20 @@
                 <p class="shadowed" id="artist">@BrukerInnhold.Navn</p>
             </div>
             <img id="sangi" class="play_button shadowed" src="../resources/icons8-play-96.png" onclick='spillAv("sang", this.id); visSang("sangnavn", "artist")' />
-            <audio id="sang" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2FPok%C3%A9mon%20Theme%20Song.mp3?alt=media&token=bccacd1c-ed6a-4050-8745-b1ee3bb50f96"></audio>
-            <img class="fuck imge idmge" id="lyd-imge" src="#" alt="" />
+            <audio id="sang" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="@Model.IkonURL" alt=""></audio>
+            <img class="fuck imge idmge" id="lyd-imge" src="@Model.CoverURL" alt="" />
 
 
         </div>
 
-
-        <div class="litteratur" id="tekst-innlegg">
-            <img class="book_cover idmge" id="lit-imge" src="#" alt="" />
-            <h3 class="tittel" id="lit-tittel"></h3>
-            <h4 class="forfatter">@BrukerInnhold.Navn</h4>
+        <div class="litteratur innleggindex" id="tekst-innlegg">
+            <img class="book_cover idmge"  src="#" alt="" />
+            <div class="lit-tekst">
+                <h3 class="tittel" id="teksttittel"></h3>
+                <h3 class="beskrivelse" id="tekstbeskrivelse"></h3>
+                <h4 class="forfatter">@BrukerInnhold.Navn</h4>
+            </div>
         </div>
-
 
     </div>
 </div>
