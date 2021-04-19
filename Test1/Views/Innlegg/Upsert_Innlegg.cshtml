@@ -337,7 +337,7 @@
 </div>
 
 
-<div class="round">
+<div class="round col-9">
     <form class="whitetext" method="post" , new enctype="multipart/form-data">
         @if (Model.Id == null)
         {
@@ -593,7 +593,6 @@
     </form>
 </div>
 
-<h2 class="text-info preview-label">Forhåndsvisning</h2>
 
 <div class="preview round-preview">
     <div class="preview-div">
@@ -604,7 +603,7 @@
                         <h3 id="bilde-tittel-preview">    </h3>
                         <p class="bruker-preview">@BrukerInnhold.Navn</p>
                     </div>
-                    <img class="imge" id="idmge" src="#" alt="">
+                    <img class="imge" id="idmge" src="@Model.IkonURL" alt="">
                 </div>
 
             </a>
@@ -617,15 +616,15 @@
                 <p class="shadowed" id="artist">@BrukerInnhold.Navn</p>
             </div>
             <img id="sangi" class="play_button shadowed" src="../resources/icons8-play-96.png" onclick='spillAv("sang", this.id); visSang("sangnavn", "artist")' />
-            <audio id="sang" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2FPok%C3%A9mon%20Theme%20Song.mp3?alt=media&token=bccacd1c-ed6a-4050-8745-b1ee3bb50f96"></audio>
-            <img class="fuck imge idmge" id="lyd-imge" src="#" alt="" />
+            <audio id="sang" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="@Model.IkonURL" alt=""></audio>
+            <img class="fuck imge idmge" id="lyd-imge" src="@Model.CoverURL" alt="" />
 
 
         </div>
 
 
         <div class="litteratur" id="tekst-innlegg">
-            <img class="book_cover idmge" id="lit-imge" src="#" alt="" />
+            <img class="book_cover idmge" id="lit-imge" src="@Model.CoverURL" alt="" />
             <h3 class="tittel" id="lit-tittel"></h3>
             <h4 class="forfatter">@BrukerInnhold.Navn</h4>
         </div>

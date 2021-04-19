@@ -13,9 +13,9 @@
 
 .preview {
     position: absolute;
-    right: 20px;
+    right: 15px;
     padding: 18px;
-    top: 150px;
+    top: 70px;
 }
 
 @media screen and (max-width: 1460px) {
@@ -36,7 +36,7 @@
     background-clip: border-box;
     border: 0 solid rgba(0,0,0,.125);
     border-radius: .25rem;
-    width: 1050px;
+    
     padding: 41px;
     display: inline-block;
 }

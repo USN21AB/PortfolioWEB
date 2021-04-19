@@ -25,6 +25,24 @@
 .delete-innlegg {
     background-color: transparent;
     border: none;
+    position: absolute;
+    margin: 5px;
+    z-index: 2;
+    color: #fff;
+    font-size: 20px;
+    opacity: 1;
+    text-shadow: 2px 2px 2px black;
+    top: 20px;
+}
+
+.rediger-innlegg {
+    position: absolute;
+    margin: 5px;
+    z-index: 2;
+    color: #fff;
+    font-size: 20px;
+    opacity: 1;
+    text-shadow: 2px 2px 2px black
 }
 
 

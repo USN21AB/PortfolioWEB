@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 @using Portefolio_webApp.Models
 @{
     var BrukerInnhold = (Portefolio_webApp.Models.Bruker)ViewData["Bruker"];
@@ -30,33 +30,24 @@
 
 
 <script type="text/javascript">
-
     $("input[type='image']").click(function () {
         $("input[id='my_file']").click();
     });
-
-
-
     $(document).ready(function () {
-
         document.getElementById("toastbtn").addEventListener('click', function (event) {
             $('.toast').toast('show');
             document.getElementById("toast").style.display = "inline";
             document.getElementById("toast-body").innerHTML = "Something";
         });
     });
-
     function onDelete(id) {
-
         console.log("--------" + id + mindex + "---------")
-
         var mappe = document.getElementsByClassName("mappeindex"),
             i = mappe.length;
         var y = 0;
         var mindex = 0;
         while (y < i) {
             var mappeid = mappe[y].id;
-
             if (mappeid == id)
                 break;
             mindex++;
@@ -64,10 +55,8 @@
         }
         document.getElementById(id).remove();
         console.log(mindex);
-
         var json = {
             "mindex": mindex
-
         };
           $.ajax({
                     type: "POST",
@@ -78,14 +67,10 @@
                        // alert("Dette er resultatet " + result.result);
                     }
           });
-
-
     }
-
 </script>
 
 <style>
-
     .delete-folder {
         color: white;
         font-size: 20px;
@@ -171,7 +156,6 @@
     .left-line {
         top: 3px;
     }
-
 
     .portfolio-folders {
         text-align: center;
@@ -304,32 +288,32 @@
                             @{
                                 var antall = 0;
                             }
-                           
-                                <div class="rowinfo col-sm">
-                                    <ul class="nav nav-pills nav-fill folder-nav tabs">
 
-                                        @while (antall < BrukerInnhold.Mapper.Count)
-                                        {
-                                            var Mappe = BrukerInnhold.Mapper.ElementAt(antall);
+                            <div class="rowinfo col-sm">
+                                <ul class="nav nav-pills nav-fill folder-nav tabs">
 
-                                            <li class="nav-item mappeindex" id="mappe-@antall">
+                                    @while (antall < BrukerInnhold.Mapper.Count)
+                                    {
+                                        var Mappe = BrukerInnhold.Mapper.ElementAt(antall);
 
-                                                <a class="nav-link folder " asp-action="Portefølje" asp-route-brukerID="@BrukerInnhold.Id" asp-route-antall="@antall">
-                                                    <div class="folder-design" >
-                                                        <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190211472785468/Portfollowers_bilde.png" />
-                                                        <span class="folder-navn">@Mappe.MappeNavn</span>
-                                                    </div>
-                                                </a>
-                                                <button class="delete-folder-div" onclick="onDelete('mappe-@antall')">
-                                                    <i class="far fa-trash-alt delete-folder"></i>
-                                                </button>
-                                            </li>
-                                            antall++;
-                                        }
+                                        <li class="nav-item mappeindex" id="mappe-@antall">
 
-                                        </ul>
-                                </div>
-                              
+                                            <a class="nav-link folder " asp-action="Portefølje" asp-route-brukerID="@BrukerInnhold.Id" asp-route-antall="@antall">
+                                                <div class="folder-design">
+                                                    <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190211472785468/Portfollowers_bilde.png" />
+                                                    <span class="folder-navn">@Mappe.MappeNavn</span>
+                                                </div>
+                                            </a>
+                                            <button class="delete-folder-div" onclick="onDelete('mappe-@antall')">
+                                                <i class="far fa-trash-alt delete-folder"></i>
+                                            </button>
+                                        </li>
+                                        antall++;
+                                    }
+
+                                </ul>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -350,7 +334,7 @@
 
                                     List<string> RecentList = new List<string>();
 
-                                    var antall2 = (Mappe.MappeInnhold.Count -1);
+                                    var antall2 = (Mappe.MappeInnhold.Count - 1);
                                     var antall3 = 0;
 
                                     @while (antall2 > -1)
@@ -367,21 +351,21 @@
                                         {
 
                                             <!-- single-awesome-portfolio start -->
-                                <div class="single-awesome-portfolio">
-                                    <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id class="card-link">
-                                        <div class="awesome-img">
-                                            <i class="far fa-image innlegg-ikon"></i>
+                                            <div class="single-awesome-portfolio">
+                                                <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id class="card-link">
+                                                    <div class="awesome-img">
+                                                        <i class="far fa-image innlegg-ikon"></i>
 
 
-                                            <div class="awesome-info">
-                                                <h3>@Innlegg.Beskrivelse</h3>
-                                                <p>@Innlegg.Eier</p>
+                                                        <div class="awesome-info">
+                                                            <h3>@Innlegg.Beskrivelse</h3>
+                                                            <p>@Innlegg.Eier</p>
+                                                        </div>
+                                                        <img class="imge" src="@Innlegg.IkonURL" alt="" data-adaptive-background>
+                                                    </div>
+
+                                                </a>
                                             </div>
-                                            <img class="imge" src="@Innlegg.IkonURL" alt="" data-adaptive-background>
-                                        </div>
-
-                                    </a>
-                                </div>
                                             <!-- single-awesome-portfolio end -->
                                         }
 
@@ -406,20 +390,20 @@
 
                                         else if (Innlegg.Kategori.Equals("Tekst"))
                                         {
-                            <div class="litteratur">
+                                            <div class="litteratur">
 
-                                <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id>
+                                                <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id>
 
-                                    <i class="far fa-file-alt innlegg-ikon"></i>
+                                                    <i class="far fa-file-alt innlegg-ikon"></i>
 
 
-                                    <img class="book_cover" src="@Innlegg.CoverURL" alt="" />
-                                    <div class="lit-tekst">
-                                        <h3 class="tittel">Det var en gang en mann som døre å en gender reveal party lol @Innlegg.Tittel</h3>
-                                        <h4 class="forfatter">@Innlegg.Eier</h4>
-                                    </div>
-                                    </a>
-                            </div>
+                                                    <img class="book_cover" src="@Innlegg.CoverURL" alt="" />
+                                                    <div class="lit-tekst">
+                                                        <h3 class="tittel">Det var en gang en mann som døre å en gender reveal party lol @Innlegg.Tittel</h3>
+                                                        <h4 class="forfatter">@Innlegg.Eier</h4>
+                                                    </div>
+                                                </a>
+                                            </div>
                                         }
                                         var lol = Innlegg.Tittel;
                                         Console.WriteLine(lol);
@@ -491,17 +475,13 @@
 
 
 <script>
-                
 
                         function requestCV(eierID, senderID, navn) {
-
                         var today = new Date();
                         var dd = String(today.getDate()).padStart(2, '0');
                         var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
                         var yyyy = today.getFullYear();
-
                         today = mm + '/' + dd + '/' + yyyy;
-
                         var jsonNotfic = {
                             "type": "CV",
                             "erLest": false,
@@ -511,8 +491,6 @@
                             "innleggID": "",
                             "Tidspunkt": today
                         };
-
-
                               $.ajax({
                                       type: "POST",
                                       url: '@Url.Action("RequestCV", "ProfilSide")',
@@ -522,14 +500,9 @@
                                          alert("Notfication har blitt sendt! ");
                                      }
                                     });
-
                         }
-
     $(document).ready(function () {
         var heightInfo = document.getElementById("pinfocard").clientHeight;
-
         document.getElementById('pimgcard').style.height = heightInfo + 'px';
     });
-
-
 </script>
