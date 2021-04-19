@@ -179,7 +179,6 @@
     .bildeInnlegg {
         max-width: 100%;
         max-height: 615px;
-        object-fit: contain;
         border-radius: .25rem;
     }
 
@@ -533,16 +532,46 @@ function deleteReply(repId, kommId, innId) {
     var url = '@Html.Raw(Url.Action("DeleteReply", "Innlegg" , new {innleggId = "_innleggId_", kommentarId = "_kommentarId_", replyId = "_replyId_" }))';
     var params = url.replace('_innleggId_', innId).replace('_kommentarId_', kommId).replace('_replyId_', repId);
     window.location.href = params;
-}
-function like(innId) {
-    var url = '@Html.Raw(Url.Action("LikeInnlegg", "Innlegg" , new {innleggId = "_innleggId_"}))';
-    var params = url.replace('_innleggId_', innId);
-    window.location.href = params;
-}
-function dislike(innId) {
-    var url = '@Html.Raw(Url.Action("DislikeInnlegg", "Innlegg" , new {innleggId = "_innleggId_"}))';
-    var params = url.replace('_innleggId_', innId);
-    window.location.href = params;
+    }
+
+
+
+    function ajaxKommentar(nyId) {
+    var tekst = $('textarea#kommentarFelt').val();
+        var json = {
+            "innleggId": nyId,
+            "tekst": tekst,
+        };
+        $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("NyttKommentar", "Innlegg")',
+                    data: json,
+                    dataType: "json",
+                 success: function (result) {
+                 },
+                 error: function (result) {
+                 }
+             });
+    }
+
+    function ajaxReply(innId, kommId) {
+
+        var tekst = $('#replyFelt' + kommId).val();
+        var json = {
+            "tekst": tekst,
+            "innleggId": innId,
+            "kommentId": kommId,
+        };
+        $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("NyttReply", "Innlegg")',
+                    data: json,
+                    dataType: "json",
+                 success: function (result) {
+                 },
+                 error: function (result) {
+                 }
+             });
     }
 
     function ajaxLike(innId) {
@@ -841,7 +870,7 @@ function dislike(innId) {
                 <p class="ikontxt">@nvn</p>
             </a>
         
-            <div class="row">
+            <div id="kommentarRow" class="row">
                 <p class="kommentartext col-9">@tekst</p>
                 @if (ViewData["Token"] != null)
                 {
