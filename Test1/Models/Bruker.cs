@@ -20,6 +20,7 @@ namespace Portefolio_webApp.Models
         [EmailAddress]
         public string Email { get; set; }
 
+        [MaxLength(500)]
         public string Bio { get; set; }
 
         public string Profilbilde { get; set; }
