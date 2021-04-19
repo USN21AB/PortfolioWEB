@@ -68,7 +68,7 @@ namespace Test1.Models
             return AlleInnlegg;
         }
 
-        public async Task UploadCoverPhoto(string filename, IFormFile file)
+        public async Task UploadCoverPhoto(string filename, IFormFile file, string inleggID)
         {
 
                 using (var stream = new FileStream(filename, FileMode.Create))
@@ -81,7 +81,7 @@ namespace Test1.Models
                 // Constructr FirebaseStorage, path to where you want to upload the file and Put it there
                 var task = new FirebaseStorage("bachelor-it-97124.appspot.com")
                 .Child("Cover")
-                .Child(file.FileName)
+                .Child(inleggID)
                 .PutAsync(stream1);
 
                 // Track progress of the upload
@@ -162,10 +162,11 @@ namespace Test1.Models
 
 
             var stream1 = File.Open(filename, FileMode.Open);
-        
+
             // Constructr FirebaseStorage, path to where you want to upload the file and Put it there
             var task = new FirebaseStorage("bachelor-it-97124.appspot.com")
-            .Child("TestOverWrite/"+previousprofilepic)
+            .Child("TestOverWrite")
+            .Child(brukerId)
             .PutAsync(stream1);
             
 
@@ -175,6 +176,8 @@ namespace Test1.Models
 
             // await the task to wait until upload completes and get the download url
             var downloadUrl = await task;
+
+            Console.WriteLine("URL TIL BILDET: " + downloadUrl);
 
 
             croppedProfilImageUrl = downloadUrl;

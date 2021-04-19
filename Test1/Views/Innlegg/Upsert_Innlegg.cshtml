@@ -521,7 +521,8 @@
                 <label asp-for="Beskrivelse"></label>
             </div>
             <div class="col-8">
-                <input asp-for="Beskrivelse" class="form-control" placeholder="Beskrivelse" required />
+                <textarea asp-for="Beskrivelse" rows="4" cols="50" class="form-control" style="height:100px; margin-top: 5px" placeholder="Beskrivelse" required></textarea>
+
                 <span asp-validation-for="Beskrivelse" class="text-danger"></span>
             </div>
         </div>
