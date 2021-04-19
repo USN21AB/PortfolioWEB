@@ -80,6 +80,9 @@
         position: relative;
     }
 
+    a:hover {
+        color: white;
+    }
 
 </style>
 <link href="~/css/Buttons.css" rel="stylesheet" />
@@ -92,9 +95,10 @@
                 @{
                     var listAntall = @brukerListe.Count-1;
                 }
-                @while (listAntall >= 3)
+                @while (listAntall > 3)
                 {
-                    <a class="overlay-image profilitem" style="background-image: url('@brukerListe[listAntall].Profilbilde');" href="@Url.Action("ProfilSide", "ProfilSide", new { brukerID= @brukerListe[listAntall].Id })">
+                    <a class="overlay-image profilitem" style="        background-image: url('@brukerListe[listAntall].Profilbilde');
+                    text-decoration: none;" href="@Url.Action("ProfilSide", "ProfilSide", new { brukerID= @brukerListe[listAntall].Id })">
 
 
                         <div class="containere">
@@ -114,12 +118,13 @@
                 <div class="row justify-content-around">
 
                     @{
-                        var listAntall2 = 4;
+                        var listAntall2 = 3;
                     }
 
                     @while (listAntall2 >= 0)
                     {
-                        <a class="overlay-image profilitem" style="background-image: url('@brukerListe[listAntall2].Profilbilde');" href="@Url.Action("ProfilSide", "ProfilSide", new { brukerID= @brukerListe[listAntall2].Id })">
+                        <a class="overlay-image profilitem" style="background-image: url('@brukerListe[listAntall2].Profilbilde');
+                        text-decoration: none;" href="@Url.Action("ProfilSide", "ProfilSide", new { brukerID= @brukerListe[listAntall2].Id })">
 
 
                             <div class="containere">

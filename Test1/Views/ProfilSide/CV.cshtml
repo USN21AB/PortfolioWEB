@@ -534,8 +534,10 @@
             sliderFunc(tekst, slider);
         };
         document.getElementById(skillButton).onclick = function () {
-            onDelete(skill, 0, 'slider')
-            $("#exampleModal").modal()
+            alert("delete er meg");
+          //  onDelete(skill, 0, 'slider');
+          
+         
         }
     }
     function testResponse() {
@@ -611,7 +613,8 @@
         document.getElementById(submit).style.display = "none";
     }
     function onDelete(id, index, felt) {
-
+        alert("delete er meg");
+        $("#exampleModal").modal();
         if (felt == "slider") {
             document.getElementById(id).remove();
         } else document.getElementById(id).style.display = "none";

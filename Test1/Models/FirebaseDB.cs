@@ -104,7 +104,7 @@ namespace Test1.Models
 
         }
 
-        public async Task RegistrerInnleggMedFil(string filename, IFormFile file, Innlegg innlegg)
+        public async Task<string> RegistrerInnleggMedFil(string filename, IFormFile file, Innlegg innlegg)
         {
                 using (var stream = new FileStream(filename, FileMode.Create))
             {
@@ -153,7 +153,7 @@ namespace Test1.Models
 
             System.IO.File.Delete(filename);
 
-
+            return data.Id; 
         }
 
 

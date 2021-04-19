@@ -80,7 +80,7 @@ namespace Portefolio_webApp.Controllers
         [HttpPost]
         public async System.Threading.Tasks.Task<IActionResult> Upsert_InnleggAsync(IFormFile inputfile, IFormFile coverfile,Innlegg innlegg, [FromServices] IHostingEnvironment oHostingEnvironment, string mappenavn, string innleggid)
         {
-
+            string InnleggID = "";
             innlegg.EierId = HttpContext.Session.GetString("_UserID");
             innlegg.Id = innleggid;
           
@@ -140,8 +140,6 @@ namespace Portefolio_webApp.Controllers
                         Portfolio portfolio = new Portfolio(bruker.Id, mappenavn);
                         portfolio.MappeInnhold.Add(innlegg);
                         bruker.Mapper.Add(portfolio);
-
-
                     }
 
 
@@ -155,7 +153,7 @@ namespace Portefolio_webApp.Controllers
                         if (inputfile != null)
                         {
                             innlegg.antallLikes = 0;
-                            await firebase.RegistrerInnleggMedFil($"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{inputfile.FileName}", inputfile, innlegg);
+                          InnleggID =  await firebase.RegistrerInnleggMedFil($"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{inputfile.FileName}", inputfile, innlegg);
                           
                             firebase.OppdaterBruker(bruker);
                         }
@@ -165,12 +163,13 @@ namespace Portefolio_webApp.Controllers
                     catch (Exception ex)
                     {
                         ModelState.AddModelError(string.Empty, ex.Message);
+                        return View(Innlegg);
                     }
                 } // Oppdater innlegg siden id finnes!
                 else
                 {
 
-                    
+                    InnleggID = innlegg.Id; 
                     Debug.WriteLine("lol   oppdatert      " + innlegg.EierId);
                     for (var i = 0; i < bruker.Mapper.Count; i++)
                     {
@@ -201,6 +200,10 @@ namespace Portefolio_webApp.Controllers
                     firebase.OppdaterBruker(bruker);
 
                 }
+
+            }else
+            {
+                return View(Innlegg);
             }
 
             var str = JsonConvert.SerializeObject(bruker);
@@ -210,7 +213,7 @@ namespace Portefolio_webApp.Controllers
             ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
             ViewData["Innlogget_Bruker"] = bruker;
 
-            return View(Innlegg);
+            return RedirectToAction("Nav_Innlegg", new { id = InnleggID });
         }
 
         
