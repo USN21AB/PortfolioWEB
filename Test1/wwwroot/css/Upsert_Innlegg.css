@@ -13,9 +13,9 @@
 
 .preview {
     position: absolute;
-    right: 20px;
+    right: 15px;
     padding: 18px;
-    top: 150px;
+    top: 70px;
 }
 
 @media screen and (max-width: 1460px) {

@@ -517,9 +517,9 @@
 
     /*//////////////////////////////////////////////////////////////////////////*/
     .musikk_kontroller {
-        
-        
-       
+
+
+
     }
 
 
@@ -567,7 +567,7 @@
 
     #volume-control {
         position: absolute;
-        
+
         left: 2%;
     }
 
@@ -577,7 +577,23 @@
         bottom: 10px;
         left: 2%;
     }
+
+    @@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+    .rotate {
+        animation: rotation 15s infinite linear;
+        animation-play-state: paused;
+    }
+
     .fuck {
+        border-radius: 50%;
         width: 40%;
         margin-left: 60%;
         float: right;
@@ -596,7 +612,7 @@
     }
 
 
-
+ 
 
 
 
@@ -709,17 +725,31 @@ function dislike(innId) {
     function spillAv(sang, toggle) {
         var lyd = document.getElementById(sang);
         var loggle = document.getElementById(toggle);
+        var animation = document.getElementById("albumcover");
+
+       
 
         if (lyd.paused) {
             
             loggle.src = "/resources/icons8-pause-96.png"
             lyd.play();
+            animation.style.animationPlayState = 'running';
+
+            
         }
         else {
             
             loggle.src = "/resources/icons8-play-96.png"
             lyd.pause();
+            animation.style.animationPlayState = 'paused';
+
         }
+
+       
+
+       
+           
+        
 
 
     };
@@ -815,20 +845,20 @@ function dislike(innId) {
     <progress id="seekbar" value="0" max="100"></progress>
     <span id="trackduration">0:00</span>
 
-    <img class="stopper" id="playstop" src="~/resources/icons8-play-96.png" onclick='spillAv("sang", "playstop")' />
+    <img class="stopper" id="playstop" src="~/resources/icons8-play-96.png" onclick='spillAv("sang", "playstop"); timer("sang")' />
 
-    <input type="range" id="volume-control" orient=vertical value="10" min="0" max="10"  onload="volum(this.value)" onchange="volum(this.value)">
+    <input type="range" id="volume-control" orient=vertical value="10" min="0" max="10" onload="volum(this.value)" onchange="volum(this.value)">
 
 </div>
 
                 <!--<img id="sangi" class=" shadowed" src='~/resources/icons8-play-96.png' onclick='spillAv("sang", "sangi"); visSang("sangnavn", "artist")' />
                 -->
                 <audio id="sang" class="lydspor" preload="metadata" src="@url"
-                       ontimeupdate="var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60);
+                       ontimeupdate="timer('sang'); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60);
                                      document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2);" 
                         onloadeddata="var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); 
                                       document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);"></audio>
-                <div class="fuck"> 
+                <div class="fuck rotate" id="albumcover"> 
                     
                 </div>
         }
