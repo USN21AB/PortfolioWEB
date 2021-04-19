@@ -226,9 +226,11 @@ namespace Portefolio_webApp.Controllers
                                 hello = "EMPTY";
                             else
                             {
-                                var spliturl = oppBruker.Profilbilde.Split("%5C");
-                                hello = spliturl[spliturl.Length - 1].Split("?alt=")[0];
+                                var spliturl = oppBruker.Profilbilde.Split("/");
+                                hello = spliturl[spliturl.Length - 1];
                             }
+
+                            Console.WriteLine("TEST: " + hello);
 
 
 
@@ -271,20 +273,9 @@ namespace Portefolio_webApp.Controllers
                 {
 
 
-                    string hello;
-
-                    if (oppBruker.Profilbilde == "")
-                        hello = "EMPTY";
-                    else
-                    {
-                        var spliturl = oppBruker.Profilbilde.Split("%2F");
-                        hello = spliturl[spliturl.Length - 1].Split("?alt=")[0];
-                    }
 
 
-                   
-
-                    await firebase.UploadProfilBilde(HttpContext.Session.GetString("CroppedPath"), oppBruker.Id, hello);
+                    await firebase.UploadProfilBilde(HttpContext.Session.GetString("CroppedPath"), oppBruker.Id, oppBruker.Profilbilde);
                     firebase.OppdaterBrukerBilde(oppBruker);
                     HttpContext.Session.Remove("CroppedPath");
                 }
