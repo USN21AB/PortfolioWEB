@@ -90,64 +90,50 @@
         <div class="carousel-item active">
             <div class="row justify-content-around profilHolder">
                 @{
-                    var listAntall = 0;
+                    var listAntall = @brukerListe.Count-1;
                 }
-                @while (listAntall < 5)
+                @while (listAntall >= 3)
                 {
-                <a class="overlay-image profilitem" style="background-image: url('@brukerListe[listAntall].Profilbilde');" href="@Url.Action("ProfilSide", "ProfilSide", new { brukerID= @brukerListe[listAntall].Id })">
-                   
+                    <a class="overlay-image profilitem" style="background-image: url('@brukerListe[listAntall].Profilbilde');" href="@Url.Action("ProfilSide", "ProfilSide", new { brukerID= @brukerListe[listAntall].Id })">
+
 
                         <div class="containere">
                             <h6 class="shadowed">@brukerListe[listAntall].Navn</h6>
                             <p class="shadowed">@brukerListe[listAntall].Stilling</p>
                         </div>
-                   
-                </a>
-                    listAntall++;
+
+                    </a>
+                    listAntall--;
+                }
+
+            </div>
+
+        </div>
+        @if (@brukerListe.Count >= 8) { 
+            <div class="carousel-item">
+                <div class="row justify-content-around">
+
+                    @{
+                        var listAntall2 = 4;
                     }
-             
-            </div>
 
-        </div>
-
-        <div class="carousel-item">
-            <div class="row justify-content-around">
-                <div class="col-3 overlay-image" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Guitarist_Gretchen_Menn_2017.jpg/1200px-Guitarist_Gretchen_Menn_2017.jpg');">
-
-                    <div class="containere">
-                        <h6>Julianna Alonzo</h6>
-                        <p>The best musician in town...</p>
-                    </div>
-                </div>
-
-                <div class="col-3 overlay-image" style="background-image: url('https://wp-static.gofundme.com/2018/07/03160606/art-artist-canvas-374054.jpg');">
-                    <div class="containere">
-                        <h6>Alyssa karlson</h6>
-                        <p>Jeg vet hvordan man maler!</p>
-                    </div>
-
-                </div>
-
-                <div class="col-3 overlay-image" style="background-image: url('https://thumbs.dreamstime.com/b/female-photograper-shoot-photo-camera-femal-photographer-42591739.jpg');">
-                    <div class="containere">
-                        <h6>Maria skalia</h6>
-                        <p>Fotografi er mitt kall!</p>
-                    </div>
+                    @while (listAntall2 >= 0)
+                    {
+                        <a class="overlay-image profilitem" style="background-image: url('@brukerListe[listAntall2].Profilbilde');" href="@Url.Action("ProfilSide", "ProfilSide", new { brukerID= @brukerListe[listAntall2].Id })">
 
 
-                </div>
+                            <div class="containere">
+                                <h6 class="shadowed">@brukerListe[listAntall2].Navn</h6>
+                                <p class="shadowed">@brukerListe[listAntall2].Stilling</p>
+                            </div>
 
-                <div class="col-3 overlay-image" style="background-image: url('https://miro.medium.com/max/1000/0*5bjkLBf1VvAiMwhp');">
-                    <div class="containere">
-                        <h6>Peter finklan</h6>
-                        <p>Min hjertes sorg faller på papiret</p>
-                    </div>
-
+                        </a>
+                        listAntall2--;
+                    }
 
                 </div>
             </div>
-        </div>
-
+          }
     </div>
     <a href="#myCarousel"
        class="carousel-control-prev pilervenstre " role="button" data-slide="prev">
@@ -261,14 +247,6 @@
 
                 $("#altKnapp").removeClass("active");
                 $(_valgtKnapp).addClass("active");
-            });
-
-
-            document.getElementById("søkefelt").addEventListener('keydown', function (event) {
-                // alert("hey fra hover");
-                //document.getElementById("testing").style.backgroundColor = "white";
-                if (event.keyCode == 13)
-                    alert("Du trykte på enter");
             });
 
 

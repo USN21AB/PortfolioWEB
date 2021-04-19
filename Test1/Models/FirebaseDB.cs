@@ -359,8 +359,10 @@ namespace Test1.Models
 
             List<Bruker> SortedList = list.OrderBy(o => o.likeRatio).ToList();
 
-            SortedList.RemoveRange(0, (SortedList.Count - 5));
+            if(SortedList.Count >= 8)
+            SortedList.RemoveRange(0, (SortedList.Count - 8));
 
+            Debug.WriteLine("sortedlist: " + (SortedList.Count - 8) );
             foreach (var item in SortedList)
             {
                 Debug.WriteLine(item.Navn + " har " + item.likeRatio);
