@@ -1,0 +1,304 @@
+﻿
+/*////////////////////////////////////////////////////////////////////////////////////////////////*/
+.single-awesome-portfolio {
+    margin: 2px;
+    float: left;
+    overflow: hidden;
+    position: relative;
+}
+
+    .single-awesome-portfolio a {
+        position: relative;
+        display: block;
+    }
+
+.innlegg-ikon {
+    position: absolute;
+    margin: 5px;
+    z-index: 2;
+    color: #fff;
+    font-size: 20px;
+    opacity: 1;
+    text-shadow: 2px 2px 2px black
+}
+
+
+
+/*                                            BILDER                                               */
+/*/////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+.awesome-img {
+    width: 230px;
+    height: 230px;
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1) 0s;
+    z-index: 1;
+    display: block
+}
+
+
+
+.awesome-info {
+    background-color: #272727;
+    height: 25%;
+    position: absolute;
+    padding: 10px 15px 6px;
+    bottom: 0;
+    width: 100%;
+    opacity: 0;
+    display: block;
+    transition: opacity .3s ease-out;
+    -moz-transition: opacity .3s ease-out;
+    -webkit-transition: opacity .3s ease-out;
+    -o-transition: opacity .3s ease-out;
+}
+
+    .awesome-info h3 {
+        color: #fff;
+        font-size: 16px;
+        margin-bottom: 5px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .awesome-info p {
+        color: #aaa;
+        font-size: 12px;
+        bottom: 5px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+/**/
+
+
+.single-awesome-portfolio a:hover .awesome-info {
+    /*transform: translateY(100%);*/
+    opacity: .8;
+}
+
+/**/
+
+
+
+.awesome-portfolio-content .mix {
+    display: none;
+}
+/**/
+
+.imge {
+    min-width: 100%;
+    min-height: 100%;
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+/**/
+
+/*                                           MUSIKK                                            */
+/*777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777*/
+
+.music_player {
+    margin: 2px;
+    float: left;
+    width: 230px;
+    height: 230px;
+    overflow: hidden;
+    position: relative;
+    display: block;
+    background-color: #212529
+}
+
+
+
+.fuck {
+    min-width: 100%;
+    min-height: 100%;
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.play_button_div {
+    background-color: rgba(39,39,39,0);
+    height: 100%;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    padding-top: 160px;
+    display: block;
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+    .play_button_div h3 {
+        color: #fff;
+        font-size: 18px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .play_button_div p {
+        color: #fff;
+        font-size: 15px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+.play_button {
+    position: absolute;
+    margin-top: 80px;
+    margin-bottom: 70px;
+    margin-left: 85px;
+    margin-right: 70px;
+    opacity: 0;
+    z-index: 1;
+    width: 60px;
+    height: 60px;
+}
+
+.shadowed {
+    -webkit-filter: drop-shadow(4px 4px 4px rgba(0,0,0,0.8));
+    filter: url(#drop-shadow);
+    -ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=4, OffY=4, Color='#444')";
+    filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=4, OffY=4, Color='#444')";
+}
+
+
+
+.play_button:active {
+    transform: scale(.95);
+    filter: brightness(50%);
+}
+
+.music_player:hover .play_button {
+    opacity: 1;
+}
+
+
+.music_player:hover .play_button_div {
+    background-color: rgba(39,39,39,0.8);
+}
+
+.artist, .sangnavn {
+    opacity: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+
+.music_player:hover .artist {
+    opacity: 1;
+}
+
+.music_player:hover .sangnavn {
+    opacity: 1;
+}
+
+
+
+
+
+/*                                              LITTERATUR                                          */
+/*//////////////////////////////////////////////////////////////////////////////////////////////////*/
+.litteratur {
+    margin: 2px;
+    float: left;
+    width: 230px;
+    height: 230px;
+    position: relative;
+    overflow: hidden;
+    display: block;
+    background: rgb(187, 201, 201);
+}
+
+.lit-tekst {
+    position: absolute;
+    height: 200px;
+    width: 200px;
+    top: 0;
+    z-index: 0;
+}
+
+.tittel {
+    margin: 15px;
+    font-size: 20px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
+    height: 180px;
+    z-index: 0;
+    color: black;
+}
+
+.forfatter {
+    margin-top: -25px;
+    margin-left: 15px;
+    font-size: 25px;
+    z-index: 0;
+    color: black;
+}
+
+.book_cover {
+    position: absolute;
+    min-width: 100%;
+    min-height: 100%;
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+    opacity: 1;
+    z-index: 1;
+    transition: opacity .2s ease-out;
+    -moz-transition: opacity .2s ease-out;
+    -webkit-transition: opacity .2s ease-out;
+    -o-transition: opacity .2s ease-out;
+}
+
+    .book_cover:hover {
+        opacity: 0;
+    }
+
+        .book_cover:hover .innlegg-ikon {
+            opacity: 0;
+        }
+
+
+
+
+.clickable {
+    border: 1px solid #333;
+    background: #eee;
+    height: 40px;
+    width: 200px;
+    margin: 15px;
+    position: relative;
+}
+
+.display {
+    height: 16px;
+    position: absolute;
+    width: 100%;
+}
+
+.progress {
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: green;
+    height: 40px;
+    width: 10px;
+}

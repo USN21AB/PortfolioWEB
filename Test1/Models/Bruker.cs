@@ -21,7 +21,7 @@ namespace Portefolio_webApp.Models
         public string Email { get; set; }
 
         public string SlagOrd { get; set; }
-
+        [MaxLength(300)]
         public string Bio { get; set; }
 
         public string Profilbilde { get; set; }
