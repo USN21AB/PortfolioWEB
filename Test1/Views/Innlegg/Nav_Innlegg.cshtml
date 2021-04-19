@@ -494,7 +494,6 @@
     .tagGrid {
         width: 100%;
         margin-left: -45px;
-        margin-bottom: 10px;
     }
 
     .tagGrid li {
@@ -622,17 +621,31 @@
         margin: auto;
     }
 
-    
-    .left-grid{
-        margin-right:10px;
+    @@media only screen and (max-width: 966px) {
+        .left-grid {
+            margin-right: 0;
+            min-width: 100%;
+        }
+        .right-grid {
+            margin-left: 0;
+        }
     }
-    .right-grid{
-        margin-left:10px;
+
+    @@media only screen and (min-width: 967px) {
+        .left-grid {
+            margin-right: 10px;
+            min-width: 250px;
+        }
+        .right-grid {
+            margin-left: 10px;
+        }
     }
     .musikkbeskrivelse{
         font-size: 20px;
-        height: 50%;
+
     }
+
+    
 
 
 </style>
@@ -827,15 +840,22 @@ function dislike(innId) {
     var image = document.getElementsByClassName("single-awesome-portfolio");
 
     $(document).ready(function () {
-        var heightInfo = document.getElementById("musikkplayercard").clientHeight;
+        var heightInfo = document.getElementById("infocard").clientHeight;
 
-        document.getElementById('infocard').style.height = heightInfo + 'px';
+        if ($(window).width() > 967) {
+            document.getElementById('musikkplayercard').style.height = heightInfo + 'px';
+        }
+        else
+            document.getElementById('musikkplayercard').style.height = "auto";
     });
 
     window.onresize = function () {
-        var heightInfo = document.getElementById("musikkplayercard").clientHeight;
-
-        document.getElementById('infocard').style.height = heightInfo + 'px';
+        var heightInfo = document.getElementById("infocard").clientHeight;
+        if ($(window).width() > 967) {
+            document.getElementById('musikkplayercard').style.height = heightInfo + 'px';
+        }
+        else
+            document.getElementById('musikkplayercard').style.height = "auto";
     }
 
 
@@ -850,14 +870,14 @@ function dislike(innId) {
 
     if (kategori.Equals("Bilde"))
     {
-        <div class="hovedInnlegg tekstogbilde card container col-9">
+        <div class="hovedInnlegg tekstogbilde card container col-6">
 
             <div class="bildediv ">
                 <img src='@url' class="bildeInnlegg" alt="error" id="innlegg" />
 
             </div>
         </div>
-        <div class="infodiv col-9">
+        <div class="infodiv col-6">
 
             <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@bruker.Id">
                 <img src="@bruker.Profilbilde" id="@url" />
@@ -959,7 +979,7 @@ function dislike(innId) {
     }
     else if (kategori.Equals("Tekst"))
     {
-        <div class="infodiv col-9">
+        <div class="infodiv col-6">
 
             <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@bruker.Id">
                 <img src="@bruker.Profilbilde" id="@url" />
@@ -1056,14 +1076,14 @@ function dislike(innId) {
 
             }
         </div>
-        <div class="hovedInnlegg tekstogbilde card container col-9">
+        <div class="hovedInnlegg tekstogbilde card container col-6">
             <embed src='@url' class="tekstInnlegg" />
         </div>
     }
     else if (kategori.Equals("Lyd"))
     {
-    <div class="musikkdiv row col-9 px-0 gx-5">
-    <div class="hovedInnlegg musikk card col-6 left-grid" id="musikkplayercard">
+    <div class="musikkdiv row col-6 px-0 gx-5">
+    <div class="hovedInnlegg musikk card col-4  left-grid" id="musikkplayercard">
         <div class="musikk_kontroller">
 
             <span id="sangfelt"></span>
@@ -1073,7 +1093,7 @@ function dislike(innId) {
             <progress id="seekbar" value="0" max="100"></progress>
             <span id="trackduration">0:00</span>
 
-            <img class="stopper" id="playstop" src="~/resources/icons8-play-96.png" onclick='spillAv("sang", "playstop"); timer("sang")' />
+            
 
             <input type="range" id="volume-control" orient=vertical value="10" min="0" max="10" onload="volum(this.value)" onchange="volum(this.value)">
 
@@ -1087,7 +1107,7 @@ function dislike(innId) {
                onloadeddata="var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60);
                                       document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);"></audio>
         <div class="fuck rotate" id="albumcover">
-
+            <img class="stopper" id="playstop" src="~/resources/icons8-play-96.png" onclick='spillAv("sang", "playstop"); timer("sang")' />
         </div>
     </div>
 
@@ -1212,7 +1232,7 @@ function dislike(innId) {
 
 
 
-<div class="kommentardiv container col-9">
+<div class="kommentardiv container col-6">
 
     @if (ViewData["Token"] != null)
 
