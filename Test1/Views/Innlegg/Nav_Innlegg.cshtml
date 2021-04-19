@@ -438,7 +438,7 @@
 
     .postKommentarButton {
         margin-left: 60px;
-        margin-top: 5px;
+        margin-top: 10px;
         border-radius: .25rem;
         outline: none;
         border: none;
@@ -447,18 +447,19 @@
     }
 
     .postReplyButton {
-        margin-top: 5px;
+        margin-top: 10px;
         border-radius: .25rem;
         outline: none;
         border: none;
         background-color: #1abc9c;
         color: white;
     }
-    .postKommentarButton:hover {
-        background-color: #0275d8;
-    }
 
-    .postKommentarButton:hover {
+        .postKommentarButton:hover {
+            background-color: #0275d8;
+        }
+
+    .postReplyButton:hover {
         background-color: #0275d8;
     }
 
@@ -1012,15 +1013,16 @@ function dislike(innId) {
                 </button>
             }
 
-        </div>
-    }
-                @if (Model.Likes != null)
+                            @if (Model.Likes != null)
     {
         var likes = Model.Likes.Antall;
         <p class="" id="realLikes">@likes</p>
         var plusLikes = Model.Likes.Antall + @likeNr;
         <p class="" id="fakeLikes" style="display: none">@plusLikes</p>
 
+    }
+
+        </div>
     }
 </div>
 
@@ -1043,7 +1045,7 @@ function dislike(innId) {
             <div class="textareadiv">
                 <textarea id="kommentarFelt" name="w3review" rows="3" class="skrivKommentar col-9" placeholder="What do you think..."></textarea>
       
-                <button style="margin-top: 10px;" class="postKommentarButton" onclick="Kommentar('@thisid',  '@innlogget_bruker.Id', '@innlogget_bruker.Navn', '@bruker.Id',  '@Model.Id')">Comment</button>
+                <button class="postKommentarButton" onclick="Kommentar('@thisid',  '@innlogget_bruker.Id', '@innlogget_bruker.Navn', '@bruker.Id',  '@Model.Id')">Comment</button>
             </div>
         </div>
     }
@@ -1145,7 +1147,7 @@ function dislike(innId) {
 
                 <div id="@("replyArea" + antallKommentarer)" class="replyarea">
                     <textarea id="@("replyFelt" + antallKommentarer)" name="w3review" rows="4" class="skrivKommentar col-5" placeholder="Write a reply..."></textarea>
-                    <button class="btn btn-primary" onclick="Reply('@thisid' , '@antallKommentarer')">ReplyTESTr</button>
+                    <button class="postReplyButton" onclick="Reply('@thisid' , '@antallKommentarer')">Reply</button>
                 </div>
                 @{antallReply = 0;
                     antallKommentarer += 1;
