@@ -830,7 +830,8 @@ function dislike(innId) {
             </a>
             <div class="textareadiv">
                 <textarea id="kommentarFelt" name="w3review" rows="3" class="skrivKommentar col-9" placeholder="What do you think..."></textarea>
-                <button class="postKommentarButton" onclick="Kommentar('@thisid',  '@innlogget_bruker.Id', '@innlogget_bruker.Navn', '@bruker.Id',  '@Model.Id')">Comment</button>
+      
+                <button style="margin-top: 10px;" class="postKommentarButton" onclick="Kommentar('@thisid',  '@innlogget_bruker.Id', '@innlogget_bruker.Navn', '@bruker.Id',  '@Model.Id')">Comment</button>
             </div>
         </div>
     }
@@ -927,12 +928,12 @@ function dislike(innId) {
                 }
                 @if (ViewData["Token"] != null)
                 {
-                    <button onclick="hideReply('@antallKommentarer')" class="replyButton">Reply</button>
+                    <button style="margin-top: 10px;" onclick="hideReply('@antallKommentarer')" class="replyButton">Reply</button>
                 }
 
                 <div id="@("replyArea" + antallKommentarer)" class="replyarea">
                     <textarea id="@("replyFelt" + antallKommentarer)" name="w3review" rows="4" class="skrivKommentar col-5" placeholder="Write a reply..."></textarea>
-                    <button class="postReplyButton" onclick="Reply('@thisid' , '@antallKommentarer')">Reply</button>
+                    <button class="btn btn-primary" onclick="Reply('@thisid' , '@antallKommentarer')">ReplyTESTr</button>
                 </div>
                 @{antallReply = 0;
                     antallKommentarer += 1;
