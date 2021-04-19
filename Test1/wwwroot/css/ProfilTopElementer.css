@@ -43,6 +43,7 @@
     background-color: #272727;
     height: 25%;
     position: absolute;
+    padding: 10px 15px 6px;
     bottom: 0;
     width: 100%;
     opacity: 0;
@@ -128,7 +129,7 @@
     position: absolute;
     top: 0;
     width: 100%;
-    padding-top: 140px;
+    padding-top: 160px;
     display: block;
     text-align: center;
     padding-left: 10px;
@@ -153,9 +154,9 @@
 
 .play_button {
     position: absolute;
-    margin-top: 70px;
+    margin-top: 80px;
     margin-bottom: 70px;
-    margin-left: 70px;
+    margin-left: 85px;
     margin-right: 70px;
     opacity: 0;
     z-index: 1;
@@ -245,7 +246,7 @@
 }
 
 .forfatter {
-    margin-top: -45px;
+    margin-top: -25px;
     margin-left: 15px;
     font-size: 25px;
     z-index: 0;

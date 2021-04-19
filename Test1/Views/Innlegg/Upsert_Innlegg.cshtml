@@ -2,7 +2,7 @@
 @{
     var BrukerInnhold = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
 }
-<link href="~/css/Upsert_Innlegg.css" rel="stylesheet" />
+<link href="~/css/Upsert_Innlegg.css?v=1" rel="stylesheet" />
 <link href="~/css/PorteføljeElementer.css" rel="stylesheet" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="~/js/bootstrap-tagsinput.js?v=1"></script>
@@ -79,163 +79,7 @@
                     }
 
 
-    .preview-label {
-        position: absolute;
-        right: 179px;
-        padding: 15px;
-        top: 70px;
-    }
-
-    .preview {
-        position: absolute;
-        right: 80px;
-        padding: 18px;
-        top: 150px;
-    }
-
-
-    .round {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        min-width: 0;
-        word-wrap: break-word;
-        background-color: #384352;
-        background-clip: border-box;
-        border: 0 solid rgba(0,0,0,.125);
-        border-radius: .25rem;
-        width: 1050px;
-        padding: 41px;
-        display: inline-block;
-    }
-
-    .round-preview {
-        display: flex;
-        flex-direction: column;
-        min-width: 0;
-        word-wrap: break-word;
-        background-color: #384352;
-        background-clip: border-box;
-        border: 0 solid rgba(0,0,0,.125);
-        border-radius: .25rem;
-        width: 350px;
-        height: 350px;
-    }
-
-    .radio-buttons {
-        display: flex;
-        flex-direction: row;
-        text-align: center;
-    }
-
-    #bildekategori {
-        display: none;
-    }
-
-    #musikkategori {
-        display: none
-    }
-
-    #tekstkategori {
-        display: none;
-    }
-
-    #bilde-innlegg {
-        display: none;
-    }
-
-    #lyd-innlegg {
-        display: none;
-    }
-
-    #tekst-innlegg {
-        display: none;
-    }
-
-    #cover-image {
-        display: none;
-    }
-
-    #subkat {
-    }
-
-    #subkatdiv {
-        visibility: hidden;
-        position: absolute;
-    }
-
-    #mappefelt {
-        position: absolute;
-        visibility: hidden;
-    }
-
-
-
-    #ny-mappe-valgt {
-        display: none
-    }
-
-
-    .radio {
-        display: inline-block;
-        width: 141px;
-        height: 70px;
-        background-color: white;
-        border-radius: .25rem;
-        cursor: pointer;
-        margin-left: 4px;
-        margin-right: 4px;
-        cursor: pointer;
-    }
-
-        .radio.active, .radio:active {
-            background-color: #0275d8;
-            color: white;
-        }
-
-    .folder-bilde {
-        width: 80px;
-        margin: 20px;
-        position: relative;
-    }
-
-    .folder-navn {
-        color: white;
-        font-size: 13px;
-        top: 63%;
-        left: 48%;
-        transform: translate(-45%, -50%);
-        max-width: 75px;
-        max-height: 40px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        -webkit-hyphens: auto;
-        -moz-hyphens: auto;
-        -ms-hyphens: auto;
-        hyphens: auto;
-        position: absolute;
-    }
-
-    .folder-design {
-        position: relative;
-    }
-
-    .add-folder {
-        position: relative;
-        margin: 44px 20px 20px 20px;
-    }
-
-    .nav-item {
-        cursor: pointer
-    }
-
-    .activefolder {
-        border: 1px solid white;
-    }
-
-    .filknapp {
-        color: red;
-    }
+  
 </style>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -438,6 +282,8 @@
         document.getElementById("mappe").value = valgt;
     }
 
+    
+
     function nyMappe() {
         var folderfield = document.getElementById("mappefelt");
         folderfield.style.position = "relative";
@@ -498,21 +344,37 @@
             <input type="hidden" asp-for="Id" />
             <input type="hidden" asp-for="Klokkeslett" />
             <input type="hidden" asp-for="EierId" />
-            <input type="hidden" asp-for="Tagger" />
             <input type="hidden" asp-for="FilStørrelse" />
-            <input type="hidden" asp-for="IkonURL" />
             <input type="hidden" asp-for="Eier" value="@BrukerInnhold.Navn" />}
+        else
+        {
+            <input type="hidden" asp-for="Id" name="innleggid" />
+            <input type="hidden" asp-for="Klokkeslett" />
+            <input type="hidden" asp-for="EierId" />
+            <input type="hidden" asp-for="FilStørrelse" />
+            <input type="hidden" asp-for="Eier" />
+        }
+
+
         <input type="hidden" asp-for="antallLikes" />
 
+        @if (Model.Id == null)
+        {
+            <div class="form-group row">
+                <div class="col-3">
 
-        <div class="form-group row">
-            <div class="col-3">
+                    @Html.TextBox("inputfile", "inputfile", new { type = "file", name = "inputfile", id = "input-file", accept = "image/png|image/jpeg|image/jpg|image/gif|audio/mp3|application/pdf", oninput = "fileValidation(); readURL(this);" }) <br />
 
-                @Html.TextBox("inputfile", "inputfile", new { type = "file", name = "inputfile", id = "input-file", accept = "image/png|image/jpeg|image/jpg|image/gif|audio/mp3|application/pdf", oninput = "fileValidation(); readURL(this);" }) <br />
+                </div>
 
             </div>
+        }
+        else
+        {
+            <input type="hidden" asp-for="IkonURL" />
+        }
 
-        </div>
+
 
         <div class="form-group row">
             <div class="col-3">
@@ -551,22 +413,33 @@
 
         <input asp-for="SubKategori" id="kategori-value" style="display: none" required />
 
-        <div id="cover-image" class="form-group row">
-            <div class="col-3">
+        @if (Model.Id == null)
+        {
+            <div id="cover-image" class="form-group row">
+                <div class="col-3">
 
-                @Html.TextBox("coverfile", "coverfile", new { type = "file", name = "coverfile", id = "cover-input-file", accept = "image/png|image/jpeg|image/jpg", oninput = "CoverValidation(); readURL2(this);" }) <br />
+                    @Html.TextBox("coverfile", "coverfile", new { type = "file", name = "coverfile", id = "cover-input-file", accept = "image/png|image/jpeg|image/jpg", oninput = "CoverValidation(); readURL2(this);" }) <br />
 
 
+                </div>
             </div>
-        </div>
+        }
+        else
+        {
+            <input type="hidden" asp-for="CoverURL" />
+        }
+
+
 
         <div class="text-danger" asp-validation-summary="ModelOnly"></div>
 
 
-        <div class="form-group row">
-            <div class="col-3">
-                <label>Mapper</label>
-            </div>
+        @if (Model.Id == null)
+        {
+            <div class="form-group row">
+                <div class="col-3">
+                    <label>Mapper</label>
+                </div>
 
 
 
@@ -575,59 +448,64 @@
 
 
 
-            @{
-                var antall = 0;
-            }
-
-            <ul class="nav nav-pills nav-fill folder-nav tabs col-8">
-
-                <li class="nav-item">
-                    <div class="folder-design chosen" id="dummy-folder" style="display: none">
-                    </div>
-                </li>
-
-                @while (antall < BrukerInnhold.Mapper.Count)
-                {
-                    var Mappe = BrukerInnhold.Mapper.ElementAt(antall);
-
-
-                    <li class="nav-item">
-                        <div class="folder-design chosen" onclick='mappeValg("mappe-@antall"); readonly()'>
-                            <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190271077646336/Portfollowers_tekst.png" />
-                            <span id="mappe-@antall" class="folder-navn">@Mappe.MappeNavn</span>
-                        </div>
-                    </li>
-antall++;
+                @{
+                    var antall = 0;
                 }
 
-                <li class="nav-item">
-                    <div class="folder-design" id="ny-mappe" onclick="nyMappe()">
-                        <i class="fas fa-folder-plus fa-4x add-folder"></i>
-                    </div>
-                    <div class="folder-design chosen" id="ny-mappe-valgt" onclick='mappeValg("mappeny"); readonlyOff()'>
-                        <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190271077646336/Portfollowers_tekst.png" />
-                        <span id="mappeny" class="folder-navn"></span>
-                    </div>
-                </li>
-            </ul>
+                <ul class="nav nav-pills nav-fill folder-nav tabs col-8">
 
-        </div>
+                    <li class="nav-item">
+                        <div class="folder-design chosen" id="dummy-folder" style="display: none">
+                        </div>
+                    </li>
+
+                    @while (antall < BrukerInnhold.Mapper.Count)
+                    {
+                        var Mappe = BrukerInnhold.Mapper.ElementAt(antall);
 
 
+                        <li class="nav-item">
+                            <div class="folder-design chosen" onclick='mappeValg("mappe-@antall"); readonly()'>
+                                <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190271077646336/Portfollowers_tekst.png" />
+                                <span id="mappe-@antall" class="folder-navn">@Mappe.MappeNavn</span>
+                            </div>
+                        </li>
+                        antall++;
+                    }
 
+                    <li class="nav-item">
+                        <div class="folder-design" id="ny-mappe" onclick="nyMappe()">
+                            <i class="fas fa-folder-plus fa-4x add-folder"></i>
+                        </div>
+                        <div class="folder-design chosen" id="ny-mappe-valgt" onclick='mappeValg("mappeny"); readonlyOff()'>
+                            <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190271077646336/Portfollowers_tekst.png" />
+                            <span id="mappeny" class="folder-navn"></span>
+                        </div>
+                    </li>
+                </ul>
 
-
-
-
-        <div class="form-group row " id="mappefelt">
-
-            <div class="col-3">
-                <label>Navn på mappe</label>
             </div>
-            <div class="col-8">
-                <input type="text" name="mappenavn" class="form-control" id="mappe" placeholder="Mappenavn" onkeyup="mappeNavn()" required />
+
+
+
+
+
+
+
+            <div class="form-group row " id="mappefelt">
+
+                <div class="col-3">
+                    <label>Navn på mappe</label>
+                </div>
+                <div class="col-8">
+
+                    <input type="text" name="mappenavn" class="form-control" id="mappe" placeholder="Mappenavn" onkeyup="mappeNavn()" required />
+
+
+
+                </div>
             </div>
-        </div>
+        }
 
         <div class="form-group row">
             <div class="col-3">
@@ -643,7 +521,8 @@ antall++;
                 <label asp-for="Beskrivelse"></label>
             </div>
             <div class="col-8">
-                <input asp-for="Beskrivelse" class="form-control" placeholder="Beskrivelse" required />
+                <textarea asp-for="Beskrivelse" rows="4" cols="50" class="form-control" style="height:100px; margin-top: 5px" placeholder="Beskrivelse" required></textarea>
+
                 <span asp-validation-for="Beskrivelse" class="text-danger"></span>
             </div>
         </div>
@@ -654,11 +533,42 @@ antall++;
                 <label asp-for="Tagger"></label>
             </div>
             <div class="col-8">
-                <input asp-for="Tagger" id="taginput" class="form-control" value="Smash, Hot,    Sex appeal, Rule 34   , Melons" data-role="tagsinput" placeholder="Add tag," />
+
+
+                @{
+                    var antallTagger = 0;
+                    string tags = "";
+                    List<string> tagger = new List<string>();
+                    if (Model.Id != null)
+                    {
+                        while (antallTagger < Model.Tagger.Count())
+                        {
+
+
+                            tagger.Add(Model.Tagger.ElementAt(antallTagger));
+
+
+                            antallTagger++;
+                        }
+
+                        tags = string.Join(",", tagger);
+                        Console.WriteLine("---------" + tags);
+
+                        <input asp-for="Tagger" id="taginput" value="@tags" class="form-control" data-role="tagsinput" placeholder="Add tag," />
+
+                        <span asp-validation-for="Tagger" class="text-danger"></span>
+                    }
+                    else
+                    {
+                        <input asp-for="Tagger" id="taginput" class="form-control" data-role="tagsinput" placeholder="Add tag," />
+
+                        <span asp-validation-for="Tagger" class="text-danger"></span>
+
+                    }
+                }
 
 
 
-                <span asp-validation-for="Tagger" class="text-danger"></span>
 
 
             </div>
@@ -677,8 +587,8 @@ antall++;
                 </button>
             </div>
             <!--<div class="col-3">
-                <a asp-controller="Home" asp-action="BrowseSide" class="btn btn-success form-control">Back to List</a>
-            </div>-->
+            <a asp-controller="Home" asp-action="BrowseSide" class="btn btn-success form-control">Back to List</a>
+        </div>-->
         </div>
     </form>
 </div>

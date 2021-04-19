@@ -20,7 +20,8 @@ namespace Portefolio_webApp.Models
         [EmailAddress]
         public string Email { get; set; }
 
-        [MaxLength(500)]
+        public string SlagOrd { get; set; }
+        [MaxLength(300)]
         public string Bio { get; set; }
 
         public string Profilbilde { get; set; }
@@ -29,17 +30,15 @@ namespace Portefolio_webApp.Models
         public int Alder { get; set; }
 
         public string Stilling { get; set; }
-
-        public string MessageToken { get; set; }
-
         public string Bosted { get; set; }
 
         [Phone]
         public string Tlf { get; set; }
 
-        public double likeRatio { get; set; }
+        public int likeRatio { get; set; }
 
         public List<string> CVAdgang { get; set; }
+        public int NumberOfNotifications { get; set; }
 
         public List<Notifications> notifications { get; set; }
 
