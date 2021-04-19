@@ -2,7 +2,7 @@
 @{
     var BrukerInnhold = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
 }
-<link href="~/css/Upsert_Innlegg.css?v=1" rel="stylesheet" />
+<link href="~/css/Upsert_Innlegg.css" rel="stylesheet" />
 <link href="~/css/PorteføljeElementer.css" rel="stylesheet" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="~/js/bootstrap-tagsinput.js?v=1"></script>
@@ -152,6 +152,7 @@
             document.getElementById('kategoriVerdi').value = "Bilde";
             document.getElementById("kategori-value").value = "";
 
+            console.log("");
             //Gjør elemeter synlig
             document.getElementById('bildekategori').style.display = "inline-block";
             document.getElementById('bilde-innlegg').style.display = "block";
@@ -188,21 +189,20 @@
             //Endrer verider
             document.getElementById('kategoriVerdi').value = "Tekst";
             document.getElementById("kategori-value").value = "";
-
+            console.log("kommer den hit 1");
             //Gjør elemeter synlig
             document.getElementById('tekstkategori').style.display = "inline-block";
             document.getElementById('tekst-innlegg').style.display = "block";
-            document.getElementById('subkat').style.display = "block";
             document.getElementById('subkatdiv').style.visibility = "visible";
             document.getElementById('subkatdiv').style.position = "relative";
             document.getElementById('cover-image').style.display = "block";
-
+            console.log("kommer den hit 2");
             //Gjør elementer usynlig
             document.getElementById('bildekategori').style.display = "none";
             document.getElementById('musikkategori').style.display = "none";
             document.getElementById('lyd-innlegg').style.display = "none";
             document.getElementById('bilde-innlegg').style.display = "none";
-
+            console.log("kommer den hit 3");
 
 
 
@@ -242,8 +242,13 @@
         tittel = document.getElementById("tittel").value;
         document.getElementById("bilde-tittel-preview").innerHTML = tittel;
         document.getElementById("sangnavn").innerHTML = tittel;
-        document.getElementById("lit-tittel").innerHTML = tittel;
+        document.getElementById("teksttittel").innerHTML = tittel;
     }
+    function beskrivelsePreview() {
+        tittel = document.getElementById("beskrivelse").value;
+        document.getElementById("tekstbeskrivelse").innerHTML = tittel;
+    }
+    
 
     function readURL(input) {
         if (input.files && input.files[0]) {
@@ -267,6 +272,7 @@
 
             reader.onload = function (e) {
                 $('.idmge').attr('src', e.target.result);
+               
             }
 
             reader.readAsDataURL(input.files[0]); // convert to base64 string
@@ -276,6 +282,8 @@
     $("#cover-input-file").change(function () {
         readURL(this);
     });
+
+
 
     function mappeValg(mappe) {
         var valgt = document.getElementById(mappe).innerText;
@@ -337,7 +345,7 @@
 </div>
 
 
-<div class="round col-9">
+<div class="round col-5">
     <form class="whitetext" method="post" , new enctype="multipart/form-data">
         @if (Model.Id == null)
         {
@@ -381,7 +389,7 @@
                 <label asp-for="Kategori"></label>
             </div>
             <div class="col-8">
-                <input asp-for="Kategori" readonly class="form-control" id="kategoriVerdi" required />
+                <input asp-for="Kategori" class="form-control-plaintext" readonly id="kategoriVerdi" required sstyle="color:#fff;" />
                 <span asp-validation-for="Kategori" class="text-danger"></span>
             </div>
         </div>
@@ -521,7 +529,7 @@
                 <label asp-for="Beskrivelse"></label>
             </div>
             <div class="col-8">
-                <textarea asp-for="Beskrivelse" rows="4" cols="50" class="form-control" style="height:100px; margin-top: 5px" placeholder="Beskrivelse" required></textarea>
+                <textarea asp-for="Beskrivelse" id="beskrivelse" rows="4" cols="50" class="form-control" onkeyup="beskrivelsePreview()" style="height:100px; margin-top: 5px" placeholder="Beskrivelse" required></textarea>
 
                 <span asp-validation-for="Beskrivelse" class="text-danger"></span>
             </div>
@@ -622,13 +630,14 @@
 
         </div>
 
-
-        <div class="litteratur" id="tekst-innlegg">
-            <img class="book_cover idmge" id="lit-imge" src="@Model.CoverURL" alt="" />
-            <h3 class="tittel" id="lit-tittel"></h3>
-            <h4 class="forfatter">@BrukerInnhold.Navn</h4>
+        <div class="litteratur innleggindex" id="tekst-innlegg">
+            <img class="book_cover idmge"  src="#" alt="" />
+            <div class="lit-tekst">
+                <h3 class="tittel" id="teksttittel"></h3>
+                <h3 class="beskrivelse" id="tekstbeskrivelse"></h3>
+                <h4 class="forfatter">@BrukerInnhold.Navn</h4>
+            </div>
         </div>
-
 
     </div>
 </div>
