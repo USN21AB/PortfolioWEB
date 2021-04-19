@@ -15,6 +15,43 @@
         var tab = '#v-pills-@ViewData["antall"]';
         $('#v-pills-tab a[href="' + tab + '"]').tab('show');
     });
+
+    function onDelete(id, mindex) {
+
+        console.log("--------" + id + mindex + "---------")
+
+        var innlegg = document.getElementsByClassName("innleggindex"),
+            i = innlegg.length;
+        var y = 0;
+        var index = 0;
+        while (y < i) {
+            var innleggid = innlegg[y].id;
+            
+            if (innleggid == id)
+                break;
+            index++;
+            y++;
+        }
+        document.getElementById(id).remove();
+        console.log(index);
+
+
+        var json = {
+            "id": id,
+            "mindex": mindex,
+            "index": index,
+        };
+          $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("DeleteInnlegg", "ProfilSide")',
+                    data: json,
+                    dataType: "json",
+                    success: function (result) {
+                       // alert("Dette er resultatet " + result.result);
+                    }
+          });
+
+    }
 </script>
 
 
@@ -58,33 +95,44 @@
                         Innlegg Innlegg = Mappe.MappeInnhold.ElementAt(antall);
 
 
-
                         if (Innlegg.Kategori == null) { }
                         else if (Innlegg.Kategori.Equals("Bilde"))
                         {
 
                             <!-- single-awesome-portfolio start -->
-                            <div class="single-awesome-portfolio">
-                                <a href="#">
-                                    <div class="awesome-img">
-                                        <i class="far fa-image innlegg-ikon"></i>
+                    <div class="single-awesome-portfolio innleggindex" id="@Innlegg.Id">
+                        <a asp-action="Upsert_Innlegg" asp-controller="Innlegg" asp-route-InnleggID="@Innlegg.Id">
+                            <i class="fas fa-edit edit-innlegg"></i>
+                        </a>
+                        <button class="delete-innlegg" onclick="onDelete('@Innlegg.Id', @mappeNr)">
+                            <i class="far fa-trash-alt"></i>
+                        </button>
+                        <a href="#">
+                            <div class="awesome-img">
+                                <i class="far fa-image innlegg-ikon"></i>
 
 
-                                        <div class="awesome-info">
-                                            <h3>@Innlegg.Beskrivelse</h3>
-                                            <p>@Innlegg.Eier</p>
-                                        </div>
-                                        <img class="imge" src="@Innlegg.IkonURL" alt="" data-adaptive-background>
-                                    </div>
-
-                                </a>
+                                <div class="awesome-info">
+                                    <h3>@Innlegg.Beskrivelse</h3>
+                                    <p>@Innlegg.Eier</p>
+                                </div>
+                                <img class="imge" src="@Innlegg.IkonURL" alt="" data-adaptive-background>
                             </div>
+
+                        </a>
+                    </div>
                             <!-- single-awesome-portfolio end -->
                         }
 
                         else if (Innlegg.Kategori.Equals("Lyd"))
                         {
-                <div class="music_player">
+                <div class="music_player innleggindex" id="@Innlegg.Id">
+                    <a asp-action="Upsert_Innlegg" asp-controller="Innlegg" asp-route-InnleggID="@Innlegg.Id">
+                        <i class="fas fa-edit edit-innlegg"></i>
+                    </a>
+                    <button class="delete-innlegg" onclick="onDelete('@Innlegg.Id', @mappeNr)">
+                        <i class="far fa-trash-alt"></i>
+                    </button>
                     <i class="fas fa-music innlegg-ikon"></i>
 
 
@@ -103,7 +151,13 @@
 
                         else if (Innlegg.Kategori.Equals("Tekst"))
                         {
-                <div class="litteratur">
+                <div class="litteratur innleggindex" id="@Innlegg.Id">
+                    <a asp-action="Upsert_Innlegg" asp-controller="Innlegg" asp-route-InnleggID="@Innlegg.Id">
+                        <i class="fas fa-edit edit-innlegg"></i>
+                    </a>
+                    <button class="delete-innlegg" onclick="onDelete('@Innlegg.Id', @mappeNr)">
+                        <i class="far fa-trash-alt"></i>
+                    </button>
                     <i class="far fa-file-alt innlegg-ikon"></i>
 
 

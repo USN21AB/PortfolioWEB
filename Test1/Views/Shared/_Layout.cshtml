@@ -126,68 +126,98 @@
 
                                                     if (notListe[antall].type == "Like")
                                                     {
-                                                        <a class="dropdown-item" href="@Url.Action("ProfilSide", "ProfilSide", new { brukerID = notListe[antall].FraHvemID })">
-                                                            <div class="row">
-                                                                <div class="col-sm">
-                                                                    <i class="far fa-thumbs-up"></i>
+                                                        <div>
+                                                            <a class="dropdown-item" href="@Url.Action("ProfilSide", "ProfilSide", new { brukerID = notListe[antall].FraHvemID })">
+                                                                <div class="row">
+                                                                    <div class="col-sm">
+                                                                        <i class="far fa-thumbs-up"></i>
+                                                                    </div>
+                                                                    <div class="col-sm">
+                                                                        <p class="mb-0">
+                                                                            @notListe[antall].FraHvemNavn liked you post
+                                                                        </p>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-sm">
-                                                                    <p class="mb-0">
-                                                                        @notListe[antall].FraHvemNavn liked you post
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                        </a>
+                                                            </a>
+                                                            <br />
+                                                        </div>
                                                     }
                                                     else if (notListe[antall].type == "Kommentar")
                                                     {
-                                                        <a class="dropdown-item" href="@Url.Action("Nav_Innlegg", "Innlegg", new { id = notListe[antall].innleggID })">
-                                                            <div class="row">
-                                                                <div class="col-sm">
-                                                                    <i class="far fa-comment"></i>
+                                                        <div>
+                                                            <a class="dropdown-item" href="@Url.Action("Nav_Innlegg", "Innlegg", new { id = notListe[antall].innleggID })">
+                                                                <div class="row">
+                                                                    <div class="col-sm">
+                                                                        <i class="far fa-comment"></i>
+                                                                    </div>
+                                                                    <div class="col-sm">
+                                                                        <p class="mb-0">
+                                                                            @notListe[antall].FraHvemNavn commented on your post
+                                                                        </p>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-sm">
-                                                                    <p class="mb-0">
-                                                                        @notListe[antall].FraHvemNavn commented on your post
-                                                                    </p>
-                                                                </div>
-                                                            </div>
 
 
-                                                        </a>
+                                                            </a>
+                                                            <br />
+                                                        </div>
+                                                    }
+                                                    else if (notListe[antall].type == "CVaccepted")
+                                                    {
+                                                        <div>
+                                                            <a class="dropdown-item" href="@Url.Action("CV", "ProfilSide", new { brukerID = notListe[antall].FraHvemID })">
+                                                                <div class="row">
+                                                                    <div class="col-sm">
+                                                                        <i class="fas fa-user-graduate ikon"></i>
+                                                                    </div>
+                                                                    <div class="col-sm">
+                                                                        <p class="mb-0">
+                                                                            @notListe[antall].FraHvemNavn has accepted your resume request
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+
+
+                                                            </a>
+                                                            <br />
+                                                        </div>
                                                     }
                                                     else
                                                     {
-                                                        <a class="dropdown-item" href="@Url.Action("ProfilSide", "ProfilSide", new { brukerID = notListe[antall].FraHvemID })">
+                                                        <div>
+                                                            <a class="dropdown-item" href="@Url.Action("ProfilSide", "ProfilSide", new { brukerID = notListe[antall].FraHvemID })">
 
 
 
-                                                            <div class="row">
+                                                                <div class="row">
+                                                                    <div class="col-sm">
+                                                                        <i class="fas fa-user-graduate ikon"></i>
+
+                                                                    </div>
+                                                                    <div id="1Request@(antall)" class="col-sm">
+                                                                        <p class="mb-0">
+                                                                            @notListe[antall].FraHvemNavn is interested in your resume.<br> Do you want to give him access?
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                            </a>
+                                                            <div id="2Request@(antall)" class="row">
                                                                 <div class="col-sm">
-                                                                    <i class="fas fa-user-graduate ikon"></i>
+                                                                    <button onClick="acceptCV('@(notListe[antall].FraHvemID)', @(antall), '@(notListe[antall].FraHvemNavn)', true, '@(innloggetBruker.Id)',  '@(innloggetBruker.Navn)')" class="btn btn-primary">Accept</button>
+                                                                </div>
+                                                                <div class="col-sm">
+                                                                    <button onClick="acceptCV('@(notListe[antall].FraHvemID)', @(antall), '@(notListe[antall].FraHvemNavn)', false, '@(innloggetBruker.Id)',  '@(innloggetBruker.Navn)')" class="btn btn-primary">Decline</button>
+                                                                </div>
+                                                            </div>
 
-                                                                </div>
-                                                                <div id="1Request@(antall)" class="col-sm">
-                                                                    <p class="mb-0">
-                                                                        @notListe[antall].FraHvemNavn is interested in your resume.<br> Do you want to give him access?
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                        </a>
-                                                        <div id="2Request@(antall)" class="row">
-                                                            <div class="col-sm">
-                                                                <button onClick="acceptCV('@(notListe[antall].FraHvemID)', @(antall), '@(notListe[antall].FraHvemNavn)', true)" class="btn btn-primary">Accept</button>
-                                                            </div>
-                                                            <div class="col-sm">
-                                                                <button onClick="acceptCV('@(notListe[antall].FraHvemID)', @(antall), '@(notListe[antall].FraHvemNavn)', false)" class="btn btn-primary">Decline</button>
-                                                            </div>
+                                                            <br />
                                                         </div>
                                                     }
 
                                                     antall++;
                                                 }
                                             </div>
-                                        </div>
+                                                    </div>
 
                                     </li>
 
@@ -225,222 +255,66 @@
             $(function () {
                 // TODO: Replace the following with your app's Firebase project configuration
                 // For Firebase JavaScript SDK v7.20.0 and later, `measurementId` is an optional field
+                setInterval(function () {
+                    refreshUser();
+                }, 15000);
+                refreshUser();
 
                 //notBar
                 document.getElementById("notBar").addEventListener('click', function (event) {
 
                     if (document.getElementById("badge_counter").innerHTML != "") {
-                    document.getElementById("badge_counter").style.display = "none";
+                        document.getElementById("badge_counter").style.display = "none";
 
-                     $.ajax({
-                    type: "POST",
-                    url: '@Url.Action("NotificationRead", "Home")',
+                        $.ajax({
+                            type: "POST",
+                            url: '@Url.Action("NotificationRead", "Home")',
 
-                    success: function (result) {
-                       // alert("Notification er lest! " + result);
-                        }
-                     });
-                    }
-                });
-
-                var token = null;
-                var firebaseConfig = {
-                    apiKey: "AIzaSyAF3lsyJBHDwpdd2u9D0qW-m3c2TJftQvE",
-                    authDomain: "bachelor-it-97124.firebaseapp.com",
-                    databaseURL: "https://bachelor-it-97124-default-rtdb.europe-west1.firebasedatabase.app",
-                    projectId: "bachelor-it-97124",
-                    storageBucket: "bachelor-it-97124.appspot.com",
-                    messagingSenderId: "56089551498",
-                    appId: "1:56089551498:web:e88b4bd832bf7cd49a8373",
-                    measurementId: "G-73VFZE16YG"
-                };
-                // Initialize Firebase
-                firebase.initializeApp(firebaseConfig);
-                const messaging = firebase.messaging();
-                /*
-                if ('serviceWorker' in navigator) {
-                    console.log("Er inni service worker")
-                    navigator.serviceWorker.register('../firebase-messaging-sw.js')
-                        .then(function (registration) {
-                            console.log("Service Worker Registered");
-                            messaging.useServiceWorker(registration);
+                            success: function (result) {
+                                // alert("Notification er lest! " + result);
+                            }
                         });
-                }
-               */
-
-
-
-                //messaging.getToken({ vapidKey: "BO-JbWwQGJCcXjWDqbqaIdovw-CqNwkiDpzqWqtzUp2XEFWpvozx_QoSAgJ7Bz9zww9R52kAO7sMf5UzBzXALDk" });
-                messaging.getToken({ vapidKey: "BO-JbWwQGJCcXjWDqbqaIdovw-CqNwkiDpzqWqtzUp2XEFWpvozx_QoSAgJ7Bz9zww9R52kAO7sMf5UzBzXALDk" }).then((currentToken) => {
-                    if (currentToken) {
-                        // Send the token to your server and update the UI if necessary
-                        // ...
-                        console.log('Eksisterende registerToken: ' + currentToken);
-
-                    } else {
-                        // Show permission request UI
-                        console.log('Ingen registrertoken funnet');
-                        messaging.requestPermission()
-                            .then(function () {
-                                console.log("GRANTED");
-                                console.log(messaging.getToken());
-
-                                regToken(messaging.getToken());
-
-                                return messaging.getToken();
-                            })
-                            .then(function (token) {
-                                console.log(token);
-                            })
-                            .catch(function (err) {
-                                console.log('Error Occurred.' + err)
-                            });
-                        // ...
                     }
-                }).catch((err) => {
-                    console.log('An error occurred while retrieving token. ', err);
-                    // ...
                 });
+            })
 
-                /*
-                         // Handle incoming messages. Called when:
-                         // - a message is received while the app has focus
-                         // - the user clicks on an app notification created by a service worker
-                         //   `messaging.onBackgroundMessage` handler.
-                         messaging.onMessage((payload) => {
-                             console.log('Message received. ', payload);
-                             // ...
-                         });
-                     messaging.requestPermission()
-                         .then(function () {
-                             console.log("granted");
-                             if (isTokenSentToServer()) {
-                                 console.log("already granted");
-                             } else {
-                                 getRegtoken();
-                             }
-                         });
-                     function getRegtoken() {
-                         messaging.getToken().then((currentToken) => {
-                             if (currentToken) {
-                                 console.log(currentToken);
-                                 setTokenSentToServer(true);
-                                 saveToken(currentToken)
-                                 //   updateUIForPushEnabled(currentToken);
-                             } else {
-                                 console.log('No Instance ID token available. Request permission to generate one.');
-                                 setTokenSentToServer(false);
-                             }
-                         }).catch((err) => {
-                             console.log('An error occurred while retrieving token. ', err);
-                             setTokenSentToServer(false);
-                         });
-                     }
-                     function setTokenSentToServer(sent) {
-                         window.localStorage.setItem('sentToServer', sent ? 1 : 0);
-                     }
-                     function isTokenSentToServer() {
-                         return window.localStorage.getItem('sentToServer') === '1';
-                     }
-                             */
-                messaging.onMessage(function (payload) {
-                    console.log('Message received. ', payload);
-
-                    var antallNot = document.getElementById("badge_counter").innerHTML;
-                    if (antallNot == "") {
-
-                        document.getElementById("badge_counter").style.display = "inline";
-                        document.getElementById("badge_counter").innerHTML = 1;
-                    } else {
-                        var nyNot = parseInt(antallNot) + 1;
-                        document.getElementById("badge_counter").innerHTML = nyNot;
-                    };
-
-
-
-                   $.ajax({
-                    type: "POST",
-                    url: '@Url.Action("MottatNotification", "Home")',
-
-                    success: function (result) {
-                       // alert("Din bruker har blitt refresha! " + result);
-                        }
-                   });
-
-                    /*
-                    var node = document.createElement("a");
-                    var textnode = document.createTextNode("Dette er appenda");
-                    node.className = "dropdown-item test";
-
-                    node.href = "#";
-                    node.title = "Dette er appenda"
-
-                   // node.appendChild(textnode);
-                    document.getElementById("dropdownItems").appendChild(node);
-                        */
-
-                    if (payload.data.type == "Like") {
-                        var hvemURL = "/ProfilSide/ProfilSide?brukerID="+payload.data.FraHvemID;
-
-                        document.getElementById("dropdownItems").innerHTML += " <a class='dropdown-item' href='"+hvemURL+"'>" +
-                            "<i class='far fa-thumbs-up'></i>" +
-                            "<p>" + payload.data.FraHvemNavn + " Liked your post </p>" +
-                            "</a>";
-                    } else if (payload.data.type == "Kommentar") {
-                        var hvilketInnlegg = "/Innlegg/Nav_Innlegg/" + payload.data.innleggID;
-                        document.getElementById("dropdownItems").innerHTML += " <a class='dropdown-item' href='" + hvilketInnlegg +"'>" +
-                            "<i class='far fa-thumbs-up'></i>" +
-                            "<p>" + payload.data.FraHvemNavn + " Commented on your post </p>" +
-                            "</a>";
-                    } else {
-                        var hvemURL = "/ProfilSide/ProfilSide?brukerID=" + payload.data.FraHvemID;
-                        document.getElementById("dropdownItems").innerHTML += " <a class='dropdown-item' href='" + hvemURL +"'>" +
-                            "<i class='far fa-thumbs-up'></i>" +
-                            "<p>" + payload.data.FraHvemNavn + " wishes to see your resume.<br> Do you want to give him access? </p>" +
-                            "</a>";
-                    }
-
-
-                    //
-
-                    notificationTitle = payload.data.title;
-                    notificationOptions = {
-                        body: payload.data.body,
-                        icon: payload.data.icon
-                    };
-                    var notification = new Notification(notificationTitle, notificationOptions);
-
-                });
-               // }
-            });
-
-            function regToken(token) {
-
-                    var jsonToken = {
-                                    "registreringsToken": token
-                                }
-
-                                   $.ajax({
-                                      type: "POST",
-                                      url: '@Url.Action("UpdateRegisterToken", "Home")',
-                                         data: jsonToken,
-                                         dataType: "json",
-                                     success: function (result) {
-                                         // alert("Notfication har blitt sendt! " + result);
-                                     }
-                                    });
-
-            }
-
-            function acceptCV(fraHvemID, index, navn, accepted) {
+            function acceptCV(tilHvemID, index, navn, accepted, fraHvemID, fraHvemNavn) {
 
                 if (accepted) {
                     document.getElementById("1Request" + index).innerHTML = "<p> Request accepted for " + navn + " </p>"
+
+                    var today = new Date();
+                    var dd = String(today.getDate()).padStart(2, '0');
+                    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                    var yyyy = today.getFullYear();
+
+                    today = mm + '/' + dd + '/' + yyyy;
+
+                    var jsonNotfic = {
+                        "type": "CVaccepted",
+                        "erLest": false,
+                        "FraHvemID": fraHvemID,
+                        "FraHvemNavn": fraHvemNavn,
+                        "TilHvemID": tilHvemID,
+                        "innleggID": "",
+                        "Tidspunkt": today
+                    };
+
+                  $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("SendNotification", "Home")',
+                    data: jsonNotfic,
+                    dataType: "json",
+                    success: function (result) {
+                        alert("Hey! Du sendte en melding! ");
+                    }
+
+                });
                 } else document.getElementById("1Request" + index).innerHTML = "<p> Request declined for " + navn + " </p>"
-                
+
                 document.getElementById("2Request" + index).style.display = "none";
                 var json = {
-                    "fraHvemID": fraHvemID,
+                    "fraHvemID": tilHvemID,
                     "notIndex": index,
                     "isAccepted": accepted
                 }
@@ -455,9 +329,71 @@
                     }
 
                 });
+
             }
 
-        
+                function refreshUser() {
+
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("CheckFirebaseCount", "Home")',
+
+                        success: function (result) {
+
+                            // if (result.resultat)
+                            if (result.resultat != -1)
+                                if (result.resultat != document.getElementById("dropdownItems").childElementCount)
+
+                            $.ajax({
+                                type: "POST",
+                                url: '@Url.Action("RefreshUser", "Home")',
+
+                                success: function (result) {
+
+
+                                    var notific = JSON.parse(result.notific);
+                                    //result.notific
+
+                                    document.getElementById("badge_counter").style.display = "inline";
+                                    var antallNot = document.getElementById("badge_counter").innerHTML;
+                                    if (antallNot == "") {
+                                        document.getElementById("badge_counter").innerHTML = 1;
+                                    } else {
+                                        var nyNot = parseInt(antallNot) + 1;
+                                        document.getElementById("badge_counter").innerHTML = nyNot;
+                                    };
+
+
+                                    if (notific.type == "Like") {
+                                        var hvemURL = "/ProfilSide/ProfilSide?brukerID=" + notific.FraHvemID;
+
+                                        document.getElementById("dropdownItems").innerHTML += "<div><a class='dropdown-item' href='" + hvemURL + "'>" +
+                                            "<i class='far fa-thumbs-up'></i>" +
+                                            "<p>" + notific.FraHvemNavn + " Liked your post </p>" +
+                                            "</a></div> ";
+                                    } else if (notific.type == "Kommentar") {
+                                        var hvilketInnlegg = "/Innlegg/Nav_Innlegg/" + notific.innleggID;
+                                        document.getElementById("dropdownItems").innerHTML += "<div> <a class='dropdown-item' href='" + hvilketInnlegg + "'>" +
+                                            "<i class='far fa-thumbs-up'></i>" +
+                                            "<p>" + notific.FraHvemNavn + " Commented on your post  </p>" +
+                                            "</a></div>";
+                                    } else if (notific.type == "CVaccepted") {
+                                        var hvemURL = "/ProfilSide/CV?brukerID=" + notific.FraHvemID;
+                                        document.getElementById("dropdownItems").innerHTML += "<div> <a class='dropdown-item' href='" + hvemURL + "'>" +
+                                            "<i class='far fa-thumbs-up'></i>" +
+                                            "<p>" + notific.FraHvemNavn + " has accepted your resume request!  </p>" +
+                                            "</a></div>";
+                                    }
+
+
+                                }
+
+                            });
+
+                          }
+
+                    });
+                }
         </script>
     </body>
 </html>

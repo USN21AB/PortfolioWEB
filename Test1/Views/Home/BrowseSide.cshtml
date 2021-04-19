@@ -1,10 +1,11 @@
 ﻿@model Portefolio_webApp.Models.Innlegg;
 
 @{
+    var brukerListe = (List<Portefolio_webApp.Models.Bruker>)ViewData["BrukerListe"];
     var liste = (List<Portefolio_webApp.Models.Innlegg>)ViewData["liste"];
     //ViewData["Title"] = ViewData["Token"];
 }
-
+<link href="~/css/Carousel.css?v=1" rel="stylesheet" />
 <style>
     .editClass {
         background-color: black;
@@ -27,48 +28,86 @@
 
         color: white;
     }
+
+    #mycarousel {
+        width:100%;
+
+    }
+    .pilervenstre {
+        margin-left: -50px; 
+    }
+
+    .pilerhøyre {
+        margin-right: -50px;
+    }
+
+    .profilitem {
+        width: 20%;
+        padding-left: 10px;
+        height:200px;
+        color:white;
+    }
+
+        .profilitem p  {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            height:25px; 
+        }
+
+        .profilitem h6 {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .profilitem img {
+            width: 20%;
+        }
+
+    .profilHolder{
+
+        padding-left:20px;
+    }
+
+    .carouselText {
+       
+    }
+
+    .carouselbilde {
+        width: 90%;
+        margin: auto;
+        position: relative;
+    }
+
+
 </style>
 <link href="~/css/Buttons.css" rel="stylesheet" />
 <link href="~/css/BrowseSide.css?v=1" rel="stylesheet" />
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
 
-    <div class="carousel-inner">
+    <div class="carousel-inner carouselbilde">
         <div class="carousel-item active">
-            <div class="row justify-content-around">
-                <div id="karusellbilde" class="col-3 overlay-image" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Guitarist_Gretchen_Menn_2017.jpg/1200px-Guitarist_Gretchen_Menn_2017.jpg');">
+            <div class="row justify-content-around profilHolder">
+                @{
+                    var listAntall = 0;
+                }
+                @while (listAntall < 5)
+                {
+                <a class="overlay-image profilitem" style="background-image: url('@brukerListe[listAntall].Profilbilde');" href="@Url.Action("ProfilSide", "ProfilSide", new { brukerID= @brukerListe[listAntall].Id })">
+                   
 
-                    <div class="containere">
-                        <h6>Julianna Alonzo</h6>
-                        <p>The best musician in town...</p>
-                    </div>
-                </div>
-
-                <div id="karusellbilde" class="col-3 overlay-image" style="background-image: url('https://wp-static.gofundme.com/2018/07/03160606/art-artist-canvas-374054.jpg');">
-                    <div class="containere">
-                        <h6>Alyssa karlson</h6>
-                        <p>Jeg vet hvordan man maler!</p>
-                    </div>
-
-                </div>
-
-                <div id="karusellbilde" class="col-3 overlay-image" style="background-image: url('https://thumbs.dreamstime.com/b/female-photograper-shoot-photo-camera-femal-photographer-42591739.jpg');">
-                    <div class="containere">
-                        <h6>Maria skalia</h6>
-                        <p>Fotografi er mitt kall!</p>
-                    </div>
-
-
-                </div>
-
-                <div id="karusellbilde" class="col-3 overlay-image" style="background-image: url('https://miro.medium.com/max/1000/0*5bjkLBf1VvAiMwhp');">
-                    <div class="containere">
-                        <h6>Peter finklan</h6>
-                        <p>Min hjertes sorg faller på papiret</p>
-                    </div>
-
-
-                </div>
+                        <div class="containere">
+                            <h6 class="shadowed">@brukerListe[listAntall].Navn</h6>
+                            <p class="shadowed">@brukerListe[listAntall].Stilling</p>
+                        </div>
+                   
+                </a>
+                    listAntall++;
+                    }
+             
             </div>
+
         </div>
 
         <div class="carousel-item">
@@ -111,13 +150,13 @@
 
     </div>
     <a href="#myCarousel"
-       class="carousel-control-prev" role="button" data-slide="prev">
+       class="carousel-control-prev pilervenstre " role="button" data-slide="prev">
         <span class="sr-only">Forrige</span>
         <span class="carousel-control-prev-icon"
               area-hidden="true"></span>
     </a>
     <a href="#myCarousel"
-       class="carousel-control-next" role="button" data-slide="next">
+       class="carousel-control-next pilerhøyre " role="button" data-slide="next">
         <span class="sr-only">Neste</span>
         <span class="carousel-control-next-icon"
               area-hidden="true"></span>
@@ -184,12 +223,7 @@
 
 <h2 style="color:white; text-align:center;">@(liste.Count == 0 ? "There are no results!" : "")</h2>
 
-
-<div style="        height: 100px;
-        background-color: #232426;
-        bottom: 0">
-    <button id="meldingKnapp" class="btn btn-primary buttons">Send melding!</button>
-</div>
+<div style="visibility:hidden; height: 103px;"></div>
 
 
 @section Scripts
@@ -200,6 +234,8 @@
 
 
             $(function () {
+               
+                
                 var _valgtKnapp = "#" + '@TempData["valgtKnapp"]' + "Knapp";
 
                 if (_valgtKnapp == "#altKnapp") {
@@ -228,51 +264,6 @@
             });
 
 
-            document.getElementById("meldingKnapp").addEventListener('click', function (event) {
-
-                var jsonNotfic = {
-                    "type": "CV",
-                    "erLest": false,
-                    "FraHvemID": "m9qHyf7FkOOq24BYglgLVO7UgND3",
-                    "FraHvemNavn": "Mike",
-                    "TilHvemID": "fMMxGHaKvYW6UoZKFSmYRD4cA4j1",
-                    "innleggID": "-MXndhQRiMkV8azsZZWd",
-                    "Tidspunkt": "21.09.2021"
-                };
-
-                   $.ajax({
-                    type: "POST",
-                    url: '@Url.Action("SendNotification", "Home")',
-                    data: jsonNotfic,
-                    dataType: "json",
-                    success: function (result) {
-                        alert("Notfication har blitt uploauda! " + result);
-                        }
-                   });
-
-                  $.ajax({
-                    type: "POST",
-                    url: '@Url.Action("SendMelding", "Home")',
-                    data: jsonNotfic,
-                    dataType: "json",
-                    success: function (result) {
-                        alert("Melding er sendt! " + result);
-                        }
-                   });
-
-                /*
-                alert(window.location.href + "/Home/Test");
-
-                 $.ajax({
-                    type: "GET",
-                     url: window.location.href + "Home/Test",
-            });
-                //fn();
-                */
-            });
-
-
-
             document.getElementById("søkefelt").addEventListener('keydown', function (event) {
                 // alert("hey fra hover");
                 //document.getElementById("testing").style.backgroundColor = "white";
@@ -285,16 +276,6 @@
             $(function () {
                 var _valgtKnapp = "#" + '@TempData["valgtKnapp"]' + "Knapp";
 
-                if (_valgtKnapp == "#altKnapp") {
-                    console.log("Hei. Nå er du inni alt");
-                } else if (_valgtKnapp == "#BildeKnapp") {
-                    console.log("Hei. Nå er du inni #BildeKnapp");
-                } else if (_valgtKnapp == "#LydKnapp") {
-                    console.log("Nå er jeg inni lyd");
-                } else {
-                    console.log("Nå er jeg inni Tekst");
-                }
-
                 $("#altKnapp").removeClass("active");
                 $(_valgtKnapp).addClass("active");
             });
@@ -303,9 +284,6 @@
 
         })
 
-        function ajaxTest() {
-
-        }
 
         /*
         $.ajax({

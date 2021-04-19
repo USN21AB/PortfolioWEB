@@ -209,7 +209,6 @@ namespace Test1.Models
 
         public void UpdateSingleUserValue(string brukerid, string rad,string value)
         {
-            Debug.WriteLine("update single: " + brukerid + rad + value);
             klient.Set("Bruker/" + brukerid + "/"+rad, value);
         } 
 
@@ -257,7 +256,7 @@ namespace Test1.Models
 
         public async Task RegistrerBruker(Bruker bruker)
         {
-            bruker.Profilbilde = "https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2Fdefault_account.jpg?alt=media&token=290b6907-f17e-4095-90a6-dca2c52563b9";
+            bruker.Profilbilde = "~/resources/default_account.jpg";
             //PushResponse respons = klient.Push("Bruker/"+bruker.Id, bruker);
             // bruker.Id = respons.Result.name;
             SetResponse setResponse = klient.Set("Bruker/" + bruker.Id, bruker);
@@ -266,6 +265,8 @@ namespace Test1.Models
         public void SendNotification(Notifications notification)
         {
             Bruker bruker = HentEnkeltBruker(notification.TilHvemID);
+            bruker.NumberOfNotifications += 1;
+
             bruker.notifications.Add(notification);
             SetResponse setResponse = klient.Set("Bruker/" + notification.TilHvemID, bruker);
         }
@@ -276,9 +277,15 @@ namespace Test1.Models
             SetResponse respons = klient.Set("Bruker/" + bruker.Id, bruker);
         }
 
-        public void OppdaterRegisterToken(Bruker bruker)
+        public int TellAntallRader(string brukerID)
         {
-            SetResponse respons = klient.Set("Bruker/" + bruker.Id, bruker);
+            FirebaseResponse respons = klient.Get("Bruker/" + brukerID + "/NumberOfNotifications");
+           
+            if (respons.Body == null)
+                return -1;
+            int length = JsonConvert.DeserializeObject<int>(respons.Body); 
+        
+            return length;
         }
 
         public void OppdaterBrukerBilde(Bruker bruker) 
@@ -326,6 +333,39 @@ namespace Test1.Models
             PushResponse respons = klient.Push(link, kommentar);
             kommentar.Id = respons.Result.name;
             SetResponse setResponse = klient.Set(link + kommentar.Id, kommentar);
+        }
+        public void SlettInnlegg(string innleggID)
+        {
+            FirebaseResponse respons = klient.Delete("Innlegg/" + innleggID);
+        }
+
+        public void SlettMappeInnlegg(string brukerID, int mappeIndex, int innleggId)
+        {
+            FirebaseResponse respons = klient.Delete("Bruker/" + brukerID + "/Mapper/" + mappeIndex + "/MappeInnhold/" + innleggId);
+        }
+
+
+
+        public List<Bruker> updateAlgorithm()
+        {
+            FirebaseResponse respons = klient.Get("Bruker");
+            dynamic data = JsonConvert.DeserializeObject<dynamic>(respons.Body);
+            var list = new List<Bruker>();
+            if (data != null)
+                foreach (var item in data)
+                {
+                    list.Add(JsonConvert.DeserializeObject<Bruker>(((JProperty)item).Value.ToString()));
+                };
+
+            List<Bruker> SortedList = list.OrderBy(o => o.likeRatio).ToList();
+
+            SortedList.RemoveRange(0, (SortedList.Count - 5));
+
+            foreach (var item in SortedList)
+            {
+                Debug.WriteLine(item.Navn + " har " + item.likeRatio);
+            };
+            return SortedList;
         }
     }
 }

@@ -2,7 +2,15 @@
 
 @{
     var BrukerInnhold = (Portefolio_webApp.Models.Bruker)ViewData["Bruker"];
+    var innloggetBruker = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
 
+    Boolean CVAdgang = false;
+    if (BrukerInnhold.CVAdgang != null)
+        for (int i = 0; i < BrukerInnhold.CVAdgang.Count; i++)
+        {
+            if ((string)ViewData["Innlogget_ID"] == BrukerInnhold.CVAdgang[i])
+                CVAdgang = true;
+        }
 }
 
 <html lang="en">
@@ -33,14 +41,28 @@
         });
     });
 
-    function onDelete(id, index, navn) {
+    function onDelete(id) {
 
+        console.log("--------" + id + mindex + "---------")
 
-        document.getElementById(id).style.display = "none";
+        var mappe = document.getElementsByClassName("mappeindex"),
+            i = mappe.length;
+        var y = 0;
+        var mindex = 0;
+        while (y < i) {
+            var mappeid = mappe[y].id;
+
+            if (mappeid == id)
+                break;
+            mindex++;
+            y++;
+        }
+        document.getElementById(id).remove();
+        console.log(mindex);
 
         var json = {
-            "navn": navn,
-            "index": index,
+            "mindex": mindex
+
         };
           $.ajax({
                     type: "POST",
@@ -65,6 +87,8 @@
     }
 
     .delete-folder-div {
+        background-color: transparent;
+        border: none;
     }
 
     .folder {
@@ -158,7 +182,6 @@
         text-decoration-color: white;
         font-size: 20px;
     }
-
 </style>
 
 <div style="display: flex; justify-content: flex-end">
@@ -213,7 +236,15 @@
                                 }
                                 else
                                 {
-                                    <a asp-action="CV" asp-route-brukerID="@BrukerInnhold.Id"><button class="cvbtn btn btn-primary">Request CV</button></a>
+                                    @if (CVAdgang)
+                                    {
+                                        <a asp-action="CV" asp-route-brukerID="@BrukerInnhold.Id"><button class="cvbtn btn btn-primary">Enter CV</button></a>
+                                    }
+                                    else
+                                    {
+                                        <a onclick="requestCV('@BrukerInnhold.Id', '@ViewData["Innlogget_ID"]', '@innloggetBruker.Navn')"><button class="cvbtn btn btn-primary">Request CV</button></a>
+                                    }
+
                                 }
                             </div>
                         </div>
@@ -245,7 +276,7 @@
                             <hr>
                             <div class="rowinfo">
                                 <div class="col-sm-3">
-                                    <h6 class="mb-0">Bio</h6>
+                                    <h6 class="mb-0">Tlf</h6>
                                 </div>
                                 <p class="col-sm-9">@BrukerInnhold.Tlf</p>
                             </div>
@@ -275,42 +306,43 @@
                             @{
                                 var antall = 0;
                             }
-                            @while (antall < BrukerInnhold.Mapper.Count)
-                            {
-                                var Mappe = BrukerInnhold.Mapper.ElementAt(antall);
+                           
                                 <div class="rowinfo col-sm">
                                     <ul class="nav nav-pills nav-fill folder-nav tabs">
 
+                                        @while (antall < BrukerInnhold.Mapper.Count)
+                                        {
+                                            var Mappe = BrukerInnhold.Mapper.ElementAt(antall);
 
+                                            <li class="nav-item mappeindex" id="mappe-@antall">
 
-                                        <li class="nav-item">
-                                            <button class="delete-folder-div" onclick="onDelete('mappe-@antall', @antall, '@Mappe.MappeNavn')">
-                                                <i class="far fa-trash-alt delete-folder"></i>
-                                            </button>
-                                            <a class="nav-link folder " asp-action="Portefølje" asp-route-brukerID="@BrukerInnhold.Id" asp-route-antall="@antall">
-                                                <div class="folder-design" id="mappe-@antall">
-                                                    <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190211472785468/Portfollowers_bilde.png" />
-                                                    <span class="folder-navn">@Mappe.MappeNavn</span>
-                                                </div>
-                                            </a>
-                                        </li>
+                                                <a class="nav-link folder " asp-action="Portefølje" asp-route-brukerID="@BrukerInnhold.Id" asp-route-antall="@antall">
+                                                    <div class="folder-design" >
+                                                        <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190211472785468/Portfollowers_bilde.png" />
+                                                        <span class="folder-navn">@Mappe.MappeNavn</span>
+                                                    </div>
+                                                </a>
+                                                <button class="delete-folder-div" onclick="onDelete('mappe-@antall')">
+                                                    <i class="far fa-trash-alt delete-folder"></i>
+                                                </button>
+                                            </li>
+                                            antall++;
+                                        }
 
-
-                                    </ul>
-                                    </div>
-                                    antall++;
-                                    }
-                            </div>
+                                        </ul>
+                                </div>
+                              
+                        </div>
                     </div>
-                    </div>
+                </div>
                 <div class="col-md-8">
                     <div class="card mb-3">
                         <div class="card-body">
                             <div class="rowinfo">
-                                <p>ASDHJKASKJD</p>
-                                       
-                                    
-                                
+                                <p>@BrukerInnhold.Bio</p>
+
+
+
                             </div>
                         </div>
                     </div>
@@ -355,8 +387,48 @@
 
 
 
-
-
                 <!-- For later  <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">  -->
 </body>
 </html>
+
+
+<script>
+                
+
+                        function requestCV(eierID, senderID, navn) {
+
+                        var today = new Date();
+                        var dd = String(today.getDate()).padStart(2, '0');
+                        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                        var yyyy = today.getFullYear();
+
+                        today = mm + '/' + dd + '/' + yyyy;
+
+                        var jsonNotfic = {
+                            "type": "CV",
+                            "erLest": false,
+                            "FraHvemID": senderID,
+                            "FraHvemNavn": navn,
+                            "TilHvemID": eierID,
+                            "innleggID": "",
+                            "Tidspunkt": today
+                        };
+
+
+                              $.ajax({
+                                      type: "POST",
+                                      url: '@Url.Action("RequestCV", "ProfilSide")',
+                                         data: jsonNotfic,
+                                         dataType: "json",
+                                     success: function (result) {
+                                         alert("Notfication har blitt sendt! ");
+                                     }
+                                    });
+
+                        }
+
+
+
+                    
+
+</script>
