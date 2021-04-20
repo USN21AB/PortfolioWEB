@@ -1,4 +1,10 @@
 ﻿@using Portefolio_webApp.Models;
+
+<link href="~/css/lightbox.css?v=2" rel="stylesheet" />
+<script src="~/js/lightbox-2.6.js?v=3"></script>
+<script src="~/js/lightbox-2.6.min.js?v=2"></script>
+
+
 @{
     var thisid = "djdj";
     var eierId = "";
@@ -509,6 +515,33 @@
 
 </style>
 
+
+<script>
+    $(document).ready(function () {
+
+        /* This is basic - uses default settings */
+
+        $("a#single_image").fancybox();
+
+        /* Using custom settings */
+
+        $("a#inline").fancybox({
+            'hideOnContentClick': true
+        });
+
+        /* Apply fancybox to multiple items */
+
+        $("a.group").fancybox({
+            'transitionIn': 'elastic',
+            'transitionOut': 'elastic',
+            'speedIn': 600,
+            'speedOut': 200,
+            'overlayShow': false
+        });
+
+    });
+</script>
+
 <script>
 
 
@@ -524,7 +557,7 @@
         var yyyy = today.getFullYear();
 
         today = mm + '/' + dd + '/' + yyyy;
-      
+
     var jsonNotfic = {
         "type": "Kommentar",
         "erLest": false,
@@ -585,8 +618,6 @@ function dislike(innId) {
                  error: function (result) {
                  }
              });
-
-
     }
 
     function ajaxDislike(innId) {
@@ -611,8 +642,8 @@ function dislike(innId) {
 
     }
 
-</script>
 
+</script>
 
 <link href="~/css/Musikkontroller.css" rel="stylesheet" />
 <script src="~/js/lyd.js?v=2"></script>
@@ -620,15 +651,18 @@ function dislike(innId) {
 @*Klassen inneholder Tittel, opplastingsdato, og hovedinnlegget (bilde eller pdf)*@
 
 <div class="hovedInnlegg card container col-9">
+
+
     @{
 
         if (kategori.Equals("Bilde"))
         {
 
 
-            <div class="bildediv ">
-                <img src='@url' class="bildeInnlegg" alt="error" id="innlegg" />
-
+            <div  class="bildediv ">
+                <a id="single_image" data-lightbox="bilde" href='@url'>
+                    <img src='@url' class="bildeInnlegg" alt="error" id="innlegg" />
+                </a>
             </div>
         }
         else if (kategori.Equals("Tekst"))
@@ -747,7 +781,7 @@ function dislike(innId) {
     </ul>
 
 
-    @{ 
+    @{
         var likeNr = 1;
     }
 
@@ -763,7 +797,7 @@ function dislike(innId) {
                 var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
                 var i = 0;
                 var check = 0;
-                
+
             }
 
             @if (Model.Likes != null)
@@ -802,7 +836,7 @@ function dislike(innId) {
 
         </div>
     }
-                @if (Model.Likes != null)
+    @if (Model.Likes != null)
     {
         var likes = Model.Likes.Antall;
         <p class="" id="realLikes">@likes</p>
