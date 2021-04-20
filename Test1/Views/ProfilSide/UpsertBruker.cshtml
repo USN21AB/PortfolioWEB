@@ -112,19 +112,6 @@
                     <div class="card mb-3">
                         <div class="card-body">
                             <div class="rowinfo">
-                                <div>
-                                    <div class="text-danger" asp-validation-summary="ModelOnly"></div>
-                                    <div class="form-group row">
-                                        <div class="col-2">
-                                            <label asp-for="Navn" class="fattext" style="margin-top: 4px">Name</label>
-                                        </div>
-                                        <div class="col-9">
-                                            <input asp-for="Navn" class="form-control" style="height:30px; margin-top: 4px" />
-                                            <span asp-validation-for="Navn" class="text-danger"></span>
-                                        </div>
-                                    </div>
-                                </div>
-
                                 @if (Model.Id == null)
                                 {
                                     <hr>
@@ -143,7 +130,7 @@
                                             <label class="fattext" class="control-label" style="margin-top: 4px">Password</label>
                                         </div>
                                         <div class="col-9">
-                                            <input name="password" class="form-control" style="height:30px; margin-top: 15px" />
+                                            <input type="password" name="password" class="form-control" style="height:30px; margin-top: 15px" />
                                             <span class="text-danger"></span>
                                         </div>
                                     </div>
@@ -152,88 +139,94 @@
                                             <label class="fattext" class="control-label" style="margin-top: 4px">Retype new Password</label>
                                         </div>
                                         <div class="col-9">
-                                            <input name="passwordRetyp" class="form-control" style="height:30px; margin-top: 15px" />
+                                            <input type="password" name="passwordRetyp" class="form-control" style="height:30px; margin-top: 15px" />
                                             <span class="text-danger"></span>
                                         </div>
                                     </div>
+
                                 }
 
-                                <hr>
-                                <div>
 
-                                    <div class="form-group row">
-                                        <div class="col-2">
-                                            <label asp-for="Alder" class="fattext" style="margin-top: 4px">Age</label>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+                                        <div class="form-group">
+                                            <label asp-for="Navn">Name</label>
+                                            <input asp-for="Navn" class="form-control" placeholder="Enter your full name"/>
+                                            <span asp-validation-for="Navn" class="text-danger"></span>
                                         </div>
-                                        <div class="col-9">
-                                            <input asp-for="Alder" class="form-control" style="height:30px; margin-top: 4px" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+                                        <div class="form-group">
+                                            <label asp-for="Alder">Age</label>
+                                            <input asp-for="Alder" class="form-control" style="width: 100px;" value="18" />
                                             <span asp-validation-for="Alder" class="text-danger"></span>
                                         </div>
                                     </div>
-                                </div>
-                                <hr />
-                                <div>
 
-                                    <div class="form-group row">
-                                        <div class="col-2">
-                                            <label asp-for="Stilling" class="fattext" style="margin-top: 4px">Trade</label>
-                                        </div>
-                                        <div class="col-9">
-                                            <input asp-for="Stilling" class="form-control" style="height:30px; margin-top: 4px" />
+                                </div> <!-- end col -->
+
+
+
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+                                        <div class="form-group">
+                                            <label asp-for="Stilling">Trade</label>
+                                            <input asp-for="Stilling" class="form-control" placeholder="e.g. Makeup Artist" />
                                             <span asp-validation-for="Stilling" class="text-danger"></span>
                                         </div>
                                     </div>
-                                    <div>
-                                        <hr />
-                                        <div>
-                                            <div class="form-group row">
-                                                <div class="col-2">
-                                                    <label asp-for="Bosted" class="fattext" style="margin-top: 4px">Location</label>
-                                                </div>
-                                                <div class="col-9">
-                                                    <input asp-for="Bosted" class="form-control" style="height:30px; margin-top: 4px" />
-                                                    <span asp-validation-for="Bosted" class="text-danger"></span>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <hr />
-                                                <div>
-                                                    <div class="form-group row">
-                                                        <div class="col-2">
-                                                            <label asp-for="Tlf" class="fattext" style="margin-top: 4px">Phone</label>
-                                                        </div>
-                                                        <div class="col-9">
-                                                            <input asp-for="Tlf" class="form-control" style="height:30px; margin-top: 4px" />
-                                                            <span asp-validation-for="Tlf" class="text-danger"></span>
-                                                        </div>
-                                                    </div>
-                                                    <div>
-                                                        <hr />
-                                                        <div>
-                                                            <div class="form-group row">
-                                                                <div class="col-2">
-                                                                    <label asp-for="Bio" class="fattext" style="margin-top: 5px">About Me</label>
-                                                                </div>
-                                                                <div class="col-9">
-                                                                    <textarea asp-for="Bio" rows="4" cols="50" class="form-control" style="height:150px; margin-top: 5px"></textarea>
-                                                                    <span asp-validation-for="Bio" class="text-danger"></span>
-                                                                </div>
-                                                            </div>
-                                                            <hr />
-                                                            <div style="text-align: center;">
-
-                                                                <button type="submit" value="Upload" class="buttons btn btn-primary form-control" style="width: 300px;">
-                                                                    @(ViewData["Token"] == null? "Create new user" : "Update profile" )
-
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                    <div class="col-md-6">
+                                        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+                                        <div class="form-group">
+                                            <label asp-for="Bosted">Location</label>
+                                            <input asp-for="Bosted" class="form-control" placeholder="Where do you live?" />
+                                            <span asp-validation-for="Bosted" class="text-danger"></span>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+                                        <div class="form-group">
+                                            <label asp-for="Tlf">Phone</label>
+                                            <input asp-for="Tlf" class="form-control" placeholder="Enter phone number" />
+                                            <span asp-validation-for="Tlf" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+                                        <div class="form-group">
+                                            <label asp-for="Bio">About Me</label>
+                                            <textarea asp-for="Bio" rows="4" cols="50" class="form-control" style="height:150px; margin-top: 5px" placeholder="Write something about yourself"></textarea>
+                                            <span asp-validation-for="Bio" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                @if (Model.Id == null)
+                                {
+                                    <hr />
+                                    <div class="form-check" style="text-align: center;">
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" style="margin-top: 6px;">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            I agree to the CreationHub <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                                        </label>
+                                    </div>
+                                }
+                                <hr />
+                                <div style="text-align: center;">
+                                    <button type="submit" value="Upload" class="buttons btn btn-primary form-control" style="width: 300px;">
+                                        @(ViewData["Token"] == null? "Create new user" : "Update profile" )
+                                    </button>
+                                </div>
+
+
                             </div>
                         </div>
                     </div>

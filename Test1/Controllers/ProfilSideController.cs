@@ -220,22 +220,10 @@ namespace Portefolio_webApp.Controllers
                         else
                         {
 
-                            string hello;
-
-                            if (oppBruker.Profilbilde == "")
-                                hello = "EMPTY";
-                            else
-                            {
-                                var spliturl = oppBruker.Profilbilde.Split("/");
-                                hello = spliturl[spliturl.Length - 1];
-                            }
-
-                            Console.WriteLine("TEST: " + hello);
-
 
 
                             await firebase.RegistrerBruker(oppBruker);
-                            await firebase.UploadProfilBilde(HttpContext.Session.GetString("CroppedPath"), oppBruker.Id, hello);
+                            await firebase.UploadProfilBilde(HttpContext.Session.GetString("CroppedPath"), oppBruker.Id, oppBruker.Profilbilde);
                             firebase.OppdaterBrukerBilde(oppBruker);
                             HttpContext.Session.Remove("CroppedPath");
 
