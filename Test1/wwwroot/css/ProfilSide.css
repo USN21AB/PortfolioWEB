@@ -35,10 +35,18 @@ body {
     background-color: #1abc9c;
     border-color: #384352;
 }
-
-.profilimg {
-}
 .profilimg:hover {
     display: inline;
 }
+.myimg {
+    width: 200px;
+}
+.minheight {
+    min-height: 400px;
+}
+.editbtn {
+    position: absolute;
+    bottom: 10px;
+}
+
 

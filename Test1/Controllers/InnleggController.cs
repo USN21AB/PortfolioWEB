@@ -150,7 +150,7 @@ namespace Portefolio_webApp.Controllers
                     {
 
                         if (coverfile != null)
-                            await firebase.UploadCoverPhoto($"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{coverfile.FileName}", coverfile);
+                            await firebase.UploadCoverPhoto($"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{coverfile.FileName}", coverfile, innlegg.Id);
 
                         if (inputfile != null)
                         {

@@ -13,12 +13,12 @@
 
 .preview {
     position: absolute;
-    right: 20px;
+    right: 15px;
     padding: 18px;
-    top: 150px;
+    top: 70px;
 }
 
-@media screen and (max-width: 1460px) {
+@media screen and (max-width: 1380px) {
     .preview {
         position: absolute;
         visibility: hidden;
@@ -27,18 +27,14 @@
 
 
 .round {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
     word-wrap: break-word;
     background-color: #384352;
     background-clip: border-box;
     border: 0 solid rgba(0,0,0,.125);
     border-radius: .25rem;
-    width: 1050px;
+    margin: auto;
     padding: 41px;
-    display: inline-block;
+    min-width: 470px;
 }
 
 .round-preview {
@@ -167,4 +163,9 @@
 
 .filknapp {
     color: red;
+}
+.form-control-plaintext {
+    color: #fff;
+    outline: none;
+    cursor: default;
 }

@@ -24,12 +24,12 @@
 
 
 <div style="display: flex; justify-content: flex-end">
-    <div class="toast" id="toast" role="alert" aria-live="assertive" aria-atomic="true" style="display:none; position: fixed; z-index: 1; color:white; width: 199px; right: 3px;">
-        <div class="toast-header">
-            <i class="fas fa-bell" style="color: blue;"></i>
-            <strong class="mr-auto"style="color: blue;"> &nbsp; Notification</strong>
+    <div class="toast" id="toast" role="alert" aria-live="assertive" aria-atomic="true" style="display:none; position: fixed; z-index: 1; color:white; width: 250px; right: 3px;">
+        <div class="toast-header" style="background-color: #384352">
+            <i class="fas fa-bell" style="color: #1abc9c;"></i>
+            <strong class="mr-auto"style="color: #1abc9c;"> &nbsp; Notification</strong>
         </div>
-        <div class="toast-body" id="toast-body" style="color: blue;">
+        <div class="toast-body" id="toast-body" style="color: #1abc9c; background-color: #fff;">
         </div>
     </div>
 </div>
@@ -169,7 +169,7 @@
                                                     </div>
                                                     <h5 id="arTittel@(arID)" class="mt-0 mb-1">@ArbeidsErfaringTittel</h5>
                                                     <p id="arbedrift@(arID)">@ArbeidsErfaringBedrift</p>
-                                                    <p id="arBio@(arID)" class="text-muted mt-2">
+                                                    <p id="arBio@(arID)" class="mt-2">
                                                         @ArbeidsErfaringBeskrivelse
                                                     </p>
 </li>
@@ -254,7 +254,7 @@
                         <div class="tab-pane" id="settings">
 
                         <input type="hidden" asp-for="Id" />
-                        <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-briefcase-plus mr-1"></i> Add Experience</h5>
+                        <h5 class="mb-3 text-uppercase p-2"><i class="mdi mdi-briefcase-plus mr-1"></i> Add Experience</h5>
 
                         <div class="row">
                             <div class="col-md-6">
@@ -321,7 +321,7 @@
 
 
 
-                        <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-book-plus mr-1"></i>Add Education</h5>
+                        <h5 class="mb-3 text-uppercase p-2"><i class="mdi mdi-book-plus mr-1"></i>Add Education</h5>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -353,7 +353,7 @@
                             <span id="danger_skole" class="text-danger"></span>
                             <button type="submit" id="submitSkole" class="btn btn-primary buttons mt-1 mb-3"><i class="mdi mdi-content-save"></i> Add</button>
                         </div>
-                        <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-format-list-checkbox mr-1"></i>Add / Edit Skills</h5>
+                        <h5 class="mb-3 text-uppercase p-2"><i class="mdi mdi-format-list-checkbox mr-1"></i>Add / Edit Skills</h5>
 
                         <div class="row" id="skillsEdit">
 
@@ -374,8 +374,8 @@
                                                 <input value="@FerdighetNavn2" id="skillbar@(antallFerdigheter2)" />
                                                 <div class="input-group">
                                                     <input class="slider-general" id="skillSlider@(antallFerdigheter2)" data-slider-id='ex1Slider' value="@prosent" type="range" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14" oninput="sliderFunc('sliderTekst@(antallFerdigheter2)','skillSlider@(antallFerdigheter2)')" />
-                                                    <button id="@(antallFerdigheter2)skillbutton" style="position:absolute; right:6%; bottom:110%" onclick="onDelete('skill@(antallFerdigheter2)', @antallFerdigheter2, 'Ferdigheter')"><i class="fas fa-window-close fa-sm"></i></button>
-                                                    <p id="sliderTekst@(antallFerdigheter2)">@FerdighetProsent2</p>
+                                                    <button id="@(antallFerdigheter2)skillbutton" onclick="onDelete('skill@(antallFerdigheter2)', @antallFerdigheter2, 'Ferdigheter')" class="btn btn-light sliderstyle"><i class="far fa-window-close fa-lg"></i></button>
+                                                    <p id="sliderTekst@(antallFerdigheter2)" class="slidertextstyle">@FerdighetProsent2</p>
                                                 </div>
 
                                             </div>
@@ -391,7 +391,7 @@
                                                 <input placeholder="skill" id="skillbar0" />
                                                 <div class="input-group">
                                                     <input class="slider-general" id="skillSlider0" data-slider-id='ex1Slider' value="50" type="range" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14" oninput="sliderFunc('sliderTekst0','skillSlider0')" />
-                                                    <p id="sliderTekst0">50%</p>
+                                                    <p id="sliderTekst0" class="slidertextstyle">50%</p>
                                                 </div>
 
                                             </div>
@@ -407,7 +407,7 @@
 
 
 
-                        <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-translate mr-1"></i>Add / Edit Languages</h5>
+                        <h5 class="mb-3 text-uppercase p-2"><i class="mdi mdi-translate mr-1"></i>Add / Edit Languages</h5>
 
                         <div class="row" id="språkEdit">
 
@@ -426,8 +426,8 @@
                                             <input value="@SpråkNavn2" id="språkbar@(antallSliderSpråk)" />
                                             <div class="input-group">
                                                 <input class="slider-general" id="språkSlider@(antallSliderSpråk)" data-slider-id='ex1Slider' value="@prosent2" type="range" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14" oninput="sliderFunc('språksliderTekst@(antallSliderSpråk)','språkSlider@(antallSliderSpråk)')" />
-                                                <button id="@(antallSliderSpråk)språkbutton" style="position:absolute; right:6%; bottom:110%" onclick="onDelete('språk@(antallSliderSpråk)', @antallSliderSpråk, 'Språk')"><i class="fas fa-window-close fa-sm"></i></button>
-                                                <p id="språksliderTekst@(antallSliderSpråk)">@SpråkProsent2</p>
+                                                <button id="@(antallSliderSpråk)språkbutton" class="btn btn-light sliderstyle" onclick="onDelete('språk@(antallSliderSpråk)', @antallSliderSpråk, 'Språk')"><i class="far fa-window-close fa-lg"></i></button>
+                                                <p id="språksliderTekst@(antallSliderSpråk)" class="slidertextstyle">@SpråkProsent2</p>
                                             </div>
 
                                         </div>
@@ -444,7 +444,7 @@
                                             <input placeholder="skill" id="språkbar0" />
                                             <div class="input-group">
                                                 <input class="slider-general" id="språkSlider0" data-slider-id='ex1Slider' value="50" type="range" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14" oninput="sliderFunc('språksliderTekst0','språkSlider0')" />
-                                                <p id="språksliderTekst@(antallSliderSpråk)">50%</p>
+                                                <p id="språksliderTekst@(antallSliderSpråk)" class="slidertextstyle">50%</p>
                                             </div>
 
                                         </div>
@@ -489,6 +489,7 @@
             </div>
         </div>
     </div>
+
     <script type="text/javascript">
     function addSlider(type) {
 
@@ -515,18 +516,19 @@
         }
 
       //  alert(skill + " " + bar + " " + tekst + " " + slider);
-        var tag = "<div class='col-md-6' id='"+ skill +"'>" +
-                         " <div class='form-group'>" +
-                                   " <input placeholder='skill' id='" + bar + "' />" +
-                                          " <div class='input-group'>" +
-                                                  " <input class='slider-general' id='" + slider + "' data-slider-id='ex1Slider' value='50'" +
-                                                     " type='range' data-slider-min='0' data-slider-max='20' data-slider-step='1' data-slider-value='14' " +
+        var tag = "<div class='col-md-6' id='" + skill + "'>" +
+            " <div class='form-group'>" +
+            " <input placeholder='skill' id='" + bar + "' />" +
+            " <div class='input-group'>" +
+            " <input class='slider-general' id='" + slider + "' data-slider-id='ex1Slider' value='50'" +
+            " type='range' data-slider-min='0' data-slider-max='20' data-slider-step='1' data-slider-value='14' " +
             " />" +
-            " <button id='" + skillButton + "' style='position:absolute; right:6%; bottom:110%'><i class='fas fa-window-close fa-sm'></i></button> " +
-                                                     "<p id='" + tekst + "'>50%</p>" +
+            " <button id='" + skillButton + "' class='btn btn-light sliderstyle'><i class='far fa-window-close fa-lg'></i></button> " +
+                                                     "<p id='" + tekst + "' class='slidertextstyle'>50%</p>" +
                                           "</div>" +
                              "</div>" +
             "</div>";
+
        var element = document.getElementById(type);
         element.insertAdjacentHTML('beforeend', tag);
         document.getElementById(slider).onchange = function () {
