@@ -252,7 +252,7 @@ namespace Portefolio_webApp.Controllers
             return View(innlegg);
         }*/
 
-        public JsonResult NyttKommentar(string tekst, string innleggId)
+        public IActionResult NyttKommentar(string tekst, string innleggId)
         {
             
             var str = HttpContext.Session.GetString("Innlogget_Bruker");
@@ -296,13 +296,10 @@ namespace Portefolio_webApp.Controllers
             {
 
             }
-            var resultat = "Jobberfaring oppdatert: Like";
-            var data = new { status = "ok", result = resultat };
-
-            return Json(data);
+            return Redirect("~/Innlegg/Nav_Innlegg/" + innlegg.Id);
         }
 
-        public JsonResult NyttReply(string tekst, string innleggId, int kommentId)
+        public IActionResult NyttReply(string tekst, string innleggId, int kommentId)
         {
             var str = HttpContext.Session.GetString("Innlogget_Bruker");
             var innBruker = JsonConvert.DeserializeObject<Bruker>(str);
@@ -343,10 +340,7 @@ namespace Portefolio_webApp.Controllers
             {
 
             }
-            var resultat = "Jobberfaring oppdatert: Like";
-            var data = new { status = "ok", result = resultat };
-
-            return Json(data);
+            return Redirect("~/Innlegg/Nav_Innlegg/" + innlegg.Id);
         }
                                                                            
         public IActionResult DeleteKommentar(string innleggId, int kommentarId)
