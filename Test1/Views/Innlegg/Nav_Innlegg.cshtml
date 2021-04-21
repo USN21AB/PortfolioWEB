@@ -479,6 +479,7 @@
         border-radius: 50%;
         width: 95%;
         margin-left: 5%;
+        margin-bottom:7%;
         padding-top: 95%;
         background-image: url('@Model.CoverURL');
         background-position: center; /* Center the image */
@@ -515,6 +516,12 @@
     }
     .musikkbeskrivelse{
         font-size: 20px;
+    }
+
+    .likenmr{
+        margin-top: -4px;
+        margin-left: 5px;
+        font-size: 18px;
     }
 
 </style>
@@ -673,6 +680,11 @@ function dislike(innId) {
         else
             document.getElementById('musikkplayercard').style.height = "auto";
     }
+
+    function plussen(id) {
+        document.getElementById(id).innerHTML = 1;
+    }
+
 </script>
 
 
@@ -684,14 +696,14 @@ function dislike(innId) {
 
     if (kategori.Equals("Bilde"))
     {
-        <div class="hovedInnlegg tekstogbilde card container col-6">
+        <div class="hovedInnlegg tekstogbilde card container col-10">
 
             <div class="bildediv ">
                 <img src='@url' class="bildeInnlegg" alt="error" id="innlegg" />
 
             </div>
         </div>
-        <div class="infodiv col-6">
+        <div class="infodiv col-10">
 
             <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@bruker.Id">
                 <img src="@bruker.Profilbilde" id="@url" />
@@ -729,6 +741,7 @@ function dislike(innId) {
             }
 
 
+        <div class="likes" style="display:inline-block">
             @if (ViewData["Token"] != null)
 
             {
@@ -790,12 +803,13 @@ function dislike(innId) {
         </div>
             }
         </div>
+        
 
 
     }
     else if (kategori.Equals("Tekst"))
     {
-        <div class="infodiv col-6">
+        <div class="infodiv col-10">
 
             <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@bruker.Id">
                 <img src="@bruker.Profilbilde" id="@url" />
@@ -833,72 +847,74 @@ function dislike(innId) {
             }
 
 
+        <div class="likes" style="display:inline-block">
             @if (ViewData["Token"] != null)
 
             {
 
 
-                <div class="likes">
 
-                    @{
-                        var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
-                        var i = 0;
-                        var check = 0;
 
-                    }
 
-                    @if (Model.Likes != null)
+                var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
+                var i = 0;
+                var check = 0;
+
+
+                @if (Model.Likes != null)
+                {
+
+
+
+                    @while (i < Model.Likes.Brukere.Count)
                     {
-
-
-
-                        @while (i < Model.Likes.Brukere.Count)
+                        @if (du.Id.Equals(Model.Likes.Brukere[i]))
                         {
-                            @if (du.Id.Equals(Model.Likes.Brukere[i]))
-                            {
-                                likeNr = -1;
-                                <button id="realLikeButton" class="dislikebutton" onclick="ajaxDislike('@thisid')">
-                                    <i class="fas fa-thumbs-up"></i>
-                                </button>
-                                <button id="fakeLikeButton" class="dislikebutton" style="display: none" onclick="ajaxLike('@thisid')">
-                                    <i class="far fa-thumbs-up"></i>
-                                </button>
-                                check = 1;
-                                break;
-                            }
-
-
-                            i++;
+                            likeNr = -1;
+                            <button id="realLikeButton" class="dislikebutton" onclick="ajaxDislike('@thisid')">
+                                <i class="fas fa-thumbs-up"></i>
+                            </button>
+                            <button id="fakeLikeButton" class="dislikebutton" style="display: none" onclick="ajaxLike('@thisid')">
+                                <i class="far fa-thumbs-up"></i>
+                            </button>
+                            check = 1;
+                            break;
                         }
-                    }
-                    @if (check == 0)
-                    {
-                        <button id="realLikeButton" class="likebutton" onclick="ajaxLike('@thisid')">
-                            <i class="far fa-thumbs-up"></i>
-                        </button>
-                        <button id="fakeLikeButton" class="likebutton" style="display: none" onclick="ajaxDislike('@thisid')">
-                            <i class="fas fa-thumbs-up"></i>
-                        </button>
-                    }
 
-                </div>
+
+                        i++;
+                    }
+                }
+
+
+
+                @if (check == 0)
+                {
+                    <button id="realLikeButton" class="likebutton" onclick="ajaxLike('@thisid')">
+                        <i class="far fa-thumbs-up"></i>
+                    </button>
+                    <button id="fakeLikeButton" class="likebutton" style="display: none" onclick="ajaxDislike('@thisid')">
+                        <i class="fas fa-thumbs-up"></i>
+                    </button>
+                }
+
+
             }
-            @if (Model.Likes != null)
-            {
+            @{
                 var likes = Model.Likes.Antall;
-                <p class="" id="realLikes">@likes</p>
+                <p class="likenmr" id="realLikes">@likes</p>
                 var plusLikes = Model.Likes.Antall + @likeNr;
-                <p class="" id="fakeLikes" style="display: none">@plusLikes</p>
-
+                <p class="likenmr" id="fakeLikes" style="display: none">@plusLikes</p>
             }
         </div>
-        <div class="hovedInnlegg tekstogbilde card container col-6">
+        </div>
+        <div class="hovedInnlegg tekstogbilde card container col-10">
             <embed src='@url' class="tekstInnlegg" />
         </div>
     }
     else if (kategori.Equals("Lyd"))
     {
-        <div class="musikkdiv row col-6 px-0 gx-5">
+        <div class="musikkdiv row col-10 px-0 gx-5">
             <div class="hovedInnlegg musikk card col-4  left-grid" id="musikkplayercard">
                 <div class="musikk_kontroller">
 
@@ -964,65 +980,67 @@ function dislike(innId) {
                     var likeNr = 1;
                 }
 
-
+            <div class="likes" style="display:inline-block">
                 @if (ViewData["Token"] != null)
 
                 {
 
 
-                    <div class="likes">
 
-                        @{
-                            var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
-                            var i = 0;
-                            var check = 0;
 
-                        }
 
-                        @if (Model.Likes != null)
+                    var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
+                    var i = 0;
+                    var check = 0;
+
+
+                    @if (Model.Likes != null)
+                    {
+
+
+
+                        @while (i < Model.Likes.Brukere.Count)
                         {
-
-
-
-                            @while (i < Model.Likes.Brukere.Count)
+                            @if (du.Id.Equals(Model.Likes.Brukere[i]))
                             {
-                                @if (du.Id.Equals(Model.Likes.Brukere[i]))
-                                {
-                                    likeNr = -1;
-                                    <button id="realLikeButton" class="dislikebutton" onclick="ajaxDislike('@thisid')">
-                                        <i class="fas fa-thumbs-up"></i>
-                                    </button>
-                                    <button id="fakeLikeButton" class="dislikebutton" style="display: none" onclick="ajaxLike('@thisid')">
-                                        <i class="far fa-thumbs-up"></i>
-                                    </button>
-                                    check = 1;
-                                    break;
-                                }
-
-
-                                i++;
+                                likeNr = -1;
+                                <button id="realLikeButton" class="dislikebutton" onclick="ajaxDislike('@thisid')">
+                                    <i class="fas fa-thumbs-up"></i>
+                                </button>
+                                <button id="fakeLikeButton" class="dislikebutton" style="display: none" onclick="ajaxLike('@thisid')">
+                                    <i class="far fa-thumbs-up"></i>
+                                </button>
+                                check = 1;
+                                break;
                             }
-                        }
-                        @if (check == 0)
-                        {
-                            <button id="realLikeButton" class="likebutton" onclick="ajaxLike('@thisid')">
-                                <i class="far fa-thumbs-up"></i>
-                            </button>
-                            <button id="fakeLikeButton" class="likebutton" style="display: none" onclick="ajaxDislike('@thisid')">
-                                <i class="fas fa-thumbs-up"></i>
-                            </button>
-                        }
 
-                    </div>
+
+                            i++;
+                        }
+                    }
+
+
+
+                    @if (check == 0)
+                    {
+                        <button id="realLikeButton" class="likebutton" onclick="ajaxLike('@thisid')">
+                            <i class="far fa-thumbs-up"></i>
+                        </button>
+                        <button id="fakeLikeButton" class="likebutton" style="display: none" onclick="ajaxDislike('@thisid')">
+                            <i class="fas fa-thumbs-up"></i>
+                        </button>
+                    }
+
+
                 }
-                @if (Model.Likes != null)
-                {
+                @{
                     var likes = Model.Likes.Antall;
-                    <p class="" id="realLikes">@likes</p>
+                    <p class="likenmr" id="realLikes">@likes</p>
                     var plusLikes = Model.Likes.Antall + @likeNr;
-                    <p class="" id="fakeLikes" style="display: none">@plusLikes</p>
-
+                    <p class="likenmr" id="fakeLikes" style="display: none">@plusLikes</p>
                 }
+
+            </div>
             </div>
         </div>
     }
@@ -1048,7 +1066,7 @@ function dislike(innId) {
 
 
 
-<div class="kommentardiv container col-6">
+<div class="kommentardiv container col-10">
 
     @if (ViewData["Token"] != null)
 
