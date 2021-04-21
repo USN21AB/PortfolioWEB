@@ -57,7 +57,7 @@ Licensed under the Creative Commons Attribution 2.5 License - http://creativecom
 
     Lightbox.prototype.build = function() {
       var _this = this;
-      $("<div id='lightbox' class='lightbox'><div class='lb-outerContainer'><div class='lb-container'><img class='lb-image' src='' /></div></div></div>").appendTo($('body'));
+        $('<div id="lightboxOverlay" class="lightboxOverlay"></div><div id="lightbox" class="lightbox"><div class="lb-dataContainer"><div class="lb-data"><div class="lb-details"><span class="lb-caption"></span><span class="lb-number"></span></div><div class="lb-closeContainer"><a class="lb-close"></a></div></div></div><div class="lb-outerContainer"><div class="lb-container"><img class="lb-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" /><div class="lb-nav"><a class="lb-prev" href="" ></a><a class="lb-next" href="" ></a></div><div class="lb-loader"><a class="lb-cancel"></a></div></div></div></div>').appendTo($('body'));
       this.$lightbox = $('#lightbox');
       this.$overlay = $('#lightboxOverlay');
       this.$outerContainer = this.$lightbox.find('.lb-outerContainer');
@@ -79,6 +79,14 @@ Licensed under the Creative Commons Attribution 2.5 License - http://creativecom
       this.$outerContainer.on('click', function(e) {
         if ($(e.target).attr('id') === 'lightbox') {
           _this.end();
+        }
+        return false;
+      });
+      this.$lightbox.find('.lb-prev').on('click', function() {
+        if (_this.currentImageIndex === 0) {
+          _this.changeImage(_this.album.length - 1);
+        } else {
+          _this.changeImage(_this.currentImageIndex - 1);
         }
         return false;
       });
@@ -156,7 +164,7 @@ Licensed under the Creative Commons Attribution 2.5 License - http://creativecom
       this.sizeOverlay();
       this.$overlay.fadeIn(this.options.fadeDuration);
       $('.lb-loader').fadeIn('slow');
-      this.$lightbox.find('.lb-image, .lb-nav, .lb-dataContainer, .lb-numbers, .lb-caption').hide();
+      this.$lightbox.find('.lb-image, .lb-nav, .lb-prev, .lb-next, .lb-dataContainer, .lb-numbers, .lb-caption').hide();
       this.$outerContainer.addClass('animating');
       preloader = new Image();
       preloader.onload = function() {
@@ -207,6 +215,8 @@ Licensed under the Creative Commons Attribution 2.5 License - http://creativecom
       }, this.options.resizeDuration, 'swing');
       setTimeout(function() {
         _this.$lightbox.find('.lb-dataContainer').width(newWidth);
+        _this.$lightbox.find('.lb-prevLink').height(newHeight);
+        _this.$lightbox.find('.lb-nextLink').height(newHeight);
         _this.showImage();
       }, this.options.resizeDuration);
     };
@@ -220,7 +230,21 @@ Licensed under the Creative Commons Attribution 2.5 License - http://creativecom
       this.enableKeyboardNav();
     };
 
-
+    Lightbox.prototype.updateNav = function() {
+      this.$lightbox.find('.lb-nav').show();
+      if (this.album.length > 1) {
+        if (this.options.wrapAround) {
+          this.$lightbox.find('.lb-prev, .lb-next').show();
+        } else {
+          if (this.currentImageIndex > 0) {
+            this.$lightbox.find('.lb-prev').show();
+          }
+          if (this.currentImageIndex < this.album.length - 1) {
+            this.$lightbox.find('.lb-next').show();
+          }
+        }
+      }
+    };
 
     Lightbox.prototype.updateDetails = function() {
       var _this = this;
@@ -238,6 +262,17 @@ Licensed under the Creative Commons Attribution 2.5 License - http://creativecom
       });
     };
 
+    Lightbox.prototype.preloadNeighboringImages = function() {
+      var preloadNext, preloadPrev;
+      if (this.album.length > this.currentImageIndex + 1) {
+        preloadNext = new Image();
+        preloadNext.src = this.album[this.currentImageIndex + 1].link;
+      }
+      if (this.currentImageIndex > 0) {
+        preloadPrev = new Image();
+        preloadPrev.src = this.album[this.currentImageIndex - 1].link;
+      }
+    };
 
     Lightbox.prototype.enableKeyboardNav = function() {
       $(document).on('keyup.keyboard', $.proxy(this.keyboardAction, this));

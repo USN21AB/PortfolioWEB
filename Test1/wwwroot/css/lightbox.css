@@ -1,6 +1,6 @@
 /* line 7, ../sass/lightbox.sass */
 body:after {
-    content: url(../lib/bilder/close.png) url(../lib/bilder/loading.gif) ;
+    content: url(../lib/bilder/close.png) url(../lib/bilder/loading.gif) url(../lib/bilder/prev.png) url(../lib/bilder/next.png);
     display: none;
 }
 
@@ -44,7 +44,10 @@ body:after {
 /* line 35, ../sass/lightbox.sass */
 .lb-outerContainer {
   position: relative;
+  background-color: white;
   *zoom: 1;
+  width: 250px;
+  height: 250px;
   margin: 0 auto;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -77,20 +80,61 @@ body:after {
 
 /* line 56, ../sass/lightbox.sass */
 .lb-cancel {
-  display: block;
-  width: 32px;
-  height: 32px;
-  margin: 0 auto;
-  background: url(../img/loading.gif) no-repeat;
+    display: block;
+    width: 32px;
+    height: 32px;
+    margin: 0 auto;
+    background: url(../lib/bilder/loading.gif) no-repeat;
 }
 
 /* line 63, ../sass/lightbox.sass */
+.lb-nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 10;
+}
 
 /* line 71, ../sass/lightbox.sass */
+.lb-container > .nav {
+  left: 0;
+}
 
+/* line 74, ../sass/lightbox.sass */
+.lb-nav a {
+  outline: none;
+}
 
 /* line 77, ../sass/lightbox.sass */
+.lb-prev, .lb-next {
+  width: 49%;
+  height: 100%;
+  cursor: pointer;
+  /* Trick IE into showing hover */
+  display: block;
+}
 
+/* line 84, ../sass/lightbox.sass */
+.lb-prev {
+  left: 0;
+  float: left;
+}
+/* line 87, ../sass/lightbox.sass */
+    .lb-prev:hover {
+        background: url(../lib/bilder/prev.png) left 48% no-repeat;
+    }
+
+/* line 90, ../sass/lightbox.sass */
+.lb-next {
+  right: 0;
+  float: right;
+}
+/* line 93, ../sass/lightbox.sass */
+    .lb-next:hover {
+        background: url(../lib/bilder/next.png) right 48% no-repeat;
+    }
 
 /* line 96, ../sass/lightbox.sass */
 .lb-dataContainer {
@@ -139,17 +183,17 @@ body:after {
   color: #999999;
 }
 /* line 121, ../sass/lightbox.sass */
-.lb-data .lb-close {
-  display: block;
-  float: right;
-  width: 30px;
-  height: 30px;
-  background: url(../img/close.png) top right no-repeat;
-  text-align: right;
-  outline: none;
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=70);
-  opacity: 0.7;
-}
+    .lb-data .lb-close {
+        display: block;
+        float: right;
+        width: 30px;
+        height: 30px;
+        background: url(../lib/bilder/close.png) top right no-repeat;
+        text-align: left;
+        outline: none;
+        filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=70);
+        opacity: 0.7;
+    }
 /* line 130, ../sass/lightbox.sass */
 .lb-data .lb-close:hover {
   cursor: pointer;
