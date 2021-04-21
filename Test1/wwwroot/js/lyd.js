@@ -41,6 +41,9 @@ function spillAv(sang, toggle) {
 
 };
 
+
+
+
 function volum(verdi) {
 
 
@@ -153,3 +156,16 @@ var image = document.getElementsByClassName("single-awesome-portfolio");
         $('#v-pills-tab a:second').tab('show');
 });
 */
+
+window.onload = function () {
+    var audio = document.getElementsByClassName('lydspor'),
+        i = audio.length;
+
+
+    while (i--) {
+        var lyd = audio[i].id;
+        var luld = document.getElementById(lyd);
+        luld.volume = 0.5;
+    }
+};
+
