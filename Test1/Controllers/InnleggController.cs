@@ -319,7 +319,6 @@ namespace Portefolio_webApp.Controllers
             kommentar.EierNavn = brukerNavn;
             kommentar.EierBilde = brukerBilde;
 
-
             var innlegg = new Innlegg();
             innlegg = firebase.HentSpesifiktInnlegg(innleggId);
             var baseKomment = innlegg.Kommentar[kommentId];

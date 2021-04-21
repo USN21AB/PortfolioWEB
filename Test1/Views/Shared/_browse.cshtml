@@ -1,5 +1,5 @@
 ﻿<link href="~/css/_browse.css" rel="stylesheet" />
-<script src="~/js/lyd.js?v=1"></script>
+<script src="~/js/lyd.js"></script>
 <link href="~/css/Musikkontroller.css?v=1" rel="stylesheet" />
 <link href="~/css/PorteføljeElementer.css" rel="stylesheet" />
 @model Portefolio_webApp.Models.Innlegg;
@@ -104,7 +104,7 @@
 
     <img class="stopper" src="../resources/icons8-pause-96.png" onclick="stopAll()" />
 
-    <input type="range" id="volume-control" value="10" min="0" max="10" onload="volum(this.value)" onchange="volum(this.value)">
+    <input type="range" id="volume-control" value="5" min="0" max="10" onload="volum(this.value)" onchange="volum(this.value)">
 </div>
 
 <svg height="0" xmlns="http://www.w3.org/2000/svg">

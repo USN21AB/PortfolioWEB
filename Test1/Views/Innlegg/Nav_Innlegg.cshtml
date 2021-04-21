@@ -723,6 +723,13 @@ function dislike(innId) {
         else
             document.getElementById('musikkplayercard').style.height = "auto";
     }
+
+    $(document).ready(function () {
+        var audio = document.getElementById('sang');
+
+            audio.volume = 0.5;
+        
+    });
 </script>
 
 
@@ -734,7 +741,7 @@ function dislike(innId) {
 
     if (kategori.Equals("Bilde"))
     {
-        <div class="hovedInnlegg tekstogbilde card container col-6">
+        <div class="hovedInnlegg tekstogbilde card container col-10">
 
             <div class="bildediv ">
                 <a href='@url' data-lightbox="lightboxImg" data-title="myLightbox">
@@ -742,7 +749,7 @@ function dislike(innId) {
                 </a>
             </div>
         </div>
-        <div class="infodiv col-6">
+        <div class="infodiv col-10">
 
             <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@bruker.Id">
                 <img src="@bruker.Profilbilde" id="@url" />
@@ -845,7 +852,7 @@ function dislike(innId) {
     }
     else if (kategori.Equals("Tekst"))
     {
-<div class="infodiv col-6">
+<div class="infodiv col-10">
 
     <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@bruker.Id">
         <img src="@bruker.Profilbilde" id="@url" />
@@ -941,13 +948,13 @@ function dislike(innId) {
     }
 </div>
 </div>
-        <div class="hovedInnlegg tekstogbilde card container col-6">
+        <div class="hovedInnlegg tekstogbilde card container col-10">
             <embed src='@url' class="tekstInnlegg" />
         </div>
     }
     else if (kategori.Equals("Lyd"))
     {
-        <div class="musikkdiv row col-6 px-0 gx-5">
+        <div class="musikkdiv row col-10 px-0 gx-5">
             <div class="hovedInnlegg musikk card col-4  left-grid" id="musikkplayercard">
                 <div class="musikk_kontroller">
 
@@ -960,7 +967,7 @@ function dislike(innId) {
 
 
 
-                    <input type="range" id="volume-control" orient=vertical value="10" min="0" max="10" onload="volum(this.value)" onchange="volum(this.value)">
+                    <input type="range" id="volume-control" orient=vertical value="5" min="0" max="10" onload="volum(this.value)" onchange="volum(this.value)">
 
                 </div>
 
@@ -1096,7 +1103,7 @@ function dislike(innId) {
 
 
 
-<div class="kommentardiv container col-6">
+<div class="kommentardiv container col-10">
 
     @if (ViewData["Token"] != null)
 
