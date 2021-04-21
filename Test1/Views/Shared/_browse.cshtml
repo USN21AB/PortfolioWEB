@@ -44,9 +44,9 @@
     {
 
         <div class="music_player">
-            <i class="fas fa-music innlegg-ikon"></i>
             <img id="sang-@Innlegg.Id" class="play_button shadowed" src="~/resources/icons8-play-96.png" onclick='spillAv("sangaudio-@Innlegg.Id", this.id); visSang("sangnavn-@Innlegg.Id", "artist-@Innlegg.Id")' />
             <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id class="card-link">
+                <i class="fas fa-music innlegg-ikon"></i>
                 <div class="play_button_div">
                     <h3 class="sangnavn" id="sangnavn-@Innlegg.Id">@Innlegg.Tittel</h3>
                     <p class="artist" id="artist-@Innlegg.Id">@Innlegg.Eier</p>
