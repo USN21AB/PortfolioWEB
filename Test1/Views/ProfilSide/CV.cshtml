@@ -469,22 +469,22 @@
         </div>
 
     </div>
-
+        <!--Modal popup-->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header" style="background-color: #55586b; border-color: black;">
                     <h5 class="modal-title" id="exampleModalLabel">Warning!</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button id="ButtonModelClose" type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body" style="        background-color: #1b2638;">
-                    Are you sure you want to delete that ?!
+                    Are you sure you want to delete?
                 </div>
                 <div class="modal-footer" style="        background-color: #1b2638; border-color: #1b2638;">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" style="background-color: red; border-color: red;">DELETE</button>
+                    <button id="ButtonModelDelete" type="button" class="btn btn-primary" style="background-color: red; border-color: red;">Delete</button>
+                    <button id="ButtonModelCancel" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
         </div>
@@ -534,16 +534,9 @@
         document.getElementById(slider).onchange = function () {
             sliderFunc(tekst, slider);
         };
-        document.getElementById(skillButton).onclick = function () {
-            alert("delete er meg");
-          //  onDelete(skill, 0, 'slider');
-          
-         
-        }
+
     }
-    function testResponse() {
-        alert("HEEY ");
-    }
+
     function registrerSliders(brukerID, type) {
 
         var i;
@@ -614,8 +607,17 @@
         document.getElementById(submit).style.display = "none";
     }
     function onDelete(id, index, felt) {
-        alert("delete er meg");
-        $("#exampleModal").modal();
+      
+        document.getElementById("ButtonModelDelete").onclick = function (event){
+            onDeleteExpand(id, index, felt);
+        }
+        $("#exampleModal").modal("show");
+
+        }
+
+        function onDeleteExpand(id, index, felt) {
+
+            $("#exampleModal").modal("hide");
         if (felt == "slider") {
             document.getElementById(id).remove();
         } else document.getElementById(id).style.display = "none";
@@ -633,8 +635,8 @@
                        // alert("Dette er resultatet " + result.result);
                     }
           });
+         }
         }
-    }
         function onEdit(type, index, årDatDiv, årFra, årTil, tittel, bedrift, bio, submitKnapp) {
 
         document.getElementById(submitKnapp).style.display = "inline";
@@ -654,13 +656,14 @@
             document.getElementById(bio).outerHTML = "<textarea class='form-control' id=" + bio + " class='text-muted mt-2' rows='3' cols='50'>" + biVerdi + "</textarea>";
         }
     }
+
     function saveEdit(bruker, felt, index, årFra, årTil, tittel, bedrift, bio, array) {
         var bion = '';
         var fra ='';
         var til = '';
         var årf ='';
         var årT = '';
-        var spanField = "spanU"; 
+        var spanField = "spanU";
 
         if (felt != "Ferdigheter" && felt != "Språk") {
          fra = document.getElementById(årFra);
@@ -672,7 +675,7 @@
         }
         if (felt == "ArbeidsErfaring") {
             bion = bio.value;
-            spanField = "spanA"; 
+            spanField = "spanA";
             if (bion == "") {
                 var text = document.createTextNode("Please fill in all inputs!");
                 document.getElementById(index+spanField).appendChild(text);
@@ -718,7 +721,16 @@
 
 
         <script>
-        $(document).ready(function () {
+            $(document).ready(function () {
+
+                document.getElementById("ButtonModelClose").addEventListener('click', function (event) {
+                    $("#exampleModal").modal("hide");
+                });
+
+                document.getElementById("ButtonModelCancel").addEventListener('click', function (event) {
+                    $("#exampleModal").modal("hide");
+                });
+
         document.getElementById("submitArbeid").addEventListener('click', function (event) {
 
         event.preventDefault();

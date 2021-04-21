@@ -259,7 +259,7 @@
         padding: 10px;
     }
     .infodivmusikk {
-        min-height: 430px;
+        min-height: 330px;
     }
     .infodiv p {
         color: white;
@@ -541,6 +541,17 @@
         "Tidspunkt": today
     };
    */
+
+           $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("LikeInnlegg", "Innlegg")',
+                    data: json,
+                    dataType: "json",
+                 success: function (result) {
+                 },
+                 error: function (result) {
+                 }
+             });
 }
 function Reply(nyId, kommId) {
     var url = '@Html.Raw(Url.Action("NyttReply", "Innlegg", new { tekst = "_tekst_", innleggId = "_innleggId_", kommentId = "_kommentId_" }))';
@@ -681,253 +692,17 @@ function dislike(innId) {
 
 
 @{
+    
+        if (kategori.Equals("Bilde"))
+        {
+            <div class="hovedInnlegg tekstogbilde card container col-6">
 
-    if (kategori.Equals("Bilde"))
-    {
-        <div class="hovedInnlegg tekstogbilde card container col-6">
+                <div class="bildediv ">
+                    <img src='@url' class="bildeInnlegg" alt="error" id="innlegg" />
 
-            <div class="bildediv ">
-                <img src='@url' class="bildeInnlegg" alt="error" id="innlegg" />
-
-            </div>
-        </div>
-        <div class="infodiv col-6">
-
-            <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@bruker.Id">
-                <img src="@bruker.Profilbilde" id="@url" />
-
-            </a>
-
-            <h1 class="">@tittel</h1>
-            <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@bruker.Id">
-                <h3 class="ikontxttop">@bruker.Navn</h3>
-            </a>
-
-
-
-            <p class="uploaddato">@dato</p>
-            <p class="beskrivelse">@beskrivelse</p>
-
-            <ul class="tagGrid">
-
-                @{
-                    var antall = 0;
-                    var tag = Model.Tagger;
-                }
-                @while (antall < tag.Count)
-                {
-                    <li>
-                        <p class="tag">@tag.ElementAt(antall)</p>
-                    </li>
-                    antall++;
-                }
-            </ul>
-
-
-            @{
-                var likeNr = 1;
-            }
-
-
-            @if (ViewData["Token"] != null)
-
-            {
-
-
-        <div class="likes">
-
-            @{
-                var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
-                var i = 0;
-                var check = 0;
-
-            }
-
-            @if (Model.Likes != null)
-            {
-
-
-
-                @while (i < Model.Likes.Brukere.Count)
-                {
-                    @if (du.Id.Equals(Model.Likes.Brukere[i]))
-                    {
-                        likeNr = -1;
-                        <button id="realLikeButton" class="dislikebutton" onclick="ajaxDislike('@thisid')">
-                            <i class="fas fa-thumbs-up"></i>
-                        </button>
-                        <button id="fakeLikeButton" class="dislikebutton" style="display: none" onclick="ajaxLike('@thisid')">
-                            <i class="far fa-thumbs-up"></i>
-                        </button>
-                        check = 1;
-                        break;
-                    }
-
-
-                    i++;
-                }
-            }
-
-            @if (check == 0)
-            {
-                <button id="realLikeButton" class="likebutton" onclick="ajaxLike('@thisid')">
-                    <i class="far fa-thumbs-up"></i>
-                </button>
-                <button id="fakeLikeButton" class="likebutton" style="display: none" onclick="ajaxDislike('@thisid')">
-                    <i class="fas fa-thumbs-up"></i>
-                </button>
-            }
-
-            @if (Model.Likes != null)
-            {
-                var likes = Model.Likes.Antall;
-                <p class="" id="realLikes">@likes</p>
-                var plusLikes = Model.Likes.Antall + @likeNr;
-                <p class="" id="fakeLikes" style="display: none">@plusLikes</p>
-
-            }
-
-        </div>
-            }
-        </div>
-
-
-    }
-    else if (kategori.Equals("Tekst"))
-    {
-        <div class="infodiv col-6">
-
-            <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@bruker.Id">
-                <img src="@bruker.Profilbilde" id="@url" />
-
-            </a>
-
-            <h1 class="">@tittel</h1>
-            <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@bruker.Id">
-                <h3 class="ikontxttop">@bruker.Navn</h3>
-            </a>
-
-
-
-            <p class="uploaddato">@dato</p>
-            <p class="beskrivelse">@beskrivelse</p>
-
-            <ul class="tagGrid">
-
-                @{
-                    var antall = 0;
-                    var tag = Model.Tagger;
-                }
-                @while (antall < tag.Count)
-                {
-                    <li>
-                        <p class="tag">@tag.ElementAt(antall)</p>
-                    </li>
-                    antall++;
-                }
-            </ul>
-
-
-            @{
-                var likeNr = 1;
-            }
-
-
-            @if (ViewData["Token"] != null)
-
-            {
-
-
-                <div class="likes">
-
-                    @{
-                        var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
-                        var i = 0;
-                        var check = 0;
-
-                    }
-
-                    @if (Model.Likes != null)
-                    {
-
-
-
-                        @while (i < Model.Likes.Brukere.Count)
-                        {
-                            @if (du.Id.Equals(Model.Likes.Brukere[i]))
-                            {
-                                likeNr = -1;
-                                <button id="realLikeButton" class="dislikebutton" onclick="ajaxDislike('@thisid')">
-                                    <i class="fas fa-thumbs-up"></i>
-                                </button>
-                                <button id="fakeLikeButton" class="dislikebutton" style="display: none" onclick="ajaxLike('@thisid')">
-                                    <i class="far fa-thumbs-up"></i>
-                                </button>
-                                check = 1;
-                                break;
-                            }
-
-
-                            i++;
-                        }
-                    }
-                    @if (check == 0)
-                    {
-                        <button id="realLikeButton" class="likebutton" onclick="ajaxLike('@thisid')">
-                            <i class="far fa-thumbs-up"></i>
-                        </button>
-                        <button id="fakeLikeButton" class="likebutton" style="display: none" onclick="ajaxDislike('@thisid')">
-                            <i class="fas fa-thumbs-up"></i>
-                        </button>
-                    }
-
-                </div>
-            }
-            @if (Model.Likes != null)
-            {
-                var likes = Model.Likes.Antall;
-                <p class="" id="realLikes">@likes</p>
-                var plusLikes = Model.Likes.Antall + @likeNr;
-                <p class="" id="fakeLikes" style="display: none">@plusLikes</p>
-
-            }
-        </div>
-        <div class="hovedInnlegg tekstogbilde card container col-6">
-            <embed src='@url' class="tekstInnlegg" />
-        </div>
-    }
-    else if (kategori.Equals("Lyd"))
-    {
-        <div class="musikkdiv row col-6 px-0 gx-5">
-            <div class="hovedInnlegg musikk card col-4  left-grid" id="musikkplayercard">
-                <div class="musikk_kontroller">
-
-                    <span id="sangfelt"></span>
-                    <span id="artistfelt"></span>
-
-                    <span id="tracktime">0:00</span>
-                    <progress id="seekbar" value="0" max="100"></progress>
-                    <span id="trackduration">0:00</span>
-
-
-
-                    <input type="range" id="volume-control" orient=vertical value="10" min="0" max="10" onload="volum(this.value)" onchange="volum(this.value)">
-
-                </div>
-
-                <!--<img id="sangi" class=" shadowed" src='~/resources/icons8-play-96.png' onclick='spillAv("sang", "sangi"); visSang("sangnavn", "artist")' />
-                -->
-                <audio id="sang" class="lydspor" preload="metadata" src="@url"
-                       ontimeupdate="timer('sang'); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60);
-                                     document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2);"
-                       onloadeddata="var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60);
-                                      document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);"></audio>
-                <div class="fuck rotate" id="albumcover">
-                    <img class="stopper" id="playstop" src="~/resources/icons8-play-96.png" onclick='spillAv("sang", "playstop"); timer("sang")' />
                 </div>
             </div>
-
-            <div class="infodiv infodivmusikk musikk col gx-5 right-grid" id="infocard">
+            <div class="infodiv col-6">
 
                 <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@bruker.Id">
                     <img src="@bruker.Profilbilde" id="@url" />
@@ -942,7 +717,111 @@ function dislike(innId) {
 
 
                 <p class="uploaddato">@dato</p>
-                <p class="beskrivelse musikkbeskrivelse">@beskrivelse</p>
+                <p class="beskrivelse">@beskrivelse</p>
+
+                <ul class="tagGrid">
+
+                    @{
+                        var antall = 0;
+                        var tag = Model.Tagger;
+                    }
+                    @while (antall < tag.Count)
+                    {
+                        <li>
+                            <p class="tag">@tag.ElementAt(antall)</p>
+                        </li>
+                        antall++;
+                    }
+                </ul>
+
+
+                @{
+                    var likeNr = 1;
+                }
+
+
+                @if (ViewData["Token"] != null)
+
+                {
+
+
+                    <div class="likes">
+
+                        @{
+                            var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
+                            var i = 0;
+                            var check = 0;
+
+                        }
+
+                        @if (Model.Likes != null)
+                        {
+
+
+
+                            @while (i < Model.Likes.Brukere.Count)
+                            {
+                                @if (du.Id.Equals(Model.Likes.Brukere[i]))
+                                {
+                                    likeNr = -1;
+                                    <button id="realLikeButton" class="dislikebutton" onclick="ajaxDislike('@thisid')">
+                                        <i class="fas fa-thumbs-up"></i>
+                                    </button>
+                                    <button id="fakeLikeButton" class="dislikebutton" style="display: none" onclick="ajaxLike('@thisid')">
+                                        <i class="far fa-thumbs-up"></i>
+                                    </button>
+                                    check = 1;
+                                    break;
+                                }
+
+
+                                i++;
+                            }
+                        }
+
+                        @if (check == 0)
+                        {
+                            <button id="realLikeButton" class="likebutton" onclick="ajaxLike('@thisid')">
+                                <i class="far fa-thumbs-up"></i>
+                            </button>
+                            <button id="fakeLikeButton" class="likebutton" style="display: none" onclick="ajaxDislike('@thisid')">
+                                <i class="fas fa-thumbs-up"></i>
+                            </button>
+                        }
+
+                        @if (Model.Likes != null)
+                        {
+                            var likes = Model.Likes.Antall;
+                            <p class="" id="realLikes">@likes</p>
+                            var plusLikes = Model.Likes.Antall + @likeNr;
+                            <p class="" id="fakeLikes" style="display: none">@plusLikes</p>
+
+                        }
+
+                    </div>
+                }
+            </div>
+
+
+        } //Slutt på bilde
+        else if (kategori.Equals("Tekst"))
+        {
+            <div class="infodiv col-6">
+
+                <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@bruker.Id">
+                    <img src="@bruker.Profilbilde" id="@url" />
+
+                </a>
+
+                <h1 class="">@tittel</h1>
+                <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@bruker.Id">
+                    <h3 class="ikontxttop">@bruker.Navn</h3>
+                </a>
+
+
+
+                <p class="uploaddato">@dato</p>
+                <p class="beskrivelse">@beskrivelse</p>
 
                 <ul class="tagGrid">
 
@@ -1024,172 +903,305 @@ function dislike(innId) {
 
                 }
             </div>
-        </div>
-    }
-    else if (kategori.Equals(""))
-    {
-        <div class="hovedInnlegg ">
-            <p>Beklager men denne siden eksisterer ikke </p>
-        </div>
-    }
-    else
-    {
-        <p>Noe gikk galt</p>
-    }
-
-
-
-}
-
-
-
-
-
-
-
-
-<div class="kommentardiv container col-6">
-
-    @if (ViewData["Token"] != null)
-
-    {
-
-        var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
-
-
-
-        <div class="nyttKommentarFelt" ;>
-            <a asp-controller="Profilside" asp-action="Profilside">
-                <img src=@du.Profilbilde class="innloggetprofilbilde" id="imgikon" />
-            </a>
-            <div class="textareadiv">
-                <textarea id="kommentarFelt" name="w3review" rows="3" class="skrivKommentar col-9" placeholder="What do you think..."></textarea>
-
-                <button style="margin-top: 10px;" class="postKommentarButton" onclick="Kommentar('@thisid',  '@innlogget_bruker.Id', '@innlogget_bruker.Navn', '@bruker.Id',  '@Model.Id')">Comment</button>
+            <div class="hovedInnlegg tekstogbilde card container col-6">
+                <embed src='@url' class="tekstInnlegg" />
             </div>
-        </div>
-    }
-    @*Setter opp alle kommentarer som tilhører innlegget*@
-
-    @{
-        var antallReply = 0;
-    }
-    @{
-        var antallKommentarer = 0;
-    }
-
-    @if (kommentar.Count != 0)
-        @while (antallKommentarer < kommentar.Count)
+        } //slutt på tekst
+        else if (kategori.Equals("Lyd"))
         {
-            var kommentid = kommentar[antallKommentarer].Id;
-            var tekst = kommentar[antallKommentarer].Tekst;
-            var komid = kommentar[antallKommentarer].EierId;
-            var bilde = kommentar[antallKommentarer].EierBilde;
-            var nvn = kommentar[antallKommentarer].EierNavn;
-            <div class="singleKommentar">
+            <div class="musikkdiv row col-6 px-0 gx-5">
+                <div class="hovedInnlegg musikk card col-4  left-grid" id="musikkplayercard">
+                    <div class="musikk_kontroller">
+
+                        <span id="sangfelt"></span>
+                        <span id="artistfelt"></span>
+
+                        <span id="tracktime">0:00</span>
+                        <progress id="seekbar" value="0" max="100"></progress>
+                        <span id="trackduration">0:00</span>
 
 
-                <div class="kommentarProfil kommentarProfilbottom">
-                    <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@komid">
-                        <img src=@bilde id="imgikon" />
-                    </a>
 
-                    <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@komid">
-                        <p class="ikontxt">@nvn</p>
-                    </a>
-
-                    <div class="row">
-                        <p class="kommentartext col-9">@tekst</p>
-                        @if (ViewData["Token"] != null)
-                        {
-                            var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
-                            @if (du.Id.Equals(@komid))
-                            {
-                                <button class="slettKommentar " onclick="deleteKommentar('@antallKommentarer', '@thisid')"><i class="far fa-trash-alt delete-folder"></i></button>
-                            }
-
-                        }
-
+                        <input type="range" id="volume-control" orient=vertical value="10" min="0" max="10" onload="volum(this.value)" onchange="volum(this.value)">
 
                     </div>
 
+                    <!--<img id="sangi" class=" shadowed" src='~/resources/icons8-play-96.png' onclick='spillAv("sang", "sangi"); visSang("sangnavn", "artist")' />
+                    -->
+                    <audio id="sang" class="lydspor" preload="metadata" src="@url"
+                           ontimeupdate="timer('sang'); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60);
+                                     document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2);"
+                           onloadeddata="var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60);
+                                      document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);"></audio>
+                    <div class="fuck rotate" id="albumcover">
+                        <img class="stopper" id="playstop" src="~/resources/icons8-play-96.png" onclick='spillAv("sang", "playstop"); timer("sang")' />
+                    </div>
                 </div>
 
-                @{
-                    var divid = "replyFelt" + antallKommentarer;
-                }
+                <div class="infodiv infodivmusikk musikk col gx-5 right-grid" id="infocard">
+
+                    <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@bruker.Id">
+                        <img src="@bruker.Profilbilde" id="@url" />
+
+                    </a>
+
+                    <h1 class="">@tittel</h1>
+                    <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@bruker.Id">
+                        <h3 class="ikontxttop">@bruker.Navn</h3>
+                    </a>
 
 
-                @while (antallReply < kommentar[antallKommentarer].Kommentarer.Count)
-                {
-                    var replyid = kommentar[antallKommentarer].Kommentarer[antallReply].EierId;
-                    var replytekst = kommentar[antallKommentarer].Kommentarer[antallReply].Tekst;
-                    var replykomid = kommentar[antallKommentarer].Kommentarer[antallReply].EierId;
-                    var replybilde = kommentar[antallKommentarer].Kommentarer[antallReply].EierBilde;
-                    var replynvn = kommentar[antallKommentarer].Kommentarer[antallReply].EierNavn;
 
-                    <div class="kommentarProfil replyProfil">
-                        <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@replykomid">
-                            <img src=@replybilde id="imgikon" />
+                    <p class="uploaddato">@dato</p>
+                    <p class="beskrivelse musikkbeskrivelse">@beskrivelse</p>
 
+                    <ul class="tagGrid">
+
+                        @{
+                            var antall = 0;
+                            var tag = Model.Tagger;
+                        }
+                        @while (antall < tag.Count)
+                        {
+                            <li>
+                                <p class="tag">@tag.ElementAt(antall)</p>
+                            </li>
+                            antall++;
+                        }
+                    </ul>
+
+
+                    @{
+                        var likeNr = 1;
+                    }
+
+
+                    @if (ViewData["Token"] != null)
+
+                    {
+
+
+                        <div class="likes">
+
+                            @{
+                                var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
+                                var i = 0;
+                                var check = 0;
+
+                            }
+
+                            @if (Model.Likes != null)
+                            {
+
+
+
+                                @while (i < Model.Likes.Brukere.Count)
+                                {
+                                    @if (du.Id.Equals(Model.Likes.Brukere[i]))
+                                    {
+                                        likeNr = -1;
+                                        <button id="realLikeButton" class="dislikebutton" onclick="ajaxDislike('@thisid')">
+                                            <i class="fas fa-thumbs-up"></i>
+                                        </button>
+                                        <button id="fakeLikeButton" class="dislikebutton" style="display: none" onclick="ajaxLike('@thisid')">
+                                            <i class="far fa-thumbs-up"></i>
+                                        </button>
+                                        check = 1;
+                                        break;
+                                    }
+
+
+                                    i++;
+                                }
+                            }
+                            @if (check == 0)
+                            {
+                                <button id="realLikeButton" class="likebutton" onclick="ajaxLike('@thisid')">
+                                    <i class="far fa-thumbs-up"></i>
+                                </button>
+                                <button id="fakeLikeButton" class="likebutton" style="display: none" onclick="ajaxDislike('@thisid')">
+                                    <i class="fas fa-thumbs-up"></i>
+                                </button>
+                            }
+
+                        </div>
+                    }
+                    @if (Model.Likes != null)
+                    {
+                        var likes = Model.Likes.Antall;
+                        <p class="" id="realLikes">@likes</p>
+                        var plusLikes = Model.Likes.Antall + @likeNr;
+                        <p class="" id="fakeLikes" style="display: none">@plusLikes</p>
+
+                    }
+                </div>
+            </div>
+        }
+        else if (kategori.Equals(""))
+        {
+            <div class="hovedInnlegg ">
+                <h5 style="text-align:center; color:white">We are sorry! This post does not exist! It might be because the post has been deleted by the owner.</h5>
+            </div>
+        }
+        else
+        {
+            <p>Noe gikk galt</p>
+        }
+
+
+
+    
+
+
+
+
+
+
+
+
+    <div class="kommentardiv container col-6">
+
+        @if (ViewData["Token"] != null && bruker != null)
+
+        {
+
+            var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
+
+
+
+            <div class="nyttKommentarFelt" ;>
+                <a asp-controller="Profilside" asp-action="Profilside">
+                    <img src=@du.Profilbilde class="innloggetprofilbilde" id="imgikon" />
+                </a>
+                <div class="textareadiv">
+                    <textarea id="kommentarFelt" name="w3review" rows="3" class="skrivKommentar col-9" placeholder="What do you think..."></textarea>
+
+                    <button style="margin-top: 10px;" class="postKommentarButton" onclick="Kommentar('@thisid',  '@innlogget_bruker.Id', '@innlogget_bruker.Navn', '@bruker.Id',  '@Model.Id')">Comment</button>
+                </div>
+            </div>
+        }
+        @*Setter opp alle kommentarer som tilhører innlegget*@
+
+        @{
+            var antallReply = 0;
+        }
+        @{
+            var antallKommentarer = 0;
+        }
+
+        @if (kommentar.Count != 0)
+            @while (antallKommentarer < kommentar.Count)
+            {
+                var kommentid = kommentar[antallKommentarer].Id;
+                var tekst = kommentar[antallKommentarer].Tekst;
+                var komid = kommentar[antallKommentarer].EierId;
+                var bilde = kommentar[antallKommentarer].EierBilde;
+                var nvn = kommentar[antallKommentarer].EierNavn;
+                <div class="singleKommentar">
+
+
+                    <div class="kommentarProfil kommentarProfilbottom">
+                        <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@komid">
+                            <img src=@bilde id="imgikon" />
                         </a>
-                        <a class="col-auto" asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@replykomid">
-                            <p class="reply">@replynvn</p>
 
+                        <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@komid">
+                            <p class="ikontxt">@nvn</p>
                         </a>
+
                         <div class="row">
-
-                            <p class="kommentartext col-8">@replytekst</p>
-
+                            <p class="kommentartext col-9">@tekst</p>
                             @if (ViewData["Token"] != null)
                             {
                                 var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
-                                @if (du.Id.Equals(@replyid))
+                                @if (du.Id.Equals(@komid))
                                 {
-                                    <button class="slettKommentar " onclick="deleteReply('@antallReply', '@antallKommentarer', '@thisid')"><i class="far fa-trash-alt delete-folder"></i></button>
+                                    <button class="slettKommentar " onclick="deleteKommentar('@antallKommentarer', '@thisid')"><i class="far fa-trash-alt delete-folder"></i></button>
                                 }
 
                             }
+
 
                         </div>
 
                     </div>
 
+                    @{
+                        var divid = "replyFelt" + antallKommentarer;
+                    }
 
 
-                    antallReply += 1;
+                    @while (antallReply < kommentar[antallKommentarer].Kommentarer.Count)
+                    {
+                        var replyid = kommentar[antallKommentarer].Kommentarer[antallReply].EierId;
+                        var replytekst = kommentar[antallKommentarer].Kommentarer[antallReply].Tekst;
+                        var replykomid = kommentar[antallKommentarer].Kommentarer[antallReply].EierId;
+                        var replybilde = kommentar[antallKommentarer].Kommentarer[antallReply].EierBilde;
+                        var replynvn = kommentar[antallKommentarer].Kommentarer[antallReply].EierNavn;
 
-                }
-                @if (ViewData["Token"] != null)
-                {
-                    <button style="margin-top: 10px;" onclick="hideReply('@antallKommentarer')" class="replyButton">Reply</button>
-                }
+                        <div class="kommentarProfil replyProfil">
+                            <a asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@replykomid">
+                                <img src=@replybilde id="imgikon" />
 
-                <div id="@("replyArea" + antallKommentarer)" class="replyarea">
-                    <textarea id="@("replyFelt" + antallKommentarer)" name="w3review" rows="4" class="skrivKommentar col-5" placeholder="Write a reply..."></textarea>
-                    <button class="postReplyButton" onclick="Reply('@thisid' , '@antallKommentarer')">Reply</button>
+                            </a>
+                            <a class="col-auto" asp-controller="Profilside" asp-action="Profilside" asp-route-brukerID="@replykomid">
+                                <p class="reply">@replynvn</p>
+
+                            </a>
+                            <div class="row">
+
+                                <p class="kommentartext col-8">@replytekst</p>
+
+                                @if (ViewData["Token"] != null)
+                                {
+                                    var du = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
+                                    @if (du.Id.Equals(@replyid))
+                                    {
+                                        <button class="slettKommentar " onclick="deleteReply('@antallReply', '@antallKommentarer', '@thisid')"><i class="far fa-trash-alt delete-folder"></i></button>
+                                    }
+
+                                }
+
+                            </div>
+
+                        </div>
+
+
+
+                        antallReply += 1;
+
+                    }
+                    @if (ViewData["Token"] != null)
+                    {
+                        <button style="margin-top: 10px;" onclick="hideReply('@antallKommentarer')" class="replyButton">Reply</button>
+                    }
+
+                    <div id="@("replyArea" + antallKommentarer)" class="replyarea">
+                        <textarea id="@("replyFelt" + antallKommentarer)" name="w3review" rows="4" class="skrivKommentar col-5" placeholder="Write a reply..."></textarea>
+                        <button class="postReplyButton" onclick="Reply('@thisid' , '@antallKommentarer')">Reply</button>
+                    </div>
+                    @{antallReply = 0;
+                        antallKommentarer += 1;
+                    }
                 </div>
-                @{antallReply = 0;
-                    antallKommentarer += 1;
-                }
-            </div>
-        }
-</div>
-<div id="alleKommentarFelt">
+            }
+    </div>
+    <div id="alleKommentarFelt">
 
-</div>
+    </div>
 
 
 
-<svg height="0" xmlns="http://www.w3.org/2000/svg">
-    <filter id="drop-shadow">
-        <feGaussianBlur in="SourceAlpha" stdDeviation="4" />
-        <feOffset dx="4" dy="4" result="offsetblur" />
-        <feFlood flood-color="rgba(0,0,0,0.8)" />
-        <feComposite in2="offsetblur" operator="in" />
-        <feMerge>
-            <feMergeNode />
-            <feMergeNode in="SourceGraphic" />
-        </feMerge>
-    </filter>
-</svg>
+    <svg height="0" xmlns="http://www.w3.org/2000/svg">
+        <filter id="drop-shadow">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="4" />
+            <feOffset dx="4" dy="4" result="offsetblur" />
+            <feFlood flood-color="rgba(0,0,0,0.8)" />
+            <feComposite in2="offsetblur" operator="in" />
+            <feMerge>
+                <feMergeNode />
+                <feMergeNode in="SourceGraphic" />
+            </feMerge>
+        </filter>
+    </svg>
+} 

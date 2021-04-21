@@ -324,10 +324,7 @@ namespace Test1.Models
 
         public void OppdaterInnlegg(Innlegg innlegg)
         {
-            Debug.WriteLine("Oppdaterer innlegg: " + innlegg.Tittel);
             SetResponse respons = klient.Set("Innlegg/" + innlegg.Id, innlegg);
-            // dynamic data = JsonConvert.DeserializeObject<Bruker>(respons.Body);
-            //Bruker mellomBruker = JsonConvert.DeserializeObject<Bruker>(((JProperty)data).Value.ToString()); 
         }
 
         public void RegistrerKommentar(Kommentar kommentar)
@@ -364,12 +361,7 @@ namespace Test1.Models
 
             if(SortedList.Count >= 8)
             SortedList.RemoveRange(0, (SortedList.Count - 8));
-
-            Debug.WriteLine("sortedlist: " + (SortedList.Count - 8) );
-            foreach (var item in SortedList)
-            {
-                Debug.WriteLine(item.Navn + " har " + item.likeRatio);
-            };
+           
             return SortedList;
         }
     }

@@ -250,18 +250,20 @@ namespace Portefolio_webApp.Controllers
                 oppBruker.CVAdgang = innBruker.CVAdgang;
                 oppBruker.notifications = innBruker.notifications;
                 oppBruker.Profilbilde = innBruker.Profilbilde;
+                oppBruker.kommentertPå = innBruker.kommentertPå; 
 
                 Console.WriteLine("FEEE: " + HttpContext.Session.GetString("CroppedPath"));
+
+     
 
                 if (HttpContext.Session.GetString("CroppedPath") == "" || HttpContext.Session.GetString("CroppedPath") == null)
                 {
                     firebase.OppdaterBruker(oppBruker);
+                    UpdateKommentarer(oppBruker);
                 }
                 else
                 {
-
-
-
+                    UpdateKommentarer(oppBruker);
 
                     await firebase.UploadProfilBilde(HttpContext.Session.GetString("CroppedPath"), oppBruker.Id, oppBruker.Profilbilde);
                     firebase.OppdaterBrukerBilde(oppBruker);
@@ -283,12 +285,46 @@ namespace Portefolio_webApp.Controllers
 
             var str = JsonConvert.SerializeObject(oppBruker);
             HttpContext.Session.SetString("Innlogget_Bruker", str);
+       
+
 
             ViewData["Innlogget_Bruker"] = oppBruker;
             ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
             ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
 
             return RedirectToAction("BrowseSide", "Home");
+        }
+
+        public void UpdateKommentarer(Bruker oppBruker)
+        {
+            Debug.WriteLine("update innlegg NÅDD HITT??: ");
+            //Update kommentarer i innlegg
+            for (int i = 0; i < oppBruker.kommentertPå.Count; i++)
+            {
+
+                Innlegg innlegg = firebase.HentSpesifiktInnlegg(oppBruker.kommentertPå[i]);
+                Debug.WriteLine("update komm innlegg: " + innlegg.Tittel);
+                for (int j = 0; j < innlegg.Kommentar.Count; j++)
+                {
+                    Debug.WriteLine("update kommentar: " + innlegg.Kommentar[j].Tekst);
+                    if (innlegg.Kommentar[j].EierId == oppBruker.Id)
+                    {
+                        innlegg.Kommentar[j].EierBilde = oppBruker.Profilbilde;
+                        innlegg.Kommentar[j].EierNavn = oppBruker.Navn;
+                        Debug.WriteLine("update Inni if: " + innlegg.Kommentar[j].Tekst);
+                    }
+
+                    for (int h = 0; h < innlegg.Kommentar[j].Kommentarer.Count; h++)
+                    {
+                        if (innlegg.Kommentar[j].Kommentarer[h].EierId == oppBruker.Id)
+                        {
+                            innlegg.Kommentar[j].Kommentarer[h].EierBilde = oppBruker.Profilbilde;
+                            innlegg.Kommentar[j].Kommentarer[h].EierNavn = oppBruker.Navn;
+                        }
+                    }
+                }
+                firebase.OppdaterInnlegg(innlegg);
+            }
         }
 
 
@@ -536,7 +572,9 @@ namespace Portefolio_webApp.Controllers
             firebase.SlettInnlegg(id);
 
             //firebase.SlettMappeInnlegg(Bruker.Id, mindex, index);
-
+            if (Bruker.Mapper[mindex].MappeInnhold.Count == 1)
+                Bruker.Mapper[mindex].MappeInnhold = null;
+            else
             Bruker.Mapper[mindex].MappeInnhold.RemoveAt(index);
 
             firebase.OppdaterBruker(Bruker);

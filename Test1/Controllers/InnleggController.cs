@@ -162,6 +162,12 @@ namespace Portefolio_webApp.Controllers
                     }
                     catch (Exception ex)
                     {
+                        var str0 = JsonConvert.SerializeObject(bruker);
+                        HttpContext.Session.SetString("Innlogget_Bruker", str0);
+
+                        ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
+                        ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
+                        ViewData["Innlogget_Bruker"] = bruker;
                         ModelState.AddModelError(string.Empty, ex.Message);
                         return View(Innlegg);
                     }
@@ -203,12 +209,19 @@ namespace Portefolio_webApp.Controllers
 
             }else
             {
+                var str2 = JsonConvert.SerializeObject(bruker);
+                HttpContext.Session.SetString("Innlogget_Bruker", str2);
+                ViewData["bruker"] = bruker; 
+                ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
+                ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
+                ViewData["Innlogget_Bruker"] = bruker;
                 return View(Innlegg);
             }
 
             var str = JsonConvert.SerializeObject(bruker);
             HttpContext.Session.SetString("Innlogget_Bruker", str);
 
+            ViewData["bruker"] = bruker;
             ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
             ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
             ViewData["Innlogget_Bruker"] = bruker;
@@ -226,14 +239,8 @@ namespace Portefolio_webApp.Controllers
             var isLoggedOn = false;
             if (token != null) isLoggedOn = true;
             ViewBag.Status = isLoggedOn;
-            
-            //Henter innlegget bruker klikket på
-            var innlegg = new Innlegg();
-            innlegg = firebase.HentSpesifiktInnlegg(id);
-            var bruker = new Bruker();
-            bruker = firebase.HentEnkeltBruker(innlegg.EierId);
-                
-            ViewData["bruker"] = bruker;
+
+           
             ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
             ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
             if (HttpContext.Session.GetString("Innlogget_Bruker") != null)
@@ -243,6 +250,25 @@ namespace Portefolio_webApp.Controllers
 
                 ViewData["Innlogget_Bruker"] = innBruker;
             }
+            //Henter innlegget bruker klikket på
+            var innlegg = new Innlegg();
+            try
+            {
+                innlegg = firebase.HentSpesifiktInnlegg(id);
+              
+             }
+            catch (Exception)
+            {
+                Debug.WriteLine("Jeg er inni catch Innlegg!"); 
+                return View(innlegg);
+            }
+
+            if (innlegg == null)
+                return View(new Innlegg()); 
+
+            var bruker = firebase.HentEnkeltBruker(innlegg.EierId);
+
+            ViewData["bruker"] = bruker;
             return View(innlegg);
 
         }
@@ -259,7 +285,7 @@ namespace Portefolio_webApp.Controllers
         {
             
             var str = HttpContext.Session.GetString("Innlogget_Bruker");
-            var innBruker = JsonConvert.DeserializeObject<Bruker>(str);
+            Bruker innBruker = JsonConvert.DeserializeObject<Bruker>(str);
             var brukerBilde = innBruker.Profilbilde;
             var brukerId = innBruker.Id;
             var brukerNavn = innBruker.Navn;
@@ -275,11 +301,17 @@ namespace Portefolio_webApp.Controllers
             kommentar.EierId = brukerId;
             kommentar.EierNavn = brukerNavn;
             kommentar.EierBilde = brukerBilde;
-            
+
+            if(!innBruker.kommentertPå.Contains(innleggId))
+                innBruker.kommentertPå.Add(innleggId);
+
+            var str0 = JsonConvert.SerializeObject(innBruker);
+            HttpContext.Session.SetString("Innlogget_Bruker", str0);
 
             var innlegg = new Innlegg();
             innlegg = firebase.HentSpesifiktInnlegg(innleggId);
             innlegg.Kommentar.Add(kommentar);
+
             Debug.WriteLine("Oppdaterer innlegg: " + innleggId + "Oppdaterer innlegg: " );
             try
             {
@@ -288,7 +320,7 @@ namespace Portefolio_webApp.Controllers
                     Debug.WriteLine("Oppdaterer innlegg: " + innlegg.Kommentar[0].InnleggId);
                     //firebase.RegistrerKommentar(kommentar);
                     firebase.OppdaterInnlegg(innlegg);
-
+                    firebase.OppdaterBruker(innBruker);
                     Notifications not = new Notifications("Kommentar", false, innBruker.Id, innBruker.Navn, innlegg.EierId, innlegg.Id, l.ToString("dd/MM/yyyy"));
                     firebase.SendNotification(not);
                   
@@ -322,13 +354,18 @@ namespace Portefolio_webApp.Controllers
             kommentar.EierNavn = brukerNavn;
             kommentar.EierBilde = brukerBilde;
 
+            if (!innBruker.kommentertPå.Contains(innleggId))
+                innBruker.kommentertPå.Add(innleggId);
+
+            var str0 = JsonConvert.SerializeObject(innBruker);
+            HttpContext.Session.SetString("Innlogget_Bruker", str0);
 
             var innlegg = new Innlegg();
             innlegg = firebase.HentSpesifiktInnlegg(innleggId);
             var baseKomment = innlegg.Kommentar[kommentId];
             baseKomment.Kommentarer.Add(kommentar);
             innlegg.Kommentar[kommentId] = baseKomment;
-            Debug.WriteLine("Oppdaterer innlegg1: " + innleggId + "Oppdaterer innlegg: ");
+            Debug.WriteLine("Dette er reply: " + innleggId + "Oppdaterer innlegg: ");
             try
             {
                 if (innlegg.Id != null)
@@ -337,6 +374,7 @@ namespace Portefolio_webApp.Controllers
                     Debug.WriteLine("Oppdaterer innlegg3: " + innlegg.Kommentar[0].Kommentarer[0].Tekst);
                     //firebase.RegistrerKommentar(kommentar);
                     firebase.OppdaterInnlegg(innlegg);
+                    firebase.OppdaterBruker(innBruker);
                 }
 
             }
@@ -353,6 +391,25 @@ namespace Portefolio_webApp.Controllers
             innlegg = firebase.HentSpesifiktInnlegg(innleggId);
             innlegg.Kommentar.RemoveAt(kommentarId);
 
+            var str = HttpContext.Session.GetString("Innlogget_Bruker");
+            Bruker innBruker = JsonConvert.DeserializeObject<Bruker>(str);
+
+            int antall = 0;
+            for (int i = 0; i<innlegg.Kommentar.Count; i++)
+            {
+              if(innlegg.Kommentar[i].EierId == innBruker.Id)
+                {
+                    antall++; 
+                }     
+            }
+
+            Debug.WriteLine("antallet: " + antall); 
+            if(antall == 0)
+            innBruker.kommentertPå.RemoveAt(innBruker.kommentertPå.IndexOf(innleggId));
+
+            var str0 = JsonConvert.SerializeObject(innBruker);
+            HttpContext.Session.SetString("Innlogget_Bruker", str0);
+
             try
             {
                 if (innlegg.Id != null)
@@ -360,6 +417,7 @@ namespace Portefolio_webApp.Controllers
                     Debug.WriteLine("Oppdaterer innlegg2: " + innlegg.Id);
                     //firebase.RegistrerKommentar(kommentar);
                     firebase.OppdaterInnlegg(innlegg);
+                    firebase.OppdaterBruker(innBruker);
                 }
 
             }
@@ -378,6 +436,32 @@ namespace Portefolio_webApp.Controllers
             innlegg = firebase.HentSpesifiktInnlegg(innleggId);
             innlegg.Kommentar[kommentarId].Kommentarer.RemoveAt(replyId);
 
+
+            var str = HttpContext.Session.GetString("Innlogget_Bruker");
+            Bruker innBruker = JsonConvert.DeserializeObject<Bruker>(str);
+
+            int antall = 0;
+            for (int i = 0; i < innlegg.Kommentar.Count; i++)
+            {
+                if (innlegg.Kommentar[i].EierId == innBruker.Id)
+                {
+                    for (int j = 0; j < innlegg.Kommentar[i].Kommentarer.Count; j++)
+                    {
+
+                        antall++;
+                    }
+
+                    antall++;
+                }
+            }
+
+            Debug.WriteLine("antallet: " + antall);
+            if (antall == 0)
+                innBruker.kommentertPå.RemoveAt(innBruker.kommentertPå.IndexOf(innleggId));
+
+            var str0 = JsonConvert.SerializeObject(innBruker);
+            HttpContext.Session.SetString("Innlogget_Bruker", str0);
+
             try
             {
                 if (innlegg.Id != null)
@@ -385,6 +469,7 @@ namespace Portefolio_webApp.Controllers
                     Debug.WriteLine("Oppdaterer innlegg2: " + innlegg.Id);
                     //firebase.RegistrerKommentar(kommentar);
                     firebase.OppdaterInnlegg(innlegg);
+                    firebase.OppdaterBruker(innBruker);
                 }
 
             }
