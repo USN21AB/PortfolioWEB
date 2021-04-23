@@ -115,49 +115,50 @@
                                 @if (Model.Id == null)
                                 {
                                     <hr>
-                                    <div class="form-group row">
-                                        <div class="col-2">
-                                            <label asp-for="Email" class="fattext" class="control-label" style="margin-top: 4px">Email</label>
-                                        </div>
-                                        <div class="col-9">
-                                            <input asp-for="Email" class="form-control" style="height:30px; margin-top: 15px" />
-                                            <span asp-validation-for="Email" class="text-danger"></span>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label asp-for="Email"class="control-label" style="margin-top: 4px">Email</label>
+                                                <input asp-for="Email" class="form-control" />
+                                                <span asp-validation-for="Email" class="text-danger"></span>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div class="form-group row">
-                                        <div class="col-2">
-                                            <label class="fattext" class="control-label" style="margin-top: 4px">Password</label>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label" style="margin-top: 4px">Password</label>
+                                                <input type="password" name="password" class="form-control" />
+                                                <span class="text-danger"></span>
+                                            </div>
                                         </div>
-                                        <div class="col-9">
-                                            <input type="password" name="password" class="form-control" style="height:30px; margin-top: 15px" />
-                                            <span class="text-danger"></span>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label" style="margin-top: 4px">Retype new Password</label>
+                                                <input type="password" name="passwordRetyp" class="form-control" />
+                                                <span class="text-danger"></span>
+                                            </div>
                                         </div>
+                                        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+
                                     </div>
-                                    <div class="form-group row">
-                                        <div class="col-2">
-                                            <label class="fattext" class="control-label" style="margin-top: 4px">Retype new Password</label>
-                                        </div>
-                                        <div class="col-9">
-                                            <input type="password" name="passwordRetyp" class="form-control" style="height:30px; margin-top: 15px" />
-                                            <span class="text-danger"></span>
-                                        </div>
-                                    </div>
+
 
                                 }
 
 
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
                                         <div class="form-group">
                                             <label asp-for="Navn">Name</label>
-                                            <input asp-for="Navn" class="form-control" placeholder="Enter your full name"/>
+                                            <input asp-for="Navn" class="form-control" placeholder="Enter your full name" />
                                             <span asp-validation-for="Navn" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
                                         <div class="form-group">
                                             <label asp-for="Alder">Age</label>
                                             <input asp-for="Alder" class="form-control" style="width: 100px;" value="18" />
@@ -172,7 +173,6 @@
 
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
                                         <div class="form-group">
                                             <label asp-for="Stilling">Trade</label>
                                             <input asp-for="Stilling" class="form-control" placeholder="e.g. Makeup Artist" />
@@ -180,7 +180,6 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
                                         <div class="form-group">
                                             <label asp-for="Bosted">Location</label>
                                             <input asp-for="Bosted" class="form-control" placeholder="Where do you live?" />
@@ -190,7 +189,6 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
                                         <div class="form-group">
                                             <label asp-for="Tlf">Phone</label>
                                             <input asp-for="Tlf" class="form-control" placeholder="Enter phone number" />
@@ -201,7 +199,6 @@
 
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
                                         <div class="form-group">
                                             <label asp-for="Bio">About Me</label>
                                             <textarea asp-for="Bio" rows="4" cols="50" class="form-control" style="height:150px; margin-top: 5px" placeholder="Write something about yourself"></textarea>
