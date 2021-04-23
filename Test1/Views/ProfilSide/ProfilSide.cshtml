@@ -351,21 +351,22 @@
 
                                         else if (Innlegg.Kategori.Equals("Lyd"))
                                         {
-                                            <div class="music_player">
-                                                <i class="fas fa-music innlegg-ikon"></i>
+                            <div class="music_player">
+                                <img id="sang-@antall2" class="play_button shadowed" src="../resources/icons8-play-96.png" onclick='spillAv("sang-a-@antall2", this.id); visSang("sangnavn-@Innlegg.Id", "artist-@Innlegg.Id")' />
 
+                                <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id class="card-link">
+                                    <i class="fas fa-music innlegg-ikon"></i>
+                                    <div class="play_button_div">
 
-                                                <div class="play_button_div">
+                                        <h3 class="sangnavn" id="sangnavn-@Innlegg.Id">@Innlegg.Tittel</h3>
+                                        <p class="artist" id="artist-@Innlegg.Id">@Innlegg.Eier</p>
+                                    </div>
 
-                                                    <h3 class="sangnavn" id="sangnavn-@Innlegg.Id">@Innlegg.Tittel</h3>
-                                                    <p class="artist" id="artist-@Innlegg.Id">@Innlegg.Eier</p>
-                                                </div>
-                                                <img id="sang-@antall2" class="play_button shadowed" src="../resources/icons8-play-96.png" onclick='spillAv("sang-a-@antall2", this.id); visSang("sangnavn-@Innlegg.Id", "artist-@Innlegg.Id")' />
-                                                <audio id="sang-a-@antall2" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="@Innlegg.IkonURL"></audio>
-                                                <img class="fuck imge" src="@Innlegg.CoverURL" />
+                                    <audio id="sang-a-@antall2" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="@Innlegg.IkonURL"></audio>
+                                    <img class="fuck imge" src="@Innlegg.CoverURL" />
+                                </a>
 
-
-                                            </div>
+                            </div>
                                         }
 
                                         else if (Innlegg.Kategori.Equals("Tekst"))
