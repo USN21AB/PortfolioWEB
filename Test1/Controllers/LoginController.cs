@@ -73,14 +73,22 @@ namespace Test1.Controllers
                 Debug.WriteLine("Logget inn som " + fbAuthLink.User.Email); 
                 if (token != null)
                 {
-                    HttpContext.Session.SetString("_UserToken", token);
-                    HttpContext.Session.SetString("_UserID", fbAuthLink.User.LocalId);
                     
                     Bruker bruker2 = firebase.HentEnkeltBruker(fbAuthLink.User.LocalId);
-                   
+
+                    if (bruker2 == null)
+                    {
+                        ViewBag.Exception = "Account does not exist";
+                        return View();
+                    }
+
+                    HttpContext.Session.SetString("_UserToken", token);
+                    HttpContext.Session.SetString("_UserID", fbAuthLink.User.LocalId);
+
                     var str = JsonConvert.SerializeObject(bruker2);
                     HttpContext.Session.SetString("Innlogget_Bruker", str);
                     Debug.WriteLine("Rekker jeg hit? " + bruker2.Navn);
+
 
                     return Redirect("~/Home/BrowseSide");
                 }

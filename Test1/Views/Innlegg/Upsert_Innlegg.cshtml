@@ -408,7 +408,7 @@
 
         <div class="form-group row">
             <div class="col-3">
-                <label asp-for="Kategori"></label>
+                <label asp-for="Kategori">Category</label>
             </div>
             <div class="col-8">
                 <input asp-for="Kategori" class="form-control-plaintext" readonly id="kategoriVerdi" required sstyle="color:#fff;" />
@@ -417,7 +417,7 @@
         </div>
         <div class="form-group row" id="subkatdiv">
             <div class="col-3" id="subkat">
-                <label asp-for="SubKategori"></label>
+                <label asp-for="SubKategori">Sub-category</label>
             </div>
 
             <button type="button" class='radio active' id="radio-dummy" value="Fotografi" style="display: none"></button>
@@ -468,7 +468,7 @@
         {
             <div class="form-group row">
                 <div class="col-3">
-                    <label>Mapper</label>
+                    <label>Folders</label>
                 </div>
 
 
@@ -539,7 +539,7 @@
 
         <div class="form-group row">
             <div class="col-3">
-                <label asp-for="Tittel"></label>
+                <label asp-for="Tittel">Title</label>
             </div>
             <div class="col-8">
                 <input asp-for="Tittel" class="form-control" id="tittel" placeholder="Tittel" onkeyup="tittelPreview()" required />
@@ -548,7 +548,7 @@
         </div>
         <div class="form-group row">
             <div class="col-3">
-                <label asp-for="Beskrivelse"></label>
+                <label asp-for="Beskrivelse">Description</label>
             </div>
             <div class="col-8">
                 <textarea asp-for="Beskrivelse" id="beskrivelse" rows="4" cols="50" class="form-control" onkeyup="beskrivelsePreview()" style="height:100px; margin-top: 5px" placeholder="Beskrivelse" required></textarea>
@@ -560,7 +560,7 @@
 
         <div class="form-group row">
             <div class="col-3">
-                <label asp-for="Tagger"></label>
+                <label asp-for="Tagger">Tags</label>
             </div>
             <div class="col-8">
 
@@ -613,7 +613,7 @@
         <div class="form-group row">
             <div class="col-3 offset-3">
                 <button type="submit" id="submit-btn" class="btn btn-primary form-control">
-                    @(Model.Id == null ? "Registrer" : "Oppdater")
+                    @(Model.Id == null ? "Register" : "Update")
                 </button>
             </div>
             <!--<div class="col-3">
