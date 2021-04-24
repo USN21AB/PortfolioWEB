@@ -81,7 +81,7 @@ namespace Test1.Models
                 // Constructr FirebaseStorage, path to where you want to upload the file and Put it there
                 var task = new FirebaseStorage("bachelor-it-97124.appspot.com")
                 .Child("Cover")
-                .Child(inleggID)
+                .Child(file.FileName)
                 .PutAsync(stream1);
 
                 // Track progress of the upload
