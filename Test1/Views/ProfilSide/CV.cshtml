@@ -117,7 +117,7 @@
                         {
                             <li class="nav-item">
                                 <a href="#settings" data-toggle="tab" aria-expanded="false" class="nav-link">
-                                    <i class="mdi mdi-settings-outline mr-1"></i>Settings
+                                    <i class="mdi mdi-settings-outline mr-1"></i>Add/Update
                                 </a>
                             </li>
                         }
@@ -162,7 +162,7 @@
                                                                 </button>
                                                             </div>
                                                             <div class="col">
-                                                                <button id="@(arID)button" class="btn btn-light" style="position:absolute; right:6%; display:none;" onclick="onDelete('@arID', @antallArbeidsErfaring, 'ArbeidsErfaring')"><i class="fas fa-window-close fa-lg"></i></button>
+                                                                <button id="@(arID)button" class="btn btn-light" style="position:absolute; right:6%; display:none;" onclick="onDelete('@arID', @antallArbeidsErfaring, 'ArbeidsErfaring', '@ArbeidsErfaringTittel')"><i class="fas fa-window-close fa-lg"></i></button>
                                                             </div>
                                                             </div>
                                                         </div>
@@ -223,7 +223,7 @@
                                                             </div>
                                                             <div class="col">
                                                                 <button id="@(utID)button" class="btn btn-light" style="position:absolute; right:6%; display:none;"
-                                                                        onclick="onDelete('@utID',@(antallUtdanning), 'Utdanning')">
+                                                                        onclick="onDelete('@utID',@(antallUtdanning), 'Utdanning', '@UtdanningGrad')">
                                                                     <i class="fas fa-window-close fa-lg"></i>
                                                                 </button>
                                                             </div>
@@ -374,7 +374,7 @@
                                                 <input value="@FerdighetNavn2" id="skillbar@(antallFerdigheter2)" />
                                                 <div class="input-group">
                                                     <input class="slider-general" id="skillSlider@(antallFerdigheter2)" data-slider-id='ex1Slider' value="@prosent" type="range" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14" oninput="sliderFunc('sliderTekst@(antallFerdigheter2)','skillSlider@(antallFerdigheter2)')" />
-                                                    <button id="@(antallFerdigheter2)skillbutton" onclick="onDelete('skill@(antallFerdigheter2)', @antallFerdigheter2, 'Ferdigheter')" class="btn btn-light sliderstyle"><i class="far fa-window-close fa-lg"></i></button>
+                                                    <button id="@(antallFerdigheter2)skillbutton" onclick="onDelete('skill@(antallFerdigheter2)', @antallFerdigheter2, 'Ferdigheter', '@FerdighetNavn2')" class="btn btn-light sliderstyle"><i class="far fa-window-close fa-lg"></i></button>
                                                     <p id="sliderTekst@(antallFerdigheter2)" class="slidertextstyle">@FerdighetProsent2</p>
                                                 </div>
 
@@ -426,7 +426,7 @@
                                             <input value="@SpråkNavn2" id="språkbar@(antallSliderSpråk)" />
                                             <div class="input-group">
                                                 <input class="slider-general" id="språkSlider@(antallSliderSpråk)" data-slider-id='ex1Slider' value="@prosent2" type="range" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14" oninput="sliderFunc('språksliderTekst@(antallSliderSpråk)','språkSlider@(antallSliderSpråk)')" />
-                                                <button id="@(antallSliderSpråk)språkbutton" class="btn btn-light sliderstyle" onclick="onDelete('språk@(antallSliderSpråk)', @antallSliderSpråk, 'Språk')"><i class="far fa-window-close fa-lg"></i></button>
+                                                <button id="@(antallSliderSpråk)språkbutton" class="btn btn-light sliderstyle" onclick="onDelete('språk@(antallSliderSpråk)', @antallSliderSpråk, 'Språk', '@SpråkNavn2')"><i class="far fa-window-close fa-lg"></i></button>
                                                 <p id="språksliderTekst@(antallSliderSpråk)" class="slidertextstyle">@SpråkProsent2</p>
                                             </div>
 
@@ -469,28 +469,34 @@
         </div>
 
     </div>
-
+        <!--Modal popup-->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header" style="background-color: #55586b; border-color: black;">
                     <h5 class="modal-title" id="exampleModalLabel">Warning!</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button id="ButtonModelClose" type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body" style="        background-color: #1b2638;">
-                    Are you sure you want to delete that ?!
+                    Are you sure you want to delete?
                 </div>
                 <div class="modal-footer" style="        background-color: #1b2638; border-color: #1b2638;">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" style="background-color: red; border-color: red;">DELETE</button>
+                    <button id="ButtonModelDelete" type="button" class="btn btn-primary" style="background-color: red; border-color: red;">Delete</button>
+                    <button id="ButtonModelCancel" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script type="text/javascript">
+
+        function removeNewSlider(id) {
+            alert("just removed: " + id.id);
+          document.getElementById(id.id).remove();
+
+        }
     function addSlider(type) {
 
         var list = document.getElementById(type).lastElementChild;
@@ -523,7 +529,7 @@
             " <input class='slider-general' id='" + slider + "' data-slider-id='ex1Slider' value='50'" +
             " type='range' data-slider-min='0' data-slider-max='20' data-slider-step='1' data-slider-value='14' " +
             " />" +
-            " <button id='" + skillButton + "' class='btn btn-light sliderstyle'><i class='far fa-window-close fa-lg'></i></button> " +
+            " <button id='" + skillButton + "' class='btn btn-light sliderstyle' onclick='removeNewSlider(" + skill+")' ><i class='far fa-window-close fa-lg'></i></button> " +
                                                      "<p id='" + tekst + "' class='slidertextstyle'>50%</p>" +
                                           "</div>" +
                              "</div>" +
@@ -534,18 +540,15 @@
         document.getElementById(slider).onchange = function () {
             sliderFunc(tekst, slider);
         };
-        document.getElementById(skillButton).onclick = function () {
-            onDelete(skill, 0, 'slider')
-            $("#exampleModal").modal()
-        }
+
     }
-    function testResponse() {
-        alert("HEEY ");
-    }
+
     function registrerSliders(brukerID, type) {
 
         var i;
-        var antall = (document.getElementById(type).childElementCount * 2);
+        var antall = document.getElementById(type).childElementCount;
+        alert("numberOfChildren: " +antall);
+       // var antSliderTekst = "";
         var arr = [];
         var Slider ="";
         var Bar = "";
@@ -556,14 +559,38 @@
             Bar = "skillbar";
             kategori = "Ferdigheter";
             danger = "danger_skills"
+            //antSliderTekst = document.getElementById("skillsEdit").lastElementChild.id
         }
         else if (type == "språkEdit") {
              Slider = "språkSlider";
              Bar = "språkbar";
             kategori = "Språk";
             danger = "danger_språk"
+           // antSliderTekst = document.getElementById("språkEdit").lastElementChild.id
         }
-        for (i = 0; i < antall; i += 2) {
+        var allSliders = document.getElementById(type).childNodes;
+        var j = 0;
+        //console.log(allSliders[0].id);
+        for (i = 0; i < allSliders.length; i++) {
+           
+            if (allSliders[i].id != null) {
+                console.log("node: " + allSliders[i].id)
+                var slid = allSliders[i].id;
+                var index = slid.substring(5, slid.length); 
+         
+                var prosent = document.getElementById((Slider + index)).value + "%";
+              var name = document.getElementById((Bar + index)).value ;
+
+               console.log(name + "  " + prosent);
+                arr[j++] = name; 
+                arr[j++] = prosent;
+              }
+            
+        }
+
+       // var ant = parseInt(antSliderTekst.substring(5, antSliderTekst.length)); 
+        /*
+        for (i = 0; i <= antall; i += 2) {
             var nySlider = Slider + i;
             var nyBar = Bar + i;
             var slid = document.getElementById(nySlider).value + "%";
@@ -577,8 +604,10 @@
 
             arr[i] = tek;
             arr[i + 1] = slid;
-
+            console.log(nySlider);
         }
+        */
+
 
         saveEdit(brukerID, kategori, "0", "", "", "", "", "", arr);
 
@@ -603,23 +632,42 @@
         document.getElementById(id).classList.add("editClass");
         document.getElementById(buttonID).style.display = "inline";
         document.getElementById(buttonIDRed).style.display = "inline";
-        document.getElementById(submit).style.display = "inline";
+       // document.getElementById(submit).style.display = "inline";
     }
     function removeEdit(id, buttonID, buttonIDRed) {
         document.getElementById(id).classList.remove("editClass");
         document.getElementById(buttonID).style.display = "none";
         document.getElementById(buttonIDRed).style.display = "none";
-        document.getElementById(submit).style.display = "none";
-    }
-    function onDelete(id, index, felt) {
+       // document.getElementById(submit).style.display = "none";
+        }
 
-        if (felt == "slider") {
+    function onDelete(id, index, felt, navn) {
+       
+        
+       
+        //var slettaBarn = (document.getElementById("skillsEdit").childElementCount * 2) - totalAntall; 
+      
+
+       // document.getElementById(id).remove();
+        
+        document.getElementById("ButtonModelDelete").onclick = function (event){
+            onDeleteExpand(id, (index ), felt, navn);
+        }
+        $("#exampleModal").modal("show");
+        
+        }
+
+        function onDeleteExpand(id, index, felt, navn) {
+
+            $("#exampleModal").modal("hide");
+            if (felt == "Ferdigheter" || felt == "Språk") {
             document.getElementById(id).remove();
-        } else document.getElementById(id).style.display = "none";
+        }else document.getElementById(id).style.display = "none";
         if (felt != "slider") {
         var json = {
             "felt": felt,
             "index": index,
+            "indexNavn": navn
         };
           $.ajax({
                     type: "POST",
@@ -630,8 +678,8 @@
                        // alert("Dette er resultatet " + result.result);
                     }
           });
+         }
         }
-    }
         function onEdit(type, index, årDatDiv, årFra, årTil, tittel, bedrift, bio, submitKnapp) {
 
         document.getElementById(submitKnapp).style.display = "inline";
@@ -651,13 +699,14 @@
             document.getElementById(bio).outerHTML = "<textarea class='form-control' id=" + bio + " class='text-muted mt-2' rows='3' cols='50'>" + biVerdi + "</textarea>";
         }
     }
+
     function saveEdit(bruker, felt, index, årFra, årTil, tittel, bedrift, bio, array) {
         var bion = '';
         var fra ='';
         var til = '';
         var årf ='';
         var årT = '';
-        var spanField = "spanU"; 
+        var spanField = "spanU";
 
         if (felt != "Ferdigheter" && felt != "Språk") {
          fra = document.getElementById(årFra);
@@ -669,7 +718,7 @@
         }
         if (felt == "ArbeidsErfaring") {
             bion = bio.value;
-            spanField = "spanA"; 
+            spanField = "spanA";
             if (bion == "") {
                 var text = document.createTextNode("Please fill in all inputs!");
                 document.getElementById(index+spanField).appendChild(text);
@@ -715,7 +764,16 @@
 
 
         <script>
-        $(document).ready(function () {
+            $(document).ready(function () {
+
+                document.getElementById("ButtonModelClose").addEventListener('click', function (event) {
+                    $("#exampleModal").modal("hide");
+                });
+
+                document.getElementById("ButtonModelCancel").addEventListener('click', function (event) {
+                    $("#exampleModal").modal("hide");
+                });
+
         document.getElementById("submitArbeid").addEventListener('click', function (event) {
 
         event.preventDefault();

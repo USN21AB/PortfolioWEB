@@ -51,7 +51,8 @@ namespace Portefolio_webApp.Models
         {
             CV = new CV(); 
             Mapper = new List<Portfolio>();
-            notifications = new List<Notifications>(); 
+            notifications = new List<Notifications>();
+            kommentertPå = new List<string>();
         }
 
     }

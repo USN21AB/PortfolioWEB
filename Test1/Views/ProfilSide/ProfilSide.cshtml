@@ -40,8 +40,10 @@
             document.getElementById("toast-body").innerHTML = "Something";
         });
     });
-    function onDelete(id) {
-        console.log("--------" + id + mindex + "---------")
+
+    function onDeleteExpand(id) {
+        $("#exampleModal").modal("hide");
+          console.log("--------" + id + mindex + "---------")
         var mappe = document.getElementsByClassName("mappeindex"),
             i = mappe.length;
         var y = 0;
@@ -68,6 +70,14 @@
                     }
           });
     }
+    function onDelete(id) {
+        document.getElementById("ButtonModelDelete").onclick = function (event) {
+            onDeleteExpand(id);
+        }
+        $("#exampleModal").modal("show");
+
+    }
+    
 </script>
 
 <style>
@@ -110,7 +120,7 @@
         filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=4, OffY=4, Color='#444')";
     }
 
-    
+
     .folder-navn {
         color: white;
         font-size: 14px;
@@ -135,7 +145,7 @@
         width: 110px;
     }
 
-    
+
 
     .portfolio-folders {
         text-align: center;
@@ -195,7 +205,7 @@
                                     <h4>@BrukerInnhold.Navn</h4>
 
                                     <p class="mt-2 mb-1">@BrukerInnhold.Stilling</p>
-                                    <p class="font-size-sm">@BrukerInnhold.Bosted<p />
+                                    <p class="font-size-sm">@BrukerInnhold.Bosted</p>
                                 </div>
                                 @if (BrukerInnhold.Id == (string)ViewData["Innlogget_ID"])
                                 {
@@ -211,7 +221,10 @@
                                     }
                                     else
                                     {
-                                        <a onclick="requestCV('@BrukerInnhold.Id', '@ViewData["Innlogget_ID"]', '@innloggetBruker.Navn')"><button class="cvbtn btn btn-primary">Request CV</button></a>
+                                        if (innloggetBruker != null)
+                                        {
+                                            <a onclick="requestCV('@BrukerInnhold.Id', '@ViewData["Innlogget_ID"]', '@innloggetBruker.Navn')"><button class="cvbtn btn btn-primary">Request CV</button></a>
+                                        }
                                     }
 
                                 }
@@ -404,14 +417,6 @@
                 </div>
 
 
-
-
-
-
-
-
-
-
                 <!--href="https://localhost:44344/ProfilSide/Portef%C3%B8lje#v-pills-@antall"-->
 
 
@@ -452,10 +457,31 @@
                     </filter>
                 </svg>
 
+
+
 </body>
 </html>
 
-
+<!--Modal popup-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #55586b; border-color: black;">
+                <h5 class="modal-title" id="exampleModalLabel">Warning!</h5>
+                <button id="ButtonModelClose" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="        background-color: #1b2638;">
+                Are you sure you want to delete?
+            </div>
+            <div class="modal-footer" style="        background-color: #1b2638; border-color: #1b2638;">
+                <button id="ButtonModelDelete" type="button" class="btn btn-primary" style="background-color: red; border-color: red;">Delete</button>
+                <button id="ButtonModelCancel" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
 
                         function requestCV(eierID, senderID, navn) {
@@ -486,5 +512,13 @@
     $(document).ready(function () {
         var heightInfo = document.getElementById("pinfocard").clientHeight;
         document.getElementById('pimgcard').style.height = heightInfo + 'px';
+
+        document.getElementById("ButtonModelClose").addEventListener('click', function (event) {
+            $("#exampleModal").modal("hide");
+        });
+
+        document.getElementById("ButtonModelCancel").addEventListener('click', function (event) {
+            $("#exampleModal").modal("hide");
+        });
     });
 </script>
