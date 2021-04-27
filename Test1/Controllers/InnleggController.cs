@@ -7,6 +7,7 @@ using Portefolio_webApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Test1.Models;
 
 namespace Portefolio_webApp.Controllers
@@ -204,14 +205,25 @@ namespace Portefolio_webApp.Controllers
 
             }else
             {
-                Debug.WriteLine("Inni invalid Model " +ModelState.Values);
+                Debug.WriteLine("Inni invalid Model " );
+
+
                 var str2 = JsonConvert.SerializeObject(bruker);
                 HttpContext.Session.SetString("Innlogget_Bruker", str2);
                 ViewData["bruker"] = bruker; 
                 ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
                 ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
                 ViewData["Innlogget_Bruker"] = bruker;
-               
+
+                //Logg ex i debug.
+                var message = string.Join(" | ", ModelState.Values
+                                        .SelectMany(v => v.Errors)
+                                        .Select(e => e.ErrorMessage));
+
+                
+                Exception exception = new Exception(message.ToString());
+                Debug.WriteLine("Ex: " + exception.Message);
+
                 return View(Innlegg);
             }
 
