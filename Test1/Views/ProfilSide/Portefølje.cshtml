@@ -173,7 +173,7 @@
 
 
                     if (Innlegg.Kategori == null) { }
-                    else if (Innlegg.Kategori.Equals("Bilde"))
+                    else if (Innlegg.Kategori.Equals("Image"))
                     {
 
                         <!-- single-awesome-portfolio start -->
@@ -205,7 +205,7 @@
                         <!-- single-awesome-portfolio end -->
                     }
 
-                    else if (Innlegg.Kategori.Equals("Lyd"))
+                    else if (Innlegg.Kategori.Equals("Sound"))
                     {
                         <div class="music_player innleggindex" id="@Innlegg.Id">
                             @if (BrukerInnhold.Id == innloggetBruker.Id)
@@ -236,7 +236,7 @@
                         </div>
                     }
 
-                    else if (Innlegg.Kategori.Equals("Tekst"))
+                    else if (Innlegg.Kategori.Equals("Text"))
                     {
                         <div class="litteratur innleggindex" id="@Innlegg.Id">
                             @if (BrukerInnhold.Id == innloggetBruker.Id)
