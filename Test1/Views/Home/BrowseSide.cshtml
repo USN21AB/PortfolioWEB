@@ -5,19 +5,23 @@
     var liste = (List<Portefolio_webApp.Models.Innlegg>)ViewData["liste"];
     //ViewData["Title"] = ViewData["Token"];
 }
-<link href="~/css/Carousel.css?v=1" rel="stylesheet" />
+<link href="~/css/Carousel.css" rel="stylesheet" />
 <style>
     .editClass {
         background-color: black;
     }
-
+    .borderOne {
+        border: 2px solid #384352;
+    }
+    .ValgBorder {
+        border: 3px solid #1abc9c;
+    }
     .valgtKategori {
-        border: 5px solid CornflowerBlue;
-        filter: brightness(105%);
+        filter: brightness(30%) blur(2px);
     }
 
     .kategoriVelger {
-        filter: blur(2px);
+        filter: blur(2px) brightness(10%) contrast(90%);
     }
 
     #karusellbilde {
@@ -90,9 +94,9 @@
 
 </style>
 <link href="~/css/Buttons.css" rel="stylesheet" />
-<link href="~/css/BrowseSide.css?v=1" rel="stylesheet" />
+<link href="~/css/BrowseSide.css" rel="stylesheet" />
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
-
+    <h5 style="color:white; text-align:center;">Top users</h5>
     <div class="carousel-inner carouselbilde">
         <div class="carousel-item active">
             <div class="row justify-content-around profilHolder">
@@ -164,29 +168,37 @@
     <div class="maininnhold">
         <ul class="kategorier nav nav-pills" id="pills-tab" role="tablist">
             <li class="kategoriitem nav-item" role="presentation">
-                <a href="@Url.Action("BrowseSide", "Home", new { kategori = "alt" })">
-                    <img id="altValg" class="kategoriVelger" src="https://images.unsplash.com/photo-1472141521881-95d0e87e2e39?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1352&q=80" height="120" width="250" />
-                    <br />
-                    <div class="centered">All categories</div>
-                </a>
+                <div id="altValgBorder" class="borderOne">
+                    <a href="@Url.Action("BrowseSide", "Home", new { kategori = "alt" })">
+                        <img id="altValg" class="kategoriVelger" src="https://images.unsplash.com/photo-1472141521881-95d0e87e2e39?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1352&q=80" height="90" width="250" />
+                        <br />
+                        <div class="centered">All categories</div>
+                    </a>
+                </div>
             </li>
             <li class="kategoriitem nav-item" role="presentation">
-                <a href="@Url.Action("BrowseSide", "Home", new { kategori = "Bilde" })">
-                    <img id="bildeValg" class="kategoriVelger" style=" box-shadow: inset 0 0 0 1000px rgba(0,0,0,.2);" src="https://images.unsplash.com/photo-1434725039720-aaad6dd32dfe?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2098&q=80" height="120" width="250" />
-                    <div class="centered">Images</div>
-                </a>
+                <div id="bildeValgBorder" class="borderOne">
+                    <a href="@Url.Action("BrowseSide", "Home", new { kategori = "Bilde" })">
+                        <img id="bildeValg" class="kategoriVelger" style=" box-shadow: inset 0 0 0 1000px rgba(0,0,0,.2);" src="https://images.unsplash.com/photo-1434725039720-aaad6dd32dfe?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2098&q=80" height="90" width="250" />
+                        <div class="centered">Images</div>
+                    </a>
+                    </div>
             </li>
             <li class="kategoriitem nav-item" role="presentation">
-                <a href="@Url.Action("BrowseSide", "Home", new { kategori = "Lyd" })">
-                    <img id="lydValg" class="kategoriVelger" src="https://images.unsplash.com/photo-1506704888326-3b8834edb40a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" height="120" width="250" />
-                    <div class="centered">Sound</div>
-                </a>
+                <div id="lydValgBorder" class="borderOne">
+                    <a href="@Url.Action("BrowseSide", "Home", new { kategori = "Lyd" })">
+                        <img id="lydValg" class="kategoriVelger" src="https://images.unsplash.com/photo-1506704888326-3b8834edb40a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" height="90" width="250" />
+                        <div class="centered">Sound</div>
+                    </a>
+                    </div>
             </li>
             <li class="kategoriitem nav-item" role="presentation">
-                <a href="@Url.Action("BrowseSide", "Home", new { kategori = "Tekst" })">
-                    <img id="tekstValg" class="kategoriVelger" src="https://images.unsplash.com/photo-1457369804613-52c61a468e7d?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1350&q=80" height="120" width="250" />
-                    <div class="centered">Text</div>
-                </a>
+                <div id="tekstValgBorder" class="borderOne">
+                    <a href="@Url.Action("BrowseSide", "Home", new { kategori = "Tekst" })">
+                        <img id="tekstValg" class="kategoriVelger" src="https://images.unsplash.com/photo-1457369804613-52c61a468e7d?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1350&q=80" height="90" width="250" />
+                        <div class="centered">Text</div>
+                    </a>
+                    </div>
             </li>
         </ul>
     </div>
@@ -238,19 +250,30 @@
                     document.getElementById("søkefelt").setAttribute("Placeholder", "Search all categories");
                     $("#altValg").removeClass("kategoriVelger");
                     $("#altValg").addClass("valgtKategori");
+                    $("#altValgBorder").removeClass("borderOne");
+                    $("#altValgBorder").addClass("ValgBorder");
+
 
                 } else if (_valgtKnapp == "#BildeKnapp") {
                     document.getElementById("søkefelt").setAttribute("Placeholder", "Image search");
                     $("#bildeValg").removeClass("kategoriVelger");
                     $("#bildeValg").addClass("valgtKategori");
+                    $("#bildeValgBorder").removeClass("borderOne");
+                    $("#bildeValgBorder").addClass("ValgBorder");
+
                 } else if (_valgtKnapp == "#LydKnapp") {
                     document.getElementById("søkefelt").setAttribute("Placeholder", "Sound search");
                     $("#lydValg").removeClass("kategoriVelger");
                     $("#lydValg").addClass("valgtKategori");
+                    $("#lydValgBorder").addClass("borderOne");
+                    $("#lydValgBorder").addClass("ValgBorder");
+
                 } else {
                     document.getElementById("søkefelt").setAttribute("Placeholder", "Text search");
                     $("#tekstValg").removeClass("kategoriVelger");
-                    $("#tekstValg").addClass("valgtKategori");
+                    $("#tekstValg").addClass("ValgtKategori");
+                    $("#tekstValgBorder").addClass("borderOne");
+                    $("#tekstValgBorder").addClass("ValgBorder");
                 }
 
 
