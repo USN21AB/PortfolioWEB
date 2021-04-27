@@ -221,10 +221,13 @@
                                     }
                                     else
                                     {
-                                        <a style="margin-top: -20px"onclick="requestCV('@BrukerInnhold.Id', '@ViewData["Innlogget_ID"]', '@innloggetBruker.Navn')"><button id="requestCV" class="cvbtn btn btn-primary">Request CV</button></a>
-                                    }
+                                        if (innloggetBruker != null)
+                                            {
+                                              <a style="margin-top: -20px"onclick="requestCV('@BrukerInnhold.Id', '@ViewData["Innlogget_ID"]', '@innloggetBruker.Navn')"><button id="requestCV" class="cvbtn btn btn-primary">Request CV</button></a>
+                                            }
+                                        }
 
-                                }
+                                    }
                             </div>
                         </div>
                     </div>

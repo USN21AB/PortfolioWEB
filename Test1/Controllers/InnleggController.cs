@@ -7,6 +7,7 @@ using Portefolio_webApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Test1.Models;
 
 namespace Portefolio_webApp.Controllers
@@ -78,11 +79,10 @@ namespace Portefolio_webApp.Controllers
 
 
         [HttpPost]
-        public async System.Threading.Tasks.Task<IActionResult> Upsert_InnleggAsync(IFormFile inputfile, IFormFile coverfile,Innlegg innlegg, [FromServices] IHostingEnvironment oHostingEnvironment, string mappenavn, string innleggid)
+        public async System.Threading.Tasks.Task<IActionResult> Upsert_InnleggAsync(IFormFile inputfile, IFormFile coverfile,Innlegg innlegg, [FromServices] IHostingEnvironment oHostingEnvironment, string mappenavn)
         {
             string InnleggID = "";
             innlegg.EierId = HttpContext.Session.GetString("_UserID");
-            innlegg.Id = innleggid;
           
             DateTime today = DateTime.Today;
             DateTime l = today;
@@ -102,21 +102,19 @@ namespace Portefolio_webApp.Controllers
             var bruker = firebase.HentEnkeltBruker(innlegg.EierId);
 
             innlegg.Klokkeslett = DateTime.Now.ToString("h:mm:ss tt");
-
+            Debug.WriteLine("Inni upsert INNlegg POST");
             if (ModelState.IsValid)
             {
 
 
                 Debug.WriteLine("dwdwadada" + innlegg.Id);
-                Debug.WriteLine("dwdwadada" + innleggid);
-
 
                 if (string.IsNullOrEmpty(innlegg.Id))
                 { //REgistrer nytt innlegg siden id er null.
 
                     Boolean mappefinnes = false;
 
-                    Debug.WriteLine("lol" + innlegg.EierId);
+                    Debug.WriteLine("Inni create Innlegg!" + innlegg.EierId);
                     for (var i = 0; i < bruker.Mapper.Count; i++)
                     {
                         Debug.WriteLine("for runde: " + i);
@@ -162,7 +160,7 @@ namespace Portefolio_webApp.Controllers
                     {
                         var str0 = JsonConvert.SerializeObject(bruker);
                         HttpContext.Session.SetString("Innlogget_Bruker", str0);
-
+                        Debug.WriteLine("Inni catch");
                         ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
                         ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
                         ViewData["Innlogget_Bruker"] = bruker;
@@ -174,7 +172,7 @@ namespace Portefolio_webApp.Controllers
                 {
 
                     InnleggID = innlegg.Id; 
-                    Debug.WriteLine("lol   oppdatert      " + innlegg.EierId);
+                    Debug.WriteLine("JEG OPPDATERER    " + innlegg.EierId);
                     for (var i = 0; i < bruker.Mapper.Count; i++)
                     {
                         Debug.WriteLine("oppfdater for runde mappe : " + i);
@@ -183,7 +181,7 @@ namespace Portefolio_webApp.Controllers
                         for (var y = 0; y < bruker.Mapper[i].MappeInnhold.Count; y++)
                         {
                             Debug.WriteLine("oppfdater for runde innlegg: " + y);
-                            if (bruker.Mapper[i].MappeInnhold[y].Id == innleggid)
+                            if (bruker.Mapper[i].MappeInnhold[y].Id == InnleggID)
                             {
                                 bruker.Mapper[i].MappeInnhold[y] = innlegg;
                                 //bruker.Mapper[i].MappeInnhold.Add(innlegg);
@@ -207,12 +205,25 @@ namespace Portefolio_webApp.Controllers
 
             }else
             {
+                Debug.WriteLine("Inni invalid Model " );
+
+
                 var str2 = JsonConvert.SerializeObject(bruker);
                 HttpContext.Session.SetString("Innlogget_Bruker", str2);
                 ViewData["bruker"] = bruker; 
                 ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
                 ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
                 ViewData["Innlogget_Bruker"] = bruker;
+
+                //Logg ex i debug.
+                var message = string.Join(" | ", ModelState.Values
+                                        .SelectMany(v => v.Errors)
+                                        .Select(e => e.ErrorMessage));
+
+                
+                Exception exception = new Exception(message.ToString());
+                Debug.WriteLine("Ex: " + exception.Message);
+
                 return View(Innlegg);
             }
 
@@ -223,7 +234,7 @@ namespace Portefolio_webApp.Controllers
             ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
             ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
             ViewData["Innlogget_Bruker"] = bruker;
-
+            Debug.WriteLine("UPSERT BUNN");
             return RedirectToAction("Nav_Innlegg", new { id = InnleggID });
         }
 
