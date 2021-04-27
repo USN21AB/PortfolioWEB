@@ -260,18 +260,20 @@ namespace Portefolio_webApp.Controllers
                 oppBruker.CVAdgang = innBruker.CVAdgang;
                 oppBruker.notifications = innBruker.notifications;
                 oppBruker.Profilbilde = innBruker.Profilbilde;
+                oppBruker.kommentertPå = innBruker.kommentertPå; 
 
                 Console.WriteLine("FEEE: " + HttpContext.Session.GetString("CroppedPath"));
+
+     
 
                 if (HttpContext.Session.GetString("CroppedPath") == "" || HttpContext.Session.GetString("CroppedPath") == null)
                 {
                     firebase.OppdaterBruker(oppBruker);
+                    UpdateKommentarer(oppBruker);
                 }
                 else
                 {
-
-
-
+                    UpdateKommentarer(oppBruker);
 
                     await firebase.UploadProfilBilde(HttpContext.Session.GetString("CroppedPath"), oppBruker.Id, oppBruker.Profilbilde);
                     firebase.OppdaterBrukerBilde(oppBruker);
@@ -293,12 +295,46 @@ namespace Portefolio_webApp.Controllers
 
             var str = JsonConvert.SerializeObject(oppBruker);
             HttpContext.Session.SetString("Innlogget_Bruker", str);
+       
+
 
             ViewData["Innlogget_Bruker"] = oppBruker;
             ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
             ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
 
             return RedirectToAction("BrowseSide", "Home");
+        }
+
+        public void UpdateKommentarer(Bruker oppBruker)
+        {
+            Debug.WriteLine("update innlegg NÅDD HITT??: ");
+            //Update kommentarer i innlegg
+            for (int i = 0; i < oppBruker.kommentertPå.Count; i++)
+            {
+
+                Innlegg innlegg = firebase.HentSpesifiktInnlegg(oppBruker.kommentertPå[i]);
+                Debug.WriteLine("update komm innlegg: " + innlegg.Tittel);
+                for (int j = 0; j < innlegg.Kommentar.Count; j++)
+                {
+                    Debug.WriteLine("update kommentar: " + innlegg.Kommentar[j].Tekst);
+                    if (innlegg.Kommentar[j].EierId == oppBruker.Id)
+                    {
+                        innlegg.Kommentar[j].EierBilde = oppBruker.Profilbilde;
+                        innlegg.Kommentar[j].EierNavn = oppBruker.Navn;
+                        Debug.WriteLine("update Inni if: " + innlegg.Kommentar[j].Tekst);
+                    }
+
+                    for (int h = 0; h < innlegg.Kommentar[j].Kommentarer.Count; h++)
+                    {
+                        if (innlegg.Kommentar[j].Kommentarer[h].EierId == oppBruker.Id)
+                        {
+                            innlegg.Kommentar[j].Kommentarer[h].EierBilde = oppBruker.Profilbilde;
+                            innlegg.Kommentar[j].Kommentarer[h].EierNavn = oppBruker.Navn;
+                        }
+                    }
+                }
+                firebase.OppdaterInnlegg(innlegg);
+            }
         }
 
 
@@ -388,26 +424,31 @@ namespace Portefolio_webApp.Controllers
         }
 
         [HttpPost]
-        public JsonResult DeleteCV(string felt, string index)
+        public JsonResult DeleteCV(string felt, string index, string indexNavn)
         {
-            Debug.WriteLine("---------------------------------yo " + felt + " og " + index);
+            //Debug.WriteLine("---------------------------------yo " + felt + " og " + index + " og lengden på liste er: " + Bruker.CV.Ferdigheter.Count);
             Bruker = firebase.HentEnkeltBruker(HttpContext.Session.GetString("_UserID"));
             if (felt == "ArbeidsErfaring")
             {
-                Bruker.CV.ArbeidsErfaring.RemoveRange(Int32.Parse(index), 5);
+                int indexN = Bruker.CV.ArbeidsErfaring.IndexOf(indexNavn);
+                Bruker.CV.ArbeidsErfaring.RemoveRange((indexN-2), 5);
             }
             else if (felt == "Utdanning")
             {
-                Bruker.CV.Utdanning.RemoveRange(Int32.Parse(index), 4);
+                int indexN = Bruker.CV.Utdanning.IndexOf(indexNavn);
+                Bruker.CV.Utdanning.RemoveRange((indexN - 2), 4);
             }
 
             else if (felt == "Ferdigheter")
             {
-                Bruker.CV.Ferdigheter.RemoveRange(Int32.Parse(index), 2);
+                int indexN = Bruker.CV.Ferdigheter.IndexOf(indexNavn);
+             
+                Bruker.CV.Ferdigheter.RemoveRange(indexN, 2);
             }
             else if (felt == "Språk")
             {
-                Bruker.CV.Språk.RemoveRange(Int32.Parse(index), 2);
+                int indexN = Bruker.CV.Språk.IndexOf(indexNavn);
+                Bruker.CV.Språk.RemoveRange(indexN, 2);
             }
 
             firebase.OppdaterBruker(Bruker);
@@ -450,6 +491,13 @@ namespace Portefolio_webApp.Controllers
             }
             else if (felt == "Ferdigheter")
             {
+                Bruker.CV.Ferdigheter.Clear(); 
+
+                for(int i= 0; i<array.Length; i++)
+                {
+                    Bruker.CV.Ferdigheter.Add(array[i]);
+                }
+                /*
                 int startLengde = Bruker.CV.Ferdigheter.Count;
                 int tilSammen = array.Length - startLengde;
 
@@ -462,6 +510,7 @@ namespace Portefolio_webApp.Controllers
                     Debug.WriteLine("------------------------------------------ MOMOMOMOMOM-add " + array[j]);
                     Bruker.CV.Ferdigheter.Add(array[j]);
                 }
+                */
             }
             else if (felt == "Språk")
             {
@@ -546,7 +595,9 @@ namespace Portefolio_webApp.Controllers
             firebase.SlettInnlegg(id);
 
             //firebase.SlettMappeInnlegg(Bruker.Id, mindex, index);
-
+            if (Bruker.Mapper[mindex].MappeInnhold.Count == 1)
+                Bruker.Mapper[mindex].MappeInnhold = null;
+            else
             Bruker.Mapper[mindex].MappeInnhold.RemoveAt(index);
 
             firebase.OppdaterBruker(Bruker);

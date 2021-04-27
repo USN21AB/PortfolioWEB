@@ -2,7 +2,7 @@
 @{
     var BrukerInnhold = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
 }
-<link href="~/css/Upsert_Innlegg.css" rel="stylesheet" />
+<link href="~/css/Upsert_Innlegg.css?v=1" rel="stylesheet" />
 <link href="~/css/PorteføljeElementer.css" rel="stylesheet" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="~/js/bootstrap-tagsinput.js?v=1"></script>
@@ -160,19 +160,25 @@
 
 
     function fileValidation() {
-        var file = document.getElementById("input-file").value;
+        var file = $('input[type=file]').val().split('\\').pop();
+        
+        document.getElementById("fileinputbuttonid").innerHTML = file;
+
 
         var validImage = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
         var validAudio = /(\.mp3)$/i;
         var validTekst = /(\.pdf)$/i;
 
         if (validImage.exec(file)) {
+            
             //Endrer verider
             document.getElementById('kategoriVerdi').value = "Bilde";
             document.getElementById("kategori-value").value = "";
 
             console.log("");
             //Gjør elemeter synlig
+            document.getElementById('kategorifelt').style.visibility = "visible";
+            document.getElementById('kategorifelt').style.position = "relative";
             document.getElementById('bildekategori').style.display = "inline-block";
             document.getElementById('bilde-innlegg').style.display = "block";
             document.getElementById('subkatdiv').style.visibility = "visible";
@@ -195,7 +201,8 @@
             document.getElementById('lyd-innlegg').style.display = "block";
             document.getElementById('subkatdiv').style.visibility = "visible";
             document.getElementById('subkatdiv').style.position = "relative";
-            document.getElementById('cover-image').style.display = "block";
+            document.getElementById('cover-image').style.visibility = "visible";
+            document.getElementById('cover-image').style.position = "relative";
 
             //Gjør elementer usynlig
             document.getElementById('bildekategori').style.display = "none";
@@ -214,7 +221,8 @@
             document.getElementById('tekst-innlegg').style.display = "block";
             document.getElementById('subkatdiv').style.visibility = "visible";
             document.getElementById('subkatdiv').style.position = "relative";
-            document.getElementById('cover-image').style.display = "block";
+            document.getElementById('cover-image').style.visibility = "visible";
+            document.getElementById('cover-image').style.position = "relative";
             console.log("kommer den hit 2");
             //Gjør elementer usynlig
             document.getElementById('bildekategori').style.display = "none";
@@ -378,6 +386,7 @@
             <input type="hidden" asp-for="EierId" />
             <input type="hidden" asp-for="FilStørrelse" />
             <input type="hidden" asp-for="Eier" />
+            <input type="hidden" asp-for="Likes.Antall" value="Model.Likes.Antall"/>
 
         }
 
@@ -387,14 +396,19 @@
 
         @if (Model.Id == null)
         {
-            <div class="form-group row">
-                <div class="col-3">
-
-                    @Html.TextBox("inputfile", "inputfile", new { type = "file", name = "inputfile", id = "input-file", accept = "image/png|image/jpeg|image/jpg|image/gif|audio/mp3|application/pdf", oninput = "fileValidation(); readURL(this);" }) <br />
-
-                </div>
-
+        <div class="form-group row">
+            <div class="col-3">
+                <label>File</label>
             </div>
+            <div class="col-8">
+                <div class="fileinputdesign">
+                    <span class="fileinputbutton" id="fileinputbuttonid">Choose your file</span>
+                    <i class="fas fa-file-upload"></i>
+                    @Html.TextBox("inputfile", "inputfile", new { type = "file", name = "inputfile", id = "input-file", accept = "image/png|image/jpeg|image/jpg|image/gif|audio/mp3|application/pdf", oninput = "fileValidation(); readURL(this);" }) <br />
+                </div>
+                <p class="filetypeinfo">Image: .png/.jpg/.jpeg/.gif | Sound: .mp3 | Text: .pdf</p>
+            </div>
+        </div>
         }
         else
         {
@@ -403,12 +417,12 @@
 
 
 
-        <div class="form-group row">
+        <div class="form-group row" id="kategorifelt">
             <div class="col-3">
                 <label asp-for="Kategori">Category</label>
             </div>
             <div class="col-8">
-                <input asp-for="Kategori" class="form-control-plaintext" readonly id="kategoriVerdi" required sstyle="color:#fff;" />
+                <input asp-for="Kategori" class="form-control-plaintext" readonly id="kategoriVerdi" required style="color:#fff;" />
                 <span asp-validation-for="Kategori" class="text-danger"></span>
             </div>
         </div>
@@ -442,14 +456,14 @@
 
         @if (Model.Id == null)
         {
-            <div id="cover-image" class="form-group row">
-                <div class="col-3">
-
-                    @Html.TextBox("coverfile", "coverfile", new { type = "file", name = "coverfile", id = "cover-input-file", accept = "image/png|image/jpeg|image/jpg", oninput = "CoverValidation(); readURL2(this);" }) <br />
-
-
-                </div>
+        <div id="cover-image" class="form-group row">
+            <div class="col-3">
+                <label>Cover for image or sound</label>
             </div>
+            <div class="col-3">
+                @Html.TextBox("coverfile", "coverfile", new { type = "file", name = "coverfile", id = "cover-input-file", accept = "image/png|image/jpeg|image/jpg", oninput = "CoverValidation(); readURL2(this);" }) <br />
+            </div>
+        </div>
         }
         else
         {
