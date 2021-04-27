@@ -226,6 +226,7 @@ namespace Portefolio_webApp.Controllers
 
                             await firebase.RegistrerBruker(oppBruker);
                             await firebase.UploadProfilBilde(HttpContext.Session.GetString("CroppedPath"), oppBruker.Id, oppBruker.Profilbilde);
+                            
                             firebase.OppdaterBrukerBilde(oppBruker);
                             HttpContext.Session.Remove("CroppedPath");
 

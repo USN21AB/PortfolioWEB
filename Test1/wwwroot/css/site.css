@@ -153,13 +153,13 @@ body {
     right: 0;
     width: 35px;
     height: 35px;
-    margin-left: 20px;
+    margin-left: 5px;
     margin-right: 10px;
 }
 .dropdown-menu {
     padding: 0;
     width: 150px;
-    right: 50px;
+    right: 8px;
     margin-top: 12px;
     background-color: #384352;
     font-weight: 100;
@@ -202,6 +202,7 @@ body {
 
 .bruker-navn {
     max-width: 300px;
+    margin-top: -2px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

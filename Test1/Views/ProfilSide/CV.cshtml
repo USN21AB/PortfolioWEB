@@ -110,14 +110,14 @@
                     <ul class="nav nav-pills navtab-bg">
                         <li class="nav-item">
                             <a class="nav-link ml-0 active" asp-controller="ProfilSide" asp-action="CV"  asp-route-brukerID="@BrukerInnhold.Id">
-                                <i class="mdi mdi-face-profile mr-1"></i>About Me
+                                <i class="mdi mdi-face-profile mr-1"></i>My CV
                             </a>
                         </li>
                         @if (BrukerInnhold.Id == (string)ViewData["Innlogget_ID"] )
                         {
                             <li class="nav-item">
                                 <a href="#settings" data-toggle="tab" aria-expanded="false" class="nav-link">
-                                    <i class="mdi mdi-settings-outline mr-1"></i>Settings
+                                    <i class="mdi mdi-settings-outline mr-1"></i>Edit CV
                                 </a>
                             </li>
                         }
@@ -295,7 +295,7 @@
                         </div> <!-- end row -->
                         <div class="text-right">
                             <span id="danger_arbeid" class="text-danger"></span>
-                                <button id="submitArbeid" class="btn btn-primary buttons mt-1 mb-3"><i class="mdi mdi-content-save"></i> Add</button>
+                                <button id="submitArbeid" class="btn btn-primary buttons mt-1 mb-3"><i class="mdi mdi-content-save"></i> Save Experience</button>
                         </div>
 
 
@@ -351,7 +351,7 @@
                         </div> <!-- end row -->
                         <div class="text-right">
                             <span id="danger_skole" class="text-danger"></span>
-                            <button type="submit" id="submitSkole" class="btn btn-primary buttons mt-1 mb-3"><i class="mdi mdi-content-save"></i> Add</button>
+                            <button type="submit" id="submitSkole" class="btn btn-primary buttons mt-1 mb-3"><i class="mdi mdi-content-save"></i> Save Education</button>
                         </div>
                         <h5 class="mb-3 text-uppercase p-2"><i class="mdi mdi-format-list-checkbox mr-1"></i>Add / Edit Skills</h5>
 
@@ -401,7 +401,7 @@
                             </div> <!-- end row -->
                         <div class="text-right">
                             <span id="danger_skills" class="text-danger"></span>
-                            <button id="addSkillButton" class="btn btn-primary buttons mt-2 mb-3" onclick="addSlider('skillsEdit')"><i class="fas fa-plus"></i> Add</button>
+                            <button id="addSkillButton" class="btn btn-primary buttons mt-2 mb-3" onclick="addSlider('skillsEdit')"><i class="fas fa-plus"></i> Add Skill</button>
                             <button id="submitSkillButton" class="btn btn-primary buttons mt-2 mb-3" onclick="registrerSliders('@BrukerInnhold.Id','skillsEdit')"><i class="mdi mdi-content-save"></i> Save</button>
                         </div>
 
@@ -455,7 +455,7 @@
 
                         <div class="text-right">
                             <span id="danger_språk" class="text-danger"></span>
-                            <button id="addSkillButton" class="btn btn-primary buttons mt-2" onclick="addSlider('språkEdit')"><i class="fas fa-plus"></i> Add</button>
+                            <button id="addSkillButton" class="btn btn-primary buttons mt-2" onclick="addSlider('språkEdit')"><i class="fas fa-plus"></i> Add Language</button>
                             <button id="submitSkillButton" class="btn btn-primary buttons mt-2" onclick="registrerSliders('@BrukerInnhold.Id', 'språkEdit')"><i class="mdi mdi-content-save"></i> Save</button>
                         </div>
 
@@ -643,12 +643,14 @@
             var årF2 = String(årTil);
             var årT = årF2.replace(".", "-");
 
+
+
         document.getElementById(tittel).outerHTML = "</br><input id=" +tittel+" value='" + tittVerdi+ "' class='mt-0 mb-1 form-control col-6'/></br>";
         document.getElementById(bedrift).outerHTML = "<input id=" + bedrift +" value='" + bedVerdi + "' class='form-control col-6' /></br>";
             document.getElementById(årDatDiv).outerHTML = "<div class='row'><div class='col-4'><input class='form-control' id='" + (årFra + index) + "' value='" + årf +"' type='month' /></div> - <div class='col-4'><input class='form-control' id='" + (årTil + index) + "'  value='"+årT+"' type='month' /></br></div></div>";
         if (type == "ArbeidsErfaring") {
             var biVerdi = document.getElementById(bio).innerHTML;
-            document.getElementById(bio).outerHTML = "<textarea class='form-control' id=" + bio + " class='text-muted mt-2' rows='3' cols='50'>" + biVerdi + "</textarea>";
+            document.getElementById(bio).outerHTML = "<textarea class='form-control' id=" + bio + " class='text-muted mt-2' rows='3' cols='50'>" + biVerdi.trim() + "</textarea>";
         }
     }
     function saveEdit(bruker, felt, index, årFra, årTil, tittel, bedrift, bio, array) {
@@ -739,7 +741,7 @@
             else {
                 $('.toast').toast('show');
                 document.getElementById("toast").style.display = "inline";
-                document.getElementById("toast-body").innerHTML = "Added new education!";
+                document.getElementById("toast-body").innerHTML = "Added new experience!";
 
                 $('#startYearA').val("");
                 $('#endYearA').val("");
