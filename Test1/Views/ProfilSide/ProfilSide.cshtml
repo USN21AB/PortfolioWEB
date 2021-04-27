@@ -194,7 +194,7 @@
                             <div class="d-flex flex-column align-items-center text-center">
                                 @if (@BrukerInnhold.Profilbilde != null)
                                 {
-                                    <input type="image" src="@BrukerInnhold.Profilbilde" alt="Admin" class="rounded-circle profilimg mt-2" width="200" />}
+                                    <input type="image" src="@BrukerInnhold.Profilbilde" alt="Admin" class="rounded-circle profilimg mt-2" width="200" height="200" />}
 
                                 else
                                 { <input type="image" src="https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2Fdefault_account.jpg?alt=media&token=290b6907-f17e-4095-90a6-dca2c52563b9" alt="Admin" class="rounded-circle profilimg" width="200" />}
@@ -286,18 +286,21 @@
                                     {
                                         var Mappe = BrukerInnhold.Mapper.ElementAt(antall);
 
-                                        <li class="nav-item mappeindex" id="mappe-@antall">
+                                    <li class="nav-item mappeindex" id="mappe-@antall">
 
-                                            <a class="nav-link folder " asp-action="Portefølje" asp-route-brukerID="@BrukerInnhold.Id" asp-route-antall="@antall">
-                                                <div class="folder-design">
-                                                    <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190211472785468/Portfollowers_bilde.png" />
-                                                    <span class="folder-navn">@Mappe.MappeNavn</span>
-                                                </div>
-                                            </a>
+                                        <a class="nav-link folder " asp-action="Portefølje" asp-route-brukerID="@BrukerInnhold.Id" asp-route-antall="@antall">
+                                            <div class="folder-design">
+                                                <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190211472785468/Portfollowers_bilde.png" />
+                                                <span class="folder-navn">@Mappe.MappeNavn</span>
+                                            </div>
+                                        </a>
+                                        @if (BrukerInnhold.Id == innloggetBruker.Id)
+                                        {
                                             <button class="delete-folder-div" onclick="onDelete('mappe-@antall')">
                                                 <i class="far fa-trash-alt delete-folder"></i>
                                             </button>
-                                        </li>
+                                        }
+                                    </li>
                                         antall++;
                                     }
 
