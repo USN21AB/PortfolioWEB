@@ -259,8 +259,7 @@ namespace Test1.Models
 
         public async Task RegistrerBruker(Bruker bruker)
         {
-            bruker.Profilbilde = "~/resources/default_account.jpg";
-            //PushResponse respons = klient.Push("Bruker/"+bruker.Id, bruker);
+            bruker.Profilbilde = "https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/DefaultProfileImage%2Fdefault_account.jpg?alt=media&token=e0172d4b-dd3f-410e-9405-bb316c3f4e36";            //PushResponse respons = klient.Push("Bruker /"+bruker.Id, bruker);
             // bruker.Id = respons.Result.name;
             SetResponse setResponse = klient.Set("Bruker/" + bruker.Id, bruker);
         }
