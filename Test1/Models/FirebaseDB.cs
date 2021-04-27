@@ -104,7 +104,7 @@ namespace Test1.Models
 
         }
 
-        public async Task RegistrerInnleggMedFil(string filename, IFormFile file, Innlegg innlegg)
+        public async Task<string> RegistrerInnleggMedFil(string filename, IFormFile file, Innlegg innlegg)
         {
                 using (var stream = new FileStream(filename, FileMode.Create))
             {
@@ -153,7 +153,7 @@ namespace Test1.Models
 
             System.IO.File.Delete(filename);
 
-
+            return data.Id; 
         }
 
 
@@ -323,10 +323,7 @@ namespace Test1.Models
 
         public void OppdaterInnlegg(Innlegg innlegg)
         {
-            Debug.WriteLine("Oppdaterer innlegg: " + innlegg.Tittel);
             SetResponse respons = klient.Set("Innlegg/" + innlegg.Id, innlegg);
-            // dynamic data = JsonConvert.DeserializeObject<Bruker>(respons.Body);
-            //Bruker mellomBruker = JsonConvert.DeserializeObject<Bruker>(((JProperty)data).Value.ToString()); 
         }
 
         public void RegistrerKommentar(Kommentar kommentar)
@@ -361,12 +358,9 @@ namespace Test1.Models
 
             List<Bruker> SortedList = list.OrderBy(o => o.likeRatio).ToList();
 
-            SortedList.RemoveRange(0, (SortedList.Count - 5));
-
-            foreach (var item in SortedList)
-            {
-                Debug.WriteLine(item.Navn + " har " + item.likeRatio);
-            };
+            if(SortedList.Count >= 8)
+            SortedList.RemoveRange(0, (SortedList.Count - 8));
+           
             return SortedList;
         }
     }

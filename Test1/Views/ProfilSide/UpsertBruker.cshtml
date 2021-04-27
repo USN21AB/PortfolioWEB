@@ -19,12 +19,9 @@
 
         <div class="modal" id="myprofilecrop" tabindex="-1" role="dialog" aria-labelledby="cropmodel">
             <div class="modal-dialog" role="document">
+             
                 <div class="modal-content">
-                    <div class="modal-header">
-
                         <h4 class="modal-title text-center" id="cropmodel">Update Profile Picture</h4>
-                    </div>
-
                     <div class="modal-body text-center">
                         <div id="views" class="m-t-15"></div>
                     </div>
@@ -32,6 +29,7 @@
                         <form form method="post" , new enctype="multipart/form-data" id="formimg">
                             <button id="cropbutton" class="btn btn-primary" type="submit">Save</button>
                             <button id="rotatebutton" class="btn btn-default" type="button">Rotate</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal();">Close</button>
                         </form>
                     </div>
                 </div>
@@ -89,6 +87,7 @@
                                                     <div class="modal-footer">
                                                         <button id="cropbutton" class="btn btn-primary" type="submit">Save</button>
                                                         <button id="rotatebutton" class="btn btn-default" type="button">Rotate</button>
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal();">Close</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -232,6 +231,19 @@
         </form>
     </div>
 </div>
+
+
+<script>
+
+
+    function closeModal() {
+
+        $("#myprofilecrop").modal('hide');
+
+
+    }
+
+</script>
 
 
 @section Scripts{
