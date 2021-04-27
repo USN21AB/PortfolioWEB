@@ -197,7 +197,8 @@
                                     <input type="image" src="@BrukerInnhold.Profilbilde" alt="Admin" class="rounded-circle profilimg mt-2" width="200" height="200" />}
 
                                 else
-                                { <input type="image" src="https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2Fdefault_account.jpg?alt=media&token=290b6907-f17e-4095-90a6-dca2c52563b9" alt="Admin" class="rounded-circle profilimg" width="200" />}
+                                { 
+                                    <input type="image" src="https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2Fdefault_account.jpg?alt=media&token=290b6907-f17e-4095-90a6-dca2c52563b9" alt="Admin" class="rounded-circle profilimg" width="200" />}
 
 
 
@@ -343,7 +344,7 @@
 
 
                                         if (Innlegg.Kategori == null) { }
-                                        else if (Innlegg.Kategori.Equals("Bilde"))
+                                        else if (Innlegg.Kategori.Equals("Image"))
                                         {
 
                                             <!-- single-awesome-portfolio start -->
@@ -365,7 +366,7 @@
                                             <!-- single-awesome-portfolio end -->
                                         }
 
-                                        else if (Innlegg.Kategori.Equals("Lyd"))
+                                        else if (Innlegg.Kategori.Equals("Sound"))
                                         {
                             <div class="music_player">
                                 <img id="sang-@antall2" class="play_button shadowed" src="../resources/icons8-play-96.png" onclick='spillAv("sang-a-@antall2", this.id); visSang("sangnavn-@Innlegg.Id", "artist-@Innlegg.Id")' />
@@ -385,7 +386,7 @@
                             </div>
                                         }
 
-                                        else if (Innlegg.Kategori.Equals("Tekst"))
+                                        else if (Innlegg.Kategori.Equals("Text"))
                                         {
                                             <div class="litteratur">
 
