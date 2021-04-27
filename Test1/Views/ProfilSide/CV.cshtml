@@ -547,7 +547,8 @@
 
         var i;
         var antall = document.getElementById(type).childElementCount;
-        alert("numberOfChildren: " +antall);
+
+        
        // var antSliderTekst = "";
         var arr = [];
         var Slider ="";
@@ -559,6 +560,8 @@
             Bar = "skillbar";
             kategori = "Ferdigheter";
             danger = "danger_skills"
+
+          
             //antSliderTekst = document.getElementById("skillsEdit").lastElementChild.id
         }
         else if (type == "språkEdit") {
@@ -574,12 +577,19 @@
         for (i = 0; i < allSliders.length; i++) {
            
             if (allSliders[i].id != null) {
-                console.log("node: " + allSliders[i].id)
+              
                 var slid = allSliders[i].id;
                 var index = slid.substring(5, slid.length); 
          
                 var prosent = document.getElementById((Slider + index)).value + "%";
-              var name = document.getElementById((Bar + index)).value ;
+                var name = document.getElementById((Bar + index)).value;
+
+                if (document.getElementById((Bar + index)).value == "") {
+                    document.getElementById(danger).innerHTML = "Please Fill inn all inputs";
+                    return;
+                } else {
+                    document.getElementById(danger).innerHTML = "";
+                } 
 
                console.log(name + "  " + prosent);
                 arr[j++] = name; 
@@ -621,13 +631,15 @@
             document.getElementById("toast").style.display = "inline";
             document.getElementById("toast-body").innerHTML = "Added/Edited languages successfull!";
         }
-    }
+        }
+
     function sliderFunc(id, slider) {
 
        var x1 = document.getElementById(slider).value;
        x2 = document.getElementById(id);
         x2.innerHTML = x1 + '%';
-    }
+        }
+
     function addEdit(id, buttonID, buttonIDRed) {
         document.getElementById(id).classList.add("editClass");
         document.getElementById(buttonID).style.display = "inline";
@@ -700,7 +712,7 @@
         }
     }
 
-    function saveEdit(bruker, felt, index, årFra, årTil, tittel, bedrift, bio, array) {
+        function saveEdit(bruker, felt, index, årFra, årTil, tittel, bedrift, bio, array) {
         var bion = '';
         var fra ='';
         var til = '';
@@ -720,8 +732,11 @@
             bion = bio.value;
             spanField = "spanA";
             if (bion == "") {
-                var text = document.createTextNode("Please fill in all inputs!");
-                document.getElementById(index+spanField).appendChild(text);
+                if (document.getElementById(index + spanField).innerHTML == "") {
+                   
+                    var text = document.createTextNode("Please fill in all inputs!");
+                    document.getElementById(index + spanField).appendChild(text);
+                }
                 return;
             }
 
@@ -729,8 +744,10 @@
 
 
         if (tittel.value == "" || bedrift.value == "") {
-            var text = document.createTextNode("Please fill in all inputs!");
-            document.getElementById(index + spanField).appendChild(text);
+            if (document.getElementById(index + spanField).innerHTML == "") {
+                var text = document.createTextNode("Please fill in all inputs!");
+                document.getElementById(index + spanField).appendChild(text);
+            }
             return;
         }
         var json = {
@@ -790,8 +807,10 @@
         var bedriftNavn = $('#companyNameA').val();
             var jobbBeskrivelse = $('#userbio').val();
             if (startÅr == "" || sluttÅr == "" || jobbTittel == "" || bedriftNavn == "" || jobbBeskrivelse == "") {
-                var text = document.createTextNode("Please fill in all inputs!");
-                document.getElementById("danger_arbeid").appendChild(text); 
+                if (document.getElementById("danger_arbeid").innerHTML == "") {
+                    var text = document.createTextNode("Please fill in all inputs!");
+                    document.getElementById("danger_arbeid").appendChild(text);
+                }
                 return; 
             }
             else {
@@ -829,8 +848,10 @@
             var bedriftNavn = $('#skolename').val();
 
             if (startÅr == "" || sluttÅr == "" || jobbTittel == "" || bedriftNavn == "") {
-                var text = document.createTextNode("Please fill in all inputs!");
-                document.getElementById("danger_skole").appendChild(text);
+                if (document.getElementById("danger_skole").innerHTML == "") {
+                    var text = document.createTextNode("Please fill in all inputs!");
+                    document.getElementById("danger_skole").appendChild(text);
+                }
                 return;
             } else {
 
