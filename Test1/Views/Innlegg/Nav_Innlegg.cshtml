@@ -773,13 +773,17 @@ function dislike(innId) {
                 @{
                     var antall = 0;
                     var tag = Model.Tagger;
-                }
-                @while (antall < tag.Count)
+
+
+}
+                @if(tag != null) { 
+                while (antall < tag.Count)
                 {
                     <li>
                         <p class="tag">@tag.ElementAt(antall)</p>
                     </li>
-                    antall++;
+                        antall++;
+                    }
                 }
             </ul>
 

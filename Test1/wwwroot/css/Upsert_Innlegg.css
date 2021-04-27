@@ -81,8 +81,57 @@
 }
 
 #cover-image {
-    display: none;
+    position: absolute;
+    visibility: hidden;
 }
+
+#kategorifelt {
+    position: absolute;
+    visibility: hidden;
+}
+
+#kategoriVerdi {
+    margin-top: -5px;
+}
+
+#input-file {
+    background-color: transparent;
+    color: red;
+    opacity: 0;
+    left: 0;
+    cursor: pointer;
+    width: 170px;
+    position: absolute;
+}
+
+.fileinputdesign {
+    background-color: #0275d8;
+    border-radius: .25rem;
+    display: inline-block;
+    position: relative;
+    padding-left: 5px;
+    padding-top: 3px;
+    height: 30px;
+    width: 170px;
+    
+}
+
+.fileinputbutton {
+    font-size: 17px;
+    margin-top: 5px;
+    width: 160px;
+    overflow: hidden;
+    white-space: nowrap;
+
+    
+    
+}
+
+.filetypeinfo {
+    font-size: 12px;
+}
+
+
 
 #subkat {
 }
