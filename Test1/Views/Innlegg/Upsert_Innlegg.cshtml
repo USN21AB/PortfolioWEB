@@ -353,7 +353,8 @@
             <input type="hidden" asp-for="Klokkeslett" />
             <input type="hidden" asp-for="EierId" />
             <input type="hidden" asp-for="FilStørrelse" />
-            <input type="hidden" asp-for="Eier" value="@BrukerInnhold.Navn" />}
+            <input type="hidden" asp-for="Eier" value="@BrukerInnhold.Navn" />
+            <input type="hidden" asp-for="Likes.Antall" value="0" />}
         else
         {
             <input type="hidden" asp-for="Id" name="innleggid" />
@@ -361,10 +362,13 @@
             <input type="hidden" asp-for="EierId" />
             <input type="hidden" asp-for="FilStørrelse" />
             <input type="hidden" asp-for="Eier" />
+            <input type="hidden" asp-for="Likes.Antall" value="Model.Likes.Antall"/>
+
         }
 
-
         <input type="hidden" asp-for="antallLikes" />
+
+
 
         @if (Model.Id == null)
         {

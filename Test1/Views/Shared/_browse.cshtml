@@ -1,5 +1,5 @@
 ﻿<link href="~/css/_browse.css" rel="stylesheet" />
-<script src="~/js/lyd.js?v=1"></script>
+<script src="~/js/lyd.js"></script>
 <link href="~/css/Musikkontroller.css?v=1" rel="stylesheet" />
 <link href="~/css/PorteføljeElementer.css" rel="stylesheet" />
 @model Portefolio_webApp.Models.Innlegg;
@@ -44,9 +44,9 @@
     {
 
         <div class="music_player">
-            <i class="fas fa-music innlegg-ikon"></i>
             <img id="sang-@Innlegg.Id" class="play_button shadowed" src="~/resources/icons8-play-96.png" onclick='spillAv("sangaudio-@Innlegg.Id", this.id); visSang("sangnavn-@Innlegg.Id", "artist-@Innlegg.Id")' />
             <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id class="card-link">
+                <i class="fas fa-music innlegg-ikon"></i>
                 <div class="play_button_div">
                     <h3 class="sangnavn" id="sangnavn-@Innlegg.Id">@Innlegg.Tittel</h3>
                     <p class="artist" id="artist-@Innlegg.Id">@Innlegg.Eier</p>
@@ -104,7 +104,7 @@
 
     <img class="stopper" src="../resources/icons8-pause-96.png" onclick="stopAll()" />
 
-    <input type="range" id="volume-control" value="10" min="0" max="10" onload="volum(this.value)" onchange="volum(this.value)">
+    <input type="range" id="volume-control" value="5" min="0" max="10" onload="volum(this.value)" onchange="volum(this.value)">
 </div>
 
 <svg height="0" xmlns="http://www.w3.org/2000/svg">

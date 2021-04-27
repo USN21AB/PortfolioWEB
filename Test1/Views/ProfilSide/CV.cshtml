@@ -117,7 +117,7 @@
                         {
                             <li class="nav-item">
                                 <a href="#settings" data-toggle="tab" aria-expanded="false" class="nav-link">
-                                    <i class="mdi mdi-settings-outline mr-1"></i>Settings
+                                    <i class="mdi mdi-settings-outline mr-1"></i>Add/Update
                                 </a>
                             </li>
                         }
@@ -162,7 +162,7 @@
                                                                 </button>
                                                             </div>
                                                             <div class="col">
-                                                                <button id="@(arID)button" class="btn btn-light" style="position:absolute; right:6%; display:none;" onclick="onDelete('@arID', @antallArbeidsErfaring, 'ArbeidsErfaring')"><i class="fas fa-window-close fa-lg"></i></button>
+                                                                <button id="@(arID)button" class="btn btn-light" style="position:absolute; right:6%; display:none;" onclick="onDelete('@arID', @antallArbeidsErfaring, 'ArbeidsErfaring', '@ArbeidsErfaringTittel')"><i class="fas fa-window-close fa-lg"></i></button>
                                                             </div>
                                                             </div>
                                                         </div>
@@ -223,7 +223,7 @@
                                                             </div>
                                                             <div class="col">
                                                                 <button id="@(utID)button" class="btn btn-light" style="position:absolute; right:6%; display:none;"
-                                                                        onclick="onDelete('@utID',@(antallUtdanning), 'Utdanning')">
+                                                                        onclick="onDelete('@utID',@(antallUtdanning), 'Utdanning', '@UtdanningGrad')">
                                                                     <i class="fas fa-window-close fa-lg"></i>
                                                                 </button>
                                                             </div>
@@ -374,7 +374,7 @@
                                                 <input value="@FerdighetNavn2" id="skillbar@(antallFerdigheter2)" />
                                                 <div class="input-group">
                                                     <input class="slider-general" id="skillSlider@(antallFerdigheter2)" data-slider-id='ex1Slider' value="@prosent" type="range" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14" oninput="sliderFunc('sliderTekst@(antallFerdigheter2)','skillSlider@(antallFerdigheter2)')" />
-                                                    <button id="@(antallFerdigheter2)skillbutton" onclick="onDelete('skill@(antallFerdigheter2)', @antallFerdigheter2, 'Ferdigheter')" class="btn btn-light sliderstyle"><i class="far fa-window-close fa-lg"></i></button>
+                                                    <button id="@(antallFerdigheter2)skillbutton" onclick="onDelete('skill@(antallFerdigheter2)', @antallFerdigheter2, 'Ferdigheter', '@FerdighetNavn2')" class="btn btn-light sliderstyle"><i class="far fa-window-close fa-lg"></i></button>
                                                     <p id="sliderTekst@(antallFerdigheter2)" class="slidertextstyle">@FerdighetProsent2</p>
                                                 </div>
 
@@ -426,7 +426,7 @@
                                             <input value="@SpråkNavn2" id="språkbar@(antallSliderSpråk)" />
                                             <div class="input-group">
                                                 <input class="slider-general" id="språkSlider@(antallSliderSpråk)" data-slider-id='ex1Slider' value="@prosent2" type="range" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14" oninput="sliderFunc('språksliderTekst@(antallSliderSpråk)','språkSlider@(antallSliderSpråk)')" />
-                                                <button id="@(antallSliderSpråk)språkbutton" class="btn btn-light sliderstyle" onclick="onDelete('språk@(antallSliderSpråk)', @antallSliderSpråk, 'Språk')"><i class="far fa-window-close fa-lg"></i></button>
+                                                <button id="@(antallSliderSpråk)språkbutton" class="btn btn-light sliderstyle" onclick="onDelete('språk@(antallSliderSpråk)', @antallSliderSpråk, 'Språk', '@SpråkNavn2')"><i class="far fa-window-close fa-lg"></i></button>
                                                 <p id="språksliderTekst@(antallSliderSpråk)" class="slidertextstyle">@SpråkProsent2</p>
                                             </div>
 
@@ -491,6 +491,12 @@
     </div>
 
     <script type="text/javascript">
+
+        function removeNewSlider(id) {
+            alert("just removed: " + id.id);
+          document.getElementById(id.id).remove();
+
+        }
     function addSlider(type) {
 
         var list = document.getElementById(type).lastElementChild;
@@ -523,7 +529,7 @@
             " <input class='slider-general' id='" + slider + "' data-slider-id='ex1Slider' value='50'" +
             " type='range' data-slider-min='0' data-slider-max='20' data-slider-step='1' data-slider-value='14' " +
             " />" +
-            " <button id='" + skillButton + "' class='btn btn-light sliderstyle'><i class='far fa-window-close fa-lg'></i></button> " +
+            " <button id='" + skillButton + "' class='btn btn-light sliderstyle' onclick='removeNewSlider(" + skill+")' ><i class='far fa-window-close fa-lg'></i></button> " +
                                                      "<p id='" + tekst + "' class='slidertextstyle'>50%</p>" +
                                           "</div>" +
                              "</div>" +
@@ -540,7 +546,9 @@
     function registrerSliders(brukerID, type) {
 
         var i;
-        var antall = (document.getElementById(type).childElementCount * 2);
+        var antall = document.getElementById(type).childElementCount;
+        alert("numberOfChildren: " +antall);
+       // var antSliderTekst = "";
         var arr = [];
         var Slider ="";
         var Bar = "";
@@ -551,14 +559,38 @@
             Bar = "skillbar";
             kategori = "Ferdigheter";
             danger = "danger_skills"
+            //antSliderTekst = document.getElementById("skillsEdit").lastElementChild.id
         }
         else if (type == "språkEdit") {
              Slider = "språkSlider";
              Bar = "språkbar";
             kategori = "Språk";
             danger = "danger_språk"
+           // antSliderTekst = document.getElementById("språkEdit").lastElementChild.id
         }
-        for (i = 0; i < antall; i += 2) {
+        var allSliders = document.getElementById(type).childNodes;
+        var j = 0;
+        //console.log(allSliders[0].id);
+        for (i = 0; i < allSliders.length; i++) {
+           
+            if (allSliders[i].id != null) {
+                console.log("node: " + allSliders[i].id)
+                var slid = allSliders[i].id;
+                var index = slid.substring(5, slid.length); 
+         
+                var prosent = document.getElementById((Slider + index)).value + "%";
+              var name = document.getElementById((Bar + index)).value ;
+
+               console.log(name + "  " + prosent);
+                arr[j++] = name; 
+                arr[j++] = prosent;
+              }
+            
+        }
+
+       // var ant = parseInt(antSliderTekst.substring(5, antSliderTekst.length)); 
+        /*
+        for (i = 0; i <= antall; i += 2) {
             var nySlider = Slider + i;
             var nyBar = Bar + i;
             var slid = document.getElementById(nySlider).value + "%";
@@ -572,8 +604,10 @@
 
             arr[i] = tek;
             arr[i + 1] = slid;
-
+            console.log(nySlider);
         }
+        */
+
 
         saveEdit(brukerID, kategori, "0", "", "", "", "", "", arr);
 
@@ -598,33 +632,42 @@
         document.getElementById(id).classList.add("editClass");
         document.getElementById(buttonID).style.display = "inline";
         document.getElementById(buttonIDRed).style.display = "inline";
-        document.getElementById(submit).style.display = "inline";
+       // document.getElementById(submit).style.display = "inline";
     }
     function removeEdit(id, buttonID, buttonIDRed) {
         document.getElementById(id).classList.remove("editClass");
         document.getElementById(buttonID).style.display = "none";
         document.getElementById(buttonIDRed).style.display = "none";
-        document.getElementById(submit).style.display = "none";
-    }
-    function onDelete(id, index, felt) {
+       // document.getElementById(submit).style.display = "none";
+        }
+
+    function onDelete(id, index, felt, navn) {
+       
+        
+       
+        //var slettaBarn = (document.getElementById("skillsEdit").childElementCount * 2) - totalAntall; 
       
+
+       // document.getElementById(id).remove();
+        
         document.getElementById("ButtonModelDelete").onclick = function (event){
-            onDeleteExpand(id, index, felt);
+            onDeleteExpand(id, (index ), felt, navn);
         }
         $("#exampleModal").modal("show");
-
+        
         }
 
-        function onDeleteExpand(id, index, felt) {
+        function onDeleteExpand(id, index, felt, navn) {
 
             $("#exampleModal").modal("hide");
-        if (felt == "slider") {
+            if (felt == "Ferdigheter" || felt == "Språk") {
             document.getElementById(id).remove();
-        } else document.getElementById(id).style.display = "none";
+        }else document.getElementById(id).style.display = "none";
         if (felt != "slider") {
         var json = {
             "felt": felt,
             "index": index,
+            "indexNavn": navn
         };
           $.ajax({
                     type: "POST",

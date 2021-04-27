@@ -414,26 +414,31 @@ namespace Portefolio_webApp.Controllers
         }
 
         [HttpPost]
-        public JsonResult DeleteCV(string felt, string index)
+        public JsonResult DeleteCV(string felt, string index, string indexNavn)
         {
-            Debug.WriteLine("---------------------------------yo " + felt + " og " + index);
+            //Debug.WriteLine("---------------------------------yo " + felt + " og " + index + " og lengden på liste er: " + Bruker.CV.Ferdigheter.Count);
             Bruker = firebase.HentEnkeltBruker(HttpContext.Session.GetString("_UserID"));
             if (felt == "ArbeidsErfaring")
             {
-                Bruker.CV.ArbeidsErfaring.RemoveRange(Int32.Parse(index), 5);
+                int indexN = Bruker.CV.ArbeidsErfaring.IndexOf(indexNavn);
+                Bruker.CV.ArbeidsErfaring.RemoveRange((indexN-2), 5);
             }
             else if (felt == "Utdanning")
             {
-                Bruker.CV.Utdanning.RemoveRange(Int32.Parse(index), 4);
+                int indexN = Bruker.CV.Utdanning.IndexOf(indexNavn);
+                Bruker.CV.Utdanning.RemoveRange((indexN - 2), 4);
             }
 
             else if (felt == "Ferdigheter")
             {
-                Bruker.CV.Ferdigheter.RemoveRange(Int32.Parse(index), 2);
+                int indexN = Bruker.CV.Ferdigheter.IndexOf(indexNavn);
+             
+                Bruker.CV.Ferdigheter.RemoveRange(indexN, 2);
             }
             else if (felt == "Språk")
             {
-                Bruker.CV.Språk.RemoveRange(Int32.Parse(index), 2);
+                int indexN = Bruker.CV.Språk.IndexOf(indexNavn);
+                Bruker.CV.Språk.RemoveRange(indexN, 2);
             }
 
             firebase.OppdaterBruker(Bruker);
@@ -476,6 +481,13 @@ namespace Portefolio_webApp.Controllers
             }
             else if (felt == "Ferdigheter")
             {
+                Bruker.CV.Ferdigheter.Clear(); 
+
+                for(int i= 0; i<array.Length; i++)
+                {
+                    Bruker.CV.Ferdigheter.Add(array[i]);
+                }
+                /*
                 int startLengde = Bruker.CV.Ferdigheter.Count;
                 int tilSammen = array.Length - startLengde;
 
@@ -488,6 +500,7 @@ namespace Portefolio_webApp.Controllers
                     Debug.WriteLine("------------------------------------------ MOMOMOMOMOM-add " + array[j]);
                     Bruker.CV.Ferdigheter.Add(array[j]);
                 }
+                */
             }
             else if (felt == "Språk")
             {
