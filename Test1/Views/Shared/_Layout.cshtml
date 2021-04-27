@@ -69,14 +69,14 @@
                                 <li class="topnav-right vl">
                                     <div class="dropdown">
 
-                                            <button class="btn btn-sm profilbtn" type="button" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <button class="btn btn-sm profilbtn dropdown-toggle" type="button" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <div class="profilbtn profilbtndiv">
-                                                    <p class="bruker-navn">@(innloggetBruker == null? "": innloggetBruker.Navn)</p>&nbsp;
+                                                    <p class="bruker-navn">@(innloggetBruker == null? "": innloggetBruker.Navn)   <i class="fas fa-chevron-down fa-xs"></i></p>&nbsp;
                                                 </div>
                                             </button>
-                                            <a asp-area="" asp-controller="ProfilSide" asp-action="ProfilSide" asp-route-brukerID="@ViewData["Innlogget_ID"]">
-                                                <img src="@innloggetBruker.Profilbilde" alt="" class="profilbtnbilde rounded-circle" />
-                                            </a>
+
+                                                <img src="@innloggetBruker.Profilbilde" alt="" class="profilbtnbilde rounded-circle" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor:pointer" />
+                                            
                                             <div class="dropdown-menu dropdown-menu-right">
                                                 <hr class="hrdropdown" />
                                                 <a class="dropdown-item" asp-area="" asp-controller="ProfilSide" asp-action="ProfilSide" asp-route-brukerID="@ViewData["Innlogget_ID"]">

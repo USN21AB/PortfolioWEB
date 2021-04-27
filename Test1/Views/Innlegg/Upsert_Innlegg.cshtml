@@ -381,12 +381,12 @@
             <input type="hidden" asp-for="Likes.Antall" value="0" />}
         else
         {
-            <input type="hidden" asp-for="Id" name="innleggid" />
+            <input type="hidden" asp-for="Id" />
             <input type="hidden" asp-for="Klokkeslett" />
             <input type="hidden" asp-for="EierId" />
             <input type="hidden" asp-for="FilStørrelse" />
             <input type="hidden" asp-for="Eier" />
-            <input type="hidden" asp-for="Likes.Antall" value="Model.Likes.Antall"/>
+            <input type="hidden" asp-for="Likes.Antall" />
 
         }
 
@@ -479,7 +479,7 @@
 
 
 
-        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+
 
 
         @if (Model.Id == null)
@@ -627,7 +627,7 @@
 
 
 
-
+        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
 
 
         <div class="form-group row">
@@ -637,8 +637,8 @@
                 </button>
             </div>
             <!--<div class="col-3">
-                <a asp-controller="Home" asp-action="BrowseSide" class="btn btn-success form-control">Back to List</a>
-            </div>-->
+            <a asp-controller="Home" asp-action="BrowseSide" class="btn btn-success form-control">Back to List</a>
+        </div>-->
         </div>
     </form>
 </div>

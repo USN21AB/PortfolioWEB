@@ -138,7 +138,24 @@
 
 @{
     var antall = 0;
+    var tilbakeknapp = "Back to " + @BrukerInnhold.Navn +"' profile";
+    var tilbakeknapp2 = "Back to " + @BrukerInnhold.Navn + "'s profile";
 }
+
+<a class="btn btn-outline-light mb-3" asp-action="ProfilSide" asp-route-brukerID="@BrukerInnhold.Id">
+    <i class="fas fa-arrow-left"></i>&nbsp;
+    @{
+        if (BrukerInnhold.Navn.EndsWith("s") == true)
+        {
+            @tilbakeknapp
+        }
+        else
+        {
+            @tilbakeknapp2
+        }
+    }
+</a>
+
 <div class="d-flex align-items-start">
     <div class="mapper">
         <div class="nav flex-column nav-pills nav-fill me-3 mapper" id="v-pills-tab" role="tablist" aria-orientation="vertical">
@@ -164,46 +181,46 @@
             {
                 antall = 0;
                 var Mappe = BrukerInnhold.Mapper.ElementAt(mappeNr);
-            <div class="tab-pane fade" id="v-pills-@mappeNr" role="tabpanel" aria-labelledby="@Mappe.MappeNavn-tab">
+                <div class="tab-pane fade" id="v-pills-@mappeNr" role="tabpanel" aria-labelledby="@Mappe.MappeNavn-tab">
 
-                @while (antall < Mappe.MappeInnhold.Count)
-                {
+                    @while (antall < Mappe.MappeInnhold.Count)
+                    {
 
-                    Innlegg Innlegg = Mappe.MappeInnhold.ElementAt(antall);
+                        Innlegg Innlegg = Mappe.MappeInnhold.ElementAt(antall);
 
 
                     if (Innlegg.Kategori == null) { }
                     else if (Innlegg.Kategori.Equals("Image"))
                     {
 
-                        <!-- single-awesome-portfolio start -->
-                        <div class="single-awesome-portfolio innleggindex" id="@Innlegg.Id">
-                            @if (BrukerInnhold.Id == innloggetBruker.Id)
-                            {
-                                <a asp-action="Upsert_Innlegg" asp-controller="Innlegg" asp-route-InnleggID="@Innlegg.Id">
-                                    <i class="fas fa-edit rediger-innlegg"></i>
-                                </a>
-                                <button class="delete-innlegg" onclick="onDelete('@Innlegg.Id', @mappeNr)">
-                                    <i class="far fa-trash-alt"></i>
-                                </button>
-                            }
-                            <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id class="card-link">
+                            <!-- single-awesome-portfolio start -->
+                            <div class="single-awesome-portfolio innleggindex" id="@Innlegg.Id">
+                                @if (BrukerInnhold.Id == innloggetBruker.Id)
+                                {
+                                    <a asp-action="Upsert_Innlegg" asp-controller="Innlegg" asp-route-InnleggID="@Innlegg.Id">
+                                        <i class="fas fa-edit rediger-innlegg"></i>
+                                    </a>
+                                    <button class="delete-innlegg" onclick="onDelete('@Innlegg.Id', @mappeNr)">
+                                        <i class="far fa-trash-alt"></i>
+                                    </button>
+                                }
+                                <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id class="card-link">
 
-                                <div class="awesome-img">
-                                    <i class="far fa-image innlegg-ikon"></i>
+                                    <div class="awesome-img">
+                                        <i class="far fa-image innlegg-ikon"></i>
 
 
-                                    <div class="awesome-info">
-                                        <h3>@Innlegg.Beskrivelse</h3>
-                                        <p>@Innlegg.Eier</p>
+                                        <div class="awesome-info">
+                                            <h3>@Innlegg.Beskrivelse</h3>
+                                            <p>@Innlegg.Eier</p>
+                                        </div>
+                                        <img class="imge" src="@Innlegg.IkonURL" alt="" data-adaptive-background>
                                     </div>
-                                    <img class="imge" src="@Innlegg.IkonURL" alt="" data-adaptive-background>
-                                </div>
-                            </a>
+                                </a>
 
-                        </div>
-                        <!-- single-awesome-portfolio end -->
-                    }
+                            </div>
+                            <!-- single-awesome-portfolio end -->
+                        }
 
                     else if (Innlegg.Kategori.Equals("Sound"))
                     {
@@ -219,22 +236,22 @@
                             }
                             <img id="sang-@antall" class="play_button shadowed" src="../resources/icons8-play-96.png" onclick='spillAv("sang-a-@antall", this.id); visSang("sangnavn-@Innlegg.Id", "artist-@Innlegg.Id")' />
 
-                            <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id class="card-link">
+                                <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id class="card-link">
 
-                                <i class="fas fa-music innlegg-ikon"></i>
+                                    <i class="fas fa-music innlegg-ikon"></i>
 
 
-                                <div class="play_button_div">
+                                    <div class="play_button_div">
 
-                                    <h3 class="sangnavn" id="sangnavn-@Innlegg.Id">@Innlegg.Tittel</h3>
-                                    <p class="artist" id="artist-@Innlegg.Id">@Innlegg.Eier</p>
-                                </div>
-                                <audio id="sang-a-@antall" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="@Innlegg.IkonURL"></audio>
-                                <img class="fuck imge" src="@Innlegg.CoverURL" />
-                            </a>
+                                        <h3 class="sangnavn" id="sangnavn-@Innlegg.Id">@Innlegg.Tittel</h3>
+                                        <p class="artist" id="artist-@Innlegg.Id">@Innlegg.Eier</p>
+                                    </div>
+                                    <audio id="sang-a-@antall" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="@Innlegg.IkonURL"></audio>
+                                    <img class="fuck imge" src="@Innlegg.CoverURL" />
+                                </a>
 
-                        </div>
-                    }
+                            </div>
+                        }
 
                     else if (Innlegg.Kategori.Equals("Text"))
                     {
@@ -250,28 +267,28 @@
                             }
                             <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id class="card-link">
 
-                                <i class="far fa-file-alt innlegg-ikon"></i>
+                                    <i class="far fa-file-alt innlegg-ikon"></i>
 
 
-                                <img class="book_cover" src="@Innlegg.CoverURL" alt="" />
-                                <div class="lit-tekst">
-                                    <h3 class="tittel">@Innlegg.Tittel</h3>
-                                    <h3 class="beskrivelse">@Innlegg.Beskrivelse</h3>
-                                    <h4 class="forfatter">@Innlegg.Eier</h4>
-                                </div>
-                            </a>
-                        </div>
+                                    <img class="book_cover" src="@Innlegg.CoverURL" alt="" />
+                                    <div class="lit-tekst">
+                                        <h3 class="tittel">@Innlegg.Tittel</h3>
+                                        <h3 class="beskrivelse">@Innlegg.Beskrivelse</h3>
+                                        <h4 class="forfatter">@Innlegg.Eier</h4>
+                                    </div>
+                                </a>
+                            </div>
+                        }
+
+                        var lol = Innlegg.Tittel;
+                        Console.WriteLine(lol);
+                        antall++;
                     }
-
-                    var lol = Innlegg.Tittel;
-                    Console.WriteLine(lol);
-                    antall++;
-                }
-                @if(antall == 0)
-                {
-                <h2 class="emptyfolder">This folder is empty.</h2>
-                }
-            </div>
+                    @if (antall == 0)
+                    {
+                        <h2 class="emptyfolder">This folder is empty.</h2>
+                    }
+                </div>
                 mappeNr++;
             }
             <!--<div class="music_player">

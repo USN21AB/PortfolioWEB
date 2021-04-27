@@ -194,7 +194,8 @@
                             <div class="d-flex flex-column align-items-center text-center">
                                 @if (@BrukerInnhold.Profilbilde != null)
                                 {
-                                    <input type="image" src="@BrukerInnhold.Profilbilde" alt="Admin" class="rounded-circle profilimg mt-2" width="200" />}
+                                    <input type="image" src="@BrukerInnhold.Profilbilde" alt="Admin" class="rounded-circle profilimg mt-2" width="200" height="200" />}
+
                                 else
                                 { 
                                     <input type="image" src="https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2Fdefault_account.jpg?alt=media&token=290b6907-f17e-4095-90a6-dca2c52563b9" alt="Admin" class="rounded-circle profilimg" width="200" />}
@@ -217,17 +218,17 @@
                                 {
                                     @if (CVAdgang)
                                     {
-                                        <a asp-action="CV" asp-route-brukerID="@BrukerInnhold.Id"><button class="cvbtn btn btn-primary">Enter CV</button></a>
+                                        <a style="margin-top: -20px" asp-action="CV" asp-route-brukerID="@BrukerInnhold.Id"><button class="cvbtn btn btn-primary">Enter CV</button></a>
                                     }
                                     else
                                     {
                                         if (innloggetBruker != null)
-                                        {
-                                            <a onclick="requestCV('@BrukerInnhold.Id', '@ViewData["Innlogget_ID"]', '@innloggetBruker.Navn')"><button class="cvbtn btn btn-primary">Request CV</button></a>
+                                            {
+                                              <a style="margin-top: -20px"onclick="requestCV('@BrukerInnhold.Id', '@ViewData["Innlogget_ID"]', '@innloggetBruker.Navn')"><button id="requestCV" class="cvbtn btn btn-primary">Request CV</button></a>
+                                            }
                                         }
-                                    }
 
-                                }
+                                    }
                             </div>
                         </div>
                     </div>
@@ -289,18 +290,21 @@
                                     {
                                         var Mappe = BrukerInnhold.Mapper.ElementAt(antall);
 
-                                        <li class="nav-item mappeindex" id="mappe-@antall">
+                                    <li class="nav-item mappeindex" id="mappe-@antall">
 
-                                            <a class="nav-link folder " asp-action="Portefølje" asp-route-brukerID="@BrukerInnhold.Id" asp-route-antall="@antall">
-                                                <div class="folder-design">
-                                                    <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190211472785468/Portfollowers_bilde.png" />
-                                                    <span class="folder-navn">@Mappe.MappeNavn</span>
-                                                </div>
-                                            </a>
+                                        <a class="nav-link folder " asp-action="Portefølje" asp-route-brukerID="@BrukerInnhold.Id" asp-route-antall="@antall">
+                                            <div class="folder-design">
+                                                <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190211472785468/Portfollowers_bilde.png" />
+                                                <span class="folder-navn">@Mappe.MappeNavn</span>
+                                            </div>
+                                        </a>
+                                        @if (BrukerInnhold.Id == innloggetBruker.Id)
+                                        {
                                             <button class="delete-folder-div" onclick="onDelete('mappe-@antall')">
                                                 <i class="far fa-trash-alt delete-folder"></i>
                                             </button>
-                                        </li>
+                                        }
+                                    </li>
                                         antall++;
                                     }
 
@@ -484,7 +488,13 @@
 </div>
 <script>
 
-                        function requestCV(eierID, senderID, navn) {
+
+
+    function requestCV(eierID, senderID, navn) {
+
+       
+        
+                        document.getElementById("requestCV").innerText = "Request Sent";
                         var today = new Date();
                         var dd = String(today.getDate()).padStart(2, '0');
                         var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -504,9 +514,6 @@
                                       url: '@Url.Action("RequestCV", "ProfilSide")',
                                          data: jsonNotfic,
                                          dataType: "json",
-                                     success: function (result) {
-                                         alert("Notfication har blitt sendt! ");
-                                     }
                                     });
                         }
     $(document).ready(function () {
