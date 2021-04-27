@@ -29,7 +29,7 @@
 
         <link href="~/css/Buttons.css" rel="stylesheet" />
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/css/site.css?v=1" />
         <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -69,9 +69,9 @@
                                 <li class="topnav-right vl">
                                     <div class="dropdown">
 
-                                            <button class="btn btn-sm profilbtn dropdown-toggle" type="button" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <button class="btn btn-sm profilbtn type="button" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <div class="profilbtn profilbtndiv">
-                                                    <p class="bruker-navn">@(innloggetBruker == null? "": innloggetBruker.Navn)   <i class="fas fa-chevron-down fa-xs"></i></p>&nbsp;
+                                                    <p class="bruker-navn">@innloggetBruker.Navn<i class="fas fa-chevron-down fa-xs" style="margin-left: 5px;"></i></p>&nbsp;
                                                 </div>
                                             </button>
 
@@ -84,7 +84,7 @@
                                                 </a>
                                                 <hr class="hrdropdown2" />
                                                 <a class="dropdown-item" asp-area="" asp-controller="ProfilSide" asp-action="CV" asp-route-brukerID="@ViewData["Innlogget_ID"]">
-                                                    <div><i class="fas fa-user-graduate ikon"></i><div class="ikontekst">My CV</div></div>
+                                                    <div><i class="fas fa-user-graduate ikon"></i><div class="ikontekst">My Resume</div></div>
                                                 </a>
                                                 <hr class="hrdropdown2" />
                                                 <a class="dropdown-item" asp-area="" asp-controller="Innlegg" asp-action="Upsert_Innlegg" asp-route-innleggID="">
