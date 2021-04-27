@@ -185,8 +185,10 @@ namespace Portefolio_webApp.Controllers
 
             if (string.IsNullOrEmpty(oppBruker.Id))
                     { //CREATE 
+                
+                if (password != null && passwordRetyp != null && string.Equals(password, passwordRetyp) && password.Length > 7) {
+                    
 
-                if (string.Equals(password, passwordRetyp)) {
                     Debug.WriteLine("------inni is equal: " + string.Equals(password, passwordRetyp));
                     string logginnID = logg.Register(oppBruker.Email, password).Result;
                         string[] splittArr = logginnID.Split("|");
@@ -234,8 +236,16 @@ namespace Portefolio_webApp.Controllers
                     }else
                 {
                     Debug.WriteLine("------inni is NOT equal: " + string.Equals(password, passwordRetyp));
-                    ModelState.AddModelError(string.Empty, "Password must match in both password inputs");
-                    return View(oppBruker); 
+                    if (password != passwordRetyp)
+                    {
+                        ModelState.AddModelError(string.Empty, "Password must match in both password inputs");
+                        return View(oppBruker);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Password must be at least 8 characters");
+                        return View(oppBruker);
+                    }
                 }
             }
             else
