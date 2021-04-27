@@ -211,7 +211,7 @@
                                     }
                                     else
                                     {
-                                        <a onclick="requestCV('@BrukerInnhold.Id', '@ViewData["Innlogget_ID"]', '@innloggetBruker.Navn')"><button class="cvbtn btn btn-primary">Request CV</button></a>
+                                        <a style="margin-top: -20px"onclick="requestCV('@BrukerInnhold.Id', '@ViewData["Innlogget_ID"]', '@innloggetBruker.Navn')"><button id="requestCV" class="cvbtn btn btn-primary">Request CV</button></a>
                                     }
 
                                 }
@@ -458,7 +458,13 @@
 
 <script>
 
-                        function requestCV(eierID, senderID, navn) {
+
+
+    function requestCV(eierID, senderID, navn) {
+
+       
+        
+                        document.getElementById("requestCV").innerText = "Request Sent";
                         var today = new Date();
                         var dd = String(today.getDate()).padStart(2, '0');
                         var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -478,9 +484,6 @@
                                       url: '@Url.Action("RequestCV", "ProfilSide")',
                                          data: jsonNotfic,
                                          dataType: "json",
-                                     success: function (result) {
-                                         alert("Notfication har blitt sendt! ");
-                                     }
                                     });
                         }
     $(document).ready(function () {
