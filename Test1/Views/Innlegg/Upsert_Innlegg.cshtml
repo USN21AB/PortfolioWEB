@@ -172,7 +172,7 @@
         if (validImage.exec(file)) {
             
             //Endrer verider
-            document.getElementById('kategoriVerdi').value = "Bilde";
+            document.getElementById('kategoriVerdi').value = "Image";
             document.getElementById("kategori-value").value = "";
 
             console.log("");
@@ -193,7 +193,7 @@
         }
         else if (validAudio.exec(file)) {
             //Endrer verider
-            document.getElementById('kategoriVerdi').value = "Lyd";
+            document.getElementById('kategoriVerdi').value = "Sound";
             document.getElementById("kategori-value").value = "";
 
             //Gjør elemeter synlig
@@ -213,7 +213,7 @@
         }
         else if (validTekst.exec(file)) {
             //Endrer verider
-            document.getElementById('kategoriVerdi').value = "Tekst";
+            document.getElementById('kategoriVerdi').value = "Text";
             document.getElementById("kategori-value").value = "";
             console.log("kommer den hit 1");
             //Gjør elemeter synlig
@@ -381,12 +381,12 @@
             <input type="hidden" asp-for="Likes.Antall" value="0" />}
         else
         {
-            <input type="hidden" asp-for="Id" name="innleggid" />
+            <input type="hidden" asp-for="Id" />
             <input type="hidden" asp-for="Klokkeslett" />
             <input type="hidden" asp-for="EierId" />
             <input type="hidden" asp-for="FilStørrelse" />
             <input type="hidden" asp-for="Eier" />
-            <input type="hidden" asp-for="Likes.Antall" value="Model.Likes.Antall"/>
+            <input type="hidden" asp-for="Likes.Antall" />
 
         }
 
@@ -402,8 +402,9 @@
             </div>
             <div class="col-8">
                 <div class="fileinputdesign">
-                    <span class="fileinputbutton" id="fileinputbuttonid">Choose your file</span>
-                    <i class="fas fa-file-upload"></i>
+                    <i class="fas fa-file-upload uploadikon"></i>
+                    <p class="fileinputbutton" id="fileinputbuttonid">Choose your file</p>
+                    
                     @Html.TextBox("inputfile", "inputfile", new { type = "file", name = "inputfile", id = "input-file", accept = "image/png|image/jpeg|image/jpg|image/gif|audio/mp3|application/pdf", oninput = "fileValidation(); readURL(this);" }) <br />
                 </div>
                 <p class="filetypeinfo">Image: .png/.jpg/.jpeg/.gif | Sound: .mp3 | Text: .pdf</p>
@@ -431,20 +432,19 @@
                 <label asp-for="SubKategori">Sub-category</label>
             </div>
 
-            <button type="button" class='radio active' id="radio-dummy" value="Fotografi" style="display: none"></button>
+            <button type="button" class='radio active' id="radio-dummy" value="Placeholder" style="display: none"></button>
 
             <div id="bildekategori" class="col-8 radio-buttons">
-                <button type="button" class='radio' id="radio1" value="Fotografi" onclick='radio(this.id)'>Fotografi</button>
+                <button type="button" class='radio' id="radio1" value="Photograph" onclick='radio(this.id)'>Photograph</button>
                 <button type="button" class='radio' id="radio2" value="Digital Art" onclick="radio(this.id)">Digital Art</button>
                 <button type="button" class='radio' id="radio3" value="Traditional Art" onclick="radio(this.id)">Traditional Art</button>
                 <button type="button" class='radio' id="radio4" value="3D" onclick="radio(this.id)">3D</button>
             </div>
             <div id="musikkategori" class="col-8 radio-buttons">
-                <button type="button" class='radio' id="radio5" value="Musikk" onclick="radio(this.id)">Musikk</button>
-                <button type="button" class='radio' id="radio6" value="Lydeffekter" onclick="radio(this.id)">Lydeffekter</button>
+                <button type="button" class='radio' id="radio5" value="Music" onclick="radio(this.id)">Music</button>
+                <button type="button" class='radio' id="radio6" value="Soundeffects" onclick="radio(this.id)">Soundeffects</button>
                 <button type="button" class='radio' id="radio7" value="Voice Acting" onclick="radio(this.id)">Voice Acting</button>
                 <button type="button" class='radio' id="radio8" value="Audiobook" onclick="radio(this.id)">Audiobook</button>
-
             </div>
             <div id="tekstkategori" class="col-8 radio-buttons">
                 <button type="button" class='radio' id="radio9" value="Fiction" onclick="radio(this.id)">Fiction</button>
@@ -456,14 +456,21 @@
 
         @if (Model.Id == null)
         {
-        <div id="cover-image" class="form-group row">
-            <div class="col-3">
-                <label>Cover for image or sound</label>
-            </div>
-            <div class="col-3">
+    <div id="cover-image" class="form-group row">
+
+        <div class="col-3">
+            <label>Cover File</label>
+        </div>
+        <div class="col-8">
+            <div class="fileinputdesign">
+                <i class="fas fa-file-upload uploadikon"></i>
+                <p class="fileinputbutton" id="fileinputbuttonid">Add cover image</p>
+
                 @Html.TextBox("coverfile", "coverfile", new { type = "file", name = "coverfile", id = "cover-input-file", accept = "image/png|image/jpeg|image/jpg", oninput = "CoverValidation(); readURL2(this);" }) <br />
             </div>
+            <p class="filetypeinfo">Image: .png/.jpg/.jpeg/.gif</p>
         </div>
+    </div>
         }
         else
         {
@@ -472,14 +479,14 @@
 
 
 
-        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+
 
 
         @if (Model.Id == null)
         {
             <div class="form-group row">
                 <div class="col-3">
-                    <label>Folders</label>
+                    <label>Select or add folder</label>
                 </div>
 
 
@@ -536,11 +543,11 @@
             <div class="form-group row " id="mappefelt">
 
                 <div class="col-3">
-                    <label>Navn på mappe</label>
+                    <label>Name of folder</label>
                 </div>
                 <div class="col-8">
 
-                    <input type="text" name="mappenavn" class="form-control" id="mappe" placeholder="Mappenavn" onkeyup="mappeNavn()" required />
+                    <input type="text" name="mappenavn" class="form-control" id="mappe" placeholder="Name of folder" onkeyup="mappeNavn()" required />
 
 
 
@@ -553,7 +560,7 @@
                 <label asp-for="Tittel">Title</label>
             </div>
             <div class="col-8">
-                <input asp-for="Tittel" class="form-control" id="tittel" placeholder="Tittel" onkeyup="tittelPreview()" required />
+                <input asp-for="Tittel" class="form-control" id="tittel" placeholder="Title" onkeyup="tittelPreview()" required />
                 <span asp-validation-for="Tittel" class="text-danger"></span>
             </div>
         </div>
@@ -562,7 +569,7 @@
                 <label asp-for="Beskrivelse">Description</label>
             </div>
             <div class="col-8">
-                <textarea asp-for="Beskrivelse" id="beskrivelse" rows="4" cols="50" class="form-control" onkeyup="beskrivelsePreview()" style="height:100px; margin-top: 5px" placeholder="Beskrivelse" required></textarea>
+                <textarea asp-for="Beskrivelse" id="beskrivelse" rows="4" cols="50" class="form-control" onkeyup="beskrivelsePreview()" style="height:100px; margin-top: 5px" placeholder="Description" required></textarea>
 
                 <span asp-validation-for="Beskrivelse" class="text-danger"></span>
             </div>
@@ -582,19 +589,21 @@
                     List<string> tagger = new List<string>();
                     if (Model.Id != null)
                     {
-                        while (antallTagger < Model.Tagger.Count())
-                        {
+                        if(Model.Tagger != null) {
+                            while (antallTagger < Model.Tagger.Count())
+                            {
 
 
-                            tagger.Add(Model.Tagger.ElementAt(antallTagger));
+                                tagger.Add(Model.Tagger.ElementAt(antallTagger));
 
 
-                            antallTagger++;
+                                antallTagger++;
+                            }
+
+
+                            tags = string.Join(",", tagger);
+                            Console.WriteLine("---------" + tags);
                         }
-
-                        tags = string.Join(",", tagger);
-                        Console.WriteLine("---------" + tags);
-
                         <input asp-for="Tagger" id="taginput" value="@tags" class="form-control" data-role="tagsinput" placeholder="Add tag," />
 
                         <span asp-validation-for="Tagger" class="text-danger"></span>
@@ -618,18 +627,18 @@
 
 
 
-
+        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
 
 
         <div class="form-group row">
             <div class="col-3 offset-3">
                 <button type="submit" id="submit-btn" class="btn btn-primary form-control">
-                    @(Model.Id == null ? "Register" : "Update")
+                    @(Model.Id == null ? "Publish" : "Update")
                 </button>
             </div>
             <!--<div class="col-3">
-                <a asp-controller="Home" asp-action="BrowseSide" class="btn btn-success form-control">Back to List</a>
-            </div>-->
+            <a asp-controller="Home" asp-action="BrowseSide" class="btn btn-success form-control">Back to List</a>
+        </div>-->
         </div>
     </form>
 </div>
