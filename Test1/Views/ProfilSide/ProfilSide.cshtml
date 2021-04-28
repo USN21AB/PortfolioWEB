@@ -1,17 +1,15 @@
 ﻿<!DOCTYPE html>
 @using Portefolio_webApp.Models
-@{
-    var BrukerInnhold = (Portefolio_webApp.Models.Bruker)ViewData["Bruker"];
-    var innloggetBruker = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
+@{ var BrukerInnhold = (Portefolio_webApp.Models.Bruker)ViewData["Bruker"];
+                var innloggetBruker = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
 
-    Boolean CVAdgang = false;
-    if (BrukerInnhold.CVAdgang != null)
-        for (int i = 0; i < BrukerInnhold.CVAdgang.Count; i++)
-        {
-            if ((string)ViewData["Innlogget_ID"] == BrukerInnhold.CVAdgang[i])
-                CVAdgang = true;
-        }
-}
+                Boolean CVAdgang = false;
+                if (BrukerInnhold.CVAdgang != null)
+                    for (int i = 0; i < BrukerInnhold.CVAdgang.Count; i++)
+                    {
+                        if ((string)ViewData["Innlogget_ID"] == BrukerInnhold.CVAdgang[i])
+                            CVAdgang = true;
+                    } }
 
 
 <html lang="en">
@@ -77,7 +75,7 @@
         $("#exampleModal").modal("show");
 
     }
-    
+
 </script>
 
 <style>
@@ -124,8 +122,8 @@
     .folder-navn {
         color: white;
         font-size: 14px;
-        top: 70%;
-        left: 49%;
+        top: 67%;
+        left: 50%;
         transform: translate(-50%, -50%);
         max-width: 100px;
         max-height: 115px;
@@ -194,10 +192,11 @@
                             <div class="d-flex flex-column align-items-center text-center">
                                 @if (@BrukerInnhold.Profilbilde != null)
                                 {
-                                    <input type="image" src="@BrukerInnhold.Profilbilde" alt="Admin" class="rounded-circle profilimg mt-2" width="200" height="200" />}
+                    <input type="image" src="@BrukerInnhold.Profilbilde" alt="Admin" class="rounded-circle profilimg mt-2" width="200" height="200" />}
 
-                                else
-                                { <input type="image" src="https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2Fdefault_account.jpg?alt=media&token=290b6907-f17e-4095-90a6-dca2c52563b9" alt="Admin" class="rounded-circle profilimg" width="200" />}
+                else
+                {
+    <input type="image" src="https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2Fdefault_account.jpg?alt=media&token=290b6907-f17e-4095-90a6-dca2c52563b9" alt="Admin" class="rounded-circle profilimg" width="200" />}
 
 
 
@@ -208,26 +207,19 @@
                                     <p class="font-size-sm">@BrukerInnhold.Bosted</p>
                                 </div>
                                 @if (BrukerInnhold.Id == (string)ViewData["Innlogget_ID"])
-                                {
-                                    <!--  <div class="col"> -->
-                                    <button class="editbtn btn btn-primary buttons" onclick="location.href='@Url.Action("UpsertBruker", "ProfilSide")'"><i class="fas fa-edit">  Edit profile</i></button>
-                                    <!-- </div>-->
-                                }
-                                else
-                                {
-                                    @if (CVAdgang)
-                                    {
-                                        <a style="margin-top: -20px" asp-action="CV" asp-route-brukerID="@BrukerInnhold.Id"><button class="cvbtn btn btn-primary">Enter CV</button></a>
-                                    }
-                                    else
-                                    {
-                                        if (innloggetBruker != null)
-                                            {
-                                              <a style="margin-top: -20px"onclick="requestCV('@BrukerInnhold.Id', '@ViewData["Innlogget_ID"]', '@innloggetBruker.Navn')"><button id="requestCV" class="cvbtn btn btn-primary">Request CV</button></a>
-                                            }
-                                        }
-
-                                    }
+                                {<!--  <div class="col"> -->
+                                    <button class="editbtn btn btn-primary buttons" onclick="location.href='@Url.Action("UpsertBruker", "ProfilSide")'"><i class="fas fa-edit">  Edit profile</i></button> <!-- </div>--> }
+                                                                else
+                                                                {
+                                                    @if (CVAdgang)
+                                                    {
+                                    <a style="margin-top: -20px" asp-action="CV" asp-route-brukerID="@BrukerInnhold.Id"><button class="cvbtn btn btn-primary">Enter CV</button></a> }
+                                                    else
+                                                    {
+                                                        if (innloggetBruker != null)
+                                                        {
+                                    <a style="margin-top: -20px" onclick="requestCV('@BrukerInnhold.Id', '@ViewData["Innlogget_ID"]', '@innloggetBruker.Navn')"><button id="requestCV" class="cvbtn btn btn-primary">Request CV</button></a>}
+                                                    }}
                             </div>
                         </div>
                     </div>
@@ -269,18 +261,14 @@
                     <div class="card mb-3 pt-3" style="text-align: center">
                         @if (BrukerInnhold.Navn.EndsWith("s") == true)
                         {
-                            <h2>@BrukerInnhold.Navn' Folders</h2>
-                        }
+            <h2>@BrukerInnhold.Navn' Folders</h2> }
                         else
                         {
-                            <h2>@BrukerInnhold.Navn's Folders</h2>
-                        }
+            <h2>@BrukerInnhold.Navn's Folders</h2>}
                         <hr />
                         <div class="card-body row">
 
-                            @{
-                                var antall = 0;
-                            }
+                            @{ var antall = 0; }
 
                             <div class="rowinfo col-sm">
                                 <ul class="nav nav-pills nav-fill folder-nav tabs">
@@ -289,24 +277,26 @@
                                     {
                                         var Mappe = BrukerInnhold.Mapper.ElementAt(antall);
 
-                                    <li class="nav-item mappeindex" id="mappe-@antall">
+                                <li class="nav-item mappeindex" id="mappe-@antall">
 
-                                        <a class="nav-link folder " asp-action="Portefølje" asp-route-brukerID="@BrukerInnhold.Id" asp-route-antall="@antall">
-                                            <div class="folder-design">
-                                                <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190211472785468/Portfollowers_bilde.png" />
-                                                <span class="folder-navn">@Mappe.MappeNavn</span>
-                                            </div>
-                                        </a>
-                                        @if(@innloggetBruker != null)
-                                        @if (BrukerInnhold.Id == innloggetBruker.Id)
+                                    <a class="nav-link folder " asp-action="Portefølje" asp-route-brukerID="@BrukerInnhold.Id" asp-route-antall="@antall">
+                                        <div class="folder-design">
+                                            <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190211472785468/Portfollowers_bilde.png" />
+                                            <span class="folder-navn">@Mappe.MappeNavn</span>
+                                        </div>
+                                    </a>
+                                    @if (innloggetBruker != null)
+                                    {
+                                        if (BrukerInnhold.Id == innloggetBruker.Id)
                                         {
-                                            <button class="delete-folder-div" onclick="onDelete('mappe-@antall')">
-                                                <i class="far fa-trash-alt delete-folder"></i>
-                                            </button>
-                                        }
-                                    </li>
+                                <button class="delete-folder-div" onclick="onDelete('mappe-@antall')">
+                                    <i class="far fa-trash-alt delete-folder"></i>
+                                </button>}
+                                    }
+                                </li>
                                         antall++;
                                     }
+                                    
 
                                 </ul>
                             </div>
@@ -321,99 +311,100 @@
                         <div class="card-body">
                             <div class="rowinfo">
 
-                                @{
+                                
 
-                                    var mappeNr = 0;
-                                }
-                                @while (mappeNr < BrukerInnhold.Mapper.Count)
-                                {
-                                    var Mappe = BrukerInnhold.Mapper.ElementAt(mappeNr);
+                                @{ var mappeNr = 0;
 
-                                    List<string> RecentList = new List<string>();
+                                    var alleInnlegg = new List<Innlegg>();
+                                    List<Innlegg> SortedList = new List<Innlegg>();
+                                    while (mappeNr < BrukerInnhold.Mapper.Count) {
+                                        var Mappe = BrukerInnhold.Mapper.ElementAt(mappeNr);
 
-                                    var antall2 = (Mappe.MappeInnhold.Count - 1);
-                                    var antall3 = 0;
-
-                                    @while (antall2 > -1)
-                                    {
-
-                                        Innlegg Innlegg = Mappe.MappeInnhold.ElementAt(antall2);
-
-                                        if (antall3 > 8)
-                                            break;
-
-
-                                        if (Innlegg.Kategori == null) { }
-                                        else if (Innlegg.Kategori.Equals("Bilde"))
-                                        {
-
-                                            <!-- single-awesome-portfolio start -->
-                                            <div class="single-awesome-portfolio">
-                                                <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id class="card-link">
-                                                    <div class="awesome-img">
-                                                        <i class="far fa-image innlegg-ikon"></i>
-
-
-                                                        <div class="awesome-info">
-                                                            <h3>@Innlegg.Beskrivelse</h3>
-                                                            <p>@Innlegg.Eier</p>
-                                                        </div>
-                                                        <img class="imge" src="@Innlegg.IkonURL" alt="" data-adaptive-background>
-                                                    </div>
-
-                                                </a>
-                                            </div>
-                                            <!-- single-awesome-portfolio end -->
+                                        var antallInnlegg = 0;
+                                        while(antallInnlegg < Mappe.MappeInnhold.Count) {
+                                            Innlegg innlegg = Mappe.MappeInnhold.ElementAt(antallInnlegg);
+                                            var id = innlegg.Id;
+                                            var dato = innlegg.Dato;
+                                            var kl = innlegg.Klokkeslett;
+                                            alleInnlegg.Add(innlegg);
+                                            antallInnlegg++;
                                         }
-
-                                        else if (Innlegg.Kategori.Equals("Lyd"))
-                                        {
-                            <div class="music_player">
-                                <img id="sang-@antall2" class="play_button shadowed" src="../resources/icons8-play-96.png" onclick='spillAv("sang-a-@antall2", this.id); visSang("sangnavn-@Innlegg.Id", "artist-@Innlegg.Id")' />
-
-                                <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id class="card-link">
-                                    <i class="fas fa-music innlegg-ikon"></i>
-                                    <div class="play_button_div">
-
-                                        <h3 class="sangnavn" id="sangnavn-@Innlegg.Id">@Innlegg.Tittel</h3>
-                                        <p class="artist" id="artist-@Innlegg.Id">@Innlegg.Eier</p>
-                                    </div>
-
-                                    <audio id="sang-a-@antall2" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="@Innlegg.IkonURL"></audio>
-                                    <img class="fuck imge" src="@Innlegg.CoverURL" />
-                                </a>
-
-                            </div>
-                                        }
-
-                                        else if (Innlegg.Kategori.Equals("Tekst"))
-                                        {
-                                            <div class="litteratur">
-
-                                                <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id>
-
-                                                    <i class="far fa-file-alt innlegg-ikon"></i>
-
-
-                                                    <img class="book_cover" src="@Innlegg.CoverURL" alt="" />
-                                                    <div class="lit-tekst">
-                                                        <h3 class="tittel">@Innlegg.Tittel</h3>
-                                                        <h3 class="beskrivelse">@Innlegg.Beskrivelse</h3>
-                                                        <h4 class="forfatter">@Innlegg.Eier</h4>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        }
-                                        var lol = Innlegg.Tittel;
-                                        Console.WriteLine(lol);
-
-                                        antall2--;
-                                        antall3++;
-
+                                        mappeNr++;
                                     }
-                                    mappeNr++;
-                                }
 
+
+
+
+                                    for (var i = 0; i < alleInnlegg.Count; i++)
+                                    {
+                                        SortedList = alleInnlegg.OrderBy(o => o.Dato).ToList();
+                                    }
+
+                                    var ant = (SortedList.Count -1);
+                                    while (ant > -1)
+                                    {
+                                        var innlegg = SortedList.ElementAt(ant);
+                                        if (innlegg.EierId == BrukerInnhold.Id)
+                                        {
+                                            if (innlegg.Kategori == null) { }
+                                            else if (innlegg.Kategori.Equals("Image"))
+                                            { <!-- single-awesome-portfolio start -->
+                                                <div class="single-awesome-portfolio">
+                                                    <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@innlegg.Id class="card-link">
+                                                        <div class="awesome-img">
+                                                            <i class="far fa-image innlegg-ikon"></i>
+
+
+                                                            <div class="awesome-info">
+                                                                <h3>@innlegg.Beskrivelse</h3>
+                                                                <p>@innlegg.Eier</p>
+                                                            </div>
+                                                            <img class="imge" src="@innlegg.IkonURL" alt="" data-adaptive-background>
+                                                        </div>
+
+                                                    </a>
+                                                </div> <!-- single-awesome-portfolio end --> }
+
+                                                                                            else if (innlegg.Kategori.Equals("Sound"))
+                                                                                            {
+                                                                        <div class="music_player">
+                                                                            <img id="sang-@ant" class="play_button shadowed" src="../resources/icons8-play-96.png" onclick='spillAv("sang-a-@ant", this.id); visSang("sangnavn-@innlegg.Id", "artist-@innlegg.Id")' />
+
+                                                                            <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@innlegg.Id class="card-link">
+                                                                                <i class="fas fa-music innlegg-ikon"></i>
+                                                                                <div class="play_button_div">
+
+                                                                                    <h3 class="sangnavn" id="sangnavn-@innlegg.Id">@innlegg.Tittel</h3>
+                                                                                    <p class="artist" id="artist-@innlegg.Id">@innlegg.Eier</p>
+                                                                                </div>
+
+                                                                                <audio id="sang-a-@ant" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="@innlegg.IkonURL"></audio>
+                                                                                <img class="fuck imge" src="@innlegg.CoverURL" />
+                                                                            </a>
+
+                                                                        </div> }
+
+                                                                                            else if (innlegg.Kategori.Equals("Text"))
+                                                                                            {
+                                                                        <div class="litteratur">
+
+                                                                            <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@innlegg.Id>
+
+                                                                                <i class="far fa-file-alt innlegg-ikon"></i>
+
+
+                                                                                <img class="book_cover" src="@innlegg.CoverURL" alt="" />
+                                                                                <div class="lit-tekst">
+                                                                                    <h3 class="tittel">@innlegg.Tittel</h3>
+                                                                                    <h3 class="beskrivelse">@innlegg.Beskrivelse</h3>
+                                                                                    <h4 class="forfatter">@innlegg.Eier</h4>
+                                                                                </div>
+                                                                            </a>
+                                                                        </div> }
+                                                                                            ant--;
+
+                                                                                        }
+                                                                                    } }
 
                             </div>
                         </div>
@@ -492,8 +483,8 @@
 
     function requestCV(eierID, senderID, navn) {
 
-       
-        
+
+
                         document.getElementById("requestCV").innerText = "Request Sent";
                         var today = new Date();
                         var dd = String(today.getDate()).padStart(2, '0');

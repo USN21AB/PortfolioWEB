@@ -288,7 +288,7 @@
         padding: 10px;
     }
     .infodivmusikk {
-        min-height: 330px;
+        
     }
     .infodiv p {
         color: white;
@@ -719,21 +719,40 @@ function dislike(innId) {
     var info = document.getElementsByClassName("awesome-info");
     var image = document.getElementsByClassName("single-awesome-portfolio");
     $(document).ready(function () {
-        var heightInfo = document.getElementById("infocard").clientHeight;
         var windows = $(window).width();
-        if (windows > 965) 
+
+        if (windows > 965) {
+            var heightInfo = document.getElementById("musikkplayercard").clientWidth;
+            document.getElementById('infocard').style.height = heightInfo + 'px';
             document.getElementById('musikkplayercard').style.height = heightInfo + 'px';
+        }
         else if (windows < 965)
             document.getElementById('musikkplayercard').style.height = "auto";
 
+            /*var heightInfo = document.getElementById("infocard").clientHeight;
+            if (windows > 965)
+                document.getElementById('musikkplayercard').style.height = heightInfo + 'px';
+            else if (windows < 965)
+                document.getElementById('musikkplayercard').style.height = "auto";*/
+        
+        
     });
     window.onresize = function () {
-        var heightInfo = document.getElementById("infocard").clientHeight;
         var windows = $(window).width();
-        if (windows > 965)
+
+        if (windows > 965) {
+            var heightInfo = document.getElementById("musikkplayercard").clientWidth;
+            document.getElementById('infocard').style.height = heightInfo + 'px';
             document.getElementById('musikkplayercard').style.height = heightInfo + 'px';
+        }
         else if (windows < 965)
             document.getElementById('musikkplayercard').style.height = "auto";
+            /*var heightInfo = document.getElementById("infocard").clientHeight;
+            if (windows > 965)
+                document.getElementById('musikkplayercard').style.height = heightInfo + 'px';
+            else if (windows < 965)
+                document.getElementById('musikkplayercard').style.height = "auto";*/
+        
         
     }
 
@@ -752,7 +771,7 @@ function dislike(innId) {
 
 
 
-    @if (kategori.Equals("Bilde"))
+    @if (kategori.Equals("Image"))
     {
         <div class="hovedInnlegg tekstogbilde card container col-10">
 
@@ -867,7 +886,7 @@ function dislike(innId) {
 
 
     }
-    else if (kategori.Equals("Tekst"))
+    else if (kategori.Equals("Text"))
     {
 <div class="infodiv col-10">
 
@@ -969,7 +988,7 @@ function dislike(innId) {
             <embed src='@url' class="tekstInnlegg" />
         </div>
     }
-    else if (kategori.Equals("Lyd"))
+    else if (kategori.Equals("Sound"))
     {
         <div class="musikkdiv row col-10 px-0 gx-5">
             <div class="hovedInnlegg musikk card col-4  left-grid" id="musikkplayercard">
@@ -1023,13 +1042,14 @@ function dislike(innId) {
                             var antall = 0;
                             var tag = Model.Tagger;
                         }
-                        @while (antall < tag.Count)
-                        {
+                        @if (tag != null) { 
+                            while (antall < tag.Count)
+                            {
                             <li>
                                 <p class="tag">@tag.ElementAt(antall)</p>
                             </li>
-                            antall++;
-                        }
+                                antall++;
+                            } }
                     </ul>
 
 
