@@ -175,7 +175,7 @@
         max-height: 705px;
     }
     .musikk {
-        max-height: 950px;
+        min-height: 280px;
     }
     .bildediv {
         text-align: center;
@@ -720,40 +720,33 @@ function dislike(innId) {
     var image = document.getElementsByClassName("single-awesome-portfolio");
     $(document).ready(function () {
         var windows = $(window).width();
+        var heightInfo = document.getElementById("infocard").clientHeight;
 
-        if (windows > 965) {
-            var heightInfo = document.getElementById("musikkplayercard").clientWidth;
-            document.getElementById('infocard').style.height = heightInfo + 'px';
+
+        if (windows < 965) {
+            document.getElementById('musikkplayercard').style.height = "auto";
+            document.getElementById('infocard').style.height = "auto";
+
+        }
+        else if (windows > 965) {
             document.getElementById('musikkplayercard').style.height = heightInfo + 'px';
         }
-        else if (windows < 965)
-            document.getElementById('musikkplayercard').style.height = "auto";
-
-            /*var heightInfo = document.getElementById("infocard").clientHeight;
-            if (windows > 965)
-                document.getElementById('musikkplayercard').style.height = heightInfo + 'px';
-            else if (windows < 965)
-                document.getElementById('musikkplayercard').style.height = "auto";*/
-        
         
     });
     window.onresize = function () {
         var windows = $(window).width();
+        var heightInfo = document.getElementById("infocard").clientHeight;
 
-        if (windows > 965) {
-            var heightInfo = document.getElementById("musikkplayercard").clientWidth;
-            document.getElementById('infocard').style.height = heightInfo + 'px';
+        
+        if (windows < 965) {
+            document.getElementById('musikkplayercard').style.height = "auto";
+            document.getElementById('infocard').style.height = "auto";
+            
+        }
+        else if (windows > 965) {
             document.getElementById('musikkplayercard').style.height = heightInfo + 'px';
         }
-        else if (windows < 965)
-            document.getElementById('musikkplayercard').style.height = "auto";
-            /*var heightInfo = document.getElementById("infocard").clientHeight;
-            if (windows > 965)
-                document.getElementById('musikkplayercard').style.height = heightInfo + 'px';
-            else if (windows < 965)
-                document.getElementById('musikkplayercard').style.height = "auto";*/
-        
-        
+
     }
 
     $(document).ready(function () {
@@ -991,7 +984,7 @@ function dislike(innId) {
     else if (kategori.Equals("Sound"))
     {
         <div class="musikkdiv row col-10 px-0 gx-5">
-            <div class="hovedInnlegg musikk card col-4  left-grid" id="musikkplayercard">
+            <div class="hovedInnlegg musikk card left-grid" id="musikkplayercard">
                 <div class="musikk_kontroller">
 
                         <span id="sangfelt"></span>
@@ -1107,6 +1100,12 @@ function dislike(innId) {
                     }
 
 
+                }
+                else
+                {
+            <button id="realLikeButton" class="dislikebutton">
+                <i class="fas fa-thumbs-up"></i>
+            </button>
                 }
                 @{
                     var likes = Model.Likes.Antall;
