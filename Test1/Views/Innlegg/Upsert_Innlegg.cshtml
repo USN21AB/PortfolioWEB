@@ -151,16 +151,40 @@
 
     }
 
-    function closeModal() {
+    function CoverValidation1() {
 
-        $("#validatemsg").modal('hide');
+        var file = document.getElementById("input-file").value;
+        var validImage = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+        var validAudio = /(\.mp3)$/i;
+        var validTekst = /(\.pdf)$/i;
+
+        if (validAudio.exec(file) || validImage.exec(file) || validTekst.exec(file)) {
+
+            document.getElementById('submit-btn').style.display = "block";
+
+
+        }
+        else {
+
+
+            $("#validatemsg").modal('show');
+            document.getElementById('submit-btn').style.display = "none";
+
+
+
+
+        }
 
 
     }
 
+    function closeModal() { $("#validatemsg").modal('hide'); }
+    function closeModal1() { $("#validatemsg1").modal('hide'); }
+
 
     function fileValidation() {
         var file = $('input[type=file]').val().split('\\').pop();
+       
         
         document.getElementById("fileinputbuttonid").innerHTML = file;
 
@@ -359,10 +383,29 @@
             </div>
             <div class="modal-body">
                 <br />
-                <p> Choose an image for your cover please! File types: .png or .jpg!</p>
+                <h2> This file type is not allowed! </h2>
+                <p>Image: .png/.jpg/.jpeg/.gif</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal();">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="validatemsg1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Wrong File Type!</h5>
+            </div>
+            <div class="modal-body">
+                <br />
+                <h2> This file type is not allowed! </h2>
+                <p>Image: .png/.jpg/.jpeg/.gif | Sound: .mp3 | Text: .pdf</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal1();">Close</button>
             </div>
         </div>
     </div>
@@ -405,7 +448,7 @@
                     <i class="fas fa-file-upload uploadikon"></i>
                     <p class="fileinputbutton" id="fileinputbuttonid">Choose your file</p>
                     
-                    @Html.TextBox("inputfile", "inputfile", new { type = "file", name = "inputfile", id = "input-file", accept = "image/png|image/jpeg|image/jpg|image/gif|audio/mp3|application/pdf", oninput = "fileValidation(); readURL(this);" }) <br />
+                    @Html.TextBox("inputfile", "inputfile", new { type = "file", name = "inputfile", id = "input-file", accept = "image/png|image/jpeg|image/jpg|image/gif|audio/mp3|application/pdf", oninput = "CoverValidation1(); fileValidation(); readURL(this);" }) <br />
                 </div>
                 <p class="filetypeinfo">Image: .png/.jpg/.jpeg/.gif | Sound: .mp3 | Text: .pdf</p>
             </div>
