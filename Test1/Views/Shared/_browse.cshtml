@@ -17,15 +17,16 @@
     var antall = 0;
 }
 
-
+@if (liste.Count != 0)
+{
 @while (antall < liste.Count)
 {
     var Innlegg = liste.ElementAt(antall);
     if (Innlegg.Kategori == null)
     { }
-    else if (Innlegg.Kategori.Equals("Tekst"))
+    else if (Innlegg.Kategori.Equals("Txt"))
     {
-       
+
 
         <div class="litteratur innleggindex" id="tekst-innlegg">
             <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id class="card-link">
@@ -40,7 +41,7 @@
             </a>
 </div>
     }
-    else if (Innlegg.Kategori.Equals("Lyd"))
+    else if (Innlegg.Kategori.Equals("Sound"))
     {
 
         <div class="music_player">
@@ -68,7 +69,7 @@
 
     }
 
-    else if (Innlegg.Kategori.Equals("Bilde"))
+    else if (Innlegg.Kategori.Equals("Image"))
     {
 
         <div class="single-awesome-portfolio">
@@ -89,7 +90,10 @@
 
     antall++;
 }
-
+}else
+{
+<h2 style="color:white; text-align:center; margin-top:50px;">There are no results!</h2>
+}
 
 
 

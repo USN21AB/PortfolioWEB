@@ -297,6 +297,7 @@
                                                 <span class="folder-navn">@Mappe.MappeNavn</span>
                                             </div>
                                         </a>
+                                        @if(@innloggetBruker != null)
                                         @if (BrukerInnhold.Id == innloggetBruker.Id)
                                         {
                                             <button class="delete-folder-div" onclick="onDelete('mappe-@antall')">
