@@ -14,11 +14,11 @@
 
 
 @{
-    var antall = 0;
+    var antall = (liste.Count - 1);
 }
 
 
-@while (antall < liste.Count)
+@while (antall > -1)
 {
     var Innlegg = liste.ElementAt(antall);
     if (Innlegg.Kategori == null)
@@ -87,7 +87,7 @@
 
     }
 
-    antall++;
+    antall--;
 }
 
 
