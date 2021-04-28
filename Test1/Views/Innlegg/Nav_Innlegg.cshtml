@@ -720,36 +720,22 @@ function dislike(innId) {
     var image = document.getElementsByClassName("single-awesome-portfolio");
     $(document).ready(function () {
         var windows = $(window).width();
-        var heightMusikk = document.getElementById("musikkplayercard").clientWidth;
-        var heightInfo = document.getElementById("infocard").clientWidth;
+        var heightInfo = document.getElementById("infocard").clientHeight;
 
 
-        if (heightMusikk >= heightInfo) {
-            document.getElementById('infocard').style.height = heightMusikk + 'px';
-            
-        }
-        else if (heightInfo >= heightMusikk) {
-            document.getElementById('musikkplayercard').style.height = heightInfo + 'px';
-        }
-        else if (windows < 965) {
+        if (windows < 965) {
             document.getElementById('musikkplayercard').style.height = "auto";
             document.getElementById('infocard').style.height = "auto";
-        }
 
-            /*var heightInfo = document.getElementById("infocard").clientHeight;
-            if (windows > 965)
-                document.getElementById('musikkplayercard').style.height = heightInfo + 'px';
-            else if (windows < 965)
-                document.getElementById('musikkplayercard').style.height = "auto";*/
-        
+        }
+        else if (windows > 965) {
+            document.getElementById('musikkplayercard').style.height = heightInfo + 'px';
+        }
         
     });
     window.onresize = function () {
         var windows = $(window).width();
-        var heightInfoMusikk = document.getElementById("musikkplayercard").clientHeight;
         var heightInfo = document.getElementById("infocard").clientHeight;
-
-        var ajustedHeight = heightInfo * 1.1;
 
         
         if (windows < 965) {
@@ -759,23 +745,8 @@ function dislike(innId) {
         }
         else if (windows > 965) {
             document.getElementById('musikkplayercard').style.height = heightInfo + 'px';
-            console.log(heightInfo);
         }
-        
-       
 
-        
-       
-
-       
-        
-            /*var heightInfo = document.getElementById("infocard").clientHeight;
-            if (windows > 965)
-                document.getElementById('musikkplayercard').style.height = heightInfo + 'px';
-            else if (windows < 965)
-                document.getElementById('musikkplayercard').style.height = "auto";*/
-        
-        
     }
 
     $(document).ready(function () {
