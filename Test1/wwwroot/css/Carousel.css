@@ -5,8 +5,8 @@
 /*/////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 .awesome-img {
-    width: 600px;
-    height: 310px;
+    width: 1px;
+    height: 2px;
     overflow: hidden;
     position: relative;
     transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1) 0s;
@@ -27,7 +27,6 @@
 
     .awesome-info h3 {
         color: #fff;
-    
         margin-bottom: 5px;
         white-space: nowrap;
         overflow: hidden;
