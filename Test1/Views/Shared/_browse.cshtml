@@ -14,82 +14,87 @@
 
 
 @{
-    var antall = 0;
+    var antall = (liste.Count - 1);
 }
 
-
-@while (antall < liste.Count)
+@if (liste.Count != 0)
 {
-    var Innlegg = liste.ElementAt(antall);
-    if (Innlegg.Kategori == null)
-    { }
-    else if (Innlegg.Kategori.Equals("Tekst"))
+    @while (antall > -1)
     {
-       
-
-        <div class="litteratur innleggindex" id="tekst-innlegg">
-            <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id class="card-link">
-                <i class="far fa-file-alt innlegg-ikon"></i>
-
-                <img class="book_cover idmge" src="@Innlegg.CoverURL" alt="" />
-                <div class="lit-tekst">
-                    <h3 class="tittel" id="teksttittel">@Innlegg.Tittel</h3>
-                    <h3 class="beskrivelse" id="tekstbeskrivelse">@Innlegg.Beskrivelse</h3>
-                    <h4 class="forfatter">@Innlegg.Eier</h4>
-                </div>
-            </a>
-</div>
-    }
-    else if (Innlegg.Kategori.Equals("Lyd"))
-    {
-
-        <div class="music_player">
-            <img id="sang-@Innlegg.Id" class="play_button shadowed" src="~/resources/icons8-play-96.png" onclick='spillAv("sangaudio-@Innlegg.Id", this.id); visSang("sangnavn-@Innlegg.Id", "artist-@Innlegg.Id")' />
-            <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id class="card-link">
-                <i class="fas fa-music innlegg-ikon"></i>
-                <div class="play_button_div">
-                    <h3 class="sangnavn" id="sangnavn-@Innlegg.Id">@Innlegg.Tittel</h3>
-                    <p class="artist" id="artist-@Innlegg.Id">@Innlegg.Eier</p>
-                </div>
+        var Innlegg = liste.ElementAt(antall);
+        if (Innlegg.Kategori == null)
+        { }
+        else if (Innlegg.Kategori.Equals("Text"))
+        {
 
 
-                <img class="fuck imge" src="@Innlegg.CoverURL" alt="" />
+            <div class="litteratur innleggindex" id="tekst-innlegg">
+                <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id class="card-link">
+                    <i class="far fa-file-alt innlegg-ikon"></i>
 
-            </a>
-
-
-            <audio id="sangaudio-@Innlegg.Id" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="@Innlegg.IkonURL"></audio>
-
-
-
-
-
-        </div>
-
-    }
-
-    else if (Innlegg.Kategori.Equals("Bilde"))
-    {
-
-        <div class="single-awesome-portfolio">
-            <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id>
-                <div class="awesome-img">
-                    <i class="far fa-image innlegg-ikon"></i>
-                    <div class="awesome-info">
-                        <h3>@Innlegg.Tittel</h3>
-                        <p>@Innlegg.Eier</p>
+                    <img class="book_cover idmge" src="@Innlegg.CoverURL" alt="" />
+                    <div class="lit-tekst">
+                        <h3 class="tittel" id="teksttittel">@Innlegg.Tittel</h3>
+                        <h3 class="beskrivelse" id="tekstbeskrivelse">@Innlegg.Beskrivelse</h3>
+                        <h4 class="forfatter">@Innlegg.Eier</h4>
                     </div>
-                    <img class="imge" src="@Innlegg.IkonURL" alt="">
-                </div>
+                </a>
+            </div>
+        }
+        else if (Innlegg.Kategori.Equals("Sound"))
+        {
 
-            </a>
-        </div>
+            <div class="music_player">
+                <img id="sang-@Innlegg.Id" class="play_button shadowed" src="~/resources/icons8-play-96.png" onclick='spillAv("sangaudio-@Innlegg.Id", this.id); visSang("sangnavn-@Innlegg.Id", "artist-@Innlegg.Id")' />
+                <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id class="card-link">
+                    <i class="fas fa-music innlegg-ikon"></i>
+                    <div class="play_button_div">
+                        <h3 class="sangnavn" id="sangnavn-@Innlegg.Id">@Innlegg.Tittel</h3>
+                        <p class="artist" id="artist-@Innlegg.Id">@Innlegg.Eier</p>
+                    </div>
 
+
+                    <img class="fuck imge" src="@Innlegg.CoverURL" alt="" />
+
+                </a>
+
+
+                <audio id="sangaudio-@Innlegg.Id" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="@Innlegg.IkonURL"></audio>
+
+
+
+
+
+            </div>
+
+        }
+
+        else if (Innlegg.Kategori.Equals("Image"))
+        {
+
+            <div class="single-awesome-portfolio">
+                <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id>
+                    <div class="awesome-img">
+                        <i class="far fa-image innlegg-ikon"></i>
+                        <div class="awesome-info">
+                            <h3>@Innlegg.Tittel</h3>
+                            <p>@Innlegg.Eier</p>
+                        </div>
+                        <img class="imge" src="@Innlegg.IkonURL" alt="">
+                    </div>
+
+                </a>
+            </div>
+
+        }
+
+        antall--;
     }
-
-    antall++;
 }
-
+else
+{
+    <h2 style="color:white; text-align:center; margin-top:50px;">There are no results!</h2>
+}
 
 
 

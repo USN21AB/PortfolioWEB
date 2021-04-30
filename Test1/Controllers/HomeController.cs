@@ -234,6 +234,65 @@ namespace Portefolio_webApp.Controllers
             return View();
         }
 
+
+        public IActionResult PartialViewBrowse(string kategori, string søketekst,List<Innlegg> listen)
+        {
+            listen = firebase.HentAlleInnlegg();
+            var katListe = new List<Innlegg>();
+            if (string.IsNullOrEmpty(kategori))
+            { //Kategori er ikke valgt. Kjør ut alle innleggene
+
+                
+                TempData["valgtKnapp"] = "alt";
+                ViewData["Kategori"] = "alt";
+
+                ViewData["liste"] = listen;
+                //Katliste er ikke sortert på kategori
+                katListe = listen;
+            }
+            else
+            {
+                //Sorterer på valgt kategori
+                katListe = firebase.SorterAlleInnlegg(kategori, listen);
+            }
+                if (søketekst != null)
+                { //Det er en søketekst tilgjengelig
+                    var filterListe = new List<Innlegg>(); 
+                    
+                    for(int i= 0; i<katListe.Count; i++)
+                    {
+                        var tagger = katListe[i].Tagger;
+                        if ((katListe[i].Tittel.ToLower()).Contains(søketekst.ToLower()))
+                        { //Funnet match i tittel
+                            filterListe.Add(katListe[i]);
+                        }
+                        else { //Tittel ikke funnet, skjekk i tagger? 
+                             if(tagger != null)
+                                for(int j = 0; j< tagger.Count; j++)
+                                 {
+
+                                      if ((tagger[j].ToLower()).Contains(søketekst.ToLower()))
+                                          filterListe.Add(katListe[i]); 
+                                  }
+                        }
+                    }
+
+                    katListe = filterListe; 
+                }
+
+              
+                ViewData["liste"] = katListe; 
+                TempData["valgtKnapp"] = kategori;
+                ViewData["Kategori"] = kategori;
+                ViewData["Søk"] = søketekst;
+
+              
+          //  }
+         
+         Debug.WriteLine("Inni PartialViewBrowse " + kategori + " " + søketekst); 
+            return PartialView("_browse",new Innlegg());
+        }
+
         [HttpGet]
         public IActionResult BrowseSide(string kategori, string søketekst)
         {
