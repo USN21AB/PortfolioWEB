@@ -3,7 +3,7 @@
 @{
     var brukerListe = (List<Portefolio_webApp.Models.Bruker>)ViewData["BrukerListe"];
     var liste = (List<Portefolio_webApp.Models.Innlegg>)ViewData["liste"];
-    //ViewData["Title"] = ViewData["Token"];
+
 }
 <link href="~/css/Carousel.css" rel="stylesheet" />
 <style>
@@ -104,16 +104,8 @@
         filter: brightness(30%) blur(2px);
     }
 
-  
-        /*
-    #bildeValgBorder:hover {
-        background-color: #3e8e41;
-        color: white;
-    }
-    */
-
-
 </style>
+
 <link href="~/css/Buttons.css" rel="stylesheet" />
 <link href="~/css/BrowseSide.css" rel="stylesheet" />
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
@@ -260,7 +252,7 @@
             document.getElementById("nåværendeKat").value = kat;
             removeMultipleCSS();
             var _valgtKnapp = "#" + kat + "Knapp";
-          //  alert("Hvilken knapp: " + _valgtKnapp);
+        
             if (_valgtKnapp == "#altKnapp") {
 
                 document.getElementById("søkefelt").setAttribute("Placeholder", "Search all categories");
@@ -348,17 +340,14 @@
             })
             
             document.getElementById("lydValgBorder").addEventListener("mouseout", function (event) {
-                // alert("hey");
                 $("#lydValg").removeClass("kategoriHover");
             })
             
             document.getElementById("tekstValgBorder").addEventListener("mouseout", function (event) {
-                // alert("hey");
                 $("#tekstValg").removeClass("kategoriHover");
             })
             
             document.getElementById("altValgBorder").addEventListener("mouseout", function (event) {
-                // alert("hey");
                 $("#altValg").removeClass("kategoriHover");
             })
             
@@ -416,18 +405,6 @@
 
 
         })
-
-
-        /*
-        $.ajax({
-            url: "/",
-            type: "GET",
-            data: { year: ((val * 1) + 1) }
-        })
-            .done(function (partialViewResult) {
-                $("#refTable").html(partialViewResult);
-            });
-            */
 
     </script>
 }

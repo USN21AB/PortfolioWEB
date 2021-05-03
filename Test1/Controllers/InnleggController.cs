@@ -9,7 +9,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Test1.Models;
-
+/// <summary>
+///     Kontrolleren for innleggsiden. Den har ansvaret for alle innleggsobjektene og dens registreringer. 
+/// </summary>
 namespace Portefolio_webApp.Controllers
 {
     public class InnleggController : Controller
@@ -35,6 +37,7 @@ namespace Portefolio_webApp.Controllers
             return View();
         }
 
+        //Registreringskjema for innlegg
         [HttpGet]
         public IActionResult Upsert_Innlegg(string innleggID)
         {
@@ -66,18 +69,7 @@ namespace Portefolio_webApp.Controllers
             return View(Innlegg);
         }
 
-        /*[HttpPost]
-        public async System.Threading.Tasks.Task<IActionResult> UploadCoverPhoto(Microsoft.AspNetCore.Http.IFormFile file, Innlegg innlegg, [FromServices] IHostingEnvironment oHostingEnvironment, string submit)
-        {
-          
-                        if (file != null)
-                            await firebase.UploadCoverPhoto($"{oHostingEnvironment.WebRootPath}\\UploadedFiles\\{file.FileName}", file);
-                       
-
-            return View(Innlegg);
-        }*/
-
-
+        //Registreringskjema blir posta og behandla
         [HttpPost]
         public async System.Threading.Tasks.Task<IActionResult> Upsert_InnleggAsync(IFormFile inputfile, IFormFile coverfile,Innlegg innlegg, [FromServices] IHostingEnvironment oHostingEnvironment, string mappenavn)
         {
@@ -241,7 +233,7 @@ namespace Portefolio_webApp.Controllers
             return RedirectToAction("Nav_Innlegg", new { id = InnleggID });
         }
 
-        
+        //Selve innlegget blir vist frem
         public IActionResult Nav_Innlegg(string id)
         {
             //Skjekker om bruker er logget inn
@@ -284,15 +276,8 @@ namespace Portefolio_webApp.Controllers
             return View(innlegg);
 
         }
-        /*
-        [HttpPost]
-        public IActionResult Nav_Innlegg(string Nyid)
-        {
-            Innlegg innlegg = new Innlegg();
-            innlegg = firebase.HentSpesifiktInnlegg(Nyid);
-            return View(innlegg);
-        }*/
-
+       
+        //Registrere nyKommentar i innlegget
         public IActionResult NyttKommentar(string tekst, string innleggId)
         {
             
@@ -346,6 +331,7 @@ namespace Portefolio_webApp.Controllers
             return Redirect("~/Innlegg/Nav_Innlegg/" + innlegg.Id);
         }
 
+        //registrere nytt svar til kommentar i innlegg
         public IActionResult NyttReply(string tekst, string innleggId, int kommentId)
         {
             var str = HttpContext.Session.GetString("Innlogget_Bruker");
@@ -382,9 +368,7 @@ namespace Portefolio_webApp.Controllers
             {
                 if (innlegg.Id != null)
                 {
-                    Debug.WriteLine("Oppdaterer innlegg2: " + innlegg.Kommentar[0].InnleggId);
-                    Debug.WriteLine("Oppdaterer innlegg3: " + innlegg.Kommentar[0].Kommentarer[0].Tekst);
-                    //firebase.RegistrerKommentar(kommentar);
+
                     firebase.OppdaterInnlegg(innlegg);
                     firebase.OppdaterBruker(innBruker);
                 }
@@ -396,7 +380,8 @@ namespace Portefolio_webApp.Controllers
             }
             return Redirect("~/Innlegg/Nav_Innlegg/" + innlegg.Id);
         }
-                                                                           
+                        
+        //Slett en kommentar
         public IActionResult DeleteKommentar(string innleggId, int kommentarId)
         {
             var innlegg = new Innlegg();
@@ -415,7 +400,7 @@ namespace Portefolio_webApp.Controllers
                 }     
             }
 
-            Debug.WriteLine("antallet: " + antall); 
+           
             if(antall == 0)
             innBruker.kommentertPå.RemoveAt(innBruker.kommentertPå.IndexOf(innleggId));
 
@@ -426,8 +411,6 @@ namespace Portefolio_webApp.Controllers
             {
                 if (innlegg.Id != null)
                 {
-                    Debug.WriteLine("Oppdaterer innlegg2: " + innlegg.Id);
-                    //firebase.RegistrerKommentar(kommentar);
                     firebase.OppdaterInnlegg(innlegg);
                     firebase.OppdaterBruker(innBruker);
                 }
@@ -442,6 +425,7 @@ namespace Portefolio_webApp.Controllers
             
         }
 
+        //Slett ett kommentar svar
         public IActionResult DeleteReply(string innleggId, int kommentarId, int replyId)
         {
             var innlegg = new Innlegg();
@@ -467,7 +451,7 @@ namespace Portefolio_webApp.Controllers
                 }
             }
 
-            Debug.WriteLine("antallet: " + antall);
+         
             if (antall == 0)
                 innBruker.kommentertPå.RemoveAt(innBruker.kommentertPå.IndexOf(innleggId));
 
@@ -478,8 +462,6 @@ namespace Portefolio_webApp.Controllers
             {
                 if (innlegg.Id != null)
                 {
-                    Debug.WriteLine("Oppdaterer innlegg2: " + innlegg.Id);
-                    //firebase.RegistrerKommentar(kommentar);
                     firebase.OppdaterInnlegg(innlegg);
                     firebase.OppdaterBruker(innBruker);
                 }
@@ -494,6 +476,7 @@ namespace Portefolio_webApp.Controllers
 
         }
 
+        //Bruker liker ett innlegg
         [HttpPost]
         public JsonResult LikeInnlegg(string innleggId)
         {
@@ -514,7 +497,7 @@ namespace Portefolio_webApp.Controllers
             }
             else
             {
-                Debug.WriteLine("Noe: " + innBruker.Id);
+               
                 Like like = new Like();
                 like.Antall = 1;
                 like.Brukere.Add(innBruker.Id);
@@ -549,6 +532,7 @@ namespace Portefolio_webApp.Controllers
             return Json(data);
         }
 
+        //Bruker fjerner lik
         public JsonResult DislikeInnlegg(string innleggId)
         {
             var str = HttpContext.Session.GetString("Innlogget_Bruker");

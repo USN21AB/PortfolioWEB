@@ -16,6 +16,9 @@ using System.Drawing;
 using Test1.Controllers;
 using Newtonsoft.Json;
 
+/// <summary>
+/// Hovedsiden for å behandle brukerobjekter, registrering og oppdatering av dem. Samt deres variabler slik som CV
+/// </summary>
 namespace Portefolio_webApp.Controllers
 {
     public class ProfilSideController : Controller
@@ -38,16 +41,10 @@ namespace Portefolio_webApp.Controllers
 
 
 
-
+        //Rendre profilsiden med riktig bruker
         [HttpGet]
         public IActionResult ProfilSide(string brukerID)
         {
-
-            //var brukerID = HttpContext.Session.GetString("_UserID");
-            //Midlertidig kommenter ut
-            // var token = HttpContext.Session.GetString("_UserToken");
-            //if (token != null)
-            //{
 
             Bruker = firebase.HentEnkeltBruker(brukerID);
 
@@ -55,13 +52,7 @@ namespace Portefolio_webApp.Controllers
             ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
             ViewData["Innlogget_ID"] = HttpContext.Session.GetString("_UserID");
 
-            /*
-            var str = HttpContext.Session.GetString("brukertest");
-            var bruker2 = JsonConvert.DeserializeObject<Bruker>(str);
-
-            Debug.WriteLine("-------------------------------Dette er serialized: " + bruker2.Navn); 
-            ViewData["brukertesten"] = bruker2; 
-            */
+         
             if (HttpContext.Session.GetString("Innlogget_Bruker") != null)
             {
                 var str = HttpContext.Session.GetString("Innlogget_Bruker");
@@ -71,14 +62,9 @@ namespace Portefolio_webApp.Controllers
             }
 
             return View();
-            // }
-            //  else
-            //  {
-            //      return Redirect("~/Login/SignIn");
-            //  }
-
         }
 
+        //Lag ny mappe
         public IActionResult NyMappe(string brukerID)
         {
 
@@ -92,12 +78,11 @@ namespace Portefolio_webApp.Controllers
             
         }
 
-
+        //Rendre CV til en bruker
         [HttpGet]
         public IActionResult CV(string brukerID)
         {
-          
-            //Dummy bruker med id. 
+
             Bruker = firebase.HentEnkeltBruker(brukerID);
 
             ViewData["Bruker"] = Bruker;
@@ -115,24 +100,22 @@ namespace Portefolio_webApp.Controllers
             return View(Bruker);
         }
 
+        //Poster CV Skjema
         [HttpPost]
         public IActionResult CV(Bruker cvbruker)
         {
-            /*
-            Debug.WriteLine("PROFIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIILLLLLLLLLLLLL222222222222" + cv.ArbeidsErfaring.ElementAt(1) +
-                cv.ArbeidsErfaring.ElementAt(2) + cv.ArbeidsErfaring.ElementAt(3) + cv.ArbeidsErfaring.ElementAt(4));
-            */
+           
             if (ModelState.IsValid)
             {
                 try
                 {
                     Debug.WriteLine("Inni isValid");
                     firebase.OppdaterBruker(cvbruker);
-                    //ModelState.AddModelError(string.Empty, "Registrering suksessfult!");
+                   
                 }
                 catch (Exception ex)
                 {
-                    //  ModelState.AddModelError(string.Empty, ex.Message);
+                   
                 }
             }else
             {
@@ -145,7 +128,7 @@ namespace Portefolio_webApp.Controllers
 
 
       
-
+        //Rendrer ett registreringskjema for bruker
         [HttpGet]
         public IActionResult UpsertBruker()
         {
@@ -175,21 +158,18 @@ namespace Portefolio_webApp.Controllers
             return View(nybruker); 
         }
 
+        //Poster registreringskjema til bruker og behandler den enten som en update eller registrer basert på om id er null eller ikke
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpsertBrukerAsync(Bruker oppBruker,string password, string passwordRetyp, string filename, IFormFile file, [FromServices] IHostingEnvironment oHostingEnvironment)
         {
 
-            Debug.WriteLine("--------------------------UPSERT BRUKER TEST CV: " + password + " " + passwordRetyp);
-         
 
             if (string.IsNullOrEmpty(oppBruker.Id))
                     { //CREATE 
                 
                 if (password != null && passwordRetyp != null && string.Equals(password, passwordRetyp) && password.Length > 7) {
                     
-
-                    Debug.WriteLine("------inni is equal: " + string.Equals(password, passwordRetyp));
                     string logginnID = logg.Register(oppBruker.Email, password).Result;
                         string[] splittArr = logginnID.Split("|");
 
@@ -236,7 +216,7 @@ namespace Portefolio_webApp.Controllers
                     }
                     }else
                 {
-                    Debug.WriteLine("------inni is NOT equal: " + string.Equals(password, passwordRetyp));
+                   
                     if (password != passwordRetyp)
                     {
                         ModelState.AddModelError(string.Empty, "Password must match in both password inputs");
@@ -271,12 +251,12 @@ namespace Portefolio_webApp.Controllers
                 {
                     firebase.OppdaterBruker(oppBruker);
                     UpdateKommentarer(oppBruker);
-                    Debug.WriteLine("Jeg er inni ingen bilde");
+                
                 }
                 else
                 {
                     UpdateKommentarer(oppBruker);
-                    Debug.WriteLine("Jeg er inni bilde");
+                 
                     await firebase.UploadProfilBilde(HttpContext.Session.GetString("CroppedPath"), oppBruker.Id, oppBruker.Profilbilde);
                     firebase.OppdaterBrukerBilde(oppBruker);
                     HttpContext.Session.Remove("CroppedPath");
@@ -307,6 +287,7 @@ namespace Portefolio_webApp.Controllers
             return RedirectToAction("BrowseSide", "Home");
         }
 
+        //Multiupdate på alle kommentarene til brukeren siden bruker kan endre navn og profilbilde
         public void UpdateKommentarer(Bruker oppBruker)
         {
            
@@ -315,16 +296,16 @@ namespace Portefolio_webApp.Controllers
             {
 
                 Innlegg innlegg = firebase.HentSpesifiktInnlegg(oppBruker.kommentertPå[i]);
-                Debug.WriteLine("update komm innlegg: " + innlegg.Tittel);
-                if(innlegg != null)
+                
+                if(innlegg != null) { 
                 for (int j = 0; j < innlegg.Kommentar.Count; j++)
                 {
-                    Debug.WriteLine("update kommentar: " + innlegg.Kommentar[j].Tekst);
+                   
                     if (innlegg.Kommentar[j].EierId == oppBruker.Id)
                     {
                         innlegg.Kommentar[j].EierBilde = oppBruker.Profilbilde;
                         innlegg.Kommentar[j].EierNavn = oppBruker.Navn;
-                        Debug.WriteLine("update Inni if: " + innlegg.Kommentar[j].Tekst);
+                      
                     }
 
                     for (int h = 0; h < innlegg.Kommentar[j].Kommentarer.Count; h++)
@@ -337,19 +318,16 @@ namespace Portefolio_webApp.Controllers
                     }
                 }
                 firebase.OppdaterInnlegg(innlegg);
+                }
             }
         }
 
-
+        //Rendrer brukerens portefolieside med mappeinnhold
         public IActionResult Portefølje(string brukerid, int antall)
         {
-            //Dummy bruker. Hent via session eller onclick senere...
+          
             Bruker = firebase.HentEnkeltBruker(brukerid);
-            //  Portfolio po = firebase.HentAlleMapper("");
-
-            // Debug.WriteLine("url til bilde: " + (((Innlegg)po.MappeInnhold.ElementAt(0)).IkonURL)); 
-
-
+     
             ViewData["Bruker_Innhold"] = Bruker;
             ViewData["antall"] = antall;
             ViewData["Token"] = HttpContext.Session.GetString("_UserToken");
@@ -362,13 +340,12 @@ namespace Portefolio_webApp.Controllers
 
                 ViewData["Innlogget_Bruker"] = innBruker;
             }
-            // ViewData["Port"] = firebase.HentAlleMapper("");
-            Console.WriteLine(antall+"hold kjeft sondre");
+
 
             return View(Bruker);
-
         }
 
+        //Etterspør en brukers CV
         public JsonResult RequestCV(string type, Boolean erLest, string FraHvemID, string FraHvemNavn, string TilHvemID, string innleggID, string Tidspunkt)
         {
             Debug.WriteLine("typen: " + type); 
@@ -380,6 +357,7 @@ namespace Portefolio_webApp.Controllers
             return Json(data);
         }
 
+        //Legg til felt i CV
        [HttpPost]
         public JsonResult LeggTilCV(string felt, string par1, string par2, string par3, string par4, string par5)
         {
@@ -426,10 +404,10 @@ namespace Portefolio_webApp.Controllers
             return Json(data);
         }
 
+        //Slett felt i CV
         [HttpPost]
         public JsonResult DeleteCV(string felt, string index, string indexNavn)
         {
-            //Debug.WriteLine("---------------------------------yo " + felt + " og " + index + " og lengden på liste er: " + Bruker.CV.Ferdigheter.Count);
             Bruker = firebase.HentEnkeltBruker(HttpContext.Session.GetString("_UserID"));
             if (felt == "ArbeidsErfaring")
             {
@@ -466,7 +444,7 @@ namespace Portefolio_webApp.Controllers
         }
 
 
-
+        //Oppdater en verdi i CV
         [HttpPost]
         public JsonResult UpdateCV(string bruker, string felt, string index, string årFra, string årTil, string tittel, string bedrift, string bio, string[] array)
         {
@@ -500,24 +478,11 @@ namespace Portefolio_webApp.Controllers
                 {
                     Bruker.CV.Ferdigheter.Add(array[i]);
                 }
-                /*
-                int startLengde = Bruker.CV.Ferdigheter.Count;
-                int tilSammen = array.Length - startLengde;
-
-                for (int i = 0; i < Bruker.CV.Ferdigheter.Count; i++)
-                {
-                    Bruker.CV.Ferdigheter[i] = array[i];
-                }
-                for (int j = startLengde; j < array.Length; j++)
-                {
-                    Debug.WriteLine("------------------------------------------ MOMOMOMOMOM-add " + array[j]);
-                    Bruker.CV.Ferdigheter.Add(array[j]);
-                }
-                */
+            
             }
             else if (felt == "Språk")
             {
-                Debug.WriteLine("------------------------------------------ MOMOMOMOMOM INNI SPRÅK");
+              
                 int startLengde = Bruker.CV.Språk.Count;
                 int tilSammen = array.Length - startLengde;
 
@@ -527,7 +492,7 @@ namespace Portefolio_webApp.Controllers
                 }
                 for (int j = startLengde; j < array.Length; j++)
                 {
-                    Debug.WriteLine("------------------------------------------ MOMOMOMOMOM-add SPRÅK " + array[j]);
+                   
                     Bruker.CV.Språk.Add(array[j]);
                 }
             }
@@ -545,12 +510,11 @@ namespace Portefolio_webApp.Controllers
 
         
 
-
+        //Slett en mappe
         [HttpPost]
         public JsonResult DeleteFolder(int mindex)
         {
 
-            Debug.WriteLine("---------------------------------yo "  + mindex + " lol ");
             Bruker = firebase.HentEnkeltBruker(HttpContext.Session.GetString("_UserID"));
 
 
@@ -586,18 +550,15 @@ namespace Portefolio_webApp.Controllers
             return Json(data);
         }
 
+        //Slett ett innlegg
         [HttpPost]
         public JsonResult DeleteInnlegg(string id, int mindex, int index)
         {
 
-            Debug.WriteLine("---------------------------------yo " + mindex + " lol " + id);
             Bruker = firebase.HentEnkeltBruker(HttpContext.Session.GetString("_UserID"));
-
-            
 
             firebase.SlettInnlegg(id);
 
-            //firebase.SlettMappeInnlegg(Bruker.Id, mindex, index);
             if (Bruker.Mapper[mindex].MappeInnhold.Count == 1)
                 Bruker.Mapper[mindex].MappeInnhold = null;
             else

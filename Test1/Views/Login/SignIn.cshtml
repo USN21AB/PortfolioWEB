@@ -1,6 +1,11 @@
-﻿@model Test1.Models.BrukerLogin
-    <link href="~/css/SignIn.css?v=1" rel="stylesheet" />
-    <link href="~/css/Buttons.css" rel="stylesheet" />
+﻿<!--
+    Registreringskjema for logg inn av bruker
+    kilder:
+    vi brukte bootdey som grunnlag: https://www.bootdey.com/snippets/view/login-with-overlay-image
+    -->
+@model Test1.Models.BrukerLogin
+<link href="~/css/SignIn.css?v=1" rel="stylesheet" />
+<link href="~/css/Buttons.css" rel="stylesheet" />
 <html>
 <body>
     <div id="main-wrapper" class="container margintop">
@@ -55,7 +60,7 @@
                 </div>
                 <!-- end card -->
 
-                <p  style="font-size: 25px"; class="text-muted text-center mt-3 mb-0">Don't have an account? <a href="@Url.Action("UpsertBruker", "ProfilSide")" class="text-primary ml-1" style="font-size: 25px;">Register</a></p>
+                <p style="font-size: 25px" ; class="text-muted text-center mt-3 mb-0">Don't have an account? <a href="@Url.Action("UpsertBruker", "ProfilSide")" class="text-primary ml-1" style="font-size: 25px;">Register</a></p>
 
                 <!-- end row -->
 

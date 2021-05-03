@@ -19,7 +19,10 @@ using Microsoft.AspNetCore.Hosting;
 using FirebaseAdmin.Messaging;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
-
+/// <summary>
+/// Hjemmekontrolleren har ansvar for Hjemmesiden, filbehandling, layout og notifications.
+/// 
+/// </summary>
 namespace Portefolio_webApp.Controllers
 {
     public class HomeController : Controller
@@ -42,6 +45,7 @@ namespace Portefolio_webApp.Controllers
             string fullpath1 = "";
         }
 
+        //Oppretter filer
         private bool IsValidExtension(IFormFile filename)
         {
             bool isValid = false;
@@ -103,6 +107,7 @@ namespace Portefolio_webApp.Controllers
             return isValid;
         }
 
+        //Henter filnavn
         private string GetNewFileName(string filenamestart, IFormFile filename)
         {
             Char delimiter = '.';
@@ -116,6 +121,8 @@ namespace Portefolio_webApp.Controllers
             strFileName = $"{ filenamestart}_{ran.Next(0, 100)}_{strFileName}.{fileExtension}";
             return strFileName;
         }
+
+        //Laster opp filen og legger det i session
         public async Task<ActionResult> UploadFilesWihtLocation([FromServices] IHostingEnvironment oHostingEnvironment)
         {
             Debug.WriteLine("Jeg er inni upload file");
@@ -192,12 +199,7 @@ namespace Portefolio_webApp.Controllers
 
         }
 
-        public void Test()
-        {
-            Debug.WriteLine("----------- JEG ER INNI CONTROLLER: MESSAGE TEST");
-            Debug.WriteLine("----------- JEG ER INNI CONTROLLER: MESSAGE TEST");
-        }
-
+        //Sjekker antall notifications i databsen i forhold til view
         public JsonResult CheckFirebaseCount()
         {
 
@@ -215,6 +217,7 @@ namespace Portefolio_webApp.Controllers
             return Json(data2);
         }
 
+        //Refresher bruker og henter oppdatert informasjon
         public JsonResult RefreshUser()
         {
             Bruker refresBruker = firebase.HentEnkeltBruker(HttpContext.Session.GetString("_UserID"));
@@ -228,13 +231,13 @@ namespace Portefolio_webApp.Controllers
             return Json(data);
         }
 
-
+        //Rendrer logg inn siden
         public IActionResult LoggInnSide()
         {
             return View();
         }
 
-
+        //rendrer partial view sortert basert på innvariabler som bruker har valgt
         public IActionResult PartialViewBrowse(string kategori, string søketekst,List<Innlegg> listen)
         {
             listen = firebase.HentAlleInnlegg();
@@ -286,13 +289,11 @@ namespace Portefolio_webApp.Controllers
                 ViewData["Kategori"] = kategori;
                 ViewData["Søk"] = søketekst;
 
-              
-          //  }
-         
-         Debug.WriteLine("Inni PartialViewBrowse " + kategori + " " + søketekst); 
+  
             return PartialView("_browse",new Innlegg());
         }
 
+        //rendrer Hjemmesiden med innlegg
         [HttpGet]
         public IActionResult BrowseSide(string kategori, string søketekst)
         {
@@ -357,7 +358,6 @@ namespace Portefolio_webApp.Controllers
                 var innBruker = JsonConvert.DeserializeObject<Bruker>(str);
 
                 ViewData["Innlogget_Bruker"] = innBruker;
-                Debug.WriteLine("not count: " + innBruker.notifications.Count);
             }
 
          
@@ -366,6 +366,8 @@ namespace Portefolio_webApp.Controllers
             return View();
         }
 
+
+        //Sender notfications til en bruker
         public JsonResult SendNotification(string type, Boolean erLest, string FraHvemID, string FraHvemNavn, string TilHvemID, string innleggID, string Tidspunkt)
         {
 
@@ -379,6 +381,7 @@ namespace Portefolio_webApp.Controllers
             return Json(data);
         }
 
+        //Markerer alle notifications som lest
         public JsonResult NotificationRead()
         {
             var str = HttpContext.Session.GetString("Innlogget_Bruker");
@@ -400,6 +403,7 @@ namespace Portefolio_webApp.Controllers
             return Json(data);
         }
 
+        //Bruker aksepterer CV forespørsel
         public JsonResult AcceptReadCV(string fraHvemID, int notIndex, Boolean isAccepted)
         {
             var str = HttpContext.Session.GetString("Innlogget_Bruker");
@@ -428,6 +432,7 @@ namespace Portefolio_webApp.Controllers
             return Json(data);
         }
 
+        //Bruker har mottat en notification og får det skrevet ut i topbaren
         public JsonResult MottatNotification()
         {
            
@@ -443,7 +448,7 @@ namespace Portefolio_webApp.Controllers
         }
 
       
-
+        //Sorterer 
       [HttpGet]
         public IActionResult SorterListe()
         {
