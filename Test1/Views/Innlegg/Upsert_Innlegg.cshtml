@@ -5,7 +5,7 @@
 <link href="~/css/Upsert_Innlegg.css" rel="stylesheet" />
 <link href="~/css/PorteføljeElementer.css" rel="stylesheet" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src="~/js/bootstrap-tagsinput.js?v=1"></script>
+<script src="~/js/bootstrap-tagsinput.js"></script>
 
 <h2 class="text-info">@(Model.Id == null ? "Registrer" : "Rediger") Innlegg</h2>
 <br />
@@ -354,7 +354,7 @@
         document.getElementById("ny-mappe-valgt").style.display = "block";
 
         $("#ny-mappe-valgt").click();
-        
+
     }
 
 
@@ -382,13 +382,37 @@
         if (document.getElementById('input-file').files.length == 0) {
             document.getElementById("filSpan").innerHTML = "You must select a file";
             event.preventDefault();
-        } 
+        }
         if (document.getElementById('mappe').value.length == 0) {
             document.getElementById("mappeSpan").innerHTML = "You must select a folder";
             event.preventDefault();
         }
     };
 
+
+
+    $(document).ready(function () {
+        
+        $(window).keydown(function (event) {
+            if (event.keyCode == 13 && event.target.nodeName == 'INPUT') {
+
+                event.preventDefault();
+                return false;
+
+
+            }
+        });
+    });
+    /*$(document).ready(function () {
+    $('input').keydown(function (event) {
+        if (!$(this).hasClass("last")) {
+            if (event.which == 13) {
+                event.preventDefault();
+                $(this).nextAll('input:first').focus();
+            }
+        }
+    });
+    });*/
 
 
 </script>
@@ -457,81 +481,92 @@
 
         <input type="hidden" asp-for="antallLikes" />
 
-
-
-        @if (Model.Id == null)
-        {
-            <div class="form-group row">
-                <div class="col-3">
-                    <label>File</label>
-                </div>
-                <div class="col-8">
-                    <div class="fileinputdesign">
-                        <i class="fas fa-file-upload uploadikon"></i>
-                        <p class="fileinputbutton" id="fileinputbuttonid">Choose your file</p>
-                        @Html.TextBox("inputfile", "inputfile", new { type = "file", name = "inputfile", id = "input-file", accept = "image/png|image/jpeg|image/jpg|image/gif|audio/mp3|application/pdf", oninput = "fileValidation(); readURL(this);" }) <br />
-                    </div>
-                    <p class="filetypeinfo">Image: .png/.jpg/.jpeg/.gif | Sound: .mp3 | Text: .pdf</p>
-                    <span id="filSpan" class="validSpan"></span>
-                </div>
-            </div>
-        }
-        else
-        {
-            <input type="hidden" asp-for="IkonURL" />
-        }
-
-
-
-        <div class="form-group row" id="kategorifelt">
+        <div class="form-group row">
             <div class="col-3">
-                <label asp-for="Kategori">Category</label>
             </div>
             <div class="col-8">
-                <input asp-for="Kategori" class="form-control-plaintext" readonly id="kategoriVerdi" required style="color:#fff;" />
-                <span asp-validation-for="Kategori" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group row" id="subkatdiv">
-            <div class="col-3" id="subkat">
-                <label asp-for="SubKategori">Sub-category</label>
-            </div>
-
-            <button type="button" class='radio active' id="radio-dummy" value="Placeholder" style="display: none"></button>
-
-            <div id="bildekategori" class="col-8 radio-buttons">
-                <button type="button" class='radio' id="radio1" value="Photograph" onclick='radio(this.id)'>Photograph</button>
-                <button type="button" class='radio' id="radio2" value="Digital Art" onclick="radio(this.id)">Digital Art</button>
-                <button type="button" class='radio' id="radio3" value="Traditional Art" onclick="radio(this.id)">Traditional Art</button>
-                <button type="button" class='radio' id="radio4" value="3D" onclick="radio(this.id)">3D</button>
-            </div>
-            <div id="musikkategori" class="col-8 radio-buttons">
-                <button type="button" class='radio' id="radio5" value="Music" onclick="radio(this.id)">Music</button>
-                <button type="button" class='radio' id="radio6" value="Soundeffects" onclick="radio(this.id)">Soundeffects</button>
-                <button type="button" class='radio' id="radio7" value="Voice Acting" onclick="radio(this.id)">Voice Acting</button>
-                <button type="button" class='radio' id="radio8" value="Audiobook" onclick="radio(this.id)">Audiobook</button>
-            </div>
-            <div id="tekstkategori" class="col-8 radio-buttons">
-                <button type="button" class='radio' id="radio9" value="Fiction" onclick="radio(this.id)">Fiction</button>
-                <button type="button" class='radio' id="radio10" value="Non-Fiction" onclick="radio(this.id)">Non-Fiction</button>
+                <p class="filetypeinfo">Fields marked with * is required</p>
             </div>
         </div>
 
-        <input asp-for="SubKategori" id="kategori-value" style="display: none" required />
 
-        @if (Model.Id == null)
-        {
-    <div id="cover-image" class="form-group row">
 
-        <div class="col-3">
-            <label>Cover File</label>
-        </div>
-        <div class="col-8">
-            <div class="fileinputdesign">
-                <i class="fas fa-file-upload uploadikon"></i>
-                <p class="fileinputbutton" id="fileinputbuttonid">Add cover image</p>
+            @if (Model.Id == null)
+            {
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label>File*</label>
+                    </div>
+                    <div class="col-8">
+                        <div class="fileinputdesign">
+                            <i class="fas fa-file-upload uploadikon"></i>
+                            <p class="fileinputbutton" id="fileinputbuttonid">Choose your file</p>
+                            @Html.TextBox("inputfile", "inputfile", new { type = "file", name = "inputfile", id = "input-file", accept = "image/png|image/jpeg|image/jpg|image/gif|audio/mp3|application/pdf", oninput = "fileValidation(); readURL(this);" }) <br />
+                        </div>
+                        <p class="filetypeinfo">Image: .png/.jpg/.jpeg/.gif | Sound: .mp3 | Text: .pdf</p>
+                        <span id="filSpan" class="validSpan"></span>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <input type="hidden" asp-for="IkonURL" />
+            }
+
+
+
+            <div class="form-group row" id="kategorifelt">
+                <div class="col-3">
+                    <label asp-for="Kategori">Category</label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Kategori" class="form-control-plaintext" readonly id="kategoriVerdi" required style="color:#fff;" />
+                    <span asp-validation-for="Kategori" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row" id="subkatdiv">
+                <div class="col-3" id="subkat">
+                    <label asp-for="SubKategori">Sub-category</label>
+                </div>
+
+                <button type="button" class='radio active' id="radio-dummy" value="Placeholder" style="display: none"></button>
+
+                <div id="bildekategori" class="col-8 radio-buttons">
+                    <button type="button" class='radio' id="radio1" value="Photograph" onclick='radio(this.id)'>Photograph</button>
+                    <button type="button" class='radio' id="radio2" value="Digital Art" onclick="radio(this.id)">Digital Art</button>
+                    <button type="button" class='radio' id="radio3" value="Traditional Art" onclick="radio(this.id)">Traditional Art</button>
+                    <button type="button" class='radio' id="radio4" value="3D" onclick="radio(this.id)">3D</button>
+                </div>
+                <div id="musikkategori" class="col-8 radio-buttons">
+                    <button type="button" class='radio' id="radio5" value="Music" onclick="radio(this.id)">Music</button>
+                    <button type="button" class='radio' id="radio6" value="Soundeffects" onclick="radio(this.id)">Soundeffects</button>
+                    <button type="button" class='radio' id="radio7" value="Voice Acting" onclick="radio(this.id)">Voice Acting</button>
+                    <button type="button" class='radio' id="radio8" value="Audiobook" onclick="radio(this.id)">Audiobook</button>
+                </div>
+                <div id="tekstkategori" class="col-8 radio-buttons">
+                    <button type="button" class='radio' id="radio9" value="Fiction" onclick="radio(this.id)">Fiction</button>
+                    <button type="button" class='radio' id="radio10" value="Non-Fiction" onclick="radio(this.id)">Non-Fiction</button>
+                </div>
+            </div>
+
+            <input asp-for="SubKategori" id="kategori-value" style="display: none" required />
+
+
+
+            @if (Model.Id == null)
+            {
+                <div id="cover-image" class="form-group row">
+
+                    <div class="col-3">
+                        <label>Cover File</label>
+                    </div>
+                    <div class="col-8">
+                        <div class="fileinputdesign">
+                            <i class="fas fa-file-upload uploadikon"></i>
+                            <p class="fileinputbutton" id="fileinputbuttonid">Add cover image</p>
 
                 @Html.TextBox("coverfile", "coverfile", new { type = "file", name = "coverfile", id = "cover-input-file", accept = "image/png|image/jpeg|image/jpg", oninput = "CoverValidation(); readURL2(this);" }) <br />
+            
             </div>
             <p class="filetypeinfo">Image: .png/.jpg/.jpeg/.gif</p>
         </div>
@@ -547,165 +582,173 @@
 
 
 
-        @if (Model.Id == null)
-        {
-            <div class="form-group row">
-                <div class="col-3">
-                    <label>Select or add folder</label>
-                </div>
-
-
-
-
-
-
-
-        @{
-            var antall = 0;
-        }
-
-        <ul class="nav nav-pills nav-fill folder-nav tabs col-8">
-
-            <li class="nav-item">
-                <div class="folder-design chosen" id="dummy-folder" style="display: none">
-                </div>
-            </li>
-
-            @while (antall < BrukerInnhold.Mapper.Count)
+            @if (Model.Id == null)
             {
-                var Mappe = BrukerInnhold.Mapper.ElementAt(antall);
-
-
-                <li class="nav-item">
-                    <div class="folder-design chosen" onclick='mappeValg("mappe-@antall"); readonly()'>
-                        <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190271077646336/Portfollowers_tekst.png" />
-                        <span id="mappe-@antall" class="folder-navn">@Mappe.MappeNavn</span>
+                <div class="form-group row">
+                    <div class="col-3">
+                        @if (BrukerInnhold.Mapper.Count != 0)
+                        {
+                            <label>Select or add folder*</label>
+                        }
+                        else
+                        {
+                            <label>Add a folder*</label>
+                        }
                     </div>
-                </li>
-                antall++;
+
+
+
+
+
+
+
+                    @{
+                        var antall = 0;
+                    }
+
+                    <ul class="nav nav-pills nav-fill folder-nav tabs col-8">
+
+                        <li class="nav-item">
+                            <div class="folder-design chosen" id="dummy-folder" style="display: none">
+                            </div>
+                        </li>
+
+                        @while (antall < BrukerInnhold.Mapper.Count)
+                        {
+                            var Mappe = BrukerInnhold.Mapper.ElementAt(antall);
+
+
+                            <li class="nav-item">
+                                <div class="folder-design chosen" onclick='mappeValg("mappe-@antall"); readonly()'>
+                                    <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190271077646336/Portfollowers_tekst.png" />
+                                    <span id="mappe-@antall" class="folder-navn">@Mappe.MappeNavn</span>
+                                </div>
+                            </li>
+                            antall++;
+                        }
+
+                        <li class="nav-item">
+                            <div class="folder-design" id="ny-mappe" onclick="nyMappe()">
+                                <i class="fas fa-folder-plus fa-4x add-folder"></i>
+                            </div>
+                            <div class="folder-design chosen" id="ny-mappe-valgt" onclick='mappeValg("mappeny"); readonlyOff()'>
+                                <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190271077646336/Portfollowers_tekst.png" />
+                                <span id="mappeny" class="folder-navn">New folder</span>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="col-3"></div>
+                    <div class="col-8">
+                        <span id="mappeSpan" class="validSpan"></span>
+                    </div>
+                </div>
+
+
+
+
+
+
+                <div class="form-group row " id="mappefelt">
+
+                    <div class="col-3">
+                        <label>Name of folder*</label>
+                    </div>
+                    <div class="col-8">
+
+                        <input type="text" name="mappenavn" class="form-control" id="mappe" placeholder="Mappenavn" onkeyup="mappeNavn()" onclick="this.select()" required />
+
+
+
+                    </div>
+                </div>
             }
 
-            <li class="nav-item">
-                <div class="folder-design" id="ny-mappe" onclick="nyMappe()">
-                    <i class="fas fa-folder-plus fa-4x add-folder"></i>
-                </div>
-                <div class="folder-design chosen" id="ny-mappe-valgt" onclick='mappeValg("mappeny"); readonlyOff()'>
-                    <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190271077646336/Portfollowers_tekst.png" />
-                    <span id="mappeny" class="folder-navn">New folder</span>
-                </div>
-            </li>
-        </ul>
-        <div class="col-3"></div>
-        <div class="col-8">
-            <span id="mappeSpan" class="validSpan"></span>
-        </div>
-    </div>
-
-
-
-
-
-
-            <div class="form-group row " id="mappefelt">
-
+            <div class="form-group row">
                 <div class="col-3">
-                    <label>Name of folder</label>
+                    <label asp-for="Tittel">Title*</label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Tittel" class="form-control" id="tittel" placeholder="Title" onkeyup="tittelPreview()" required />
+                    <span asp-validation-for="Tittel" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-3">
+                    <label asp-for="Beskrivelse">Description*</label>
+                </div>
+                <div class="col-8">
+                    <textarea asp-for="Beskrivelse" id="beskrivelse" rows="4" class="form-control" onkeyup="beskrivelsePreview()" placeholder="Description" required></textarea>
+
+                    <span asp-validation-for="Beskrivelse" class="text-danger"></span>
+                </div>
+            </div>
+
+
+            <div class="form-group row">
+                <div class="col-3">
+                    <label asp-for="Tagger">Tags</label>
                 </div>
                 <div class="col-8">
 
-                    <input type="text" name="mappenavn" class="form-control" id="mappe" placeholder="Mappenavn" onkeyup="mappeNavn()" onclick="this.select()" required />
+
+                    @{
+                        var antallTagger = 0;
+                        string tags = "";
+                        List<string> tagger = new List<string>();
+                        if (Model.Id != null)
+                        {
+                            if (Model.Tagger != null)
+                            {
+                                while (antallTagger < Model.Tagger.Count())
+                                {
+
+
+                                    tagger.Add(Model.Tagger.ElementAt(antallTagger));
+
+
+                                    antallTagger++;
+                                }
+
+
+                                tags = string.Join(",", tagger);
+                                Console.WriteLine("---------" + tags);
+                            }
+                            <input asp-for="Tagger" id="taginput" value="@tags" class="form-control" data-role="tagsinput" placeholder="Add tag," />
+
+                            <span asp-validation-for="Tagger" class="text-danger"></span>
+                        }
+                        else
+                        {
+                            <input asp-for="Tagger" id="taginput" class="form-control" data-role="tagsinput" placeholder="Add tag," />
+
+                            <span asp-validation-for="Tagger" class="text-danger"></span>
+
+                        }
+                    }
+
+
 
 
 
                 </div>
             </div>
-        }
 
-        <div class="form-group row">
-            <div class="col-3">
-                <label asp-for="Tittel">Title</label>
+
+
+
+            <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+
+
+            <div class="form-group row">
+                <div class="col-3 offset-3">
+                    <button type="submit" id="submit-btn" class="btn btn-primary form-control" onclick="validationSpan()">
+                        @(Model.Id == null ? "Publish" : "Update")
+                    </button>
+                </div>
+                <!--<div class="col-3">
+                <a asp-controller="Home" asp-action="BrowseSide" class="btn btn-success form-control">Back to List</a>
+            </div>-->
             </div>
-            <div class="col-8">
-                <input asp-for="Tittel" class="form-control" id="tittel" placeholder="Title" onkeyup="tittelPreview()" required />
-                <span asp-validation-for="Tittel" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-3">
-                <label asp-for="Beskrivelse">Description</label>
-            </div>
-            <div class="col-8">
-                <textarea asp-for="Beskrivelse" id="beskrivelse" rows="4" cols="50" class="form-control" onkeyup="beskrivelsePreview()" placeholder="Description" required></textarea>
-
-                <span asp-validation-for="Beskrivelse" class="text-danger"></span>
-            </div>
-        </div>
-
-
-        <div class="form-group row">
-            <div class="col-3">
-                <label asp-for="Tagger">Tags</label>
-            </div>
-            <div class="col-8">
-
-
-                @{
-                    var antallTagger = 0;
-                    string tags = "";
-                    List<string> tagger = new List<string>();
-                    if (Model.Id != null)
-                    {
-                        if(Model.Tagger != null) {
-                            while (antallTagger < Model.Tagger.Count())
-                            {
-
-
-                                tagger.Add(Model.Tagger.ElementAt(antallTagger));
-
-
-                                antallTagger++;
-                            }
-
-
-                            tags = string.Join(",", tagger);
-                            Console.WriteLine("---------" + tags);
-                        }
-                        <input asp-for="Tagger" id="taginput" value="@tags" class="form-control" data-role="tagsinput" placeholder="Add tag," />
-
-                        <span asp-validation-for="Tagger" class="text-danger"></span>
-                    }
-                    else
-                    {
-                        <input asp-for="Tagger" id="taginput" class="form-control" data-role="tagsinput" placeholder="Add tag," />
-
-                        <span asp-validation-for="Tagger" class="text-danger"></span>
-
-                    }
-                }
-
-
-
-
-
-            </div>
-        </div>
-
-
-
-
-        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
-
-
-        <div class="form-group row">
-            <div class="col-3 offset-3">
-                <button type="submit" id="submit-btn" class="btn btn-primary form-control" onclick="validationSpan()">
-                    @(Model.Id == null ? "Publish" : "Update")
-                </button>
-            </div>
-            <!--<div class="col-3">
-            <a asp-controller="Home" asp-action="BrowseSide" class="btn btn-success form-control">Back to List</a>
-        </div>-->
-        </div>
     </form>
 </div>
 
@@ -763,24 +806,6 @@
     </filter>
 </svg>
 <span></span>
-
-<script>
-    window.addEventListener("keydown", checkKeyPress, false);
-
-// The parameters of the event listener are event, function to run, useCapture (optional).
-// This event listener runs checkKeyPress function when a key is pressed down
-// You can use keydown or keyup to check what key has been pressed or released
-// this function checks to see if the letter 'a' key has been pressed
-
-    
-
-function checkKeyPress(key) {
-    if (key.keyCode == "13") {
-        key.preventDefault();
- }
-}
-
-</script>
 
 @section Scripts{
 

@@ -5,6 +5,7 @@
     <AssemblyName>Test1</AssemblyName>
     <RootNamespace>Test1</RootNamespace>
     <OutputType>Exe</OutputType>
+    <UserSecretsId>e9b2c258-de3e-4184-9e96-9b4f7e295690</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
