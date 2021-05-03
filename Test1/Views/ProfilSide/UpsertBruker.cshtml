@@ -17,6 +17,29 @@
             <link href="~/css/jquery.Jcrop.min.css" rel="stylesheet" />
         }
 
+        <div class="modal" id="myprofilecrop" tabindex="-1" role="dialog" aria-labelledby="cropmodel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+
+                        <h4 class="modal-title text-center" id="cropmodel">Update Profile Picture</h4>
+                    </div>
+                    <div>
+                        <div class="modal-body text-center">
+                            <div id="views" class="m-t-15"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <form form method="post" , new enctype="multipart/form-data" id="formimg">
+                                <button id="cropbutton" class="btn btn-primary" type="submit">Save</button>
+                                <button id="rotatebutton" class="btn btn-default" type="button">Rotate</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal();">Close</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <form method="post" , new enctype="multipart/form-data">
             <div class="row gutters-sm">
@@ -51,26 +74,7 @@
                                         <p>Profile Image</p>
                                     </div>
 
-                                    <div class="modal" id="myprofilecrop" tabindex="-1" role="dialog" aria-labelledby="cropmodel">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
 
-                                                    <h4 class="modal-title text-center" id="cropmodel">Update Profile Picture</h4>
-                                                </div>
-                                                <div>
-                                                    <div class="modal-body text-center">
-                                                        <div id="views" class="m-t-15"></div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button id="cropbutton" class="btn btn-primary" >Save</button>
-                                                        <button id="rotatebutton" class="btn btn-default" type="button">Rotate</button>
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal();">Close</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -193,9 +197,9 @@
                                         </label>
                                     </div>
                                 }
-                            <div class="abc" style="text-align: center;">
-                                <span id="termsSpan" class="validate"></span>
-                            </div>
+                                <div class="abc" style="text-align: center;">
+                                    <span id="termsSpan" class="validate"></span>
+                                </div>
                                 <hr />
                                 <div style="text-align: center;">
                                     <button id="confirm" type="submit" value="Upload" class="buttons btn btn-primary form-control" style="width: 300px;">
@@ -216,27 +220,7 @@
                                             document.getElementById("termsSpan").innerHTML = "You must agree to the terms to continue!";
                                         }
                                     };
-
-                                    document.getElementById("cropbutton").onclick = function (event) {
-                                        event.preventDefault();
-                                        alert("inni crop");
-
-                                        /*
-                                        var json = {
-                                            "oHostingEnvironment": felt,
-                                        };
-                                        */
-                                          $.ajax({
-                                                type: "POST",
-                                               url: '@Url.Action("UploadFilesWihtLocation", "Home")',
-                                              // data: json,
-                                             //  dataType: "json",
-                                                success: function (result) {
-                                                    alert("Bilde gikk bra");
-                                              }
-                                           });
-
-                                    }
+                                 
                                 </script>
 
                             </div>
