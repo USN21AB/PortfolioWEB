@@ -10,6 +10,11 @@ using System.Diagnostics;
 using System;
 using Newtonsoft.Json;
 
+/// <summary>
+/// Denne kontrolleren har ansvar for all logg inn og logg ut aktivitet. Den forholder seg til authentication i firebase. 
+/// Vi har brukt dokumentasjonen til firebase
+/// Firebase authentication docs: https://firebase.google.com/docs/auth
+/// </summary>
 
 namespace Test1.Controllers
 {
@@ -27,6 +32,7 @@ namespace Test1.Controllers
  
         }
 
+        //registrer en ny bruker
         [NonAction]
         public async Task<string> Register(string Email, string Password)
         {
@@ -49,16 +55,19 @@ namespace Test1.Controllers
                 Debug.WriteLine("--------------------------- INNI REGISTRER2 ID: " + id + " token: " + token );
             
 
-                //firebase.RegistrerBruker(bruker);
+      
                 return id + "|" + token;
             }
             return "";  //Noe gikk feil.
         }
 
+        //Logg inn side
         public IActionResult SignIn()
         {
             return View();
         }
+
+        //Logg inn innlogginskjema har blitt postet
         [HttpPost]
         public async Task<IActionResult> SignIn(string Password, string Email)
         {
@@ -70,7 +79,7 @@ namespace Test1.Controllers
                                 .SignInWithEmailAndPasswordAsync(Email, Password);
               
                 string token = fbAuthLink.FirebaseToken;
-                Debug.WriteLine("Logget inn som " + fbAuthLink.User.Email); 
+               
                 if (token != null)
                 {
                     
@@ -82,12 +91,12 @@ namespace Test1.Controllers
                         return View();
                     }
 
+                    //Saver token i en session variabel
                     HttpContext.Session.SetString("_UserToken", token);
                     HttpContext.Session.SetString("_UserID", fbAuthLink.User.LocalId);
 
                     var str = JsonConvert.SerializeObject(bruker2);
                     HttpContext.Session.SetString("Innlogget_Bruker", str);
-                    Debug.WriteLine("Rekker jeg hit? " + bruker2.Navn);
 
 
                     return Redirect("~/Home/BrowseSide");
@@ -103,11 +112,10 @@ namespace Test1.Controllers
                 return View();
             }
 
-            //Debug.WriteLine("--------------||||||||||||||||||||||||" + token);
-
-            //saving the token in a session variable
 
         }
+
+        //Logg brukeren ut.
         public IActionResult LogOut()
         {
             HttpContext.Session.Remove("_UserToken");

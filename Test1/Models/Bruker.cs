@@ -4,7 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Test1.Models;
-
+/// <summary>
+/// Brukere på nettsiden
+/// </summary>
 namespace Portefolio_webApp.Models
 {
     public class Bruker
