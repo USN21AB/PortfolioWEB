@@ -5,7 +5,7 @@
 <link href="~/css/Upsert_Innlegg.css" rel="stylesheet" />
 <link href="~/css/PorteføljeElementer.css" rel="stylesheet" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src="~/js/bootstrap-tagsinput.js?v=1"></script>
+<script src="~/js/bootstrap-tagsinput.js"></script>
 
 <h2 class="text-info">@(Model.Id == null ? "Registrer" : "Rediger") Innlegg</h2>
 <br />
@@ -354,7 +354,7 @@
         document.getElementById("ny-mappe-valgt").style.display = "block";
 
         $("#ny-mappe-valgt").click();
-        
+
     }
 
 
@@ -382,13 +382,37 @@
         if (document.getElementById('input-file').files.length == 0) {
             document.getElementById("filSpan").innerHTML = "You must select a file";
             event.preventDefault();
-        } 
+        }
         if (document.getElementById('mappe').value.length == 0) {
             document.getElementById("mappeSpan").innerHTML = "You must select a folder";
             event.preventDefault();
         }
     };
 
+
+
+    $(document).ready(function () {
+        
+        $(window).keydown(function (event) {
+            if (event.keyCode == 13 && event.target.nodeName == 'INPUT') {
+
+                event.preventDefault();
+                return false;
+
+
+            }
+        });
+    });
+    /*$(document).ready(function () {
+    $('input').keydown(function (event) {
+        if (!$(this).hasClass("last")) {
+            if (event.which == 13) {
+                event.preventDefault();
+                $(this).nextAll('input:first').focus();
+            }
+        }
+    });
+    });*/
 
 
 </script>
@@ -653,7 +677,7 @@
                     <label asp-for="Beskrivelse">Description*</label>
                 </div>
                 <div class="col-8">
-                    <textarea asp-for="Beskrivelse" id="beskrivelse" rows="4" cols="50" class="form-control" onkeyup="beskrivelsePreview()" placeholder="Description" required></textarea>
+                    <textarea asp-for="Beskrivelse" id="beskrivelse" rows="4" class="form-control" onkeyup="beskrivelsePreview()" placeholder="Description" required></textarea>
 
                     <span asp-validation-for="Beskrivelse" class="text-danger"></span>
                 </div>
@@ -689,13 +713,13 @@
                                 tags = string.Join(",", tagger);
                                 Console.WriteLine("---------" + tags);
                             }
-                            <input asp-for="Tagger" id="taginput" value="@tags" class="form-control" data-role="tagsinput" placeholder="Add tag," />
+                            <input asp-for="Tagger" id="ctl00_MainContent_taginput" value="@tags" class="form-control last" data-role="tagsinput" name="tags" placeholder="Add tag," runat="server" />
 
                             <span asp-validation-for="Tagger" class="text-danger"></span>
                         }
                         else
                         {
-                            <input asp-for="Tagger" id="taginput" class="form-control" data-role="tagsinput" placeholder="Add tag," />
+                            <input asp-for="Tagger" id="ctl00_MainContent_taginput" class="form-control last" data-role="tagsinput" name="tags" placeholder="Add tag," runat="server"/>
 
                             <span asp-validation-for="Tagger" class="text-danger"></span>
 

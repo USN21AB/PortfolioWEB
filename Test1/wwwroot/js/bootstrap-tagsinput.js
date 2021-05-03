@@ -39,7 +39,7 @@ copies or substantial portions of the Software.
         addOnBlur: true,
         maxTags: undefined,
         maxChars: undefined,
-        confirmKeys: [13, 44],
+        confirmKeys: [32, 44],
         delimiter: ',',
         delimiterRegex: null,
         cancelConfirmKeysOnEmpty: true,
