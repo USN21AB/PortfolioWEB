@@ -235,3 +235,6 @@
     outline: none;
     cursor: default;
 }
+.validSpan {
+    color: #dc3545;
+}

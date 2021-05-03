@@ -45,7 +45,6 @@ body {
 .profilimg {
     cursor: pointer;
     object-fit: cover;
-    margin-top: 20px;
     margin-bottom: 20px;
 }
 

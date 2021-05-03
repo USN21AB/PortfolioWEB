@@ -82,6 +82,8 @@
 .img-thumbnail {
     background-color: #384352;
     border: 1px solid #6c757d;
+    width: 200px;
+    height: 200px;
 }
 .sliderstyle {
     padding: 1px;
@@ -95,4 +97,20 @@
 .slidertextstyle {
     margin-top: 12px;
     margin-left: 20px;
+}
+.modal-content {
+    background-color: #384352;
+}
+
+.modal-header {
+    background-color: #6c757d;
+    border-bottom: 1px solid #fff;
+}
+
+.modal-footer {
+    border-top: 1px solid #fff;
+}
+.close {
+    color: #fff;
+    opacity: 1;
 }
