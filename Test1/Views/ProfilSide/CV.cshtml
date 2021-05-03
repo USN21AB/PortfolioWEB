@@ -14,12 +14,22 @@
         padding: 5px;
         border-radius: 8px;
     }
+    .bootstrap-iso {
+        margin-right: 0;
+        padding-right: 0;
+    }
 </style>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css" integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc=" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
 <link href="~/css/CV.css?v=1" rel="stylesheet" />
 <link href="~/css/Buttons.css" rel="stylesheet" />
+<!--  jQuery -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<!-- Bootstrap Date-Picker Plugin -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+
 
 
 
@@ -27,35 +37,36 @@
     <div class="toast" id="toast" role="alert" aria-live="assertive" aria-atomic="true" style="display:none; position: fixed; z-index: 1; color:white; width: 250px; right: 3px;">
         <div class="toast-header" style="background-color: #384352">
             <i class="fas fa-bell" style="color: #1abc9c;"></i>
-            <strong class="mr-auto"style="color: #1abc9c;"> &nbsp; Notification</strong>
+            <strong class="mr-auto" style="color: #1abc9c;"> &nbsp; Notification</strong>
         </div>
         <div class="toast-body" id="toast-body" style="color: #1abc9c; background-color: #fff;">
         </div>
     </div>
 </div>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-4 col-xl-4">
-                <div class="card-box text-center">
-                    @if (@BrukerInnhold.Profilbilde != null)
-                    {
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4 col-xl-4">
+            <div class="card-box text-center">
+                @if (@BrukerInnhold.Profilbilde != null)
+                {
 
-                        <img src="@BrukerInnhold.Profilbilde" class="rounded-circle img-thumbnail" alt="profile-image">}
+                    <img src="@BrukerInnhold.Profilbilde" class="rounded-circle img-thumbnail" alt="profile-image">}
 
-                    else
-                    { <img src="https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2Fdefault_account.jpg?alt=media&token=290b6907-f17e-4095-90a6-dca2c52563b9" class="rounded-circle img-thumbnail" alt="profile-image" width="200" height="200">
-                     }
+                else
+                { <img src="https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2Fdefault_account.jpg?alt=media&token=290b6907-f17e-4095-90a6-dca2c52563b9" class="rounded-circle img-thumbnail" alt="profile-image" width="200" height="200">
+                }
 
 
-                    <h4 class="mb-0">@BrukerInnhold.Navn</h4>
-                    <p class="text-muted">@BrukerInnhold.Stilling</p>
+                <h4 class="mb-0">@BrukerInnhold.Navn</h4>
+                <p class="text-muted">@BrukerInnhold.Stilling</p>
 
             </div> <!-- end card-box -->
 
             <div class="card-box">
                 <h4 class="header-title">Skills</h4>
-                <div class="pt-1">                 @{
+                <div class="pt-1">
+                    @{
                         var antallFerdigheter = 0;
                     }
                     @if (CvInnhold.Ferdigheter.Count != 0)
@@ -65,18 +76,18 @@
                             var FerdighetProsent = CvInnhold.Ferdigheter.ElementAt(antallFerdigheter + 1);
                             antallFerdigheter += 2;
 
-                                <h6 class="text-uppercase mt-2">
-                                    @FerdighetNavn<span class="float-right">@FerdighetProsent</span>
-                                </h6>
-                                <div class="progress progress-sm m-0">
-                                    <div class="progress-bar bg-purple" role="progressbar" aria-valuenow="@FerdighetProsent" aria-valuemin="0" aria-valuemax="100" style="width: @FerdighetProsent">
-                                        <span class="sr-only">@FerdighetProsent% Complete</span>
-                                    </div>
+                            <h6 class="text-uppercase mt-2">
+                                @FerdighetNavn<span class="float-right">@FerdighetProsent</span>
+                            </h6>
+                            <div class="progress progress-sm m-0">
+                                <div class="progress-bar bg-purple" role="progressbar" aria-valuenow="@FerdighetProsent" aria-valuemin="0" aria-valuemax="100" style="width: @FerdighetProsent">
+                                    <span class="sr-only">@FerdighetProsent% Complete</span>
                                 </div>
-                            }
+                            </div>
+                        }
 
-                    </div>
-                </div> <!-- end card-box-->
+                </div>
+            </div> <!-- end card-box-->
 
             <div class="card-box">
                 <h4 class="header-title">Languages</h4>
@@ -105,85 +116,85 @@
             </div> <!-- end card-box-->
         </div> <!-- end col-->
 
-            <div class="col-lg-8 col-xl-8">
-                <div class="card-box">
-                    <ul class="nav nav-pills navtab-bg">
+        <div class="col-lg-8 col-xl-8">
+            <div class="card-box">
+                <ul class="nav nav-pills navtab-bg">
 
-                        @if (BrukerInnhold.Id == (string)ViewData["Innlogget_ID"])
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link ml-0 active" asp-controller="ProfilSide" asp-action="CV" asp-route-brukerID="@BrukerInnhold.Id">
+                    @if (BrukerInnhold.Id == (string)ViewData["Innlogget_ID"])
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link ml-0 active" asp-controller="ProfilSide" asp-action="CV" asp-route-brukerID="@BrukerInnhold.Id">
 
-                                    <i class="far fa-address-card mr-1"></i>My Resume
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#settings" data-toggle="tab" aria-expanded="false" class="nav-link">
-                                    <i class="fas fa-plus mr-1"></i>Add/Edit
-                                </a>
-                            </li>
-                        }
-                    </ul>
+                                <i class="far fa-address-card mr-1"></i>My Resume
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#settings" data-toggle="tab" aria-expanded="false" class="nav-link">
+                                <i class="fas fa-plus mr-1"></i>Add/Edit
+                            </a>
+                        </li>
+                    }
+                </ul>
 
                 <div class="tab-content">
 
                     <div class="tab-pane show active" id="aboutme">
 
-                            <h5 class="mb-3 text-uppercase">
-                                <i class="mdi mdi-briefcase mr-1"></i>
-                                Experience
-                            </h5>   
-                            @{
-                                var antallArbeidsErfaring = 0;
-                                var arID = "arEdit" + antallArbeidsErfaring;
-                            }
-                            @if (CvInnhold.ArbeidsErfaring.Count != 0)
-                                @while (antallArbeidsErfaring < CvInnhold.ArbeidsErfaring.Count)
-                                {
-                                    var ArbeidsErfaringÅrStart = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring);
-                                    var ArbeidsErfaringÅrSlutt = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring + 1);
-                                    var ArbeidsErfaringTittel = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring + 2);
-                                    var ArbeidsErfaringBedrift = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring + 3);
-                                    var ArbeidsErfaringBeskrivelse = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring + 4);
+                        <h5 class="mb-3 text-uppercase">
+                            <i class="mdi mdi-briefcase mr-1"></i>
+                            Experience
+                        </h5>
+                        @{
+                            var antallArbeidsErfaring = 0;
+                            var arID = "arEdit" + antallArbeidsErfaring;
+                        }
+                        @if (CvInnhold.ArbeidsErfaring.Count != 0)
+                            @while (antallArbeidsErfaring < CvInnhold.ArbeidsErfaring.Count)
+                            {
+                                var ArbeidsErfaringÅrStart = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring);
+                                var ArbeidsErfaringÅrSlutt = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring + 1);
+                                var ArbeidsErfaringTittel = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring + 2);
+                                var ArbeidsErfaringBedrift = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring + 3);
+                                var ArbeidsErfaringBeskrivelse = CvInnhold.ArbeidsErfaring.ElementAt(antallArbeidsErfaring + 4);
 
-                                    <div id="@(arID)" onmouseover="@(BrukerInnhold.Id == (string)ViewData["Innlogget_ID"]? "addEdit('"+@arID+"','"+@arID+"button','"+@arID+"buttonRed')":"") "  onmouseout="@(BrukerInnhold.Id == (string)ViewData["Innlogget_ID"]? "removeEdit('"+@arID+"','"+@arID+"button','"+@arID+"buttonRed')":"")  ">
-                                        <ul class="list-unstyled timeline-sm">
-                                            <li class="timeline-sm-item">
-                                                <div class="row">
-                                                    <div class="col-10">
-                                                        <span class="timeline-sm-date" id="arDato@(arID)">
-                                                            <u>@ArbeidsErfaringÅrStart - @ArbeidsErfaringÅrSlutt </u>
-                                                        </span>
-                                                    </div>
-                                                    <div class="col-2" style="padding-right:30px;">
-                                                        <div class="row">
-                                                            <div class="col">
-                                                                <button id="@(arID)buttonRed" class="btn btn-light" style="position:absolute; right:11%; display:none;" onclick="onEdit('ArbeidsErfaring', @antallArbeidsErfaring,
+                                <div id="@(arID)" onmouseover="@(BrukerInnhold.Id == (string)ViewData["Innlogget_ID"]? "addEdit('"+@arID+"','"+@arID+"button','"+@arID+"buttonRed')":"") " onmouseout="@(BrukerInnhold.Id == (string)ViewData["Innlogget_ID"]? "removeEdit('"+@arID+"','"+@arID+"button','"+@arID+"buttonRed')":"")  ">
+                                    <ul class="list-unstyled timeline-sm">
+                                        <li class="timeline-sm-item">
+                                            <div class="row">
+                                                <div class="col-10">
+                                                    <span class="timeline-sm-date" id="arDato@(arID)">
+                                                        <u>@ArbeidsErfaringÅrStart - @ArbeidsErfaringÅrSlutt </u>
+                                                    </span>
+                                                </div>
+                                                <div class="col-2" style="padding-right:30px;">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <button id="@(arID)buttonRed" class="btn btn-light" style="position:absolute; right:11%; display:none;" onclick="onEdit('ArbeidsErfaring', @antallArbeidsErfaring,
                                                     'arDato@(arID)',@ArbeidsErfaringÅrStart,@ArbeidsErfaringÅrSlutt, 'arTittel@(arID)', 'arbedrift@(arID)', 'arBio@(arID)', 'submitArbeid@(arID)')">
-                                                                    <i class="fas fa-pencil-alt fa-lg"></i>
-                                                                </button>
-                                                            </div>
-                                                            <div class="col">
-                                                                <button id="@(arID)button" class="btn btn-light" style="position:absolute; right:6%; display:none;" onclick="onDelete('@arID', @antallArbeidsErfaring, 'ArbeidsErfaring', '@ArbeidsErfaringTittel')"><i class="fas fa-window-close fa-lg"></i></button>
-                                                            </div>
-                                                            </div>
+                                                                <i class="fas fa-pencil-alt fa-lg"></i>
+                                                            </button>
+                                                        </div>
+                                                        <div class="col">
+                                                            <button id="@(arID)button" class="btn btn-light" style="position:absolute; right:6%; display:none;" onclick="onDelete('@arID', @antallArbeidsErfaring, 'ArbeidsErfaring', '@ArbeidsErfaringTittel')"><i class="fas fa-window-close fa-lg"></i></button>
                                                         </div>
                                                     </div>
-                                                    <h5 id="arTittel@(arID)" class="mt-0 mb-1">@ArbeidsErfaringTittel</h5>
-                                                    <p id="arbedrift@(arID)">@ArbeidsErfaringBedrift</p>
-                                                    <p id="arBio@(arID)" class="mt-2">
-                                                        @ArbeidsErfaringBeskrivelse
-                                                    </p>
-</li>
+                                                </div>
+                                            </div>
+                                            <h5 id="arTittel@(arID)" class="mt-0 mb-1">@ArbeidsErfaringTittel</h5>
+                                            <p id="arbedrift@(arID)">@ArbeidsErfaringBedrift</p>
+                                            <p id="arBio@(arID)" class="mt-2">
+                                                @ArbeidsErfaringBeskrivelse
+                                            </p>
+                                        </li>
                                     </ul>
-                                        <div class="text-right">
-                                            <span id="@(antallArbeidsErfaring)spanA" class="text-danger"></span>
-                                            <button id="submitArbeid@(arID)" class="btn btn-success waves-effect waves-light mt-2" style="display:none;"
-                                                    onclick="saveEdit('@BrukerInnhold.Id','ArbeidsErfaring',@antallArbeidsErfaring, (@ArbeidsErfaringÅrStart+@antallArbeidsErfaring), (@ArbeidsErfaringÅrSlutt+@antallArbeidsErfaring),
+                                    <div class="text-right">
+                                        <span id="@(antallArbeidsErfaring)spanA" class="text-danger"></span>
+                                        <button id="submitArbeid@(arID)" class="btn btn-success waves-effect waves-light mt-2" style="display:none;"
+                                                onclick="saveEdit('@BrukerInnhold.Id','ArbeidsErfaring',@antallArbeidsErfaring, (@ArbeidsErfaringÅrStart+@antallArbeidsErfaring), (@ArbeidsErfaringÅrSlutt+@antallArbeidsErfaring),
                                                                 arTittel@(arID),arbedrift@(arID),arBio@(arID) )">
-                                                <i class="mdi mdi-content-save"></i> Save
-                                            </button>
-                                        </div>
+                                            <i class="mdi mdi-content-save"></i> Save
+                                        </button>
+                                    </div>
                                 </div>
                                 antallArbeidsErfaring += 5;
                                 arID = "arEdit" + antallArbeidsErfaring;
@@ -206,45 +217,45 @@
                                 var UtdanningGrad = CvInnhold.Utdanning.ElementAt(antallUtdanning + 2);
                                 var UtdanningInstitusjon = CvInnhold.Utdanning.ElementAt(antallUtdanning + 3);
 
-                                    <div id="@(utID)" onmouseover="@(BrukerInnhold.Id == (string)ViewData["Innlogget_ID"]? "addEdit('"+@utID+"','"+@utID+"button','"+@utID+"buttonRedUT')":"")" onmouseout="@(BrukerInnhold.Id == (string)ViewData["Innlogget_ID"]? "removeEdit('"+@utID+"','"+@utID+"button','"+@utID+"buttonRedUT')":"")">
-                                        <ul class="list-unstyled timeline-sm">
-                                            <li class="timeline-sm-item">
-                                                <div class="row">
-                                                    <div class="col-10">
-                                                        <span class="timeline-sm-date" id="utDato@(utID)">
-                                                            <u>@UtdanningÅrStart - @UtdanningÅrSlutt</u>
-                                                        </span>
-                                                    </div>
-                                                    <div class="col-2" style="padding-right:30px;">
-                                                        <div class="row">
-                                                            <div class="col">
-                                                                <button id="@(utID)buttonRedUT" class="btn btn-light" style="position:absolute; right:11%; display:none;" onclick="onEdit('Utdanning', @antallUtdanning, 'utDato@(utID)',
+                                <div id="@(utID)" onmouseover="@(BrukerInnhold.Id == (string)ViewData["Innlogget_ID"]? "addEdit('"+@utID+"','"+@utID+"button','"+@utID+"buttonRedUT')":"")" onmouseout="@(BrukerInnhold.Id == (string)ViewData["Innlogget_ID"]? "removeEdit('"+@utID+"','"+@utID+"button','"+@utID+"buttonRedUT')":"")">
+                                    <ul class="list-unstyled timeline-sm">
+                                        <li class="timeline-sm-item">
+                                            <div class="row">
+                                                <div class="col-10">
+                                                    <span class="timeline-sm-date" id="utDato@(utID)">
+                                                        <u>@UtdanningÅrStart - @UtdanningÅrSlutt</u>
+                                                    </span>
+                                                </div>
+                                                <div class="col-2" style="padding-right:30px;">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <button id="@(utID)buttonRedUT" class="btn btn-light" style="position:absolute; right:11%; display:none;" onclick="onEdit('Utdanning', @antallUtdanning, 'utDato@(utID)',
                                                                   @UtdanningÅrStart,@UtdanningÅrSlutt, 'utGrad@(utID)', 'utSted@(utID)', '', 'submitUtdanning@(utID)')">
-                                                                    <i class="fas fa-pencil-alt fa-lg"></i>
-                                                                </button>
-                                                            </div>
-                                                            <div class="col">
-                                                                <button id="@(utID)button" class="btn btn-light" style="position:absolute; right:6%; display:none;"
-                                                                        onclick="onDelete('@utID',@(antallUtdanning), 'Utdanning', '@UtdanningGrad')">
-                                                                    <i class="fas fa-window-close fa-lg"></i>
-                                                                </button>
-                                                            </div>
+                                                                <i class="fas fa-pencil-alt fa-lg"></i>
+                                                            </button>
+                                                        </div>
+                                                        <div class="col">
+                                                            <button id="@(utID)button" class="btn btn-light" style="position:absolute; right:6%; display:none;"
+                                                                    onclick="onDelete('@utID',@(antallUtdanning), 'Utdanning', '@UtdanningGrad')">
+                                                                <i class="fas fa-window-close fa-lg"></i>
+                                                            </button>
                                                         </div>
                                                     </div>
+                                                </div>
 
-                                                    </div>
-                                                <h5 class="mt-0 mb-1" id="utGrad@(utID)">@UtdanningGrad</h5>
-                                                <p id="utSted@(utID)">@UtdanningInstitusjon</p>
-                                            </li>
+                                            </div>
+                                            <h5 class="mt-0 mb-1" id="utGrad@(utID)">@UtdanningGrad</h5>
+                                            <p id="utSted@(utID)">@UtdanningInstitusjon</p>
+                                        </li>
                                     </ul>
-                                        <div class="text-right">
-                                            <span id="@(antallUtdanning)spanU" class="text-danger"></span>
-                                            <button id="submitUtdanning@(utID)" class="btn btn-success waves-effect waves-light mt-2" style="display:none;"
-                                                    onclick="saveEdit('@BrukerInnhold.Id','Utdanning',@antallUtdanning, (@UtdanningÅrStart+@antallUtdanning), (@UtdanningÅrSlutt+@antallUtdanning),
+                                    <div class="text-right">
+                                        <span id="@(antallUtdanning)spanU" class="text-danger"></span>
+                                        <button id="submitUtdanning@(utID)" class="btn btn-success waves-effect waves-light mt-2" style="display:none;"
+                                                onclick="saveEdit('@BrukerInnhold.Id','Utdanning',@antallUtdanning, (@UtdanningÅrStart+@antallUtdanning), (@UtdanningÅrSlutt+@antallUtdanning),
                                                                 utGrad@(utID),utSted@(utID),'' )">
-                                                <i class="mdi mdi-content-save"></i> Save
-                                            </button>
-                                        </div>
+                                            <i class="mdi mdi-content-save"></i> Save
+                                        </button>
+                                    </div>
                                 </div>
                                 antallUtdanning += 4;
                                 utID = "utEdit" + antallUtdanning;
@@ -252,27 +263,79 @@
                     </div>
                     <!-- end timeline content-->
 
-                    
-                        <div class="tab-pane" id="settings">
+
+                    <div class="tab-pane" id="settings">
+
+                        <style type="text/css">
+                            .datepicker,
+                            .table-condensed {
+                                width: 300px;
+                                height: 350px;
+                            }
+
+                            .datepicker,
+                            .talbe {
+                                height: 360px;
+                            }
+                        </style>
 
                         <input type="hidden" asp-for="Id" />
                         <h5 class="mb-3 text-uppercase p-2"><i class="mdi mdi-briefcase-plus mr-1"></i> Add Experience</h5>
 
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="startYearA">From month</label>
-                                    <input type="month" class="form-control" id="startYearA" placeholder="Enter year started*">
+                                <div class="bootstrap-iso dp1">
+                                    <div class="form-group">
+                                        <label class="control-label" for="startYearA">Start date</label>
+                                        <input class="form-control" id="startYearA" name="startYearA" placeholder="Enter start date *" type="text" />
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="endYearA">To month</label>
-                                    <input type="month" class="form-control" id="endYearA" placeholder="Enter year ended*">
+                                <div class="bootstrap-iso dp2">
+                                    <form method="post">
+                                        <div class="form-group">
+                                            <label class="control-label" for="endYearA">End date</label>
+                                            <input class="form-control" id="endYearA" name="endYearA" placeholder="Enter end date *" type="text" />
+                                        </div>
+                                    </form>
                                 </div>
-                            </div> <!-- end col -->
-                        </div> <!-- end row -->
+                            </div>
+                        </div>
 
+                        <script>
+                            $(document).ready(function () {
+                                var date_input1 = $('input[name="startYearA"]'); //our date input has the name "date"
+                                var container = $('.dp2 form').length > 0 ? $('.dp2 form').parent() : "body";
+                                var options = {
+
+                                    container: container,
+                                    width: "auto",
+                                    format: "mm/yy",
+                                    todayBtn: "linked",
+                                    todayHighlight: true,
+                                    autoclose: true,
+                                    orientation: "top right"
+                                };
+                                date_input1.datepicker(options);
+                            });
+
+                            $(document).ready(function () {
+                                var date_input2 = $('input[name="endYearA"]'); //our date input has the name "date"
+                                var container = $('.dp2 form').length > 0 ? $('.dp2 form').parent() : "body";
+                                var options = {
+
+                                    container: container,
+                                    width: "auto",
+                                    format: "mm/yy",
+                                    todayBtn: "linked",
+                                    todayHighlight: true,
+                                    autoclose: true,
+                                    orientation: "top right"
+                                };
+                                date_input2.datepicker(options);
+                            });
+                        </script>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -297,47 +360,68 @@
                         </div> <!-- end row -->
                         <div class="text-right">
                             <span id="danger_arbeid" class="text-danger"></span>
-                                <button id="submitArbeid" class="btn btn-primary buttons mt-1 mb-3"><i class="mdi mdi-content-save"></i> Save Experience</button>
+                            <button id="submitArbeid" class="btn btn-primary buttons mt-1 mb-3"><i class="mdi mdi-content-save"></i> Save Experience</button>
                         </div>
 
 
 
-                        <!--
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="useremail">Email Address</label>
-                                    <input type="email" class="form-control" id="useremail" placeholder="Enter email">
-                                    <span class="form-text text-muted"><small>If you want to change email please <a href="javascript: void(0);">click</a> here.</small></span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="userpassword">Password</label>
-                                    <input type="password" class="form-control" id="userpassword" placeholder="Enter password">
-                                    <span class="form-text text-muted"><small>If you want to change password please <a href="javascript: void(0);">click</a> here.</small></span>
-                                </div>
-                            </div> <!-- end col
-                        </div> <!-- end row
-                        -->
-
-
 
                         <h5 class="mb-3 text-uppercase p-2"><i class="mdi mdi-book-plus mr-1"></i>Add Education</h5>
+
+
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="startYearU">From month</label>
-                                    <input type="month" class="form-control" id="startYearU" placeholder="Enter year started">
+                                <div class="bootstrap-iso dp3">
+                                    <div class="form-group">
+                                        <label class="control-label" for="startYearU">Start date</label>
+                                        <input class="form-control" id="startYearU" name="startYearU" placeholder="Enter start date *" type="text" />
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="endYearU">From month</label>
-                                    <input type="month" class="form-control" id="endYearU" placeholder="Enter year ended">
+                                <div class="bootstrap-iso dp4">
+                                    <form method="post">
+                                        <div class="form-group">
+                                            <label class="control-label" for="endYearU">End date</label>
+                                            <input class="form-control" id="endYearU" name="endYearU" placeholder="Enter end date *" type="text" />
+                                        </div>
+                                    </form>
                                 </div>
-                            </div> <!-- end col -->
-                        </div> <!-- end row -->
+                            </div>
+                        </div>
+                        <script>
+                            $(document).ready(function () {
+                                var date_input3 = $('input[name="startYearU"]'); //our date input has the name "date"
+                                var container = $('.dp4 form').length > 0 ? $('.dp4 form').parent() : "body";
+                                var options = {
+
+                                    container: container,
+                                    width: "auto",
+                                    format: "mm/yy",
+                                    todayBtn: "linked",
+                                    todayHighlight: true,
+                                    autoclose: true,
+                                    orientation: "top right"
+                                };
+                                date_input3.datepicker(options);
+                            });
+
+                            $(document).ready(function () {
+                                var date_input4 = $('input[name="endYearU"]'); //our date input has the name "date"
+                                var container = $('.dp4 form').length > 0 ? $('.dp4 form').parent() : "body";
+                                var options = {
+
+                                    container: container,
+                                    width: "auto",
+                                    format: "mm/yy",
+                                    todayBtn: "linked",
+                                    todayHighlight: true,
+                                    autoclose: true,
+                                    orientation: "top right"
+                                };
+                                date_input4.datepicker(options);
+                            });
+                        </script>
 
                         <div class="row">
                             <div class="col-md-6">
@@ -363,44 +447,44 @@
                                 var antallFerdigheter2 = 0;
 
 
+                            }
+                            @if (CvInnhold.Ferdigheter.Count != 0)
+                                @while (antallFerdigheter2 < CvInnhold.Ferdigheter.Count)
+                                {
+                                    var FerdighetNavn2 = CvInnhold.Ferdigheter.ElementAt(antallFerdigheter2);
+                                    var FerdighetProsent2 = CvInnhold.Ferdigheter.ElementAt(antallFerdigheter2 + 1);
+                                    var prosent = FerdighetProsent2.Substring(0, FerdighetProsent2.Length - 1);
+
+                                    <div class="col-md-6" id="skill@(antallFerdigheter2)">
+                                        <div class="form-group">
+                                            <input value="@FerdighetNavn2" id="skillbar@(antallFerdigheter2)" />
+                                            <div class="input-group">
+                                                <input class="slider-general" id="skillSlider@(antallFerdigheter2)" data-slider-id='ex1Slider' value="@prosent" type="range" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14" oninput="sliderFunc('sliderTekst@(antallFerdigheter2)','skillSlider@(antallFerdigheter2)')" />
+                                                <button id="@(antallFerdigheter2)skillbutton" onclick="onDelete('skill@(antallFerdigheter2)', @antallFerdigheter2, 'Ferdigheter', '@FerdighetNavn2')" class="btn btn-light sliderstyle"><i class="far fa-window-close fa-lg"></i></button>
+                                                <p id="sliderTekst@(antallFerdigheter2)" class="slidertextstyle">@FerdighetProsent2</p>
+                                            </div>
+
+                                        </div>
+                                    </div> <!-- end col -->
+
+                                    antallFerdigheter2 += 2;
+
                                 }
-                                @if (CvInnhold.Ferdigheter.Count != 0)
-                                    @while (antallFerdigheter2 < CvInnhold.Ferdigheter.Count)
-                                    {
-                                        var FerdighetNavn2 = CvInnhold.Ferdigheter.ElementAt(antallFerdigheter2);
-                                        var FerdighetProsent2 = CvInnhold.Ferdigheter.ElementAt(antallFerdigheter2 + 1);
-                                        var prosent = FerdighetProsent2.Substring(0, FerdighetProsent2.Length - 1);
-
-                                        <div class="col-md-6" id="skill@(antallFerdigheter2)">
-                                            <div class="form-group">
-                                                <input value="@FerdighetNavn2" id="skillbar@(antallFerdigheter2)" />
-                                                <div class="input-group">
-                                                    <input class="slider-general" id="skillSlider@(antallFerdigheter2)" data-slider-id='ex1Slider' value="@prosent" type="range" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14" oninput="sliderFunc('sliderTekst@(antallFerdigheter2)','skillSlider@(antallFerdigheter2)')" />
-                                                    <button id="@(antallFerdigheter2)skillbutton" onclick="onDelete('skill@(antallFerdigheter2)', @antallFerdigheter2, 'Ferdigheter', '@FerdighetNavn2')" class="btn btn-light sliderstyle"><i class="far fa-window-close fa-lg"></i></button>
-                                                    <p id="sliderTekst@(antallFerdigheter2)" class="slidertextstyle">@FerdighetProsent2</p>
-                                                </div>
-
+                                else
+                                {
+                                    <div class="col-md-6" id="skill0">
+                                        <div class="form-group">
+                                            <input placeholder="skill" id="skillbar0" />
+                                            <div class="input-group">
+                                                <input class="slider-general" id="skillSlider0" data-slider-id='ex1Slider' value="50" type="range" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14" oninput="sliderFunc('sliderTekst0','skillSlider0')" />
+                                                <p id="sliderTekst0" class="slidertextstyle">50%</p>
                                             </div>
-                                        </div> <!-- end col -->
 
-                                        antallFerdigheter2 += 2;
+                                        </div>
+                                    </div> <!-- end col -->
+                                }
 
-                                    }
-                                    else
-                                    {
-                                        <div class="col-md-6" id="skill0">
-                                            <div class="form-group">
-                                                <input placeholder="skill" id="skillbar0" />
-                                                <div class="input-group">
-                                                    <input class="slider-general" id="skillSlider0" data-slider-id='ex1Slider' value="50" type="range" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14" oninput="sliderFunc('sliderTekst0','skillSlider0')" />
-                                                    <p id="sliderTekst0" class="slidertextstyle">50%</p>
-                                                </div>
-
-                                            </div>
-                                        </div> <!-- end col -->
-                                    }
-
-                            </div> <!-- end row -->
+                        </div> <!-- end row -->
                         <div class="text-right">
                             <span id="danger_skills" class="text-danger"></span>
                             <button id="addSkillButton" class="btn btn-primary buttons mt-2 mb-3" onclick="addSlider('skillsEdit')"><i class="fas fa-plus"></i> Add Skill</button>
@@ -465,13 +549,13 @@
 
                     </div> <!-- end tab-content -->
 
-                        
+
                 </div> <!-- end card-box-->
             </div> <!-- end col -->
         </div>
 
     </div>
-        <!--Modal popup-->
+    <!--Modal popup-->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -550,7 +634,7 @@
         var i;
         var antall = document.getElementById(type).childElementCount;
 
-        
+
        // var antSliderTekst = "";
         var arr = [];
         var Slider ="";
@@ -563,7 +647,7 @@
             kategori = "Ferdigheter";
             danger = "danger_skills"
 
-          
+
             //antSliderTekst = document.getElementById("skillsEdit").lastElementChild.id
         }
         else if (type == "språkEdit") {
@@ -577,12 +661,12 @@
         var j = 0;
         //console.log(allSliders[0].id);
         for (i = 0; i < allSliders.length; i++) {
-           
+
             if (allSliders[i].id != null) {
-              
+
                 var slid = allSliders[i].id;
-                var index = slid.substring(5, slid.length); 
-         
+                var index = slid.substring(5, slid.length);
+
                 var prosent = document.getElementById((Slider + index)).value + "%";
                 var name = document.getElementById((Bar + index)).value;
 
@@ -591,16 +675,16 @@
                     return;
                 } else {
                     document.getElementById(danger).innerHTML = "";
-                } 
+                }
 
                console.log(name + "  " + prosent);
-                arr[j++] = name; 
+                arr[j++] = name;
                 arr[j++] = prosent;
               }
-            
+
         }
 
-       // var ant = parseInt(antSliderTekst.substring(5, antSliderTekst.length)); 
+       // var ant = parseInt(antSliderTekst.substring(5, antSliderTekst.length));
         /*
         for (i = 0; i <= antall; i += 2) {
             var nySlider = Slider + i;
@@ -656,19 +740,19 @@
         }
 
     function onDelete(id, index, felt, navn) {
-       
-        
-       
-        //var slettaBarn = (document.getElementById("skillsEdit").childElementCount * 2) - totalAntall; 
-      
+
+
+
+        //var slettaBarn = (document.getElementById("skillsEdit").childElementCount * 2) - totalAntall;
+
 
        // document.getElementById(id).remove();
-        
+
         document.getElementById("ButtonModelDelete").onclick = function (event){
             onDeleteExpand(id, (index ), felt, navn);
         }
         $("#exampleModal").modal("show");
-        
+
         }
 
         function onDeleteExpand(id, index, felt, navn) {
@@ -737,7 +821,7 @@
             spanField = "spanA";
             if (bion == "") {
                 if (document.getElementById(index + spanField).innerHTML == "") {
-                   
+
                     var text = document.createTextNode("Please fill in all inputs!");
                     document.getElementById(index + spanField).appendChild(text);
                 }
@@ -815,7 +899,7 @@
                     var text = document.createTextNode("Please fill in all inputs!");
                     document.getElementById("danger_arbeid").appendChild(text);
                 }
-                return; 
+                return;
             }
             else {
                 $('.toast').toast('show');
@@ -842,7 +926,7 @@
         });
 
         document.getElementById("submitSkole").addEventListener('click', function (event) {
-            
+
         event.preventDefault();
         var felt = "Utdanning";
         var startÅr = $('#startYearU').val().replace("-", ".");
@@ -874,9 +958,9 @@
                    "par4": bedriftNavn,
                    "par5": ""
                 };
-    
+
                 ajaxUpload(jsonJobb);
-          
+
                 }
         });
 
@@ -888,7 +972,7 @@
                     data: json,
                     dataType: "json",
                     success: function (result) {
-                    
+
         }
         });
         }

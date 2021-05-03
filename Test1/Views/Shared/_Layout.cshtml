@@ -16,13 +16,15 @@
 }
 
 <style>
-    .dropdown-menu {
+    .dropdown-meny {
         width: 400px !important;
     }
 </style>
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="shortcut icon" type="image/ico" href="~/resources/Portfollowers.png">
+    <title>CreationHub</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Test1</title>
@@ -76,7 +78,7 @@
                                         </button>
                                         <img src="@innloggetBruker.Profilbilde" onclick="fadearrow()" alt="" class="profilbtnbilde rounded-circle" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor:pointer" />
 
-                                        <div class="dropdown-menu dropdown-menu-right">
+                                        <div class="dropdown-menu dropdown-menu-right dropdown-meny">
                                             <hr class="hrdropdown" />
                                             <a class="dropdown-item" asp-area="" asp-controller="ProfilSide" asp-action="ProfilSide" asp-route-brukerID="@ViewData["Innlogget_ID"]">
                                                 <div><i class="fas fa-user-circle ikon"></i><div class="ikontekst">My Profile</div></div>
