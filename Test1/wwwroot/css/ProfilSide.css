@@ -1,4 +1,5 @@
 ﻿
+
 body {
     color: #fff;
     margin-top: 80px;
@@ -48,5 +49,17 @@ body {
     position: absolute;
     bottom: 10px;
 }
-
-
+.modal-content {
+    background-color: #384352;
+}
+.modal-header {
+    background-color: #6c757d;
+    border-bottom: 1px solid #fff;
+}
+.modal-footer {
+    border-top: 1px solid #fff;
+}
+.close {
+    color: #fff;
+    opacity: 1;
+}

@@ -1,63 +1,63 @@
 ﻿@{
     var innloggetBruker = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
     var numberOfUnread = 0;
+    var counter = 0;
 
-    if(ViewData["Token"] != null)
-        for (int i =0; i < innloggetBruker.notifications.Count; i++)
+    if (ViewData["Token"] != null)
+        for (int i = 0; i < innloggetBruker.notifications.Count; i++)
         {
-        
+
             if (!innloggetBruker.notifications[i].erLest)
             {
-               
+
                 numberOfUnread++;
             }
         }
 }
 
 <style>
-
     .dropdown-menu {
         width: 400px !important;
     }
 </style>
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>@ViewData["Title"] - Test1</title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Test1</title>
 
-        <link href="~/css/Buttons.css" rel="stylesheet" />
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="~/css/site.css?v=1" />
-        <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="~/lib/Ajax/jquery.unobtrusive-ajax.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
-        <script src="~/js/Message.js"></script>
+    <link href="~/css/Buttons.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css?v=1" />
+    <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/Ajax/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <script src="~/js/Message.js"></script>
 
-        @RenderSection("css", required: false)
-    </head>
+    @RenderSection("css", required: false)
+</head>
 
-    <body>
-        <header>
-            <div class="navcontainer" id="navcontainer">
-                <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light borderbot box-shadow">
-                    <div class="container-fluid">
-                        <div class="headerlogocontainer">
-                            <a class="navbar-brand headerting" asp-area="" asp-controller="Home" asp-action="BrowseSide">
-                                <img class="topimg" src="~/resources/Portfollowers.png" alt="logo" width="25px" height="25px" />CreationHub
-                            </a>
-                        </div>
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                                aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
+<body>
+    <header>
+        <div class="navcontainer" id="navcontainer">
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light borderbot box-shadow">
+                <div class="container-fluid">
+                    <div class="headerlogocontainer">
+                        <a class="navbar-brand headerting" asp-area="" asp-controller="Home" asp-action="BrowseSide">
+                            <img class="topimg" src="~/resources/Portfollowers.png" alt="logo" width="25px" height="25px" />CreationHub
+                        </a>
+                    </div>
+                    <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
 
-                        <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
 
-                            <ul class="navbar-nav navbar-right flex-grow-1">
+                        <ul class="navbar-nav flex-grow-1">
 
 
                             @if (ViewData["Token"] == null)
@@ -69,190 +69,162 @@
                                 <li class="topnav-right vl ">
                                     <div class="dropdown">
 
-                                            <button class="btn btn-sm profilbtn" type="button" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <div class="profilbtn profilbtndiv">
-                                                    <p class="bruker-navn">@innloggetBruker.Navn<i class="fas fa-chevron-down fa-xs" style="margin-left: 5px;"></i></p>&nbsp;
-                                                </div>
-                                            </button>
-
-                                                <img src="@innloggetBruker.Profilbilde" alt="" class="profilbtnbilde rounded-circle" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor:pointer" />
-                                            
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <hr class="hrdropdown" />
-                                                <a class="dropdown-item" asp-area="" asp-controller="ProfilSide" asp-action="ProfilSide" asp-route-brukerID="@ViewData["Innlogget_ID"]">
-                                                    <div><i class="fas fa-user-circle ikon"></i><div class="ikontekst">My Profile</div></div>
-                                                </a>
-                                                <hr class="hrdropdown2" />
-                                                <a class="dropdown-item" asp-area="" asp-controller="ProfilSide" asp-action="CV" asp-route-brukerID="@ViewData["Innlogget_ID"]">
-                                                    <div><i class="fas fa-user-graduate ikon"></i><div class="ikontekst">My Resume</div></div>
-                                                </a>
-                                                <hr class="hrdropdown2" />
-                                                <a class="dropdown-item" asp-area="" asp-controller="Innlegg" asp-action="Upsert_Innlegg" asp-route-innleggID="">
-                                                    <div><i class="fas fa-plus ikon"></i><div class="ikontekst">New Upload</div></div>
-                                                </a>
-                                                <hr class="hrdropdown2" />
-                                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="LogOut">
-                                                    <div><i class="fas fa-sign-out-alt ikon"></i><div class="ikontekst">Log out</div></div>
-                                                </a>
-                                                <hr class="hrdropdown" />
+                                        <button onclick="fadearrow()" class="btn btn-sm profilbtn type="button" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <div class="profilbtn profilbtndiv">
+                                                <p class="bruker-navn">@innloggetBruker.Navn<i id="arrow" class="fas fa-chevron-down fa-xs" style="margin-left: 10px;"></i></p>&nbsp;
                                             </div>
-                                        </div>
-                                    </li>
-                                    <li class="topnav-right2">
+                                        </button>
+                                        <img src="@innloggetBruker.Profilbilde" onclick="fadearrow()" alt="" class="profilbtnbilde rounded-circle" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor:pointer" />
 
-                                        @{
-                                            var notListe = innloggetBruker.notifications;
-                                            var antall = notListe.Count - 1;
-                                        }
-
-                                        <div class="dropdown">
-                                            <a class="btn btn-outline-light" id="notBar" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="far fa-bell">
-                                                    @if (numberOfUnread == 0) {
-                                                    <span id="badge_counter" style="display:none;" class="badge bg-danger"></span> 
-                                                        }
-                                                    else
-                                                    {<span id="badge_counter" class="badge bg-danger">
-                                                            @numberOfUnread
-                                                        </span>
-                                                    }
-                                                </i>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <hr class="hrdropdown" />
+                                            <a class="dropdown-item" asp-area="" asp-controller="ProfilSide" asp-action="ProfilSide" asp-route-brukerID="@ViewData["Innlogget_ID"]">
+                                                <div><i class="fas fa-user-circle ikon"></i><div class="ikontekst">My Profile</div></div>
                                             </a>
-
-                                            <div id="dropdownItems" class="dropdown-menu dropdown-menu-right p-4 text-muted" aria-labelledby="dropdownMenuLink">
-
-
-                                                @while (antall >= 0)
+                                            <hr class="hrdropdown2" />
+                                            <a class="dropdown-item" asp-area="" asp-controller="ProfilSide" asp-action="CV" asp-route-brukerID="@ViewData["Innlogget_ID"]">
+                                                <div><i class="fas fa-user-graduate ikon"></i><div class="ikontekst">My Resume</div></div>
+                                            </a>
+                                            <hr class="hrdropdown2" />
+                                            <a class="dropdown-item" asp-area="" asp-controller="Innlegg" asp-action="Upsert_Innlegg" asp-route-innleggID="">
+                                                <div><i class="fas fa-plus ikon"></i><div class="ikontekst">New Upload</div></div>
+                                            </a>
+                                            <hr class="hrdropdown2" />
+                                            <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="LogOut">
+                                                <div><i class="fas fa-sign-out-alt ikon"></i><div class="ikontekst">Log out</div></div>
+                                            </a>
+                                            <hr class="hrdropdown" />
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="topnav-right2">
+                                    @{
+                                        var antall = 0;
+                                        var notListe = innloggetBruker.notifications;
+                                    }
+                                    <div class="dropdown">
+                                        <a class="btn btn-outline-light" id="notBar" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="far fa-bell">
+                                                @if (numberOfUnread == 0)
                                                 {
-
-                                                    if (notListe[antall].type == "Like")
-                                                    {
-                                                        <div>
-                                                            <a class="dropdown-item" href="@Url.Action("ProfilSide", "ProfilSide", new { brukerID = notListe[antall].FraHvemID })">
-                                                                <div class="row">
-                                                                    <div class="col-sm">
-                                                                        <i class="far fa-thumbs-up"></i>
-                                                                    </div>
-                                                                    <div class="col-sm">
-                                                                        <p class="mb-0">
-                                                                            @notListe[antall].FraHvemNavn liked you post
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                            </a>
-                                                            <br />
-                                                        </div>
-                                                    }
-                                                    else if (notListe[antall].type == "Kommentar")
-                                                    {
-                                                        <div>
-                                                            <a class="dropdown-item" href="@Url.Action("Nav_Innlegg", "Innlegg", new { id = notListe[antall].innleggID })">
-                                                                <div class="row">
-                                                                    <div class="col-sm">
-                                                                        <i class="far fa-comment"></i>
-                                                                    </div>
-                                                                    <div class="col-sm">
-                                                                        <p class="mb-0">
-                                                                            @notListe[antall].FraHvemNavn commented on your post
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-
-
-                                                            </a>
-                                                            <br />
-                                                        </div>
-                                                    }
-                                                    else if (notListe[antall].type == "CVaccepted")
-                                                    {
-                                                        <div>
-                                                            <a class="dropdown-item" href="@Url.Action("CV", "ProfilSide", new { brukerID = notListe[antall].FraHvemID })">
-                                                                <div class="row">
-                                                                    <div class="col-sm">
-                                                                        <i class="fas fa-user-graduate ikon"></i>
-                                                                    </div>
-                                                                    <div class="col-sm">
-                                                                        <p class="mb-0">
-                                                                            @notListe[antall].FraHvemNavn has accepted your resume request
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-
-
-                                                            </a>
-                                                            <br />
-                                                        </div>
-                                                    }
-                                                    else
-                                                    {
-                                                        <div>
-                                                            <a class="dropdown-item" href="@Url.Action("ProfilSide", "ProfilSide", new { brukerID = notListe[antall].FraHvemID })">
-
-
-
-                                                                <div class="row">
-                                                                    <div class="col-sm">
-                                                                        <i class="fas fa-user-graduate ikon"></i>
-
-                                                                    </div>
-                                                                    <div id="1Request@(antall)" class="col-sm">
-                                                                        <p class="mb-0">
-                                                                            @notListe[antall].FraHvemNavn is interested in your resume.<br> Do you want to give him access?
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                            </a>
-                                                            <div id="2Request@(antall)" class="row">
+                                                    <span id="badge_counter" style="display:none;" class="badge bg-danger"></span>
+                                                }
+                                                else
+                                                {<span id="badge_counter" class="badge bg-danger">
+                                                        @numberOfUnread
+                                                    </span>
+                                                }
+                                            </i>
+                                        </a>
+                                        <div id="dropdownItems" class="dropdown-menu dropdown-menu-right p-4 text-muted" aria-labelledby="dropdownMenuLink">
+                                            @while (antall < notListe.Count)
+                                            {
+                                                if (notListe[antall].type == "Like")
+                                                {
+                                                    <div>
+                                                        <a class="dropdown-item" href="@Url.Action("ProfilSide", "ProfilSide", new { brukerID = notListe[antall].FraHvemID })">
+                                                            <div class="row">
                                                                 <div class="col-sm">
-                                                                    <button onClick="acceptCV('@(notListe[antall].FraHvemID)', @(antall), '@(notListe[antall].FraHvemNavn)', true, '@(innloggetBruker.Id)',  '@(innloggetBruker.Navn)')" class="btn btn-primary">Accept</button>
+                                                                    <i class="far fa-thumbs-up"></i>
                                                                 </div>
                                                                 <div class="col-sm">
-                                                                    <button onClick="acceptCV('@(notListe[antall].FraHvemID)', @(antall), '@(notListe[antall].FraHvemNavn)', false, '@(innloggetBruker.Id)',  '@(innloggetBruker.Navn)')" class="btn btn-primary">Decline</button>
+                                                                    <p class="mb-0">
+                                                                        @notListe[antall].FraHvemNavn liked you post
+                                                                    </p>
                                                                 </div>
                                                             </div>
-
-                                                            <br />
-                                                        </div>
-                                                    }
-
-                                                    antall--;
-                                                }
-                                            </div>
+                                                        </a>
+                                                        <br />
                                                     </div>
-
-                                    </li>
-
-                                }
-
-
-
-
-
-                            </ul>
-                        </div>
+                                                }
+                                                else if (notListe[antall].type == "Kommentar")
+                                                {
+                                                    <div>
+                                                        <a class="dropdown-item" href="@Url.Action("Nav_Innlegg", "Innlegg", new { id = notListe[antall].innleggID })">
+                                                            <div class="row">
+                                                                <div class="col-sm">
+                                                                    <i class="far fa-comment"></i>
+                                                                </div>
+                                                                <div class="col-sm">
+                                                                    <p class="mb-0">
+                                                                        @notListe[antall].FraHvemNavn commented on your post
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                        <br />
+                                                    </div>
+                                                }
+                                                else if (notListe[antall].type == "CVaccepted")
+                                                {
+                                                    <div>
+                                                        <a class="dropdown-item" href="@Url.Action("CV", "ProfilSide", new { brukerID = notListe[antall].FraHvemID })">
+                                                            <div class="row">
+                                                                <div class="col-sm">
+                                                                    <i class="fas fa-user-graduate ikon"></i>
+                                                                </div>
+                                                                <div class="col-sm">
+                                                                    <p class="mb-0">
+                                                                        @notListe[antall].FraHvemNavn has accepted your resume request
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                        <br />
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div id="CVNot">
+                                                        <a class="dropdown-item" href="@Url.Action("ProfilSide", "ProfilSide", new { brukerID = notListe[antall].FraHvemID })">
+                                                            <div class="row">
+                                                                <div class="col-sm">
+                                                                    <i class="fas fa-user-graduate ikon"></i>
+                                                                </div>
+                                                                <div id="1Request@(antall)" class="col-sm">
+                                                                    <p class="mb-0">
+                                                                        @notListe[antall].FraHvemNavn is interested in your resume.<br> Do you want to give him access?
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                        <div id="2Request@(antall)" class="row">
+                                                            <div class="col-sm">
+                                                                <button onClick="acceptCV('@(notListe[antall].FraHvemID)', @(antall), '@(notListe[antall].FraHvemNavn)', true, '@(innloggetBruker.Id)',  '@(innloggetBruker.Navn)')" class="btn btn-primary">Accept</button>
+                                                            </div>
+                                                            <div class="col-sm">
+                                                                <button onClick="acceptCV('@(notListe[antall].FraHvemID)', @(antall), '@(notListe[antall].FraHvemNavn)', false, '@(innloggetBruker.Id)',  '@(innloggetBruker.Navn)')" class="btn btn-primary">Decline</button>
+                                                            </div>
+                                                        </div>
+                                                        <br />
+                                                    </div>
+                                                }
+                                                antall++;
+                                            }
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
                     </div>
-                </nav>
-            </div>
-        </header>
-        <div class="container-fluid">
-            <main role="main" class="pb-3">
-                @RenderBody()
-            </main>
+                </div>
+            </nav>
         </div>
-
-        <footer class="borderfooter footer">
-            <div class="container">
-
-                Copyright &copy; 2021 CreationHub Studios - <a href="mailto: portefolje.web@gmail.com">Contact us!</a>
-            </div>
-        </footer>
-
-        @RenderSection("Scripts", required: false)
-
-        <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-messaging.js"></script>
-
-        <script>
+    </header>
+    <div class="container-fluid">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <footer class="borderfooter footer">
+        <div class="container">
+            Copyright &copy; 2021 CreationHub Studios - <a href="mailto: portefolje.web@gmail.com">Contact us!</a>
+        </div>
+    </footer>
+    @RenderSection("Scripts", required: false)
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-messaging.js"></script>
+    <script>
             $(function () {
                 // TODO: Replace the following with your app's Firebase project configuration
                 // For Firebase JavaScript SDK v7.20.0 and later, `measurementId` is an optional field
@@ -260,17 +232,13 @@
                     refreshUser();
                 }, 15000);
                 refreshUser();
-
                 //notBar
                 document.getElementById("notBar").addEventListener('click', function (event) {
-
                     if (document.getElementById("badge_counter").innerHTML != "") {
                         document.getElementById("badge_counter").style.display = "none";
-
                         $.ajax({
                             type: "POST",
                             url: '@Url.Action("NotificationRead", "Home")',
-
                             success: function (result) {
                                 // alert("Notification er lest! " + result);
                             }
@@ -278,12 +246,9 @@
                     }
                 });
             })
-
             function acceptCV(tilHvemID, index, navn, accepted, fraHvemID, fraHvemNavn) {
-
                 if (accepted) {
                     document.getElementById("1Request" + index).innerHTML = "<p> Request accepted for " + navn + " </p>"
-
                     var today = new Date();
                     var dd = String(today.getDate()).padStart(2, '0');
                     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -307,13 +272,15 @@
                     data: jsonNotfic,
                     dataType: "json",
                     success: function (result) {
-                        alert("Hey! Du sendte en melding! ");
+                       
                     }
 
                 });
                 } else document.getElementById("1Request" + index).innerHTML = "<p> Request declined for " + navn + " </p>"
 
                 document.getElementById("2Request" + index).style.display = "none";
+                document.getElementById("CVNot").remove();
+                //document.getElementById("2Request" + index).remove();
                 var json = {
                     "fraHvemID": tilHvemID,
                     "notIndex": index,
@@ -395,8 +362,8 @@
 
                     });
                 }
-        </script>
-    </body>
+    </script>
+</body>
 </html>
 
 <script>
@@ -410,6 +377,48 @@
         }
         prevScrollpos = currentScrollPos;
     }
+
+
+
+
+
+    function fadearrow() {
+
+
+        if ($('#arrow').hasClass("fa-chevron-down")) {
+
+
+      
+  
+            $.when($("#arrow").animate({ opacity: 0 }, 200))
+                .then(function () {
+                    $('#arrow').addClass('fa-chevron-up').removeClass('fa-chevron-down');
+                    $('#arrow').animate({ opacity: 1 }, 200);
+                    
+                });
+
+            
+
+        }
+
+        else if ($('#arrow').hasClass("fa-chevron-up")) {
+            $.when($("#arrow").animate({ opacity: 0 }, 200))
+                .then(function () {
+                    $('#arrow').addClass('fa-chevron-down').removeClass('fa-chevron-up');
+                    $('#arrow').animate({ opacity: 1 }, 200);
+
+                });
+
+        }
+
+
+
+
+        //document.getElementById("dropdownMenuOffset").fadeOut();
+
+    }
+</script>
+
 </script>
 
 <script>

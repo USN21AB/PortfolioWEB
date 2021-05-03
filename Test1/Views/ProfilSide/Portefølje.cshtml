@@ -68,6 +68,27 @@
     .litteratur:hover .delete-innlegg {
         opacity: 1;
     }
+    .modal-content {
+        background-color: #384352;
+    }
+    .modal-header {
+        background-color: #6c757d;
+        border-bottom: 1px solid #fff;
+    }
+
+    .modal-footer {
+        border-top: 1px solid #fff;
+    }
+    .modal-title {
+        color: #fff;
+    }
+    .modal-body {
+        color: #fff;
+    }
+    .close {
+        color: #fff;
+        opacity: 1;
+    }
 </style>
 <script>
 
@@ -85,7 +106,19 @@
         });
     });
 
-    function onDelete(id, mindex) {
+    function onDelete(id, mindex, kat) {
+
+        if (kat == "Bilde") {
+            document.getElementById("modaltekst").innerHTML = "Are you sure you want to delete this image post?";
+        }
+        else if (kat == "Lyd") {
+            document.getElementById("modaltekst").innerHTML = "Are you sure you want to delete this sound post?";
+        }
+        else if (kat == "Tekst") {
+            document.getElementById("modaltekst").innerHTML = "Are you sure you want to delete this text post?";
+        }
+
+        
         document.getElementById("ButtonModelDelete").onclick = function (event) {
             onDeleteExpand(id, mindex);
         }
@@ -202,7 +235,7 @@
                                     <a asp-action="Upsert_Innlegg" asp-controller="Innlegg" asp-route-InnleggID="@Innlegg.Id">
                                         <i class="fas fa-edit rediger-innlegg"></i>
                                     </a>
-                                    <button class="delete-innlegg" onclick="onDelete('@Innlegg.Id', @mappeNr)">
+                                    <button class="delete-innlegg" onclick="onDelete('@Innlegg.Id', @mappeNr, '@Innlegg.Kategori')">
                                         <i class="far fa-trash-alt"></i>
                                     </button>
                                     }
@@ -235,7 +268,7 @@
                 <a asp-action="Upsert_Innlegg" asp-controller="Innlegg" asp-route-InnleggID="@Innlegg.Id">
                     <i class="fas fa-edit rediger-innlegg"></i>
                 </a>
-                                                <button class="delete-innlegg" onclick="onDelete('@Innlegg.Id', @mappeNr)">
+                                                <button class="delete-innlegg" onclick="onDelete('@Innlegg.Id', @mappeNr, '@Innlegg.Kategori')">
                                                     <i class="far fa-trash-alt"></i>
                                                 </button> }
                     }
@@ -268,7 +301,7 @@
                 <a asp-action="Upsert_Innlegg" asp-controller="Innlegg" asp-route-InnleggID="@Innlegg.Id">
                     <i class="fas fa-edit rediger-innlegg"></i>
                 </a>
-                                                <button class="delete-innlegg" onclick="onDelete('@Innlegg.Id', @mappeNr)">
+                                                <button class="delete-innlegg" onclick="onDelete('@Innlegg.Id', @mappeNr, '@Innlegg.Kategori')">
                                                     <i class="far fa-trash-alt"></i>
                                                 </button> }
                     }
@@ -384,16 +417,16 @@
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header" style="background-color: #55586b; border-color: black;">
-                <h5 class="modal-title" id="exampleModalLabel" style="color:white;">Warning!</h5>
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Warning!</h5>
                 <button id="ButtonModelClose" type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body" style="color:white; background-color: #1b2638;">
-                Are you sure you want to delete?
+            <div class="modal-body">
+                <span id="modaltekst">Are you sure you want to delete?</span>
             </div>
-            <div class="modal-footer" style="        background-color: #1b2638; border-color: #1b2638;">
+            <div class="modal-footer">
                 <button id="ButtonModelDelete" type="button" class="btn btn-primary" style="background-color: red; border-color: red;">Delete</button>
                 <button id="ButtonModelCancel" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             </div>

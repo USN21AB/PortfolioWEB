@@ -18,7 +18,7 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css" integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc=" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
-<link href="~/css/CV.css" rel="stylesheet" />
+<link href="~/css/CV.css?v=1" rel="stylesheet" />
 <link href="~/css/Buttons.css" rel="stylesheet" />
 
 
@@ -44,7 +44,7 @@
                         <img src="@BrukerInnhold.Profilbilde" class="rounded-circle img-thumbnail" alt="profile-image">}
 
                     else
-                    { <img src="https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2Fdefault_account.jpg?alt=media&token=290b6907-f17e-4095-90a6-dca2c52563b9" class="rounded-circle img-thumbnail" alt="profile-image">
+                    { <img src="https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2Fdefault_account.jpg?alt=media&token=290b6907-f17e-4095-90a6-dca2c52563b9" class="rounded-circle img-thumbnail" alt="profile-image" width="200" height="200">
                      }
 
 
@@ -262,7 +262,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="startYearA">From month</label>
-                                    <input type="month" class="form-control datedrop" id="startYearA" placeholder="Enter year started*">
+                                    <input type="month" class="form-control" id="startYearA" placeholder="Enter year started*">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -475,16 +475,16 @@
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header" style="background-color: #55586b; border-color: black;">
+                <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Warning!</h5>
                     <button id="ButtonModelClose" type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body" style="        background-color: #1b2638;">
+                <div class="modal-body">
                     Are you sure you want to delete?
                 </div>
-                <div class="modal-footer" style="        background-color: #1b2638; border-color: #1b2638;">
+                <div class="modal-footer">
                     <button id="ButtonModelDelete" type="button" class="btn btn-primary" style="background-color: red; border-color: red;">Delete</button>
                     <button id="ButtonModelCancel" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 </div>
@@ -494,8 +494,8 @@
 
     <script type="text/javascript">
 
+
         function removeNewSlider(id) {
-            alert("just removed: " + id.id);
           document.getElementById(id.id).remove();
 
         }
