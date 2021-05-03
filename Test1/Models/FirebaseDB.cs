@@ -119,7 +119,7 @@ namespace Test1.Models
             // Constructr FirebaseStorage, path to where you want to upload the file and Put it there
             var task = new FirebaseStorage("bachelor-it-97124.appspot.com")
             .Child(data.Kategori)
-            .Child(file.FileName+innlegg.Id)
+            .Child(file.FileName + innlegg.Id)
             .PutAsync(stream1);
 
 
@@ -266,11 +266,13 @@ namespace Test1.Models
 
         public void SendNotification(Notifications notification)
         {
-            Bruker bruker = HentEnkeltBruker(notification.TilHvemID);
-            bruker.NumberOfNotifications += 1;
+            if(notification.FraHvemID != notification.TilHvemID) {
+              Bruker bruker = HentEnkeltBruker(notification.TilHvemID);
+              bruker.NumberOfNotifications += 1;
 
-            bruker.notifications.Add(notification);
-            SetResponse setResponse = klient.Set("Bruker/" + notification.TilHvemID, bruker);
+              bruker.notifications.Add(notification);
+              SetResponse setResponse = klient.Set("Bruker/" + notification.TilHvemID, bruker);
+            }
         }
 
 
@@ -282,7 +284,7 @@ namespace Test1.Models
         public int TellAntallRader(string brukerID)
         {
             FirebaseResponse respons = klient.Get("Bruker/" + brukerID + "/NumberOfNotifications");
-           
+            
             if (respons.Body == null)
                 return -1;
             int length = JsonConvert.DeserializeObject<int>(respons.Body); 

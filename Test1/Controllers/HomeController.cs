@@ -118,7 +118,7 @@ namespace Portefolio_webApp.Controllers
         }
         public async Task<ActionResult> UploadFilesWihtLocation([FromServices] IHostingEnvironment oHostingEnvironment)
         {
-
+            Debug.WriteLine("Jeg er inni upload file");
             Console.WriteLine("EHHHH?????");
             Console.WriteLine("ID: " + HttpContext.Session.GetString("_UserID"));
             string hoststr = oHostingEnvironment.WebRootPath;

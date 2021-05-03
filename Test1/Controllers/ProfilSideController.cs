@@ -271,11 +271,12 @@ namespace Portefolio_webApp.Controllers
                 {
                     firebase.OppdaterBruker(oppBruker);
                     UpdateKommentarer(oppBruker);
+                    Debug.WriteLine("Jeg er inni ingen bilde");
                 }
                 else
                 {
                     UpdateKommentarer(oppBruker);
-
+                    Debug.WriteLine("Jeg er inni bilde");
                     await firebase.UploadProfilBilde(HttpContext.Session.GetString("CroppedPath"), oppBruker.Id, oppBruker.Profilbilde);
                     firebase.OppdaterBrukerBilde(oppBruker);
                     HttpContext.Session.Remove("CroppedPath");
