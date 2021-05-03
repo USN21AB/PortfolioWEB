@@ -1,4 +1,13 @@
-﻿@model Portefolio_webApp.Models.Bruker;
+﻿<!--
+    View til brukerens CV.
+    Kilder:
+    Brukt en snippet som grunnlag - Bootdey (02/03/2021) https://www.bootdey.com/
+    Brukt en datepicker - Bootstrap datepicker (03/05/2021) https://formden.com/blog/date-picker
+
+
+-->
+
+@model Portefolio_webApp.Models.Bruker;
 
 @{
 
@@ -14,6 +23,7 @@
         padding: 5px;
         border-radius: 8px;
     }
+
     .bootstrap-iso {
         margin-right: 0;
         padding-right: 0;
@@ -607,7 +617,7 @@
             skillButton = nyId + "språkbutton"
         }
 
-      //  alert(skill + " " + bar + " " + tekst + " " + slider);
+
         var tag = "<div class='col-md-6' id='" + skill + "'>" +
             " <div class='form-group'>" +
             " <input placeholder='skill' id='" + bar + "' />" +
@@ -773,7 +783,7 @@
                     data: json,
                     dataType: "json",
                     success: function (result) {
-                       // alert("Dette er resultatet " + result.result);
+
                     }
           });
          }
@@ -861,7 +871,7 @@
 
             }
         });
-        //alert("third");
+
     }
     </script>
 

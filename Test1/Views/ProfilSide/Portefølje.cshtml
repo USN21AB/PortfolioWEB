@@ -1,4 +1,10 @@
-﻿@using Portefolio_webApp.Models
+﻿<!--
+    Viewen til en brukers portefolie. Innholder mapper og mappens innhold som er innlegg
+    Kilder:
+    Brukte snippet som grunnlag - Bootdey(02/03/2021) https://www.bootdey.com/
+
+-->
+@using Portefolio_webApp.Models
 @model Portefolio_webApp.Models.Bruker;
 
 
@@ -68,9 +74,11 @@
     .litteratur:hover .delete-innlegg {
         opacity: 1;
     }
+
     .modal-content {
         background-color: #384352;
     }
+
     .modal-header {
         background-color: #6c757d;
         border-bottom: 1px solid #fff;
@@ -79,12 +87,15 @@
     .modal-footer {
         border-top: 1px solid #fff;
     }
+
     .modal-title {
         color: #fff;
     }
+
     .modal-body {
         color: #fff;
     }
+
     .close {
         color: #fff;
         opacity: 1;
@@ -118,7 +129,7 @@
             document.getElementById("modaltekst").innerHTML = "Are you sure you want to delete this text post?";
         }
 
-        
+
         document.getElementById("ButtonModelDelete").onclick = function (event) {
             onDeleteExpand(id, mindex);
         }
@@ -157,7 +168,7 @@
                     data: json,
                     dataType: "json",
                     success: function (result) {
-                       // alert("Dette er resultatet " + result.result);
+                    
                     }
           });
 
@@ -171,7 +182,7 @@
 
 @{
     var antall = 0;
-    var tilbakeknapp = "Back to " + @BrukerInnhold.Navn +"' profile";
+    var tilbakeknapp = "Back to " + @BrukerInnhold.Navn + "' profile";
     var tilbakeknapp2 = "Back to " + @BrukerInnhold.Navn + "'s profile";
 }
 
@@ -222,22 +233,23 @@
                         Innlegg Innlegg = Mappe.MappeInnhold.ElementAt(antall);
 
 
-                    if (Innlegg.Kategori == null) { }
-                    else if (Innlegg.Kategori.Equals("Image"))
-                    {
+                        if (Innlegg.Kategori == null) { }
+                        else if (Innlegg.Kategori.Equals("Image"))
+                        {
 
                             <!-- single-awesome-portfolio start -->
                             <div class="single-awesome-portfolio innleggindex" id="@Innlegg.Id">
 
-                                @if (innloggetBruker != null) { 
-                                if (BrukerInnhold.Id == innloggetBruker.Id)
+                                @if (innloggetBruker != null)
                                 {
-                                    <a asp-action="Upsert_Innlegg" asp-controller="Innlegg" asp-route-InnleggID="@Innlegg.Id">
-                                        <i class="fas fa-edit rediger-innlegg"></i>
-                                    </a>
-                                    <button class="delete-innlegg" onclick="onDelete('@Innlegg.Id', @mappeNr, '@Innlegg.Kategori')">
-                                        <i class="far fa-trash-alt"></i>
-                                    </button>
+                                    if (BrukerInnhold.Id == innloggetBruker.Id)
+                                    {
+                                        <a asp-action="Upsert_Innlegg" asp-controller="Innlegg" asp-route-InnleggID="@Innlegg.Id">
+                                            <i class="fas fa-edit rediger-innlegg"></i>
+                                        </a>
+                                        <button class="delete-innlegg" onclick="onDelete('@Innlegg.Id', @mappeNr, '@Innlegg.Kategori')">
+                                            <i class="far fa-trash-alt"></i>
+                                        </button>
                                     }
                                 }
                                 <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id class="card-link">
@@ -258,66 +270,66 @@
                             <!-- single-awesome-portfolio end -->
                         }
 
-                    else if (Innlegg.Kategori.Equals("Sound"))
-                    {
-                <div class="music_player innleggindex" id="@Innlegg.Id">
-                    @if (innloggetBruker != null)
-                    {
-                        if (BrukerInnhold.Id == innloggetBruker.Id)
+                        else if (Innlegg.Kategori.Equals("Sound"))
                         {
-                <a asp-action="Upsert_Innlegg" asp-controller="Innlegg" asp-route-InnleggID="@Innlegg.Id">
-                    <i class="fas fa-edit rediger-innlegg"></i>
-                </a>
-                                                <button class="delete-innlegg" onclick="onDelete('@Innlegg.Id', @mappeNr, '@Innlegg.Kategori')">
-                                                    <i class="far fa-trash-alt"></i>
-                                                </button> }
-                    }
-                                                <img id="sang-@antall" class="play_button shadowed" src="../resources/icons8-play-96.png" onclick='spillAv("sang-a-@antall", this.id); visSang("sangnavn-@Innlegg.Id", "artist-@Innlegg.Id")' />
+                            <div class="music_player innleggindex" id="@Innlegg.Id">
+                                @if (innloggetBruker != null)
+                                {
+                                    if (BrukerInnhold.Id == innloggetBruker.Id)
+                                    {
+                                        <a asp-action="Upsert_Innlegg" asp-controller="Innlegg" asp-route-InnleggID="@Innlegg.Id">
+                                            <i class="fas fa-edit rediger-innlegg"></i>
+                                        </a>
+                                        <button class="delete-innlegg" onclick="onDelete('@Innlegg.Id', @mappeNr, '@Innlegg.Kategori')">
+                                            <i class="far fa-trash-alt"></i>
+                                        </button>}
+                                }
+                                <img id="sang-@antall" class="play_button shadowed" src="../resources/icons8-play-96.png" onclick='spillAv("sang-a-@antall", this.id); visSang("sangnavn-@Innlegg.Id", "artist-@Innlegg.Id")' />
 
-                                                                            <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id class="card-link">
+                                <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id class="card-link">
 
-                                                                                <i class="fas fa-music innlegg-ikon"></i>
+                                    <i class="fas fa-music innlegg-ikon"></i>
 
 
-                                                                                <div class="play_button_div">
+                                    <div class="play_button_div">
 
-                                                                                    <h3 class="sangnavn" id="sangnavn-@Innlegg.Id">@Innlegg.Tittel</h3>
-                                                                                    <p class="artist" id="artist-@Innlegg.Id">@Innlegg.Eier</p>
-                                                                                </div>
-                                                                                <audio id="sang-a-@antall" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="@Innlegg.IkonURL"></audio>
-                                                                                <img class="fuck imge" src="@Innlegg.CoverURL" />
-                                                                            </a>
+                                        <h3 class="sangnavn" id="sangnavn-@Innlegg.Id">@Innlegg.Tittel</h3>
+                                        <p class="artist" id="artist-@Innlegg.Id">@Innlegg.Eier</p>
+                                    </div>
+                                    <audio id="sang-a-@antall" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="@Innlegg.IkonURL"></audio>
+                                    <img class="fuck imge" src="@Innlegg.CoverURL" />
+                                </a>
 
-                                                                                                    </div>
+                            </div>
                         }
 
-                    else if (Innlegg.Kategori.Equals("Text"))
-                    {
-                <div class="litteratur innleggindex" id="@Innlegg.Id">
-                    @if (innloggetBruker != null)
-                    {
-                        if (BrukerInnhold.Id == innloggetBruker.Id)
+                        else if (Innlegg.Kategori.Equals("Text"))
                         {
-                <a asp-action="Upsert_Innlegg" asp-controller="Innlegg" asp-route-InnleggID="@Innlegg.Id">
-                    <i class="fas fa-edit rediger-innlegg"></i>
-                </a>
-                                                <button class="delete-innlegg" onclick="onDelete('@Innlegg.Id', @mappeNr, '@Innlegg.Kategori')">
-                                                    <i class="far fa-trash-alt"></i>
-                                                </button> }
-                    }
-                                                <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id class="card-link">
+                            <div class="litteratur innleggindex" id="@Innlegg.Id">
+                                @if (innloggetBruker != null)
+                                {
+                                    if (BrukerInnhold.Id == innloggetBruker.Id)
+                                    {
+                                        <a asp-action="Upsert_Innlegg" asp-controller="Innlegg" asp-route-InnleggID="@Innlegg.Id">
+                                            <i class="fas fa-edit rediger-innlegg"></i>
+                                        </a>
+                                        <button class="delete-innlegg" onclick="onDelete('@Innlegg.Id', @mappeNr, '@Innlegg.Kategori')">
+                                            <i class="far fa-trash-alt"></i>
+                                        </button>}
+                                }
+                                <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@Innlegg.Id class="card-link">
 
-                                                    <i class="far fa-file-alt innlegg-ikon"></i>
+                                    <i class="far fa-file-alt innlegg-ikon"></i>
 
 
-                                                    <img class="book_cover" src="@Innlegg.CoverURL" alt="" />
-                                                    <div class="lit-tekst">
-                                                        <h3 class="tittel">@Innlegg.Tittel</h3>
-                                                        <h3 class="beskrivelse">@Innlegg.Beskrivelse</h3>
-                                                        <h4 class="forfatter">@Innlegg.Eier</h4>
-                                                    </div>
-                                                </a>
-                                                                        </div>
+                                    <img class="book_cover" src="@Innlegg.CoverURL" alt="" />
+                                    <div class="lit-tekst">
+                                        <h3 class="tittel">@Innlegg.Tittel</h3>
+                                        <h3 class="beskrivelse">@Innlegg.Beskrivelse</h3>
+                                        <h4 class="forfatter">@Innlegg.Eier</h4>
+                                    </div>
+                                </a>
+                            </div>
                         }
 
                         var lol = Innlegg.Tittel;
@@ -331,20 +343,6 @@
                 </div>
                 mappeNr++;
             }
-            <!--<div class="music_player">
-
-                <div class="play_button_div">
-                    <h3 id="sangnavn">Pokémonfefe Theme konda good, it is a banger</h3>
-                    <p id="artist">IDFK</p>
-                </div>
-                <img id="sangi" class="play_button shadowed" src="../resources/icons8-play-96.png" onclick='spillAv("sang", this.id); visSang("sangnavn", "artist")' />
-                <audio id="sang" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/Lyd%2FHabibi.mp3?alt=media&token=14f9ad88-a6b9-4c33-922a-d385b86a23b1"></audio>
-                <img class="fuck imge" src="#" alt="" />
-
-
-            </div>-->
-
-
 
         </div>
 
@@ -353,39 +351,6 @@
 
     </div>
 </div>
-
-
-
-
-<!--<div class="music_player">
-
-    <div class="play_button_div"></div>
-    <img id="sangi" class="play_button shadowed" src="../resources/icons8-play-96.png" onclick='spillAv("sang", this.id); visSang("sangnavn", "artist")' />
-    <audio id="sang" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2FPok%C3%A9mon%20Theme%20Song.mp3?alt=media&token=bccacd1c-ed6a-4050-8745-b1ee3bb50f96"></audio>
-    <img class="fuck" src="https://gameriv.com/wp-content/uploads/2021/01/Untitled-1-23-696x392.jpg" />
-    <p id="sangnavn">Pokémon Theme</p>
-    <p id="artist">IDFK</p>
-
-</div>
-
-
-<div class="music_player">
-
-    <div class="play_button_div"></div>
-    <img id="sang1i" class="play_button shadowed" src="../resources/icons8-play-96.png" onclick='spillAv("sang1", this.id); visSang("sangnavn1", "artist1")' />
-    <audio id="sang1" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60);var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2); " src="~/resources/Habibi.mp3"></audio>
-    <img class="fuck" src="https://preview.redd.it/f5fin913ari31.jpg?auto=webp&s=399cff2568b4b1fc8d61ebc8d3f531569e13ad93" />
-    <p id="sangnavn1">Habibi</p>
-    <p id="artist1">Pokelawls</p>
-
-</div>-->
-<!--<div class="litteratur">
-        <img class="book_cover" src="https://m.media-amazon.com/images/I/514FIoHpsmL.jpg" />
-        <h3 class="tittel">Den fantastiske Mikkel Rev er en veldig bra film og bok</h3>-59 characters Kan ikke telle
-    <h4 class="forfatter">Roal Dahl</h4>
-</div>-->
-
-
 
 <div class="musikk_kontroller" id="test">
     <span id="sangfelt"></span>

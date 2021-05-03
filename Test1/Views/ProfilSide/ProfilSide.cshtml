@@ -1,15 +1,22 @@
-﻿<!DOCTYPE html>
+﻿<!--
+        Viewen til en brukers profil. Her kan man besøke brukeren
+        Kilder:
+        Brukte en snippet fra bootdey som grunnlag - Bootdey (03/01/21)  https://www.bootdey.com/snippets/view/Awesome-portfolio
+
+-->
+
+<!DOCTYPE html>
 @using Portefolio_webApp.Models
 @{ var BrukerInnhold = (Portefolio_webApp.Models.Bruker)ViewData["Bruker"];
-                var innloggetBruker = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
+    var innloggetBruker = (Portefolio_webApp.Models.Bruker)ViewData["Innlogget_Bruker"];
 
-                Boolean CVAdgang = false;
-                if (BrukerInnhold.CVAdgang != null)
-                    for (int i = 0; i < BrukerInnhold.CVAdgang.Count; i++)
-                    {
-                        if ((string)ViewData["Innlogget_ID"] == BrukerInnhold.CVAdgang[i])
-                            CVAdgang = true;
-                    } }
+    Boolean CVAdgang = false;
+    if (BrukerInnhold.CVAdgang != null)
+        for (int i = 0; i < BrukerInnhold.CVAdgang.Count; i++)
+        {
+            if ((string)ViewData["Innlogget_ID"] == BrukerInnhold.CVAdgang[i])
+                CVAdgang = true;
+        } }
 
 
 <html lang="en">
@@ -192,11 +199,11 @@
                             <div class="d-flex flex-column align-items-center text-center">
                                 @if (@BrukerInnhold.Profilbilde != null)
                                 {
-                    <input type="image" src="@BrukerInnhold.Profilbilde" alt="Admin" class="rounded-circle profilimg mt-2" width="200" height="200" />}
+                                    <input type="image" src="@BrukerInnhold.Profilbilde" alt="Admin" class="rounded-circle profilimg mt-2" width="200" height="200" />}
 
-                else
-                {
-    <input type="image" src="https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2Fdefault_account.jpg?alt=media&token=290b6907-f17e-4095-90a6-dca2c52563b9" alt="Admin" class="rounded-circle profilimg" width="200" />}
+                                else
+                                {
+                                    <input type="image" src="https://firebasestorage.googleapis.com/v0/b/bachelor-it-97124.appspot.com/o/images%2Fdefault_account.jpg?alt=media&token=290b6907-f17e-4095-90a6-dca2c52563b9" alt="Admin" class="rounded-circle profilimg" width="200" />}
 
 
 
@@ -209,17 +216,17 @@
                                 @if (BrukerInnhold.Id == (string)ViewData["Innlogget_ID"])
                                 {<!--  <div class="col"> -->
                                     <button class="editbtn btn btn-primary buttons" onclick="location.href='@Url.Action("UpsertBruker", "ProfilSide")'"><i class="fas fa-edit">  Edit profile</i></button> <!-- </div>--> }
-                                                                else
-                                                                {
-                                                    @if (CVAdgang)
-                                                    {
-                                    <a style="margin-top: -20px" asp-action="CV" asp-route-brukerID="@BrukerInnhold.Id"><button class="cvbtn btn btn-primary">Enter CV</button></a> }
-                                                    else
-                                                    {
-                                                        if (innloggetBruker != null)
-                                                        {
-                                    <a style="margin-top: -20px" onclick="requestCV('@BrukerInnhold.Id', '@ViewData["Innlogget_ID"]', '@innloggetBruker.Navn')"><button id="requestCV" class="cvbtn btn btn-primary">Request CV</button></a>}
-                                                    }}
+                                else
+                                {
+                                    @if (CVAdgang)
+                                    {
+                                        <a style="margin-top: -20px" asp-action="CV" asp-route-brukerID="@BrukerInnhold.Id"><button class="cvbtn btn btn-primary">Enter CV</button></a> }
+                                    else
+                                    {
+                                        if (innloggetBruker != null)
+                                        {
+                                            <a style="margin-top: -20px" onclick="requestCV('@BrukerInnhold.Id', '@ViewData["Innlogget_ID"]', '@innloggetBruker.Navn')"><button id="requestCV" class="cvbtn btn btn-primary">Request CV</button></a>}
+                                    }}
                             </div>
                         </div>
                     </div>
@@ -261,10 +268,10 @@
                     <div class="card mb-3 pt-3" style="text-align: center">
                         @if (BrukerInnhold.Navn.EndsWith("s") == true)
                         {
-            <h2>@BrukerInnhold.Navn' Folders</h2> }
+                            <h2>@BrukerInnhold.Navn' Folders</h2> }
                         else
                         {
-            <h2>@BrukerInnhold.Navn's Folders</h2>}
+                            <h2>@BrukerInnhold.Navn's Folders</h2>}
                         <hr />
                         <div class="card-body row">
 
@@ -277,26 +284,26 @@
                                     {
                                         var Mappe = BrukerInnhold.Mapper.ElementAt(antall);
 
-                                <li class="nav-item mappeindex" id="mappe-@antall">
+                                        <li class="nav-item mappeindex" id="mappe-@antall">
 
-                                    <a class="nav-link folder " asp-action="Portefølje" asp-route-brukerID="@BrukerInnhold.Id" asp-route-antall="@antall">
-                                        <div class="folder-design">
-                                            <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190211472785468/Portfollowers_bilde.png" />
-                                            <span class="folder-navn">@Mappe.MappeNavn</span>
-                                        </div>
-                                    </a>
-                                    @if (innloggetBruker != null)
-                                    {
-                                        if (BrukerInnhold.Id == innloggetBruker.Id)
-                                        {
-                                <button class="delete-folder-div" onclick="onDelete('mappe-@antall')">
-                                    <i class="far fa-trash-alt delete-folder"></i>
-                                </button>}
-                                    }
-                                </li>
+                                            <a class="nav-link folder " asp-action="Portefølje" asp-route-brukerID="@BrukerInnhold.Id" asp-route-antall="@antall">
+                                                <div class="folder-design">
+                                                    <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190211472785468/Portfollowers_bilde.png" />
+                                                    <span class="folder-navn">@Mappe.MappeNavn</span>
+                                                </div>
+                                            </a>
+                                            @if (innloggetBruker != null)
+                                            {
+                                                if (BrukerInnhold.Id == innloggetBruker.Id)
+                                                {
+                                                    <button class="delete-folder-div" onclick="onDelete('mappe-@antall')">
+                                                        <i class="far fa-trash-alt delete-folder"></i>
+                                                    </button>}
+                                            }
+                                        </li>
                                         antall++;
                                     }
-                                    
+
 
                                 </ul>
                             </div>
@@ -311,17 +318,19 @@
                         <div class="card-body">
                             <div class="rowinfo">
 
-                                
+
 
                                 @{ var mappeNr = 0;
 
                                     var alleInnlegg = new List<Innlegg>();
                                     List<Innlegg> SortedList = new List<Innlegg>();
-                                    while (mappeNr < BrukerInnhold.Mapper.Count) {
+                                    while (mappeNr < BrukerInnhold.Mapper.Count)
+                                    {
                                         var Mappe = BrukerInnhold.Mapper.ElementAt(mappeNr);
 
                                         var antallInnlegg = 0;
-                                        while(antallInnlegg < Mappe.MappeInnhold.Count) {
+                                        while (antallInnlegg < Mappe.MappeInnhold.Count)
+                                        {
                                             Innlegg innlegg = Mappe.MappeInnhold.ElementAt(antallInnlegg);
                                             var id = innlegg.Id;
                                             var dato = innlegg.Dato;
@@ -340,7 +349,7 @@
                                         SortedList = alleInnlegg.OrderBy(o => o.Dato).ToList();
                                     }
 
-                                    var ant = (SortedList.Count -1);
+                                    var ant = (SortedList.Count - 1);
                                     while (ant > -1)
                                     {
                                         var innlegg = SortedList.ElementAt(ant);
@@ -365,46 +374,46 @@
                                                     </a>
                                                 </div> <!-- single-awesome-portfolio end --> }
 
-                                                                                            else if (innlegg.Kategori.Equals("Sound"))
-                                                                                            {
-                                                                        <div class="music_player">
-                                                                            <img id="sang-@ant" class="play_button shadowed" src="../resources/icons8-play-96.png" onclick='spillAv("sang-a-@ant", this.id); visSang("sangnavn-@innlegg.Id", "artist-@innlegg.Id")' />
+                                            else if (innlegg.Kategori.Equals("Sound"))
+                                            {
+                                                <div class="music_player">
+                                                    <img id="sang-@ant" class="play_button shadowed" src="../resources/icons8-play-96.png" onclick='spillAv("sang-a-@ant", this.id); visSang("sangnavn-@innlegg.Id", "artist-@innlegg.Id")' />
 
-                                                                            <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@innlegg.Id class="card-link">
-                                                                                <i class="fas fa-music innlegg-ikon"></i>
-                                                                                <div class="play_button_div">
+                                                    <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@innlegg.Id class="card-link">
+                                                        <i class="fas fa-music innlegg-ikon"></i>
+                                                        <div class="play_button_div">
 
-                                                                                    <h3 class="sangnavn" id="sangnavn-@innlegg.Id">@innlegg.Tittel</h3>
-                                                                                    <p class="artist" id="artist-@innlegg.Id">@innlegg.Eier</p>
-                                                                                </div>
+                                                            <h3 class="sangnavn" id="sangnavn-@innlegg.Id">@innlegg.Tittel</h3>
+                                                            <p class="artist" id="artist-@innlegg.Id">@innlegg.Eier</p>
+                                                        </div>
 
-                                                                                <audio id="sang-a-@ant" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="@innlegg.IkonURL"></audio>
-                                                                                <img class="fuck imge" src="@innlegg.CoverURL" />
-                                                                            </a>
+                                                        <audio id="sang-a-@ant" class="lydspor" preload="metadata" ontimeupdate="timer(this.id); var minutter = Math.floor(this.currentTime / 60); var sekunder = Math.floor(this.currentTime - minutter * 60); var minutter1 = Math.floor(this.duration / 60); var sekunder1 = Math.floor(this.duration - minutter1 * 60); document.getElementById('tracktime').innerHTML = minutter + ':' + ('0' + sekunder).slice(-2); document.getElementById('trackduration').innerHTML = minutter1 + ':' + ('0' + sekunder1).slice(-2);" src="@innlegg.IkonURL"></audio>
+                                                        <img class="fuck imge" src="@innlegg.CoverURL" />
+                                                    </a>
 
-                                                                        </div> }
+                                                </div> }
 
-                                                                                            else if (innlegg.Kategori.Equals("Text"))
-                                                                                            {
-                                                                        <div class="litteratur">
+                                            else if (innlegg.Kategori.Equals("Text"))
+                                            {
+                                                <div class="litteratur">
 
-                                                                            <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@innlegg.Id>
+                                                    <a asp-controller="Innlegg" asp-action="Nav_Innlegg" asp-route-id=@innlegg.Id>
 
-                                                                                <i class="far fa-file-alt innlegg-ikon"></i>
+                                                        <i class="far fa-file-alt innlegg-ikon"></i>
 
 
-                                                                                <img class="book_cover" src="@innlegg.CoverURL" alt="" />
-                                                                                <div class="lit-tekst">
-                                                                                    <h3 class="tittel">@innlegg.Tittel</h3>
-                                                                                    <h3 class="beskrivelse">@innlegg.Beskrivelse</h3>
-                                                                                    <h4 class="forfatter">@innlegg.Eier</h4>
-                                                                                </div>
-                                                                            </a>
-                                                                        </div> }
-                                                                                            ant--;
+                                                        <img class="book_cover" src="@innlegg.CoverURL" alt="" />
+                                                        <div class="lit-tekst">
+                                                            <h3 class="tittel">@innlegg.Tittel</h3>
+                                                            <h3 class="beskrivelse">@innlegg.Beskrivelse</h3>
+                                                            <h4 class="forfatter">@innlegg.Eier</h4>
+                                                        </div>
+                                                    </a>
+                                                </div> }
+                                            ant--;
 
-                                                                                        }
-                                                                                    } }
+                                        }
+                                    } }
 
                             </div>
                         </div>

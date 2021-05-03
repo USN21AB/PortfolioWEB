@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Test1.Models;
-
+//Innlegg 
 namespace Portefolio_webApp.Models
 {
     public class Innlegg
