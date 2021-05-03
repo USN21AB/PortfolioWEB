@@ -99,7 +99,7 @@
                                 </li>
                                 <li class="topnav-right2">
                                     @{
-                                        var antall = 0;
+                                        var antall = innloggetBruker.notifications.Count-1;
                                         var notListe = innloggetBruker.notifications;
                                     }
                                     <div class="dropdown">
@@ -117,19 +117,19 @@
                                             </i>
                                         </a>
                                         <div id="dropdownItems" class="dropdown-menu dropdown-menu-right p-4 text-muted" aria-labelledby="dropdownMenuLink">
-                                            @while (antall < notListe.Count)
+                                            @while (antall >= 0)
                                             {
                                                 if (notListe[antall].type == "Like")
                                                 {
                                                     <div>
                                                         <a class="dropdown-item" href="@Url.Action("ProfilSide", "ProfilSide", new { brukerID = notListe[antall].FraHvemID })">
                                                             <div class="row">
-                                                                <div class="col-sm">
+                                                                <div class="col-1">
                                                                     <i class="far fa-thumbs-up"></i>
                                                                 </div>
-                                                                <div class="col-sm">
+                                                                <div class="col">
                                                                     <p class="mb-0">
-                                                                        @notListe[antall].FraHvemNavn liked you post
+                                                                        @notListe[antall].FraHvemNavn<br /> liked you post
                                                                     </p>
                                                                 </div>
                                                             </div>
@@ -142,12 +142,12 @@
                                                     <div>
                                                         <a class="dropdown-item" href="@Url.Action("Nav_Innlegg", "Innlegg", new { id = notListe[antall].innleggID })">
                                                             <div class="row">
-                                                                <div class="col-sm">
+                                                                <div class="col-1">
                                                                     <i class="far fa-comment"></i>
                                                                 </div>
-                                                                <div class="col-sm">
+                                                                <div class="col">
                                                                     <p class="mb-0">
-                                                                        @notListe[antall].FraHvemNavn commented on your post
+                                                                        @notListe[antall].FraHvemNavn<br /> commented on your post
                                                                     </p>
                                                                 </div>
                                                             </div>
@@ -160,12 +160,12 @@
                                                     <div>
                                                         <a class="dropdown-item" href="@Url.Action("CV", "ProfilSide", new { brukerID = notListe[antall].FraHvemID })">
                                                             <div class="row">
-                                                                <div class="col-sm">
+                                                                <div class="col-1">
                                                                     <i class="fas fa-user-graduate ikon"></i>
                                                                 </div>
-                                                                <div class="col-sm">
+                                                                <div class="col">
                                                                     <p class="mb-0">
-                                                                        @notListe[antall].FraHvemNavn has accepted your resume request
+                                                                        @notListe[antall].FraHvemNavn <br /> has accepted your resume request
                                                                     </p>
                                                                 </div>
                                                             </div>
@@ -178,28 +178,28 @@
                                                     <div id="CVNot">
                                                         <a class="dropdown-item" href="@Url.Action("ProfilSide", "ProfilSide", new { brukerID = notListe[antall].FraHvemID })">
                                                             <div class="row">
-                                                                <div class="col-sm">
+                                                                <div class="col-1">
                                                                     <i class="fas fa-user-graduate ikon"></i>
                                                                 </div>
-                                                                <div id="1Request@(antall)" class="col-sm">
+                                                                <div id="1Request@(antall)" class="col">
                                                                     <p class="mb-0">
-                                                                        @notListe[antall].FraHvemNavn is interested in your resume.<br> Do you want to give him access?
+                                                                        @notListe[antall].FraHvemNavn <br />is interested in your resume.<br> Do you want to give him access?
                                                                     </p>
                                                                 </div>
                                                             </div>
                                                         </a>
                                                         <div id="2Request@(antall)" class="row">
-                                                            <div class="col-sm">
+                                                            <div class="col">
                                                                 <button onClick="acceptCV('@(notListe[antall].FraHvemID)', @(antall), '@(notListe[antall].FraHvemNavn)', true, '@(innloggetBruker.Id)',  '@(innloggetBruker.Navn)')" class="btn btn-primary">Accept</button>
                                                             </div>
-                                                            <div class="col-sm">
+                                                            <div class="col">
                                                                 <button onClick="acceptCV('@(notListe[antall].FraHvemID)', @(antall), '@(notListe[antall].FraHvemNavn)', false, '@(innloggetBruker.Id)',  '@(innloggetBruker.Navn)')" class="btn btn-primary">Decline</button>
                                                             </div>
                                                         </div>
                                                         <br />
                                                     </div>
                                                 }
-                                                antall++;
+                                                antall--;
                                             }
                                         </div>
                                     </div>
@@ -248,7 +248,7 @@
             })
             function acceptCV(tilHvemID, index, navn, accepted, fraHvemID, fraHvemNavn) {
                 if (accepted) {
-                    document.getElementById("1Request" + index).innerHTML = "<p> Request accepted for " + navn + " </p>"
+                    //document.getElementById("1Request" + index).innerHTML = "<p> Request accepted for " + navn + " </p>"
                     var today = new Date();
                     var dd = String(today.getDate()).padStart(2, '0');
                     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -272,13 +272,13 @@
                     data: jsonNotfic,
                     dataType: "json",
                     success: function (result) {
-                       
+
                     }
 
                 });
                 } else document.getElementById("1Request" + index).innerHTML = "<p> Request declined for " + navn + " </p>"
 
-                document.getElementById("2Request" + index).style.display = "none";
+               // document.getElementById("2Request" + index).style.display = "none";
                 document.getElementById("CVNot").remove();
                 //document.getElementById("2Request" + index).remove();
                 var json = {
@@ -321,37 +321,38 @@
 
                                     var notific = JSON.parse(result.notific);
                                     //result.notific
-
+                                    if (notific.type != "CV") {
                                     document.getElementById("badge_counter").style.display = "inline";
                                     var antallNot = document.getElementById("badge_counter").innerHTML;
+                                   
                                     if (antallNot == "") {
                                         document.getElementById("badge_counter").innerHTML = 1;
                                     } else {
                                         var nyNot = parseInt(antallNot) + 1;
                                         document.getElementById("badge_counter").innerHTML = nyNot;
                                     };
-
+                                    }
 
                                     if (notific.type == "Like") {
                                         var hvemURL = "/ProfilSide/ProfilSide?brukerID=" + notific.FraHvemID;
 
                                         document.getElementById("dropdownItems").innerHTML += "<div><a class='dropdown-item' href='" + hvemURL + "'>" +
                                             "<i class='far fa-thumbs-up'></i>" +
-                                            "<p>" + notific.FraHvemNavn + " Liked your post </p>" +
+                                            "<p>" + notific.FraHvemNavn + "<br /> Liked your post </p>" +
                                             "</a></div> ";
                                     } else if (notific.type == "Kommentar") {
                                         var hvilketInnlegg = "/Innlegg/Nav_Innlegg/" + notific.innleggID;
                                         document.getElementById("dropdownItems").innerHTML += "<div> <a class='dropdown-item' href='" + hvilketInnlegg + "'>" +
                                             "<i class='far fa-thumbs-up'></i>" +
-                                            "<p>" + notific.FraHvemNavn + " Commented on your post  </p>" +
+                                            "<p>" + notific.FraHvemNavn + "<br /> Commented on your post  </p>" +
                                             "</a></div>";
                                     } else if (notific.type == "CVaccepted") {
                                         var hvemURL = "/ProfilSide/CV?brukerID=" + notific.FraHvemID;
                                         document.getElementById("dropdownItems").innerHTML += "<div> <a class='dropdown-item' href='" + hvemURL + "'>" +
                                             "<i class='far fa-thumbs-up'></i>" +
-                                            "<p>" + notific.FraHvemNavn + " has accepted your resume request!  </p>" +
+                                            "<p>" + notific.FraHvemNavn + "<br /> has accepted your resume request!  </p>" +
                                             "</a></div>";
-                                    }
+                                    } 
 
 
                                 }

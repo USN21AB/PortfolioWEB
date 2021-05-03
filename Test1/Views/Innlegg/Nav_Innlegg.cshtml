@@ -567,38 +567,12 @@
 </style>
 
 <script>
-    function Kommentar(nyId, FraHvemID, FraHvemNavn, TilHvemID,  innleggID) {
+    function Kommentar(nyId) {
     var url = '@Html.Raw(Url.Action("NyttKommentar", "Innlegg", new { tekst = "_tekst_", innleggId = "_innleggId_" }))';
     var tekst = $('textarea#kommentarFelt').val();
     var params = url.replace('_tekst_', tekst).replace('_innleggId_', nyId);
     window.location.href = params;
-          /*
-        var today = new Date();
-        var dd = String(today.getDate()).padStart(2, '0');
-        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-        var yyyy = today.getFullYear();
-        today = mm + '/' + dd + '/' + yyyy;
-    var jsonNotfic = {
-        "type": "Kommentar",
-        "erLest": false,
-        "FraHvemID": FraHvemID,
-        "FraHvemNavn": FraHvemNavn,
-        "TilHvemID": TilHvemID,
-        "innleggID":  innleggID,
-        "Tidspunkt": today
-    };
-   */
 
-           $.ajax({
-                    type: "POST",
-                    url: '@Url.Action("LikeInnlegg", "Innlegg")',
-                    data: json,
-                    dataType: "json",
-                 success: function (result) {
-                 },
-                 error: function (result) {
-                 }
-             });
 }
 function Reply(nyId, kommId) {
     var url = '@Html.Raw(Url.Action("NyttReply", "Innlegg", new { tekst = "_tekst_", innleggId = "_innleggId_", kommentId = "_kommentId_" }))';

@@ -357,8 +357,10 @@ namespace Portefolio_webApp.Controllers
                 var innBruker = JsonConvert.DeserializeObject<Bruker>(str);
 
                 ViewData["Innlogget_Bruker"] = innBruker;
-                
+                Debug.WriteLine("not count: " + innBruker.notifications.Count);
             }
+
+         
 
             ViewData["BrukerListe"] = firebase.updateAlgorithm();
             return View();

@@ -100,6 +100,10 @@
         filter: brightness(30%) blur(2px);
     }
 
+    .kategoriHover {
+        filter: brightness(30%) blur(2px);
+    }
+
   
         /*
     #bildeValgBorder:hover {
@@ -189,7 +193,7 @@
                     <a href="#/"  onclick="valgtKat('alt')">
                         <img id="altValg" class="kategoriVelger" src="https://images.unsplash.com/photo-1472141521881-95d0e87e2e39?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1352&q=80" height="90" width="250" />
                         <br />
-                        <div class="centered">All categories</div>
+                        <div id="altTekst" class="centered">All categories</div>
                     </a>
                 </div>
             </li>
@@ -197,7 +201,7 @@
                 <div id="bildeValgBorder" class="borderOne">
                     <a href="#/" onclick="valgtKat('Image')">
                         <img id="bildeValg" class="kategoriVelger" style=" box-shadow: inset 0 0 0 1000px rgba(0,0,0,.2);" src="https://images.unsplash.com/photo-1434725039720-aaad6dd32dfe?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2098&q=80" height="90" width="250" />
-                        <div class="centered">Images</div>
+                        <div id="bildeTekst" class="centered">Images</div>
                     </a>
                     </div>
             </li>
@@ -205,7 +209,7 @@
                 <div id="lydValgBorder" class="borderOne">
                     <a href="#/" onclick="valgtKat('Sound')">
                         <img id="lydValg" class="kategoriVelger" src="https://images.unsplash.com/photo-1506704888326-3b8834edb40a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" height="90" width="250" />
-                        <div class="centered">Sound</div>
+                        <div id="lydTekst" class="centered">Sound</div>
                     </a>
                     </div>
             </li>
@@ -213,7 +217,7 @@
                 <div id="tekstValgBorder" class="borderOne">
                     <a href="#/" onclick="valgtKat('Text')">
                         <img id="tekstValg" class="kategoriVelger" src="https://images.unsplash.com/photo-1457369804613-52c61a468e7d?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1350&q=80" height="90" width="250" />
-                        <div class="centered">Text</div>
+                        <div id="tekstTekst" class="centered">Text</div>
                     </a>
                     </div>
             </li>
@@ -316,6 +320,48 @@
                     kjørSøk();
             });
 
+            document.getElementById("bildeTekst").addEventListener("mouseenter", function (event) {
+               
+                $("#bildeValg").addClass("kategoriHover"); 
+            })
+
+            
+            document.getElementById("lydTekst").addEventListener("mouseenter", function (event) {
+
+                $("#lydValg").addClass("kategoriHover");
+            })
+            
+            document.getElementById("tekstTekst").addEventListener("mouseenter", function (event) {
+
+                $("#tekstValg").addClass("kategoriHover");
+            })
+            
+            document.getElementById("altTekst").addEventListener("mouseenter", function (event) {
+
+                $("#altValg").addClass("kategoriHover");
+            })
+            
+
+            document.getElementById("bildeValgBorder").addEventListener("mouseout", function (event) {
+              
+                $("#bildeValg").removeClass("kategoriHover");
+            })
+            
+            document.getElementById("lydValgBorder").addEventListener("mouseout", function (event) {
+                // alert("hey");
+                $("#lydValg").removeClass("kategoriHover");
+            })
+            
+            document.getElementById("tekstValgBorder").addEventListener("mouseout", function (event) {
+                // alert("hey");
+                $("#tekstValg").removeClass("kategoriHover");
+            })
+            
+            document.getElementById("altValgBorder").addEventListener("mouseout", function (event) {
+                // alert("hey");
+                $("#altValg").removeClass("kategoriHover");
+            })
+            
 
 
             $(function () {

@@ -309,13 +309,14 @@ namespace Portefolio_webApp.Controllers
 
         public void UpdateKommentarer(Bruker oppBruker)
         {
-            Debug.WriteLine("update innlegg NÅDD HITT??: ");
+           
             //Update kommentarer i innlegg
             for (int i = 0; i < oppBruker.kommentertPå.Count; i++)
             {
 
                 Innlegg innlegg = firebase.HentSpesifiktInnlegg(oppBruker.kommentertPå[i]);
                 Debug.WriteLine("update komm innlegg: " + innlegg.Tittel);
+                if(innlegg != null)
                 for (int j = 0; j < innlegg.Kommentar.Count; j++)
                 {
                     Debug.WriteLine("update kommentar: " + innlegg.Kommentar[j].Tekst);
@@ -370,7 +371,7 @@ namespace Portefolio_webApp.Controllers
 
         public JsonResult RequestCV(string type, Boolean erLest, string FraHvemID, string FraHvemNavn, string TilHvemID, string innleggID, string Tidspunkt)
         {
-            
+            Debug.WriteLine("typen: " + type); 
             Notifications not = new Notifications(type, erLest, FraHvemID, FraHvemNavn, TilHvemID, innleggID, Tidspunkt);
             firebase.SendNotification(not);
             var resultat = "'";
