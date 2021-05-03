@@ -66,7 +66,7 @@
                             }
                             else
                             {
-                                <li class="topnav-right vl">
+                                <li class="topnav-right vl ">
                                     <div class="dropdown">
 
                                         <button onclick="fadearrow()" class="btn btn-sm profilbtn type="button" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -175,7 +175,7 @@
                                                 }
                                                 else
                                                 {
-                                                    <div>
+                                                    <div id="CVNot">
                                                         <a class="dropdown-item" href="@Url.Action("ProfilSide", "ProfilSide", new { brukerID = notListe[antall].FraHvemID })">
                                                             <div class="row">
                                                                 <div class="col-sm">
@@ -272,13 +272,15 @@
                     data: jsonNotfic,
                     dataType: "json",
                     success: function (result) {
-                        alert("Hey! Du sendte en melding! ");
+                       
                     }
 
                 });
                 } else document.getElementById("1Request" + index).innerHTML = "<p> Request declined for " + navn + " </p>"
 
                 document.getElementById("2Request" + index).style.display = "none";
+                document.getElementById("CVNot").remove();
+                //document.getElementById("2Request" + index).remove();
                 var json = {
                     "fraHvemID": tilHvemID,
                     "notIndex": index,

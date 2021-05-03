@@ -266,11 +266,13 @@ namespace Test1.Models
 
         public void SendNotification(Notifications notification)
         {
-            Bruker bruker = HentEnkeltBruker(notification.TilHvemID);
-            bruker.NumberOfNotifications += 1;
+            if(notification.FraHvemID != notification.TilHvemID) {
+              Bruker bruker = HentEnkeltBruker(notification.TilHvemID);
+              bruker.NumberOfNotifications += 1;
 
-            bruker.notifications.Add(notification);
-            SetResponse setResponse = klient.Set("Bruker/" + notification.TilHvemID, bruker);
+              bruker.notifications.Add(notification);
+              SetResponse setResponse = klient.Set("Bruker/" + notification.TilHvemID, bruker);
+            }
         }
 
 
