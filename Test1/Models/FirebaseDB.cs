@@ -282,7 +282,7 @@ namespace Test1.Models
         public int TellAntallRader(string brukerID)
         {
             FirebaseResponse respons = klient.Get("Bruker/" + brukerID + "/NumberOfNotifications");
-           
+            
             if (respons.Body == null)
                 return -1;
             int length = JsonConvert.DeserializeObject<int>(respons.Body); 
