@@ -90,6 +90,19 @@
         color: white;
     }
 
+    .kategoriVelger:hover {
+        filter: brightness(30%) blur(2px);
+    }
+
+  
+        /*
+    #bildeValgBorder:hover {
+        background-color: #3e8e41;
+        color: white;
+    }
+    */
+
+
 </style>
 <link href="~/css/Buttons.css" rel="stylesheet" />
 <link href="~/css/BrowseSide.css" rel="stylesheet" />
@@ -166,8 +179,8 @@
     <div class="maininnhold">
         <ul class="kategorier nav nav-pills" id="pills-tab" role="tablist">
             <li class="kategoriitem nav-item" role="presentation">
-                <div id="altValgBorder" class="borderOne">
-                    <a href="#/" onclick="valgtKat('alt')">
+                <div id="altValgBorder" class="borderOne" >
+                    <a href="#/"  onclick="valgtKat('alt')">
                         <img id="altValg" class="kategoriVelger" src="https://images.unsplash.com/photo-1472141521881-95d0e87e2e39?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1352&q=80" height="90" width="250" />
                         <br />
                         <div class="centered">All categories</div>
@@ -229,6 +242,7 @@
 <h2 style="color:white; text-align:center;">@(liste.Count == 0 ? "There are no results!" : "")</h2>
 
 <div style="visibility:hidden; height: 103px;"></div>
+
 
 @section Scripts
 {

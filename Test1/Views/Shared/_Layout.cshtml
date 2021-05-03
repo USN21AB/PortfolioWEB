@@ -57,7 +57,7 @@
 
                         <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
 
-                            <ul class="navbar-nav flex-grow-1">
+                            <ul class="navbar-nav navbar-right flex-grow-1">
 
 
                             @if (ViewData["Token"] == null)
@@ -66,10 +66,10 @@
                             }
                             else
                             {
-                                <li class="topnav-right vl">
+                                <li class="topnav-right vl ">
                                     <div class="dropdown">
 
-                                            <button class="btn btn-sm profilbtn type="button" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <button class="btn btn-sm profilbtn" type="button" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <div class="profilbtn profilbtndiv">
                                                     <p class="bruker-navn">@innloggetBruker.Navn<i class="fas fa-chevron-down fa-xs" style="margin-left: 5px;"></i></p>&nbsp;
                                                 </div>
@@ -101,9 +101,8 @@
                                     <li class="topnav-right2">
 
                                         @{
-                                            var antall = 0;
                                             var notListe = innloggetBruker.notifications;
-
+                                            var antall = notListe.Count - 1;
                                         }
 
                                         <div class="dropdown">
@@ -123,7 +122,7 @@
                                             <div id="dropdownItems" class="dropdown-menu dropdown-menu-right p-4 text-muted" aria-labelledby="dropdownMenuLink">
 
 
-                                                @while (antall < notListe.Count)
+                                                @while (antall >= 0)
                                                 {
 
                                                     if (notListe[antall].type == "Like")
@@ -216,7 +215,7 @@
                                                         </div>
                                                     }
 
-                                                    antall++;
+                                                    antall--;
                                                 }
                                             </div>
                                                     </div>
