@@ -87,16 +87,19 @@ namespace Portefolio_webApp.Controllers
             DateTime today = DateTime.Today;
             DateTime l = today;
             innlegg.Dato = l.ToString("dd/MM/yyyy");
-    
-            if(innlegg.Tagger != null) { 
-            var splitTag = innlegg.Tagger[0].Split(",");
 
-            innlegg.Tagger.Clear();
-            for (var i = 0; i < splitTag.Length; i++)
+
+            if (innlegg.Tagger[0] != null)
             {
+                var splitTag = innlegg.Tagger[0].Split(",");
                 
+
+                innlegg.Tagger.Clear();
+                for (var i = 0; i < splitTag.Length; i++)
+                {
+
                     innlegg.Tagger.Add(splitTag[i].Trim());
-            }
+                }
             }
         
         var bruker = firebase.HentEnkeltBruker(innlegg.EierId);
