@@ -38,7 +38,7 @@
         | padding: 4px 6px;
         color: #555;
         border-radius: 4px;
-        line-height: 29px;
+        line-height: 35px;
         cursor: text;
     }
 
@@ -106,6 +106,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
 <script>
+
+
 
     $(function () {
         $('.radio').removeClass('active');
@@ -184,17 +186,16 @@
 
     function fileValidation() {
         var file = $('input[type=file]').val().split('\\').pop();
-       
-        
-        document.getElementById("fileinputbuttonid").innerHTML = file;
 
+        document.getElementById("fileinputbuttonid").innerHTML = file;
+        document.getElementById('filSpan').innerHTML = "";
 
         var validImage = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
         var validAudio = /(\.mp3)$/i;
         var validTekst = /(\.pdf)$/i;
 
         if (validImage.exec(file)) {
-            
+
             //Endrer verider
             document.getElementById('kategoriVerdi').value = "Image";
             document.getElementById("kategori-value").value = "";
@@ -339,6 +340,7 @@
     function mappeValg(mappe) {
         var valgt = document.getElementById(mappe).innerText;
         document.getElementById("mappe").value = valgt;
+        document.getElementById('mappeSpan').innerHTML = "";
     }
 
 
@@ -350,7 +352,12 @@
         document.getElementById("mappe").value = "";
         document.getElementById("ny-mappe").style.display = "none";
         document.getElementById("ny-mappe-valgt").style.display = "block";
+
+        $("#ny-mappe-valgt").click();
+        
     }
+
+
 
     function mappeNavn() {
         var yes = document.getElementById("mappe").hasAttribute("readonly");
@@ -370,8 +377,23 @@
     }
 
 
+    function validationSpan() {
+        // access properties using this keyword
+        if (document.getElementById('input-file').files.length == 0) {
+            document.getElementById("filSpan").innerHTML = "You must select a file";
+            event.preventDefault();
+        } 
+        if (document.getElementById('mappe').value.length == 0) {
+            document.getElementById("mappeSpan").innerHTML = "You must select a folder";
+            event.preventDefault();
+        }
+    };
+
+
 
 </script>
+
+
 
 
 <!-- Modal -->
@@ -439,20 +461,20 @@
 
         @if (Model.Id == null)
         {
-        <div class="form-group row">
-            <div class="col-3">
-                <label>File</label>
-            </div>
-            <div class="col-8">
-                <div class="fileinputdesign">
-                    <i class="fas fa-file-upload uploadikon"></i>
-                    <p class="fileinputbutton" id="fileinputbuttonid">Choose your file</p>
-                    
-                    @Html.TextBox("inputfile", "inputfile", new { type = "file", name = "inputfile", id = "input-file", accept = "image/png|image/jpeg|image/jpg|image/gif|audio/mp3|application/pdf", oninput = "CoverValidation1(); fileValidation(); readURL(this);" }) <br />
+            <div class="form-group row">
+                <div class="col-3">
+                    <label>File</label>
                 </div>
-                <p class="filetypeinfo">Image: .png/.jpg/.jpeg/.gif | Sound: .mp3 | Text: .pdf</p>
+                <div class="col-8">
+                    <div class="fileinputdesign">
+                        <i class="fas fa-file-upload uploadikon"></i>
+                        <p class="fileinputbutton" id="fileinputbuttonid">Choose your file</p>
+                        @Html.TextBox("inputfile", "inputfile", new { type = "file", name = "inputfile", id = "input-file", accept = "image/png|image/jpeg|image/jpg|image/gif|audio/mp3|application/pdf", oninput = "fileValidation(); readURL(this);" }) <br />
+                    </div>
+                    <p class="filetypeinfo">Image: .png/.jpg/.jpeg/.gif | Sound: .mp3 | Text: .pdf</p>
+                    <span id="filSpan" class="validSpan"></span>
+                </div>
             </div>
-        </div>
         }
         else
         {
@@ -538,45 +560,46 @@
 
 
 
+        @{
+            var antall = 0;
+        }
 
-                @{
-                    var antall = 0;
-                }
+        <ul class="nav nav-pills nav-fill folder-nav tabs col-8">
 
-                <ul class="nav nav-pills nav-fill folder-nav tabs col-8">
+            <li class="nav-item">
+                <div class="folder-design chosen" id="dummy-folder" style="display: none">
+                </div>
+            </li>
 
-                    <li class="nav-item">
-                        <div class="folder-design chosen" id="dummy-folder" style="display: none">
-                        </div>
-                    </li>
-
-                    @while (antall < BrukerInnhold.Mapper.Count)
-                    {
-                        var Mappe = BrukerInnhold.Mapper.ElementAt(antall);
+            @while (antall < BrukerInnhold.Mapper.Count)
+            {
+                var Mappe = BrukerInnhold.Mapper.ElementAt(antall);
 
 
-                        <li class="nav-item">
-                            <div class="folder-design chosen" onclick='mappeValg("mappe-@antall"); readonly()'>
-                                <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190271077646336/Portfollowers_tekst.png" />
-                                <span id="mappe-@antall" class="folder-navn">@Mappe.MappeNavn</span>
-                            </div>
-                        </li>
-                        antall++;
-                    }
+                <li class="nav-item">
+                    <div class="folder-design chosen" onclick='mappeValg("mappe-@antall"); readonly()'>
+                        <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190271077646336/Portfollowers_tekst.png" />
+                        <span id="mappe-@antall" class="folder-navn">@Mappe.MappeNavn</span>
+                    </div>
+                </li>
+                antall++;
+            }
 
-                    <li class="nav-item">
-                        <div class="folder-design" id="ny-mappe" onclick="nyMappe()">
-                            <i class="fas fa-folder-plus fa-4x add-folder"></i>
-                        </div>
-                        <div class="folder-design chosen" id="ny-mappe-valgt" onclick='mappeValg("mappeny"); readonlyOff()'>
-                            <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190271077646336/Portfollowers_tekst.png" />
-                            <span id="mappeny" class="folder-navn"></span>
-                        </div>
-                    </li>
-                </ul>
-
-            </div>
-
+            <li class="nav-item">
+                <div class="folder-design" id="ny-mappe" onclick="nyMappe()">
+                    <i class="fas fa-folder-plus fa-4x add-folder"></i>
+                </div>
+                <div class="folder-design chosen" id="ny-mappe-valgt" onclick='mappeValg("mappeny"); readonlyOff()'>
+                    <img class="folder-bilde shadowed" src="https://cdn.discordapp.com/attachments/803968433254694942/819190271077646336/Portfollowers_tekst.png" />
+                    <span id="mappeny" class="folder-navn">New folder</span>
+                </div>
+            </li>
+        </ul>
+        <div class="col-3"></div>
+        <div class="col-8">
+            <span id="mappeSpan" class="validSpan"></span>
+        </div>
+    </div>
 
 
 
@@ -590,7 +613,7 @@
                 </div>
                 <div class="col-8">
 
-                    <input type="text" name="mappenavn" class="form-control" id="mappe" placeholder="Name of folder" onkeyup="mappeNavn()" required />
+                    <input type="text" name="mappenavn" class="form-control" id="mappe" placeholder="Mappenavn" onkeyup="mappeNavn()" onclick="this.select()" required />
 
 
 
@@ -612,7 +635,7 @@
                 <label asp-for="Beskrivelse">Description</label>
             </div>
             <div class="col-8">
-                <textarea asp-for="Beskrivelse" id="beskrivelse" rows="4" cols="50" class="form-control" onkeyup="beskrivelsePreview()" style="height:100px; margin-top: 5px" placeholder="Description" required></textarea>
+                <textarea asp-for="Beskrivelse" id="beskrivelse" rows="4" cols="50" class="form-control" onkeyup="beskrivelsePreview()" placeholder="Description" required></textarea>
 
                 <span asp-validation-for="Beskrivelse" class="text-danger"></span>
             </div>
@@ -675,7 +698,7 @@
 
         <div class="form-group row">
             <div class="col-3 offset-3">
-                <button type="submit" id="submit-btn" class="btn btn-primary form-control">
+                <button type="submit" id="submit-btn" class="btn btn-primary form-control" onclick="validationSpan()">
                     @(Model.Id == null ? "Publish" : "Update")
                 </button>
             </div>
