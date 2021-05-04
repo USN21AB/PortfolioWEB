@@ -83,7 +83,7 @@ namespace Portefolio_webApp.Controllers
 
             if (innlegg.Tagger[0] != null)
             {
-                var splitTag = innlegg.Tagger[0].Split(",");
+                var splitTag = innlegg.Tagger[0].Split(new string[] { ",", " " }, StringSplitOptions.RemoveEmptyEntries);
                 
 
                 innlegg.Tagger.Clear();
